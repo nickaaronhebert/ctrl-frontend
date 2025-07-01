@@ -1,0 +1,27 @@
+import type { User } from "../global/commonTypes";
+
+export interface LoginResponse {
+  sessionToken: string;
+  user: User;
+}
+
+export interface SSOProviderOnboardResponse {
+  providerId: string;
+  providerToken: string;
+  affiliation: {
+    orgId: string;
+    status: "active" | "pending";
+  };
+}
+
+export interface LogoutResponse {
+  success: boolean;
+}
+
+export interface RequestPasswordResetResponse {
+  status: string;
+}
+
+export interface ResetPasswordResponse {
+  status: string;
+}
