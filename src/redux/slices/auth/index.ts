@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { User } from "@/types/global/commonTypes";
-import type { RootState } from "@/app/store";
+import type { RootState } from "@/redux/store";
 
 export const AUTH_KEY = "auth";
 export const AUTH_TOKEN = "auth_token";

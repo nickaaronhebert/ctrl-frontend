@@ -15,12 +15,17 @@ const ResetPasswordForm = () => {
   const navigate = useNavigate();
 
   const form = useForm<PasswordFormValues>({
+    mode: "onChange",
     resolver: zodResolver(passwordSchema),
     defaultValues: {
       password: "",
       confirmPassword: "",
     },
   });
+
+  const {
+    formState: { isDirty, isValid, isSubmitting },
+  } = form;
 
   const onSubmit = async (values: PasswordFormValues) => {
     console.log("Form submitted:", values);
@@ -32,11 +37,11 @@ const ResetPasswordForm = () => {
   return (
     <div className="w-full max-w-lg">
       <div className="bg-white rounded-3xl shadow-sm border border-gray-200 p-8">
-        <div className="flex justify-center mb-6">
+        <div className="flex justify-center mb-[40px]">
           <CTRLLogo />
         </div>
         <div className="text-center my-8">
-          <h1 className="text-primary-foreground font-semibold text-[26px] leading-[30px]  mb-2">
+          <h1 className="text-secondary-foreground font-semibold text-[26px] leading-[30px] mb-2">
             Forgot Your Password?
           </h1>
           <p className="text-muted-foreground font-normal leading-[22px] text-[16px]">
@@ -76,10 +81,11 @@ const ResetPasswordForm = () => {
             />
             <div className="flex justify-center">
               <Button
+                disabled={!isDirty || !isValid}
                 type="submit"
                 className=" h-12 bg-primary  text-white font-medium rounded-full min-w-[150px] min-h-[52px]"
               >
-                {form.formState.isSubmitting ? "Submitting" : "Submit"}
+                {isSubmitting ? "Submitting" : "Submit"}
               </Button>
             </div>
           </form>

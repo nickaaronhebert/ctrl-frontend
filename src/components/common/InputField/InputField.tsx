@@ -40,7 +40,10 @@ const InputField = ({
   return (
     <FormItem>
       {label && (
-        <FormLabel htmlFor={name} className="text-sm font-medium text-gray-700">
+        <FormLabel
+          htmlFor={name}
+          className="text-[14px] leading-[18px] font-semibold text-black"
+        >
           {label} {required && <span className="text-red-500">*</span>}
         </FormLabel>
       )}
@@ -56,7 +59,7 @@ const InputField = ({
             type={isPassword ? (showPassword ? "text" : "password") : type}
             {...props}
             className={cn(
-              "h-12 border-gray-200 focus:bg-white focus:border-blue-200 focus-visible:ring-blue-200",
+              "h-12 border-border focus:bg-white focus:border-blue-200 focus-visible:ring-blue-200",
               leftIcon ? "pl-10" : "",
               isPassword ? "pr-10" : "",
               className

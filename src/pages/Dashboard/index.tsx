@@ -1,13 +1,9 @@
 import AuthorisedUsage from "@/components/Permissions/AuthorizedUsage";
 import { MODULE, PERMISSIONS } from "@/components/Permissions/permissions";
-import { useAppSelector } from "@/hooks/useAppSelector";
-import { selectCurrentUser } from "@/redux/slices/auth";
 import { useLocation } from "react-router-dom";
 
 const Dashboard = () => {
-  const user = useAppSelector(selectCurrentUser);
   const location = useLocation();
-  console.log("userrrrrrrrrrrrrr", user);
   return (
     <div key={location.pathname} className="">
       <h1>Hello</h1>

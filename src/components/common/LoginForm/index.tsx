@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { ROUTES } from "@/constants/routes";
 import { useNavigate } from "react-router-dom";
 import InputField from "../InputField/InputField";
-import { useLoginMutation } from "@/redux/features/api/authApi";
+import { useLoginMutation } from "@/redux/services/authApi";
 import { setCredentials } from "@/redux/slices/auth";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 
@@ -18,6 +18,7 @@ const LoginForm = () => {
   const dispatch = useAppDispatch();
 
   const form = useForm<LoginFormValues>({
+    mode: "onChange",
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
@@ -25,14 +26,16 @@ const LoginForm = () => {
     },
   });
 
+  const {
+    formState: { isDirty, isValid, isSubmitting },
+  } = form;
+
   const onSubmit = async (values: LoginFormValues) => {
     try {
       const response = await login({
         username: values.email,
         password: values.password,
       }).unwrap();
-
-      console.log("responseeeeeeeeeeee", response);
 
       if (response) {
         dispatch(
@@ -56,11 +59,11 @@ const LoginForm = () => {
   return (
     <div className="w-full max-w-lg">
       <div className="bg-white rounded-3xl shadow-sm border border-gray-200 p-8">
-        <div className="flex justify-center mb-6">
+        <div className="flex justify-center mb-[40px]">
           <CTRLLogo />
         </div>
         <div className="text-center my-8">
-          <h1 className="text-primary-foreground font-semibold text-[26px] leading-[30px]  mb-2">
+          <h1 className="text-secondary-foreground font-semibold text-[26px] text-center leading-[30px] mb-2">
             Welcome Back
           </h1>
         </div>
@@ -100,7 +103,7 @@ const LoginForm = () => {
             <div className="flex items-center justify-end">
               <Link
                 to={ROUTES.FORGOT_PASSWORD}
-                className="text-sm text-chart-5 font-normal text-[14px] leading-[18px]"
+                className="text-muted-peach font-normal text-[14px] leading-[18px]"
               >
                 Forgot password?
               </Link>
@@ -109,10 +112,11 @@ const LoginForm = () => {
             <div className="flex justify-center">
               {/* Sign In Button */}
               <Button
+                disabled={!isDirty || !isValid}
                 type="submit"
-                className=" h-12 bg-primary  text-white font-medium rounded-full min-w-[150px] min-h-[52px]"
+                className=" h-12 bg-primary text-[16px] leading-[22px] font-semibold text-white  rounded-full min-w-[150px] min-h-[52px]"
               >
-                {form.formState.isSubmitting ? "Signing in..." : "Login"}
+                {isSubmitting ? "Signing in..." : "Login"}
               </Button>
             </div>
           </form>

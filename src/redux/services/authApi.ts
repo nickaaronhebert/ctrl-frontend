@@ -1,5 +1,5 @@
 // src/api/authApi.ts
-import { baseApi } from "./baseApi";
+import { baseApi } from ".";
 import {
   type LoginRequest,
   type SSOProviderOnboardRequest,

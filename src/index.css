@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Teko:wght@300..700&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -20,11 +21,13 @@
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
+  --color-muted-peach: var(--muted-peach);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-progress: var(--progress);
   --color-border: var(--border);
+  --color-border-secondary: var(--border-secondary);
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-chart-1: var(--chart-1);
@@ -56,11 +59,13 @@
   --secondary-foreground: hsla(219, 93%, 21%, 1);
   --muted: hsla(267, 4%, 77%, 1);
   --muted-foreground: hsla(242, 13%, 44%, 1);
+  --muted-peach: hsla(18, 81%, 68%, 1);
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.245 27.325);
   --progress: hsla(152, 70%, 43%, 1);
   --border: hsla(208, 7%, 65%, 1);
+  --border-secondary: hsla(0, 0%, 21%, 1);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
   --chart-1: oklch(0.646 0.222 41.116);
@@ -117,6 +122,12 @@
     @apply border-border outline-ring/50;
   }
   body {
+    font-family: "Inter", sans-serif;
     @apply bg-background text-foreground;
   }
+}
+
+::selection {
+  background-color: var(--color-primary);
+  color: white;
 }
