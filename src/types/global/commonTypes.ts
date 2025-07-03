@@ -1,20 +1,24 @@
-export interface User {
+import { type Permission } from "@/components/Permissions/permissions";
+
+export interface UserPermission {
+  action: Permission;
+  resource: string;
+  slug: string;
   id: string;
-  name: string;
-  email: string;
-  role: "internalAdmin" | "orgAdmin" | "provider";
-  orgId?: string;
-  metadata?: {
-    npi?: string;
-    dea?: string;
-    stateLicenses?: string[];
-  };
-  status?: "invited" | "active";
 }
 
-// Password Input Component with Toggle
-export interface PasswordInputFieldProps {
-  field: React.InputHTMLAttributes<HTMLInputElement>;
-  showPassword: boolean;
-  togglePassword: () => void;
+export interface Role {
+  permissions: UserPermission[];
+  id: string;
+}
+
+export interface User {
+  firstName: string;
+  lastName: string;
+  email: string;
+  role: Role;
+  isEmailVerified: boolean;
+  createdAt: string;
+  updatedAt: string;
+  id: string;
 }

@@ -17,11 +17,18 @@ import {
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation<LoginResponse, LoginRequest>({
-      query: (body) => ({
-        url: "/auth/login",
-        method: "POST",
-        body,
-      }),
+      query: ({ username, password }) => {
+        const basicAuthHeader = `Basic ${btoa(`${username}:${password}`)}`;
+
+        return {
+          url: "/auth/login",
+          method: "POST",
+          headers: {
+            Authorization: basicAuthHeader,
+          },
+          body: {},
+        };
+      },
     }),
 
     ssoProviderOnboard: builder.mutation<
