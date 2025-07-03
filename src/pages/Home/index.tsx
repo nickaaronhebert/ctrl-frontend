@@ -1,11 +1,15 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 const Home = () => {
-  return (
-    <div>
-      <h1 className="text-3xl font-bold text-center">
-        Welcome to the Home Page
-      </h1>
-    </div>
-  );
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Redirect immediately
+    navigate("/dashboard", { replace: true });
+  }, [navigate]);
+
+  return null; // or a loading spinner if needed
 };
 
 export default Home;

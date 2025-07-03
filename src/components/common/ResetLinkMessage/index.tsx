@@ -5,6 +5,7 @@ import { ROUTES } from "@/constants/routes";
 
 const ResetLink = () => {
   const navigate = useNavigate();
+
   return (
     <div className="w-full max-w-lg">
       <div className="bg-white rounded-3xl shadow-sm border border-gray-200 p-8">

@@ -27,7 +27,17 @@ const router = createBrowserRouter([
       },
       {
         path: ROUTES.DASHBOARD,
-        element: <Dashboard />,
+        element: (
+          <ModuleProtectedRoute
+            element={<Dashboard />}
+            permissions={[
+              {
+                resource: MODULE.DASHBOARD,
+                permission: PERMISSIONS.READ,
+              },
+            ]}
+          />
+        ),
       },
       {
         path: ROUTES.GET_PROFILE,
