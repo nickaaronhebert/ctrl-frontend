@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import {
   Bell,
-  Search,
   Calendar,
   ArrowUpRight,
   ArrowDownRight,
@@ -9,6 +8,7 @@ import {
 } from "lucide-react";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { selectCurrentUser } from "@/redux/slices/auth";
+import CTRLLogo from "@/components/common/CTRLLogo";
 
 const Dashboard = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -61,14 +61,6 @@ const Dashboard = () => {
             </div>
 
             <div className="flex items-center space-x-4">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
-                <input
-                  type="text"
-                  placeholder="Search anything..."
-                  className="pl-10 pr-4 py-2 w-64 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white/50"
-                />
-              </div>
               <button className="relative p-2 text-slate-400 hover:text-slate-600 transition-colors">
                 <Bell className="w-5 h-5" />
                 <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"></span>
@@ -95,12 +87,7 @@ const Dashboard = () => {
         <div className="text-center mb-12">
           <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 max-w-4xl mx-auto mb-8 border border-slate-200">
             <div className="flex items-center justify-center space-x-3 mb-4">
-              <div className="w-11 h-11 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">CTRL</span>
-              </div>
-              <h2 className="text-2xl font-bold text-slate-900">
-                CTRL Platform
-              </h2>
+              <CTRLLogo />
             </div>
             <p className="text-lg text-slate-700 mb-4 leading-relaxed">
               Welcome

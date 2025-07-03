@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import InputElement from "@/components/Form/input-element";
 import SelectElement from "@/components/Form/select-element";
 import MultiSelectElement from "@/components/Form/multi-select-element";
-import { useFormContext } from "react-hook-form";
+// import { useFormContext } from "react-hook-form";
 
 const frameworksList = [
   { value: "california", label: "California" },
@@ -27,7 +27,7 @@ const medicalSpecialtyOptions = [
 ];
 export default function VerificationStepOne() {
   const { handleNext } = useMultiStepForm();
-  const form = useFormContext();
+  // const form = useFormContext();
   return (
     <div>
       <div className="mb-10 flex flex-col items-center gap-1">
@@ -89,7 +89,7 @@ export default function VerificationStepOne() {
       <div className="flex justify-center mt-6">
         <Button
           onClick={handleNext}
-          disabled={!form.formState.isValid}
+          // disabled={!form.formState.errors.nationalProviderIdentifier}
           className="text-white rounded-full py-2.5 px-7 min-h-14 text-base font-semibold"
         >
           Verify and Complete Registration

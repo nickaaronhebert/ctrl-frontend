@@ -3,13 +3,12 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
-import { useFormContext } from "react-hook-form";
+// import { useFormContext } from "react-hook-form";
 import { useMultiStepForm } from "@/hooks/usemultistepForm";
 
 const personalInfo = [
@@ -47,7 +46,7 @@ const medicalCredentialsInfo = [
 ];
 export default function VerificationStepTwo() {
   const { onSubmit, handleBack } = useMultiStepForm();
-  const form = useFormContext();
+  // const form = useFormContext();
 
   return (
     <div>
@@ -126,10 +125,10 @@ export default function VerificationStepTwo() {
                       onCheckedChange={field.onChange}
                     />
                   </FormControl>
-                  <FormLabel className="text-base font-semibold">
+                  <div className="text-base font-semibold">
                     I agree to the CTRL Terms of Service, Privacy Policy, and
                     Provider Agreement
-                  </FormLabel>
+                  </div>
                 </div>
                 <FormMessage />
               </FormItem>
@@ -141,10 +140,7 @@ export default function VerificationStepTwo() {
           <Button
             type="submit"
             onClick={onSubmit}
-            disabled={
-              !form.formState.isValid ||
-              form.getValues("termsAndConditions") === false
-            }
+            // disabled={form.getValues("termsAndConditions") === false}
             className="text-white rounded-full py-2.5 px-7 min-h-14 text-base font-semibold"
           >
             Complete Registration
