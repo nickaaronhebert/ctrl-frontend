@@ -1,25 +1,74 @@
-import { Routes, Route } from "react-router-dom";
-import Home from "./pages/Home/Home";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Home from "./pages/Home";
 import { ROUTES } from "./constants/routes";
-import NotFound from "./pages/NotFound/NotFound";
-import Login from "./pages/Login/Login";
-import Profile from "./pages/Profile/Profile";
-import Dashboard from "./pages/Dashboard/Dashboard";
-import Navbar from "./components/Navbar/Navbar";
+import NotFound from "./pages/NotFound";
+import Login from "./pages/Login";
+import Profile from "./pages/Profile";
+import Dashboard from "./pages/Dashboard";
+import AppLayout from "./components/Layout/AppLayout";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetLinkScreen from "./pages/ResetLinkScreen";
+import ResetPassword from "./pages/ResetPassword";
+import ModuleProtectedRoute from "./components/common/ModuleProtectedRoute/ModuleProtectedRoute";
+import { MODULE, PERMISSIONS } from "./components/Permissions/permissions";
+import PermissionDenied from "./pages/PermissionDenied/PermissionDenied";
+
+const router = createBrowserRouter([
+  {
+    element: <AppLayout />,
+    children: [
+      {
+        path: ROUTES.HOME,
+        element: <Home />,
+      },
+      {
+        path: ROUTES.DASHBOARD,
+        element: <Dashboard />,
+      },
+      {
+        path: ROUTES.GET_PROFILE,
+        element: (
+          <ModuleProtectedRoute
+            element={<Profile />}
+            permissions={[
+              {
+                resource: MODULE.PROFILE,
+                permission: PERMISSIONS.READ,
+              },
+            ]}
+          />
+        ),
+      },
+    ],
+  },
+  {
+    path: ROUTES.LOGIN,
+    element: <Login />,
+  },
+  {
+    path: ROUTES.NOT_FOUND,
+    element: <NotFound />,
+  },
+  {
+    path: ROUTES.FORGOT_PASSWORD,
+    element: <ForgotPassword />,
+  },
+  {
+    path: ROUTES.RESET_LINK,
+    element: <ResetLinkScreen />,
+  },
+  {
+    path: ROUTES.RESET_PASSWORD,
+    element: <ResetPassword />,
+  },
+  {
+    path: ROUTES.UNAUTHORIZED,
+    element: <PermissionDenied />,
+  },
+]);
 
 function App() {
-  return (
-    <>
-      <Navbar />
-      <Routes>
-        <Route path={ROUTES.HOME} element={<Home />} />
-        <Route path={ROUTES.LOGIN} element={<Login />} />
-        <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
-        <Route path={ROUTES.GET_PROFILE} element={<Profile />} />
-        <Route path={ROUTES.NOT_FOUND} element={<NotFound />} />
-      </Routes>
-    </>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;

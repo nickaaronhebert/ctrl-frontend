@@ -1,0 +1,125 @@
+import { Button } from "@/components/ui/button";
+import { Form, FormField } from "@/components/ui/form";
+import CTRLLogo from "../CTRLLogo";
+import { useForm } from "react-hook-form";
+import { loginSchema, type LoginFormValues } from "@/schemas/loginSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Link } from "react-router-dom";
+import { ROUTES } from "@/constants/routes";
+import { useNavigate } from "react-router-dom";
+import InputField from "../InputField/InputField";
+import { useLoginMutation } from "@/redux/features/api/authApi";
+import { setCredentials } from "@/redux/slices/auth";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
+
+const LoginForm = () => {
+  const navigate = useNavigate();
+  const [login] = useLoginMutation();
+  const dispatch = useAppDispatch();
+
+  const form = useForm<LoginFormValues>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = async (values: LoginFormValues) => {
+    try {
+      const response = await login({
+        username: values.email,
+        password: values.password,
+      }).unwrap();
+
+      console.log("responseeeeeeeeeeee", response);
+
+      if (response) {
+        dispatch(
+          setCredentials({
+            user: response?.data?.user,
+            token: response?.data?.access_token,
+          })
+        );
+        form.reset();
+        navigate(ROUTES.DASHBOARD);
+      } else {
+        console.error("Login failed: No response received");
+        return;
+      }
+    } catch (error) {
+      console.error("Login failed:", error);
+      return;
+    }
+  };
+
+  return (
+    <div className="w-full max-w-lg">
+      <div className="bg-white rounded-3xl shadow-sm border border-gray-200 p-8">
+        <div className="flex justify-center mb-6">
+          <CTRLLogo />
+        </div>
+        <div className="text-center my-8">
+          <h1 className="text-primary-foreground font-semibold text-[26px] leading-[30px]  mb-2">
+            Welcome Back
+          </h1>
+        </div>
+        <Form {...form}>
+          <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+            {/* Email Field */}
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <InputField
+                  {...field}
+                  name="email"
+                  label="Email"
+                  type="email"
+                  placeholder="Enter your email address"
+                  required
+                />
+              )}
+            />
+
+            {/* Password Field */}
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <InputField
+                  {...field}
+                  name="password"
+                  label="Password"
+                  type="password"
+                  placeholder="Enter your password"
+                  required
+                />
+              )}
+            />
+            <div className="flex items-center justify-end">
+              <Link
+                to={ROUTES.FORGOT_PASSWORD}
+                className="text-sm text-chart-5 font-normal text-[14px] leading-[18px]"
+              >
+                Forgot password?
+              </Link>
+            </div>
+
+            <div className="flex justify-center">
+              {/* Sign In Button */}
+              <Button
+                type="submit"
+                className=" h-12 bg-primary  text-white font-medium rounded-full min-w-[150px] min-h-[52px]"
+              >
+                {form.formState.isSubmitting ? "Signing in..." : "Login"}
+              </Button>
+            </div>
+          </form>
+        </Form>
+      </div>
+    </div>
+  );
+};
+
+export default LoginForm;

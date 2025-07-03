@@ -1,8 +1,10 @@
 import type { User } from "../global/commonTypes";
 
 export interface LoginResponse {
-  sessionToken: string;
-  user: User;
+  data: {
+    access_token: string;
+    user: User;
+  };
 }
 
 export interface SSOProviderOnboardResponse {
