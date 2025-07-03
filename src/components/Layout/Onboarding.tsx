@@ -6,7 +6,7 @@ export default function OnboardingLayout() {
       <div className="mb-5">
         <CTRLLogo />
       </div>
-      <div className="[min-width:1440px]:px-64 px-10 pt-12 bg-white min-h-[690px] rounded-4xl">
+      <div className="min-w-[1440px]:px-64 px-10 pt-12 bg-white min-h-[690px] rounded-4xl">
         <Outlet />
       </div>
     </div>
