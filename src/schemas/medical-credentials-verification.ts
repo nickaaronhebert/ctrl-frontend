@@ -21,10 +21,7 @@ export const medicalCredentialsVerificationSchema = z.object({
   medicalSpecialty: z.string({
     required_error: "Medical Specialty is required",
   }),
-  licenseStates: z
-    .array(z.string().min(1))
-    .min(1)
-    .nonempty("Please select at least one framework."),
+  licenseStates: z.array(z.string()),
 });
 
 export const termsAgreementSchema = z.object({

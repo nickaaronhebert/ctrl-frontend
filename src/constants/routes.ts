@@ -10,4 +10,7 @@ export const ROUTES = {
   RESET_LINK: "/reset-link",
   UNAUTHORIZED: "/unauthorized",
   NOT_FOUND: "*",
+  ONBOARDING: "/onboarding",
+  WELCOME: "/welcome",
+  CREDENTIAL_VERIFICATION: "/verification",
 };

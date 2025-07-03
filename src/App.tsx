@@ -12,6 +12,10 @@ import ResetPassword from "./pages/ResetPassword";
 import ModuleProtectedRoute from "./components/common/ModuleProtectedRoute/ModuleProtectedRoute";
 import { MODULE, PERMISSIONS } from "./components/Permissions/permissions";
 import PermissionDenied from "./pages/PermissionDenied/PermissionDenied";
+import OnboardingLayout from "./components/Layout/Onboarding";
+import RegisterProvider from "./components/provider/register";
+import WelcomeProvider from "./components/provider/welcome";
+import ProviderSteppedForm from "./components/provider/credentials-stepped-form";
 
 const router = createBrowserRouter([
   {
@@ -41,6 +45,25 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    element: <OnboardingLayout />,
+    children: [
+      {
+        path: ROUTES.ONBOARDING,
+        element: <RegisterProvider />,
+      },
+
+      {
+        path: ROUTES.WELCOME,
+        element: <WelcomeProvider />,
+      },
+      {
+        path: ROUTES.CREDENTIAL_VERIFICATION,
+        element: <ProviderSteppedForm />,
+      },
+    ],
+  },
+
   {
     path: ROUTES.LOGIN,
     element: <Login />,

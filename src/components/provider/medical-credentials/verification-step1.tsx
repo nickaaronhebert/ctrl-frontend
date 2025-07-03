@@ -5,33 +5,15 @@ import { Button } from "@/components/ui/button";
 import InputElement from "@/components/Form/input-element";
 import SelectElement from "@/components/Form/select-element";
 import MultiSelectElement from "@/components/Form/multi-select-element";
+import { useFormContext } from "react-hook-form";
 
 const frameworksList = [
-  {
-    value: "next.js",
-    label: "Next.js",
-    // icon: Icons.dog,
-  },
-  {
-    value: "sveltekit",
-    label: "SvelteKit",
-    // icon: Icons.cat,
-  },
-  {
-    value: "nuxt.js",
-    label: "Nuxt.js",
-    // icon: Icons.turtle,
-  },
-  {
-    value: "remix",
-    label: "Remix",
-    // icon: Icons.rabbit,
-  },
-  {
-    value: "astro",
-    label: "Astro",
-    // icon: Icons.fish,
-  },
+  { value: "california", label: "California" },
+  { value: "texas", label: "Texas" },
+  { value: "new_york", label: "New York" },
+  { value: "florida", label: "Florida" },
+  { value: "illinois", label: "Illinois" },
+  { value: "pennsylvania", label: "Pennsylvania" },
 ];
 
 const medicalSpecialtyOptions = [
@@ -45,7 +27,7 @@ const medicalSpecialtyOptions = [
 ];
 export default function VerificationStepOne() {
   const { handleNext } = useMultiStepForm();
-
+  const form = useFormContext();
   return (
     <div>
       <div className="mb-10 flex flex-col items-center gap-1">
@@ -70,7 +52,6 @@ export default function VerificationStepOne() {
           <InputElement
             name="deaRegistrationNumber"
             className="w-80"
-            isRequired={true}
             label="DEA Registration Number"
             messageClassName="text-right"
           />
@@ -80,7 +61,6 @@ export default function VerificationStepOne() {
           <InputElement
             name="licenseNumber"
             className="w-80"
-            isRequired={true}
             label="License Number"
             messageClassName="text-right"
           />
@@ -88,7 +68,6 @@ export default function VerificationStepOne() {
           <SelectElement
             name="medicalSpecialty"
             options={medicalSpecialtyOptions}
-            isRequired={true}
             label="Medical Specialty"
             placeholder="Select your specialty"
             triggerClassName="w-full min-h-[50px]"
@@ -102,7 +81,6 @@ export default function VerificationStepOne() {
             options={frameworksList}
             className="w-2xl"
             placeholder="Select License States"
-            isRequired={true}
             label="License States"
           />
         </div>
@@ -111,6 +89,7 @@ export default function VerificationStepOne() {
       <div className="flex justify-center mt-6">
         <Button
           onClick={handleNext}
+          disabled={!form.formState.isValid}
           className="text-white rounded-full py-2.5 px-7 min-h-14 text-base font-semibold"
         >
           Verify and Complete Registration

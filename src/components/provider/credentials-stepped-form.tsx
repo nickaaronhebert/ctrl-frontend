@@ -1,4 +1,4 @@
-import { useState, createContext } from "react";
+import { useState, createContext, useEffect } from "react";
 import { Progress } from "@/components/ui/progress";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -34,10 +34,12 @@ export const FormSteps: StepDefinition[] = [
 
 export default function ProviderSteppedForm() {
   const [step, setStep] = useState(0);
+  const [showMessage, setShowMessage] = useState(true);
   const totalSteps = FormSteps.length;
   const form = useForm({
+    mode: "onChange",
     resolver: zodResolver(FormSteps[step].validationSchema),
-    mode: "onTouched",
+
     defaultValues: {
       nationalProviderIdentifier: "",
       deaRegistrationNumber: "",
@@ -47,6 +49,7 @@ export default function ProviderSteppedForm() {
       termsAndConditions: false,
     },
   });
+
   const handleNext = () => {
     const currentSchemas = FormSteps[step].validationSchema;
     const currentStepData = form.getValues();
@@ -71,6 +74,12 @@ export default function ProviderSteppedForm() {
     }
   };
 
+  useEffect(() => {
+    setShowMessage(true);
+    const timer = setTimeout(() => setShowMessage(false), 3000); // 3 seconds
+    return () => clearTimeout(timer);
+  }, []);
+
   const value: MultiStepFormContextProps = {
     currentStepIndex: step,
     isFirstStep: step === 0,
@@ -80,23 +89,25 @@ export default function ProviderSteppedForm() {
     onSubmit,
   };
 
-  return (
+  return showMessage ? (
+    <div className="text-center text-lg font-semibold my-10 min-h-[650px] flex flex-col justify-center ">
+      <p className="text-3xl text-secondary-foreground font-semibold text-center">
+        Preparing your medical verification setup....
+      </p>
+      <p className="text-base text-muted-foreground font-normal text-center mt-2">
+        Please wait while we load the next step to complete your provider
+        profile.
+      </p>
+    </div>
+  ) : (
     <MultiStepFormContext.Provider value={value}>
       <FormProvider {...form}>
-        <div className="bg-background lg:px-40 py-20 px-10">
-          <div className="[min-width:1440px]:px-64 px-10 py-12 bg-white min-h-[690px] rounded-4xl">
-            <div className="flex justify-center">
-              <Progress
-                className="my-4 max-w-96"
-                value={(step / totalSteps) * 100}
-              />
-            </div>
-
-            <form onSubmit={form.handleSubmit(onSubmit)} className="my-10">
-              {FormSteps[step].component}
-            </form>
-          </div>
+        <div className="flex justify-center">
+          <Progress className=" max-w-96" value={(step / totalSteps) * 100} />
         </div>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="my-5">
+          {FormSteps[step].component}
+        </form>
       </FormProvider>
     </MultiStepFormContext.Provider>
   );
