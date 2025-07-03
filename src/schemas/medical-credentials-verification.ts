@@ -1,11 +1,12 @@
 import { z } from "zod";
 
-export const medicalVerificationStep1 = z.object({
+export const medicalCredentialsVerificationSchema = z.object({
   nationalProviderIdentifier: z
     .string({
       required_error: "National Provider Id is required",
     })
-    .trim(),
+    .trim()
+    .min(2, { message: "ProviderId must be at least 2 characters." }),
 
   deaRegistrationNumber: z
     .string({
@@ -20,25 +21,28 @@ export const medicalVerificationStep1 = z.object({
   medicalSpecialty: z.string({
     required_error: "Medical Specialty is required",
   }),
-
-  licenseStates: z.object({
-    state: z
-      .array(z.string().min(1))
-      .min(1)
-      .nonempty("Please select at least one framework."),
-  }),
+  licenseStates: z
+    .array(z.string().min(1))
+    .min(1)
+    .nonempty("Please select at least one framework."),
 });
 
-export const medicalVerificationStep2 = z.object({
+export const termsAgreementSchema = z.object({
   termsAndConditions: z.boolean().refine((val) => val, {
     message: "You must accept the terms and conditions.",
   }),
 });
 
-export const completeMedicalVerificationSchema = medicalVerificationStep1.merge(
-  medicalVerificationStep2
+export const stepSchemas = [
+  medicalCredentialsVerificationSchema,
+  termsAgreementSchema,
+];
+
+export const completeMedicalVerificationSchema = stepSchemas.reduce(
+  (acc, schema) => acc.merge(schema),
+  z.object({})
 );
 
-export type CombinedCheckoutType = z.infer<
+export type CompleteMedicalVerificationSchemaType = z.infer<
   typeof completeMedicalVerificationSchema
 >;
