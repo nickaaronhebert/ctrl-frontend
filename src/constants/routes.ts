@@ -13,4 +13,5 @@ export const ROUTES = {
   ONBOARDING: "/onboarding",
   WELCOME: "/welcome",
   CREDENTIAL_VERIFICATION: "/verification",
+  PROVIDER_DASHBOARD: "/provider-dashboard",
 };

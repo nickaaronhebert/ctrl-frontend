@@ -16,6 +16,7 @@ import OnboardingLayout from "./components/Layout/Onboarding";
 import RegisterProvider from "./components/provider/register";
 import WelcomeProvider from "./components/provider/welcome";
 import ProviderSteppedForm from "./components/provider/credentials-stepped-form";
+import ProviderDashboard from "./pages/ProviderDashboard";
 
 const router = createBrowserRouter([
   {
@@ -97,6 +98,10 @@ const router = createBrowserRouter([
   {
     path: ROUTES.UNAUTHORIZED,
     element: <PermissionDenied />,
+  },
+  {
+    path: ROUTES.PROVIDER_DASHBOARD,
+    element: <ProviderDashboard />,
   },
 ]);
 

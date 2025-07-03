@@ -141,7 +141,10 @@ export default function VerificationStepTwo() {
           <Button
             type="submit"
             onClick={onSubmit}
-            disabled={!form.formState.isValid}
+            disabled={
+              !form.formState.isValid ||
+              form.getValues("termsAndConditions") === false
+            }
             className="text-white rounded-full py-2.5 px-7 min-h-14 text-base font-semibold"
           >
             Complete Registration

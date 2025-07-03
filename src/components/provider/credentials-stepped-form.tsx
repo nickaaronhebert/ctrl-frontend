@@ -13,6 +13,8 @@ import VerificationStepOne from "./medical-credentials/verification-step1";
 import VerificationStepTwo from "./medical-credentials/verification-step2";
 import type { MultiStepFormContextProps } from "@/types/credential-verification";
 import { ZodObject } from "zod";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "@/constants/routes";
 
 type StepDefinition = {
   validationSchema: ZodObject<any>;
@@ -35,6 +37,7 @@ export const FormSteps: StepDefinition[] = [
 export default function ProviderSteppedForm() {
   const [step, setStep] = useState(0);
   const [showMessage, setShowMessage] = useState(true);
+  const navigate = useNavigate();
   const totalSteps = FormSteps.length;
   const form = useForm({
     mode: "onChange",
@@ -66,6 +69,10 @@ export default function ProviderSteppedForm() {
     const result = completeMedicalVerificationSchema.safeParse(
       form.getValues()
     );
+    if (result.success) {
+      setStep(totalSteps);
+      navigate(ROUTES.PROVIDER_DASHBOARD);
+    }
     console.log("final Data", result);
   };
   const handleBack = () => {
