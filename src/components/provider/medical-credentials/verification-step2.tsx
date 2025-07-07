@@ -8,8 +8,10 @@ import {
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
-// import { useFormContext } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import { useMultiStepForm } from "@/hooks/usemultistepForm";
+import { useEffect, useState } from "react";
+import ConfirmDetails from "./confirm-details";
 
 const personalInfo = [
   {
@@ -29,24 +31,43 @@ const personalInfo = [
 const medicalCredentialsInfo = [
   {
     label: "National Provider Identifier(NPI)",
-    name: "nationalProviderIdentifier",
+    value: "nationalProviderIdentifier",
+  },
+];
+
+const medicalLicenses = [
+  {
+    label: "California",
+    value: "CA-PH-001234",
   },
   {
-    label: "DEA Registration Number",
-    name: "deaRegistrationNumber",
+    label: "Texas",
+    value: "CA-PH-001234",
+  },
+];
+
+const deaLicenses = [
+  {
+    label: "California",
+    value: "F91234563",
   },
   {
-    label: "License Number",
-    name: "licenseNumber",
-  },
-  {
-    label: "Medical Specialty",
-    name: "medicalSpecialty",
+    label: "Texas",
+    value: "F32112332",
   },
 ];
 export default function VerificationStepTwo() {
+  const [isValid, setIsValid] = useState(false);
+
   const { onSubmit, handleBack } = useMultiStepForm();
-  // const form = useFormContext();
+  const { formState } = useFormContext();
+
+  useEffect(() => {
+    if (formState.errors.termsAndConditions) setIsValid(false);
+    else {
+      if (formState.isDirty) setIsValid(true);
+    }
+  }, [formState]);
 
   return (
     <div>
@@ -92,25 +113,60 @@ export default function VerificationStepTwo() {
             </span>
           </h2>
 
-          {medicalCredentialsInfo.map((info, index) => (
-            <div className="px-4" key={info.name}>
+          <ConfirmDetails
+            field={medicalCredentialsInfo}
+            fieldClass="flex justify-between mb-2  pt-3.5"
+            lastIndexClass=""
+            indexClass="pb-4 border-b border-gray-200"
+            labelClass="font-semibold text-muted-foreground text-base"
+            valueClass="text-primary-foreground font-semibold text-base"
+          />
+
+          <h6 className="px-4 mb-1 mt-7 font-medium text-base">
+            Medical License ({medicalLicenses.length})
+          </h6>
+          <ConfirmDetails
+            field={medicalLicenses}
+            fieldClass="flex justify-between  p-3.5 bg-light-background"
+            labelClass="font-semibold text-muted-foreground text-base"
+            valueClass="text-primary-foreground font-semibold text-base"
+            lastIndexClass="border border-gray-200 border-t-0 mb-4"
+            indexClass="border border-gray-200"
+            indexRequired={true}
+          />
+
+          <h6 className="px-4 mb-1 mt-7 font-medium text-base">
+            DEA Number ({deaLicenses.length})
+          </h6>
+          <ConfirmDetails
+            field={deaLicenses}
+            fieldClass="flex justify-between  p-3.5 bg-light-background"
+            labelClass="font-semibold text-muted-foreground text-base"
+            valueClass="text-primary-foreground font-semibold text-base"
+            lastIndexClass="border border-gray-200 border-t-0 mb-4"
+            indexClass="border border-gray-200"
+            indexRequired={true}
+          />
+
+          {/* {medicalLicenses.map((info, index) => (
+            <div className="px-4" key={index}>
               <div
                 className={cn(
-                  "flex justify-between mb-2  pt-3.5 ",
-                  index !== medicalCredentialsInfo.length - 1
-                    ? "pb-4 border-b border-gray-200"
-                    : ""
+                  "flex justify-between  p-3.5 bg-light-background",
+                  index !== medicalLicenses.length - 1
+                    ? " border border-gray-200"
+                    : "border border-gray-200 border-t-0 mb-4"
                 )}
               >
                 <span className="font-semibold text-muted-foreground text-base">
-                  {info.label}:
+                  {`${index + 1}. ${info.state}`}
                 </span>
                 <span className="text-primary-foreground font-semibold text-base">
-                  {info.name}
+                  {info.licenseNumber}
                 </span>
               </div>
             </div>
-          ))}
+          ))} */}
         </div>
 
         <div className="my-6 w-[650px]">
@@ -140,7 +196,7 @@ export default function VerificationStepTwo() {
           <Button
             type="submit"
             onClick={onSubmit}
-            // disabled={form.getValues("termsAndConditions") === false}
+            disabled={!isValid}
             className="text-white rounded-full py-2.5 px-7 min-h-14 text-base font-semibold"
           >
             Complete Registration

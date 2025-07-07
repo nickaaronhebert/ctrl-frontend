@@ -39,22 +39,34 @@ export default function ProviderSteppedForm() {
   const [showMessage, setShowMessage] = useState(true);
   const navigate = useNavigate();
   const totalSteps = FormSteps.length;
+  const safeStep = step < FormSteps.length ? step : FormSteps.length - 1;
   const form = useForm({
     mode: "onChange",
-    resolver: zodResolver(FormSteps[step].validationSchema),
+    resolver: zodResolver(FormSteps[safeStep].validationSchema),
 
     defaultValues: {
       nationalProviderIdentifier: "",
-      deaRegistrationNumber: "",
-      licenseNumber: "",
-      medicalSpecialty: "",
-      licenseStates: [],
+      medicalLicense: [
+        {
+          state: "",
+          licenseNumber: "",
+        },
+      ],
+
+      deaLicense: [
+        {
+          state: "",
+          registrationNumber: "",
+        },
+      ],
+
       termsAndConditions: false,
     },
   });
 
   const handleNext = () => {
-    const currentSchemas = FormSteps[step].validationSchema;
+    console.log("handleNext called");
+    const currentSchemas = FormSteps[safeStep].validationSchema;
     const currentStepData = form.getValues();
 
     const currentValidation = currentSchemas.safeParse(currentStepData);
@@ -66,6 +78,7 @@ export default function ProviderSteppedForm() {
   };
 
   const onSubmit = async () => {
+    console.log("onsubmit called");
     const result = completeMedicalVerificationSchema.safeParse(
       form.getValues()
     );
@@ -113,7 +126,7 @@ export default function ProviderSteppedForm() {
           <Progress className=" max-w-96" value={(step / totalSteps) * 100} />
         </div>
         <form onSubmit={form.handleSubmit(onSubmit)} className="my-5">
-          {FormSteps[step].component}
+          {form.formState.isReady && FormSteps[safeStep].component}
         </form>
       </FormProvider>
     </MultiStepFormContext.Provider>
