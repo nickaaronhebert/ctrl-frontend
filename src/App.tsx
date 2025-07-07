@@ -17,6 +17,7 @@ import RegisterProvider from "./components/provider/register";
 import WelcomeProvider from "./components/provider/welcome";
 import ProviderSteppedForm from "./components/provider/credentials-stepped-form";
 import ProviderDashboard from "./pages/ProviderDashboard";
+import LoginVerification from "./pages/LoginVerification";
 
 const router = createBrowserRouter([
   {
@@ -78,6 +79,10 @@ const router = createBrowserRouter([
   {
     path: ROUTES.LOGIN,
     element: <Login />,
+  },
+  {
+    path: ROUTES.LOGIN_VERIFICATION,
+    element: <LoginVerification />,
   },
   {
     path: ROUTES.NOT_FOUND,
