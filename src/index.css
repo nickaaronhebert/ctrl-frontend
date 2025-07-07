@@ -48,6 +48,8 @@
   --color-light-border: var(--light-border);
   --color-card-border: var(--card-border);
   --color-light-background: var(--light-background);
+  --color-alert: var(--alert);
+  --color-alert-border: var(--alert-border);
 }
 
 :root {
@@ -91,6 +93,8 @@
   --light-border: hsla(240, 100%, 10%, 0.15);
   --card-border: hsla(0, 0%, 85%, 1);
   --light-background: hsla(210, 16%, 97%, 1);
+  --alert: hsla(39, 93%, 45%, 1);
+  --alert-border: hsla(39, 100%, 86%, 1);
 }
 
 .dark {

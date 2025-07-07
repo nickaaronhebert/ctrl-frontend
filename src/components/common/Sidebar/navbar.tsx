@@ -11,7 +11,13 @@ import LogoutSVG from "@/assets/icons/LogOut";
 
 export default function Navbar() {
   return (
-    <div className="h-[80px]">
+    <div
+      className="h-[80px]  bg-white "
+      style={{
+        backdropFilter: "blur(50px)",
+        boxShadow: "0px 4px 4px 0px #0000000A",
+      }}
+    >
       <SidebarTrigger className="md:hidden" />
       <div className=" h-full flex items-center justify-end gap-[15px] pr-5">
         <span className="w-[50px] h-[50px] rounded-full  p-3 bg-secondary text-sm font-semibold flex justify-center items-center text-primary">

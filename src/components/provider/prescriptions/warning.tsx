@@ -1,9 +1,13 @@
+import AlertSVG from "@/assets/icons/Alert";
 import { Button } from "@/components/ui/button";
 
 export default function PrescriptionWarning() {
   return (
     <div className="rounded-2xl p-10 bg-white flex flex-col justify-center items-center">
-      <h3 className="font-semibold text-[26px]">
+      <div className="w-[68px] h-[68px] bg-alert rounded-full flex justify-center items-center border-[3px] border-alert-border">
+        <AlertSVG />
+      </div>
+      <h3 className="font-semibold text-[26px] mt-6">
         Medical Verification Required
       </h3>
       <p className="my-1.5 text-base font-normal text-muted-foreground w-[480px] text-center">
