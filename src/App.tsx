@@ -20,8 +20,21 @@ import ProviderDashboard from "./pages/ProviderDashboard";
 import LoginVerification from "./pages/LoginVerification";
 import SkipMedicalVerification from "./components/provider/skip-medical-verification";
 import OnboardingSuccess from "./components/provider/onboarding-success";
+import SidebarLayout from "./components/common/Sidebar/sidebar-layout";
+import PrescriptionPage from "./pages/Prescription";
 
 const router = createBrowserRouter([
+  {
+    path: "/dashboard",
+    element: <SidebarLayout />,
+    children: [
+      {
+        path: "prescription",
+        element: <PrescriptionPage />,
+      },
+    ],
+  },
+
   {
     element: <AppLayout />,
     children: [
