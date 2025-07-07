@@ -19,6 +19,7 @@ import SkipMedicalVerification from "./components/provider/skip-medical-verifica
 import OnboardingSuccess from "./components/provider/onboarding-success";
 import SidebarLayout from "./components/common/Sidebar/sidebar-layout";
 import PrescriptionPage from "./pages/Prescription";
+import Home from "./pages/Home";
 
 const router = createBrowserRouter([
   {
@@ -68,6 +69,10 @@ const router = createBrowserRouter([
       {
         path: "/onboarding-success",
         element: <OnboardingSuccess />,
+      },
+      {
+        path: "/",
+        element: <Home />,
       },
     ],
   },
