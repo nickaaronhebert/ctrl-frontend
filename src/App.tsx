@@ -1,11 +1,8 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from "./pages/Home";
 import { ROUTES } from "./constants/routes";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
-import Profile from "./pages/Profile";
 import Dashboard from "./pages/Dashboard";
-import AppLayout from "./components/Layout/AppLayout";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetLinkScreen from "./pages/ResetLinkScreen";
 import ResetPassword from "./pages/ResetPassword";
@@ -29,21 +26,7 @@ const router = createBrowserRouter([
     element: <SidebarLayout />,
     children: [
       {
-        path: "prescription",
-        element: <PrescriptionPage />,
-      },
-    ],
-  },
-
-  {
-    element: <AppLayout />,
-    children: [
-      {
-        path: ROUTES.HOME,
-        element: <Home />,
-      },
-      {
-        path: ROUTES.DASHBOARD,
+        path: "", // default dashboard page at /dashboard
         element: (
           <ModuleProtectedRoute
             element={<Dashboard />}
@@ -57,18 +40,8 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: ROUTES.GET_PROFILE,
-        element: (
-          <ModuleProtectedRoute
-            element={<Profile />}
-            permissions={[
-              {
-                resource: MODULE.PROFILE,
-                permission: PERMISSIONS.READ,
-              },
-            ]}
-          />
-        ),
+        path: "prescription",
+        element: <PrescriptionPage />,
       },
     ],
   },
