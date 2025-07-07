@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Form, FormField } from "@/components/ui/form";
-import CTRLLogo from "../CTRLLogo";
 import { useForm } from "react-hook-form";
 import {
   forgotPasswordSchema,
@@ -10,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "@/constants/routes";
 import InputField from "../InputField/InputField";
+import AuthHeader from "../AuthHeader/AuthHeader";
 
 const ForgotPasswordForm = () => {
   const navigate = useNavigate();
@@ -30,20 +30,12 @@ const ForgotPasswordForm = () => {
   return (
     <div className="w-full max-w-lg">
       <div className="bg-white rounded-3xl shadow-sm border border-gray-200 p-8">
-        <div className="flex justify-center mb-[40px]">
-          <CTRLLogo />
-        </div>
-        <div className="text-center my-8">
-          <h1 className="text-secondary-foreground font-semibold text-[26px] leading-[30px] mb-2">
-            Forgot Password?
-          </h1>
-          <p className="text-muted-foreground font-normal leading-[22px] text-[16px] text-center">
-            Type your email and we'll send you an invitation link
-          </p>
-        </div>
+        <AuthHeader
+          title=" Forgot Password?"
+          description="Type your email and we'll send you an invitation link"
+        />
         <Form {...form}>
           <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
-            {/* Email Field */}
             <FormField
               control={form.control}
               name="email"

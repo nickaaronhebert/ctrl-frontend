@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Form, FormField } from "@/components/ui/form";
-import CTRLLogo from "../CTRLLogo";
 import { useForm } from "react-hook-form";
 import { loginSchema, type LoginFormValues } from "@/schemas/loginSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,6 +10,7 @@ import InputField from "../InputField/InputField";
 import { useLoginMutation } from "@/redux/services/authApi";
 import { setCredentials } from "@/redux/slices/auth";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
+import AuthHeader from "../AuthHeader/AuthHeader";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -59,17 +59,9 @@ const LoginForm = () => {
   return (
     <div className="w-full max-w-lg">
       <div className="bg-white rounded-3xl shadow-sm border border-gray-200 p-8">
-        <div className="flex justify-center mb-[40px]">
-          <CTRLLogo />
-        </div>
-        <div className="text-center my-8">
-          <h1 className="text-secondary-foreground font-semibold text-[26px] text-center leading-[30px] mb-2">
-            Welcome Back
-          </h1>
-        </div>
+        <AuthHeader title="Welcome Back" />
         <Form {...form}>
           <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
-            {/* Email Field */}
             <FormField
               control={form.control}
               name="email"
@@ -84,8 +76,6 @@ const LoginForm = () => {
                 />
               )}
             />
-
-            {/* Password Field */}
             <FormField
               control={form.control}
               name="password"
@@ -110,7 +100,6 @@ const LoginForm = () => {
             </div>
 
             <div className="flex justify-center">
-              {/* Sign In Button */}
               <Button
                 disabled={!isDirty || !isValid}
                 type="submit"

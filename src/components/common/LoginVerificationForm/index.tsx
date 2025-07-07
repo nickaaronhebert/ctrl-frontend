@@ -65,13 +65,14 @@ const LoginVerificationForm = () => {
               name="otp"
               render={({ field }) => (
                 <InputOTP maxLength={6} {...field}>
-                  <InputOTPGroup className="space-x-2 flex items-center justify-center ">
-                    <InputOTPSlot index={0} className="rounded-md border-l" />
-                    <InputOTPSlot index={1} className="rounded-md border-l" />
-                    <InputOTPSlot index={2} className="rounded-md border-l" />
-                    <InputOTPSlot index={3} className="rounded-md border-l" />
-                    <InputOTPSlot index={4} className="rounded-md border-l" />
-                    <InputOTPSlot index={5} className="rounded-md border-l" />
+                  <InputOTPGroup className="space-x-2 flex items-center justify-center">
+                    {Array.from({ length: 6 }).map((_, index) => (
+                      <InputOTPSlot
+                        key={index}
+                        index={index}
+                        className="rounded-md border-l"
+                      />
+                    ))}
                   </InputOTPGroup>
                 </InputOTP>
               )}
