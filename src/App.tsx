@@ -17,6 +17,8 @@ import RegisterProvider from "./components/provider/register";
 import WelcomeProvider from "./components/provider/welcome";
 import ProviderSteppedForm from "./components/provider/credentials-stepped-form";
 import ProviderDashboard from "./pages/ProviderDashboard";
+import SkipMedicalVerification from "./components/provider/skip-medical-verification";
+import OnboardingSuccess from "./components/provider/onboarding-success";
 
 const router = createBrowserRouter([
   {
@@ -71,6 +73,14 @@ const router = createBrowserRouter([
       {
         path: ROUTES.CREDENTIAL_VERIFICATION,
         element: <ProviderSteppedForm />,
+      },
+      {
+        path: "/skip-verification",
+        element: <SkipMedicalVerification />,
+      },
+      {
+        path: "/onboarding-success",
+        element: <OnboardingSuccess />,
       },
     ],
   },

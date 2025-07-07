@@ -43,6 +43,11 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-border-secondary: var(--border-secondary);
+  --color-light-black: var(--light-black);
+  --color-light-border: var(--light-border);
+  --color-card-border: var(--card-border);
+  --color-light-background: var(--light-background);
 }
 
 :root {
@@ -81,6 +86,11 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --border-secondary: hsla(0, 0%, 88%, 0.88);
+  --light-black: hsla(0, 0%, 21%, 1);
+  --light-border: hsla(240, 100%, 10%, 0.15);
+  --card-border: hsla(0, 0%, 85%, 1);
+  --light-background: hsla(210, 16%, 97%, 1);
 }
 
 .dark {

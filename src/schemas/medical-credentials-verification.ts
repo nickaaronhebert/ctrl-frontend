@@ -8,20 +8,27 @@ export const medicalCredentialsVerificationSchema = z.object({
     .trim()
     .min(2, { message: "ProviderId must be at least 2 characters." }),
 
-  deaRegistrationNumber: z
-    .string({
-      required_error: "DEA Registration Number is required",
+  medicalLicense: z.array(
+    z.object({
+      state: z
+        .string({ required_error: "State is required" })
+        .min(2, { message: "State is required" }),
+      licenseNumber: z
+        .string({ required_error: "License Number is required" })
+        .min(2, { message: "License Number is required" }),
     })
-    .trim(),
+  ),
 
-  licenseNumber: z.string({
-    required_error: "License Number is required",
-  }),
-
-  medicalSpecialty: z.string({
-    required_error: "Medical Specialty is required",
-  }),
-  licenseStates: z.array(z.string()),
+  deaLicense: z.array(
+    z.object({
+      state: z
+        .string({ required_error: "State is required" })
+        .min(2, { message: "State is required" }),
+      registrationNumber: z
+        .string({ required_error: "License Number is required" })
+        .min(2, { message: "License Number is required" }),
+    })
+  ),
 });
 
 export const termsAgreementSchema = z.object({

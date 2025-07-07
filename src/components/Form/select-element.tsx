@@ -64,7 +64,7 @@ const SelectElement: React.FC<SelectElementProps> = ({
             defaultValue={props.defaultValue || field.value}
             disabled={props.disabled}
           >
-            <FormControl className={cn("", props.className)}>
+            <FormControl className={cn("bg-white", props.className)}>
               <SelectTrigger
                 className={cn("", triggerClassName)}
                 ref={field.ref}
