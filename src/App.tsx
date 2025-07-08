@@ -2,12 +2,9 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ROUTES } from "./constants/routes";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetLinkScreen from "./pages/ResetLinkScreen";
 import ResetPassword from "./pages/ResetPassword";
-import ModuleProtectedRoute from "./components/common/ModuleProtectedRoute/ModuleProtectedRoute";
-import { MODULE, PERMISSIONS } from "./components/Permissions/permissions";
 import PermissionDenied from "./pages/PermissionDenied/PermissionDenied";
 import OnboardingLayout from "./components/Layout/Onboarding";
 import RegisterProvider from "./components/provider/register";
@@ -19,7 +16,6 @@ import SkipMedicalVerification from "./components/provider/skip-medical-verifica
 import OnboardingSuccess from "./components/provider/onboarding-success";
 import SidebarLayout from "./components/common/Sidebar/sidebar-layout";
 import PrescriptionPage from "./pages/Prescription";
-import Home from "./pages/Home";
 import Settings from "./pages/Settings";
 import CompleteVerification from "./pages/Prescription/initiate-verification";
 import SuccessfullVerification from "./pages/Prescription/complete-verification";
@@ -40,30 +36,6 @@ const router = createBrowserRouter([
       {
         path: "complete-verification",
         element: <SuccessfullVerification />,
-      },
-    ],
-  },
-  {
-    path: "/dashboard",
-    element: <SidebarLayout />,
-    children: [
-      {
-        path: "", // default dashboard page at /dashboard
-        element: (
-          <ModuleProtectedRoute
-            element={<Dashboard />}
-            permissions={[
-              {
-                resource: MODULE.DASHBOARD,
-                permission: PERMISSIONS.READ,
-              },
-            ]}
-          />
-        ),
-      },
-      {
-        path: "prescription",
-        element: <PrescriptionPage />,
       },
       {
         path: "settings",
@@ -95,15 +67,11 @@ const router = createBrowserRouter([
         path: "/onboarding-success",
         element: <OnboardingSuccess />,
       },
-      {
-        path: "/",
-        element: <Home />,
-      },
     ],
   },
 
   {
-    path: ROUTES.LOGIN,
+    path: ROUTES.HOME,
     element: <Login />,
   },
   {

@@ -82,7 +82,7 @@ export function AppSidebar() {
                         }`
                       }
                     >
-                      <span className="min-w-[24px] h-[24px] flex items-center justify-center">
+                      <span className="min-w-[30px] min-h-[30px] flex items-center justify-center">
                         {item.icon}
                       </span>
                       <span className="text-lg">{item.title}</span>

@@ -4,6 +4,7 @@ export const userData = {
     licenses: [
       { state: "California", credential: "CA-MD-124824" },
       { state: "Texas", credential: "TX-MD-567890" },
+      { state: "Arizona", credential: "TX-MI-567895" },
     ],
     deaCredentials: [
       {
@@ -14,7 +15,7 @@ export const userData = {
     ],
   },
   affiliations: [
-    { name: "MedConnect Pro", status: "Active" },
+    { name: "MedConnect Pro", status: "Inactive" },
     { name: "GoGoMeds", status: "Inactive" },
   ],
 };

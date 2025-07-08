@@ -22,7 +22,7 @@ const ModuleProtectedRoute: React.FC<ModuleProtectedRouteProps> = ({
   const user = useSelector(selectCurrentUser);
 
   if (!user) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/" replace />;
   }
 
   const hasAllPermissions = permissions.every(({ resource, permission }) =>

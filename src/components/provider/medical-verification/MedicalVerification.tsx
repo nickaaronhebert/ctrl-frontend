@@ -1,18 +1,15 @@
-import { Button } from "@/components/ui/button";
+import Tick from "@/assets/icons/Tick";
 
 export default function MedicalVerification({ userData }: any) {
   return (
     <div className="bg-white border border-gray-200 rounded-lg p-4">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-semibold text-gray-900">
+        <h2 className="font-semibold text-[20px] leading-[24px] text-black">
           Medical Verification
         </h2>
-        <Button
-          variant="outline"
-          className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
-        >
+        <button className="min-w-[80px] min-h-[32px] rounded-[4px] border-1 px-[10px] py-[5px] ">
           ADD LICENSE
-        </Button>
+        </button>
       </div>
 
       <div className="w-full h-px bg-gray-200 mb-4" />
@@ -27,10 +24,10 @@ export default function MedicalVerification({ userData }: any) {
           {/* NPI Section */}
           {userData.medicalVerification.npi && (
             <div>
-              <h3 className="text-sm font-medium text-gray-900 mb-3">
+              <h3 className="font-semibold text-[14px] leadng-[18px] text-black mb-2">
                 National Provider Identifier (NPI)
               </h3>
-              <div className="bg-gray-50 rounded-lg p-4">
+              <div className="bg-light-background rounded-[5px] border border-card-border h-[50px] px-[15px] py-[12px]">
                 <span className="text-gray-900 font-medium">
                   {userData.medicalVerification.npi}
                 </span>
@@ -39,29 +36,32 @@ export default function MedicalVerification({ userData }: any) {
           )}
 
           {/* Licensed State & Credentials */}
-          {userData.medicalVerification.licenses.length > 0 ? (
+          {userData.medicalVerification.licenses.length > 0 && (
             <div>
-              <h3 className="text-sm font-medium text-gray-900 mb-3">
+              <h3 className="font-semibold text-[14px] leading-[18px] text-black mb-2">
                 Licensed State & Credentials
               </h3>
-              <div className="space-y-3">
+              <div>
                 {userData.medicalVerification.licenses.map(
                   (license: any, idx: any) => (
                     <div
                       key={idx}
-                      className="bg-gray-50 rounded-lg p-4 flex justify-between items-center"
+                      className="bg-light-background border border-gray-200 h-[60px] px-[15px] py-[12px] flex justify-between items-center"
                     >
                       <div>
-                        <span className="text-gray-900 font-medium block">
+                        <span className="font-medium text-[16px] leading-[22px] text-secondary-foreground">
                           {license.state}
                         </span>
                       </div>
-                      <div className="text-right">
-                        <span className="text-gray-900 font-medium block">
-                          {license.credential}
-                        </span>
-                        <span className="text-gray-500 text-sm">
-                          Expires {license.expiry}
+                      <div className="flex flex-col items-end ">
+                        <div className=" flex gap-2 items-center">
+                          <Tick />
+                          <span className="text-[14px] font-semibold leading-[18px] text-black">
+                            {license.credential}
+                          </span>
+                        </div>
+                        <span className="font-normal text-[10px] leading-[12px]">
+                          Expires ---
                         </span>
                       </div>
                     </div>
@@ -69,34 +69,32 @@ export default function MedicalVerification({ userData }: any) {
                 )}
               </div>
             </div>
-          ) : (
-            <div></div>
           )}
 
           {/* DEA State & Credentials */}
           {userData.medicalVerification.deaCredentials.length > 0 && (
             <div>
-              <h3 className="text-sm font-medium text-gray-900 mb-3">
+              <h3 className="font-semibold text-[14px] leading-[18px] text-black mb-2">
                 DEA State & Credentials
               </h3>
-              <div className="space-y-3">
+              <div>
                 {userData.medicalVerification.deaCredentials.map(
                   (dea: any, idx: any) => (
                     <div
                       key={idx}
-                      className="bg-gray-50 rounded-lg p-4 flex justify-between items-center"
+                      className="bg-light-background border border-card-border h-[60px] px-[15px] py-[12px] flex justify-between items-center"
                     >
                       <div>
-                        <span className="text-gray-900 font-medium block">
+                        <span className="font-medium text-[16px] leading-[22px] text-secondary-foreground">
                           {dea.state}
                         </span>
                       </div>
-                      <div className="text-right">
-                        <span className="text-gray-900 font-medium block">
+                      <div className="flex flex-col items-end ">
+                        <span className="text-[14px] font-semibold leading-[18px] text-black">
                           {dea.credential}
                         </span>
-                        <span className="text-gray-500 text-sm">
-                          Expires {dea.expiry}
+                        <span className="font-normal text-[10px] leading-[12px]">
+                          Expires ---
                         </span>
                       </div>
                     </div>
