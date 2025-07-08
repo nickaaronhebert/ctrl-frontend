@@ -23,20 +23,20 @@ export default function EmailSVG() {
         rx="38.5"
         stroke="#D8B8F3"
       />
-      <g clip-path="url(#clip0_10298_11113)">
+      <g clipPath="url(#clip0_10298_11113)">
         <path
           d="M49.2134 29.6071H28.7849C27.7592 29.6071 26.9277 30.4386 26.9277 31.4643V47.25C26.9277 48.2756 27.7592 49.1071 28.7849 49.1071H49.2134C50.2391 49.1071 51.0706 48.2756 51.0706 47.25V31.4643C51.0706 30.4386 50.2391 29.6071 49.2134 29.6071Z"
           stroke="#5456AD"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
         <path
           d="M26.9277 31.9286L37.8106 41.2143C38.1443 41.4922 38.5649 41.6444 38.9992 41.6444C39.4335 41.6444 39.854 41.4922 40.1877 41.2143L51.0706 31.9286"
           stroke="#5456AD"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </g>
       <defs>

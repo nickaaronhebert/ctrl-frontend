@@ -16,3 +16,8 @@ export const ROUTES = {
   CREDENTIAL_VERIFICATION: "/verification",
   PROVIDER_DASHBOARD: "/provider-dashboard",
 };
+
+export const STEPPER_FORM = {
+  ONBOARDING: "onboarding",
+  COMPLETE_VERIFICATION: "complete-verification",
+};

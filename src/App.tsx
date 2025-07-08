@@ -21,10 +21,30 @@ import SidebarLayout from "./components/common/Sidebar/sidebar-layout";
 import PrescriptionPage from "./pages/Prescription";
 import Home from "./pages/Home";
 import Settings from "./pages/Settings";
+import CompleteVerification from "./pages/Prescription/initiate-verification";
+import SuccessfullVerification from "./pages/Prescription/complete-verification";
 
 const router = createBrowserRouter([
   {
     path: "/provider",
+    element: <SidebarLayout />,
+    children: [
+      {
+        path: "prescription",
+        element: <PrescriptionPage />,
+      },
+      {
+        path: "start-verification",
+        element: <CompleteVerification />,
+      },
+      {
+        path: "complete-verification",
+        element: <SuccessfullVerification />,
+      },
+    ],
+  },
+  {
+    path: "/dashboard",
     element: <SidebarLayout />,
     children: [
       {
@@ -65,7 +85,7 @@ const router = createBrowserRouter([
       },
       {
         path: ROUTES.CREDENTIAL_VERIFICATION,
-        element: <ProviderSteppedForm />,
+        element: <ProviderSteppedForm slug="onboarding" />,
       },
       {
         path: "/skip-verification",

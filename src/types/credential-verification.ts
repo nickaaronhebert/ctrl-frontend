@@ -7,4 +7,5 @@ export interface MultiStepFormContextProps {
   handleNext: () => void;
   handleBack: () => void;
   onSubmit: (data: CompleteMedicalVerificationSchemaType) => void;
+  slug: string;
 }
