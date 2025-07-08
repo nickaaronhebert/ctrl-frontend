@@ -42,12 +42,6 @@ const router = createBrowserRouter([
         path: "pending-approval",
         element: <PendingApproval />,
       },
-    ],
-  },
-  {
-    path: "/dashboard",
-    element: <SidebarLayout />,
-    children: [
       {
         path: "settings",
         element: <Settings />,

@@ -31,12 +31,12 @@ import SupportSVG from "@/assets/icons/Support";
 const items = [
   {
     title: "Prescriptions",
-    url: "/dashboard/prescription",
+    url: "/provider/prescription",
     icon: <PrescriptionSVG />,
   },
   {
     title: "Support",
-    url: "/dashboard/support",
+    url: "/provider/support",
     icon: <SupportSVG />,
   },
 ];
