@@ -1,15 +1,22 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "@/redux/slices/auth";
 
 const Home = () => {
   const navigate = useNavigate();
 
+  const user = useSelector(selectCurrentUser);
+
   useEffect(() => {
-    // Redirect immediately
-    navigate("/dashboard", { replace: true });
+    if (user) {
+      navigate("/provider/prescription");
+    } else {
+      navigate("/login", { replace: true });
+    }
   }, [navigate]);
 
-  return null; // or a loading spinner if needed
+  return null;
 };
 
 export default Home;

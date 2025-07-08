@@ -8,8 +8,10 @@ import {
 import { ChevronDown } from "lucide-react";
 import SettingsSVG from "@/assets/icons/Settings";
 import LogoutSVG from "@/assets/icons/LogOut";
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
+  const navigate = useNavigate();
   return (
     <div
       className="h-[80px]  bg-white "
@@ -32,7 +34,7 @@ export default function Navbar() {
             <ChevronDown stroke="black" />
           </DropdownMenuTrigger>
           <DropdownMenuContent className="p-4 w-[174px]">
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => navigate("/provider/settings")}>
               <SettingsSVG />
               Settings
             </DropdownMenuItem>

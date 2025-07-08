@@ -20,10 +20,11 @@ import OnboardingSuccess from "./components/provider/onboarding-success";
 import SidebarLayout from "./components/common/Sidebar/sidebar-layout";
 import PrescriptionPage from "./pages/Prescription";
 import Home from "./pages/Home";
+import Settings from "./pages/Settings";
 
 const router = createBrowserRouter([
   {
-    path: "/dashboard",
+    path: "/provider",
     element: <SidebarLayout />,
     children: [
       {
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
       {
         path: "prescription",
         element: <PrescriptionPage />,
+      },
+      {
+        path: "settings",
+        element: <Settings />,
       },
     ],
   },

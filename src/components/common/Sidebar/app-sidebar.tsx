@@ -19,6 +19,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { useSidebar } from "@/components/ui/sidebar";
+import { NavLink } from "react-router-dom";
 
 import CTRLSVG from "@/assets/images/CTRL.svg";
 import CollapsedCTRLSVG from "@/assets/icons/CollapsedCTRL";
@@ -30,13 +31,12 @@ import SupportSVG from "@/assets/icons/Support";
 const items = [
   {
     title: "Prescriptions",
-    url: "#",
+    url: "/dashboard/prescription",
     icon: <PrescriptionSVG />,
   },
-
   {
     title: "Support",
-    url: "#",
+    url: "/dashboard/support",
     icon: <SupportSVG />,
   },
 ];
@@ -71,19 +71,22 @@ export function AppSidebar() {
               {items.map((item) => (
                 <SidebarMenuItem
                   key={item.title}
-                  className="flex justify-center  hover:bg-secondary py-3"
+                  className="hover:bg-secondary py-3"
                 >
-                  <SidebarMenuButton
-                    asChild
-                    tooltip="Prescriptions"
-                    size={"lg"}
-                  >
-                    <a href={item.url} className="ml-2 lg:ml-0 w-full ">
-                      <span className="">{item.icon}</span>
-                      <span className="ml-[10px] text-lg font-medium ">
-                        {item.title}
+                  <SidebarMenuButton asChild size="lg">
+                    <NavLink
+                      to={item.url}
+                      className={({ isActive }) =>
+                        `flex items-center gap-3 w-full px-4 ${
+                          isActive ? "bg-secondary font-semibold" : ""
+                        }`
+                      }
+                    >
+                      <span className="min-w-[24px] h-[24px] flex items-center justify-center">
+                        {item.icon}
                       </span>
-                    </a>
+                      <span className="text-lg">{item.title}</span>
+                    </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
