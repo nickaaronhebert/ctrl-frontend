@@ -22,6 +22,7 @@ import PrescriptionPage from "./pages/Prescription";
 import Home from "./pages/Home";
 import CompleteVerification from "./pages/Prescription/initiate-verification";
 import SuccessfullVerification from "./pages/Prescription/complete-verification";
+import PendingApproval from "./pages/Prescription/pending-approval";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
       {
         path: "complete-verification",
         element: <SuccessfullVerification />,
+      },
+      {
+        path: "pending-approval",
+        element: <PendingApproval />,
       },
     ],
   },
