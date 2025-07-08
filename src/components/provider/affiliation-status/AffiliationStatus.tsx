@@ -1,22 +1,14 @@
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { Form, FormField, FormItem, FormControl } from "@/components/ui/form";
 import { Switch } from "@/components/ui/switch";
 import { useState } from "react";
 import { EnableAffiliationDialog } from "../enable-affiliation/EnableAffiliation";
 import { DisableAffiliationDialog } from "../disable-affiliation/DisableAffiliationDialog";
-
-const formSchema = z.object({
-  affiliations: z.array(
-    z.object({
-      name: z.string(),
-      status: z.enum(["Active", "Inactive"]),
-    })
-  ),
-});
-
-type FormSchema = z.infer<typeof formSchema>;
+import {
+  affiliationSchema,
+  type Affiliation,
+} from "@/schemas/affiliationSchema";
 
 const AffiliationStatus = ({ userData }: any) => {
   const [dialogState, setDialogState] = useState<{
@@ -24,8 +16,8 @@ const AffiliationStatus = ({ userData }: any) => {
     intendedValue: "Active" | "Inactive";
   } | null>(null);
 
-  const form = useForm<FormSchema>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<Affiliation>({
+    resolver: zodResolver(affiliationSchema),
     defaultValues: {
       affiliations: userData.affiliations,
     },
@@ -45,7 +37,7 @@ const AffiliationStatus = ({ userData }: any) => {
   return (
     <>
       <Form {...form}>
-        <form className="wbg-white border border-gray-200 rounded-lg p-4 space-y-4">
+        <form className="bg-white border border-gray-200 rounded-lg p-4 space-y-4">
           <h2 className="font-semibold text-[20px] leading-[24px] text-black mb-2">
             Affiliation Status
           </h2>
