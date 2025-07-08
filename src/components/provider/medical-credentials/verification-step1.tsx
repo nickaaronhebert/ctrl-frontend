@@ -9,6 +9,7 @@ import ClearSVG from "@/assets/icons/Clear";
 import { cn } from "@/lib/utils";
 import InsertIconSVG from "@/assets/icons/Insert";
 import { Link } from "react-router-dom";
+import { STEPPER_FORM } from "@/constants/routes";
 
 const medicalSpecialtyOptions = [
   { value: "generalPractice", label: "General Practice" },
@@ -21,7 +22,7 @@ const medicalSpecialtyOptions = [
 ];
 
 export default function VerificationStepOne() {
-  const { handleNext } = useMultiStepForm();
+  const { handleNext, slug } = useMultiStepForm();
   const form = useFormContext();
 
   const { fields, append, remove } = useFieldArray({
@@ -43,12 +44,15 @@ export default function VerificationStepOne() {
   return (
     <div>
       <div className="mb-10 flex flex-col items-center gap-1">
-        <h2 className="font-semibold text-3xl text-center">
-          Medical Credentials Verification
-        </h2>
+        {slug === STEPPER_FORM.ONBOARDING && (
+          <h2 className="font-semibold text-3xl text-center">
+            Medical Credentials Verification
+          </h2>
+        )}
+
         <h4 className="text-muted-foreground text-center font-normal text-xl max-w-2xl">
-          Please provide your medical credentials to verify your prescription
-          authority.All information is encrypted and secure.
+          The verification process takes just a few minutes and your information
+          is encrypted and secure.
         </h4>
       </div>
 
@@ -189,13 +193,14 @@ export default function VerificationStepOne() {
         >
           Verify and Complete Registration
         </Button>
-
-        <Link
-          to={"/skip-verification"}
-          className="flex items-center min-w-[150px] py-2.5 px-7 rounded-full bg-white text-black font-semibold text-base min-h-[52px] border border-black hover:!bg-transparent cursor-pointer"
-        >
-          Skip for now
-        </Link>
+        {slug === STEPPER_FORM.ONBOARDING && (
+          <Link
+            to={"/skip-verification"}
+            className="flex items-center min-w-[150px] py-2.5 px-7 rounded-full bg-white text-black font-semibold text-base min-h-[52px] border border-black hover:!bg-transparent cursor-pointer"
+          >
+            Skip for now
+          </Link>
+        )}
       </div>
     </div>
   );

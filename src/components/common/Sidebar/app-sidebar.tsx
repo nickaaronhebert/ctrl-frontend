@@ -73,11 +73,7 @@ export function AppSidebar() {
                   key={item.title}
                   className="flex justify-center  hover:bg-secondary py-3"
                 >
-                  <SidebarMenuButton
-                    asChild
-                    tooltip="Prescriptions"
-                    size={"lg"}
-                  >
+                  <SidebarMenuButton asChild tooltip={item.title} size={"lg"}>
                     <a href={item.url} className="ml-2 lg:ml-0 w-full ">
                       <span className="">{item.icon}</span>
                       <span className="ml-[10px] text-lg font-medium ">
