@@ -40,7 +40,7 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        path: "prescription",
+        path: "warning",
         element: <PrescriptionPage />,
       },
       {

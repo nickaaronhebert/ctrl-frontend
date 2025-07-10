@@ -56,7 +56,7 @@ const ForgotPasswordForm = () => {
                 type="button"
                 variant={"outline"}
                 className="h-12 border-border-secondary font-semibold text-[16px] leading-[22px] text-center rounded-full w-full md:min-w-[150px] md:w-[163px] md:max-w-[150px] min-h-[52px] md:h-[52px]"
-                onClick={() => navigate(ROUTES.LOGIN)}
+                onClick={() => navigate(ROUTES.HOME)}
               >
                 Back to Login
               </Button>

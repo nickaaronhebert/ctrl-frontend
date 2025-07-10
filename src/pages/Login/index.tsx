@@ -10,7 +10,7 @@ const Login = () => {
 
   useEffect(() => {
     if (user) {
-      navigate("/provider/prescription");
+      navigate("/provider/warning");
     }
   }, [user, navigate]);
 

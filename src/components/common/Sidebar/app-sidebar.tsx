@@ -22,7 +22,7 @@ import SupportSVG from "@/assets/icons/Support";
 const items = [
   {
     title: "Prescriptions",
-    url: "/provider/prescription",
+    url: "/provider/warning",
     icon: <PrescriptionSVG />,
   },
   {

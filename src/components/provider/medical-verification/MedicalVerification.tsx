@@ -1,13 +1,18 @@
 import Tick from "@/assets/icons/Tick";
+import { useNavigate } from "react-router-dom";
 
 export default function MedicalVerification({ userData }: any) {
+  const navigate = useNavigate();
   return (
     <div className="bg-white border border-gray-200 rounded-lg p-4">
       <div className="flex justify-between items-center mb-6">
         <h2 className="font-semibold text-[20px] leading-[24px] text-black">
           Medical Verification
         </h2>
-        <button className="min-w-[80px] min-h-[32px] rounded-[4px] border-1 px-[10px] py-[5px] ">
+        <button
+          onClick={() => navigate("/provider/start-verification")}
+          className="min-w-[80px] min-h-[32px] rounded-[4px] border-1 px-[10px] py-[5px] "
+        >
           ADD LICENSE
         </button>
       </div>
