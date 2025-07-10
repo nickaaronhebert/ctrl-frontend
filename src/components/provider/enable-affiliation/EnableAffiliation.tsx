@@ -15,7 +15,7 @@ export function EnableAffiliationDialog({
 }: EnableAffiliationDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onCancel}>
-      <DialogContent className="w-[382px] h-[352px] px-[25px] py-[45px] gap-0">
+      <DialogContent className="w-[382px] h-[330px] px-[25px] py-[45px] gap-0">
         {/* Close button */}
         <button
           onClick={onCancel}
@@ -39,10 +39,10 @@ export function EnableAffiliationDialog({
           <span className="sr-only">Close</span>
         </button>
 
-        <div className="px-6 pb-6">
+        <div className="px-6 ">
           {/* Warning Icon */}
-          <div className="flex justify-center mb-6">
-            <div className="w-[82px] h-[82px] bg-amber-100 rounded-full flex items-center justify-center">
+          <div className="flex justify-center mb-1">
+            <div className="w-[82px] bg-background rounded-full flex items-center justify-center">
               <EnableAffiliation />
             </div>
           </div>

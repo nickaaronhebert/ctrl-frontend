@@ -69,7 +69,7 @@ export function AppSidebar() {
                     key={item.title}
                     className="hover:bg-secondary "
                   >
-                    <SidebarMenuButton asChild size="lg">
+                    <SidebarMenuButton asChild size="lg" tooltip={item.title}>
                       <div
                         className={`flex items-center gap-3 w-full cursor-pointer ${
                           isActive ? "bg-secondary font-semibold" : ""
