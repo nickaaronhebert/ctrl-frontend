@@ -1,7 +1,9 @@
 import AlertSVG from "@/assets/icons/Alert";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 export default function PrescriptionWarning() {
+  const navigate = useNavigate();
   return (
     <div className="rounded-2xl p-10 bg-white flex flex-col justify-center items-center">
       <div className="w-[68px] h-[68px] bg-alert rounded-full flex justify-center items-center border-[3px] border-alert-border">
@@ -34,7 +36,13 @@ export default function PrescriptionWarning() {
         </div>
       </div>
       <div className="flex justify-center mt-6 mb-3">
-        <Button variant={"ctrl"} size={"xl"}>
+        <Button
+          variant={"ctrl"}
+          size={"xl"}
+          onClick={() => {
+            navigate("/provider/start-verification");
+          }}
+        >
           Complete Verification Now
         </Button>
       </div>

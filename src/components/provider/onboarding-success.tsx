@@ -62,7 +62,7 @@ export default function OnboardingSuccess() {
 
       <div className="flex justify-center mt-6">
         <Link
-          to="/provider-dashboard"
+          to="/provider/pending-approval"
           className="text-white rounded-full py-2.5 px-7 min-h-14 text-base font-semibold bg-primary flex items-center"
         >
           Verify Your Medical Credentials

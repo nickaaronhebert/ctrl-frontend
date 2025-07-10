@@ -24,7 +24,7 @@ export default function SkipMedicalVerification() {
         <div className="flex justify-center mt-6">
           <Button
             onClick={() => {
-              navigate("/provider-dashboard");
+              navigate("/provider/warning");
             }}
             className="text-white rounded-full py-2.5 px-7 min-h-14 text-base font-semibold"
           >

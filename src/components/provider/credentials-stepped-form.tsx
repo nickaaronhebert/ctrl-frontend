@@ -14,7 +14,7 @@ import VerificationStepTwo from "./medical-credentials/verification-step2";
 import type { MultiStepFormContextProps } from "@/types/credential-verification";
 import { ZodObject } from "zod";
 import { useNavigate } from "react-router-dom";
-import { ROUTES, STEPPER_FORM } from "@/constants/routes";
+import { STEPPER_FORM } from "@/constants/routes";
 
 type StepDefinition = {
   validationSchema: ZodObject<any>;
@@ -89,7 +89,8 @@ export default function ProviderSteppedForm({ slug }: ProviderStepperProps) {
     );
     if (result.success) {
       setStep(totalSteps);
-      if (slug === STEPPER_FORM.ONBOARDING) navigate(ROUTES.PROVIDER_DASHBOARD);
+
+      if (slug === STEPPER_FORM.ONBOARDING) navigate("/onboarding-success");
       else navigate("/provider/complete-verification");
     }
     console.log("final Data", result);
