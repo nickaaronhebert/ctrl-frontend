@@ -31,7 +31,7 @@ const ResetPasswordForm = () => {
     console.log("Form submitted:", values);
     await new Promise((res) => setTimeout(res, 1000));
     form.reset();
-    navigate(ROUTES.LOGIN);
+    navigate(ROUTES.HOME);
   };
 
   return (
