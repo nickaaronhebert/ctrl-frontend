@@ -5,10 +5,13 @@ import { userData } from "@/components/provider/user-data";
 import MedicalVerification from "@/components/provider/medical-verification/MedicalVerification";
 import AffiliationStatus from "@/components/provider/affiliation-status/AffiliationStatus";
 import EditProfileDialog from "@/components/common/EditProfileForm/EditProfileForm";
+import { useAppSelector } from "@/hooks/useAppSelector";
+import { selectCurrentUser } from "@/redux/slices/auth";
 
 const Settings = () => {
   const [activeTab, setActiveTab] = useState("personal");
   const [editProfileOpen, setEditProfileOpen] = useState(false);
+  const user = useAppSelector(selectCurrentUser);
 
   return (
     <>
@@ -22,7 +25,10 @@ const Settings = () => {
           </div>
           <div className="flex-1 space-y-6">
             <div id="personal">
-              <PersonalDetails onEditProfile={() => setEditProfileOpen(true)} />
+              <PersonalDetails
+                onEditProfile={() => setEditProfileOpen(true)}
+                user={user!}
+              />
             </div>
             <div id="medical" className="scroll-mt-24 mb-10">
               <MedicalVerification userData={userData} />
@@ -37,6 +43,7 @@ const Settings = () => {
         <EditProfileDialog
           open={editProfileOpen}
           onOpenChange={setEditProfileOpen}
+          user={user!}
         />
       )}
     </>

@@ -20,11 +20,23 @@ import Settings from "./pages/Settings";
 import CompleteVerification from "./pages/Prescription/initiate-verification";
 import SuccessfullVerification from "./pages/Prescription/complete-verification";
 import PendingApproval from "./pages/Prescription/pending-approval";
+import ModuleProtectedRoute from "./components/common/ModuleProtectedRoute/ModuleProtectedRoute";
+import { MODULE, PERMISSIONS } from "./components/Permissions/permissions";
 
 const router = createBrowserRouter([
   {
     path: "/provider",
-    element: <SidebarLayout />,
+    element: (
+      <ModuleProtectedRoute
+        element={<SidebarLayout />}
+        permissions={[
+          {
+            resource: MODULE.DASHBOARD,
+            permission: PERMISSIONS.READ,
+          },
+        ]}
+      />
+    ),
     children: [
       {
         path: "prescription",

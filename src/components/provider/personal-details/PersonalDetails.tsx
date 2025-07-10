@@ -1,9 +1,14 @@
 import { Mail, Phone, User } from "lucide-react";
+import type { User as CurrentUser } from "@/types/global/commonTypes";
 
-const PersonalDetails = ({ onEditProfile }: any) => {
+interface PersonalDetailsProps {
+  onEditProfile: () => void;
+  user: CurrentUser;
+}
+
+const PersonalDetails = ({ onEditProfile, user }: PersonalDetailsProps) => {
   return (
     <div className=" bg-white border border-gray-200 rounded-lg">
-      {/* Header */}
       <div className="flex justify-between items-center p-4">
         <h2 className="font-semibold text-[20px] leading-[24px] text-black">
           Personal Details
@@ -18,9 +23,7 @@ const PersonalDetails = ({ onEditProfile }: any) => {
 
       <div className="w-full h-px bg-gray-200 mb-4" />
 
-      {/* Content Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-4">
-        {/* Name */}
         <div className="flex flex-col gap-2">
           <div className="font-normal text-[14px] leading-[18px] text-black">
             Name
@@ -28,12 +31,11 @@ const PersonalDetails = ({ onEditProfile }: any) => {
           <div className="flex items-center">
             <User className="w-5 h-5 text-primary mr-1" />
             <span className="text-secondary-foreground font-medium text-[18px] leading-[26px]">
-              Johan Smith
+              {user?.firstName}
             </span>
           </div>
         </div>
 
-        {/* Phone */}
         <div className="flex flex-col gap-2">
           <div className="font-normal text-[14px] leading-[18px] text-black">
             Phone
@@ -46,7 +48,6 @@ const PersonalDetails = ({ onEditProfile }: any) => {
           </div>
         </div>
 
-        {/* Email */}
         <div className="flex flex-col gap-2">
           <div className="font-normal text-[14px] leading-[18px] text-black">
             Email
@@ -54,7 +55,7 @@ const PersonalDetails = ({ onEditProfile }: any) => {
           <div className="flex items-center">
             <Mail className="w-5 h-5 text-primary mr-1" />
             <span className="text-secondary-foreground font-medium text-[18px] leading-[26px]">
-              john@example.com
+              {user?.email}
             </span>
           </div>
         </div>

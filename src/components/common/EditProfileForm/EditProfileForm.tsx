@@ -17,8 +17,10 @@ import {
   type EditProfile,
 } from "@/schemas/editProfileSchema";
 import InputField from "../InputField/InputField";
+import { type User } from "@/types/global/commonTypes";
 
 interface EditProfileDialogProps {
+  user: User;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
 }
@@ -26,14 +28,15 @@ interface EditProfileDialogProps {
 export default function EditProfileDialog({
   open,
   onOpenChange,
+  user,
 }: EditProfileDialogProps) {
   const form = useForm<z.infer<typeof editProfileSchema>>({
     resolver: zodResolver(editProfileSchema),
     defaultValues: {
-      firstName: "John",
-      lastName: "Smith",
+      firstName: user.firstName,
+      lastName: user.lastName,
       phone: "+1-123-456-7890",
-      email: "john@example.com",
+      email: user.email,
     },
   });
 

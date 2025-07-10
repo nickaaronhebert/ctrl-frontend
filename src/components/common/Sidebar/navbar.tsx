@@ -9,9 +9,21 @@ import { ChevronDown } from "lucide-react";
 import SettingsSVG from "@/assets/icons/Settings";
 import LogoutSVG from "@/assets/icons/LogOut";
 import { useNavigate } from "react-router-dom";
+import { logout } from "@/redux/slices/auth";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
+import { useAppSelector } from "@/hooks/useAppSelector";
+import { selectCurrentUser } from "@/redux/slices/auth";
 
 export default function Navbar() {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(selectCurrentUser);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/");
+  };
+
   return (
     <div
       className="h-[80px]  bg-white "
@@ -26,8 +38,8 @@ export default function Navbar() {
           JS
         </span>
         <div>
-          <h4 className="font-semibold text-base">Johan Smith</h4>
-          <h6 className="font-normal text-xs">Provider</h6>
+          <h4 className="font-semibold text-base">{user?.firstName}</h4>
+          <h6 className="font-normal text-xs">{user?.lastName}</h6>
         </div>
         <DropdownMenu>
           <DropdownMenuTrigger>
@@ -38,7 +50,7 @@ export default function Navbar() {
               <SettingsSVG />
               Settings
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout}>
               <LogoutSVG />
               Logout
             </DropdownMenuItem>
