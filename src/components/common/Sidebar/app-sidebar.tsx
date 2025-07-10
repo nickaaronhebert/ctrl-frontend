@@ -9,11 +9,12 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { useSidebar } from "@/components/ui/sidebar";
-import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import CTRLSVG from "@/assets/images/CTRL.svg";
 import CollapsedCTRLSVG from "@/assets/icons/CollapsedCTRL";
 import { SidebarToggle } from "./sidebar-toggle";
+import { useLocation } from "react-router-dom";
 import { PrescriptionSVG } from "@/assets/icons/PrescriptionSVG";
 
 import SupportSVG from "@/assets/icons/Support";
@@ -33,6 +34,8 @@ const items = [
 
 export function AppSidebar() {
   const { state, open, toggleSidebar } = useSidebar();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   return (
     <Sidebar
@@ -58,28 +61,32 @@ export function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem
-                  key={item.title}
-                  className="hover:bg-secondary py-3"
-                >
-                  <SidebarMenuButton asChild size="lg">
-                    <NavLink
-                      to={item.url}
-                      className={({ isActive }) =>
-                        `flex items-center gap-3 w-full px-4 ${
+              {items.map((item) => {
+                const isActive = location.pathname === item.url;
+                const { state } = useSidebar();
+                return (
+                  <SidebarMenuItem
+                    key={item.title}
+                    className="hover:bg-secondary "
+                  >
+                    <SidebarMenuButton asChild size="lg">
+                      <div
+                        className={`flex items-center gap-3 w-full cursor-pointer ${
                           isActive ? "bg-secondary font-semibold" : ""
-                        }`
-                      }
-                    >
-                      <span className="min-w-[30px] min-h-[30px] flex items-center justify-center">
-                        {item.icon}
-                      </span>
-                      <span className="text-lg">{item.title}</span>
-                    </NavLink>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+                        }`}
+                        onClick={() => navigate(item.url)}
+                      >
+                        <span className="min-w-[30px] min-h-[30px] flex items-center justify-center">
+                          {item.icon}
+                        </span>
+                        <span className="text-lg">
+                          {state !== "collapsed" && item.title}
+                        </span>
+                      </div>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

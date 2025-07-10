@@ -22,6 +22,7 @@ import SuccessfullVerification from "./pages/Prescription/complete-verification"
 import PendingApproval from "./pages/Prescription/pending-approval";
 import ModuleProtectedRoute from "./components/common/ModuleProtectedRoute/ModuleProtectedRoute";
 import { MODULE, PERMISSIONS } from "./components/Permissions/permissions";
+import Support from "./pages/Support/page";
 
 const router = createBrowserRouter([
   {
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
       {
         path: "settings",
         element: <Settings />,
+      },
+      {
+        path: ROUTES.SUPPORT,
+        element: <Support />,
       },
     ],
   },

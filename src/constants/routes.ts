@@ -15,6 +15,7 @@ export const ROUTES = {
   WELCOME: "/welcome",
   CREDENTIAL_VERIFICATION: "/verification",
   PROVIDER_DASHBOARD: "/provider-dashboard",
+  SUPPORT: "/provider/support",
 };
 
 export const STEPPER_FORM = {
