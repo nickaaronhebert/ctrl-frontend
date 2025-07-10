@@ -11,14 +11,57 @@ import InsertIconSVG from "@/assets/icons/Insert";
 import { Link } from "react-router-dom";
 import { STEPPER_FORM } from "@/constants/routes";
 
-const medicalSpecialtyOptions = [
-  { value: "generalPractice", label: "General Practice" },
-  { value: "pediatrics", label: "Pediatrics" },
-  { value: "internalMedicine", label: "Internal Medicine" },
-  { value: "surgery", label: "Surgery" },
-  { value: "psychiatry", label: "Psychiatry" },
-  { value: "dermatology", label: "Dermatology" },
-  { value: "orthopedics", label: "Orthopedics" },
+const stateOptions = [
+  { value: "alabama", label: "Alabama" },
+  { value: "alaska", label: "Alaska" },
+  { value: "arizona", label: "Arizona" },
+  { value: "arkansas", label: "Arkansas" },
+  { value: "california", label: "California" },
+  { value: "colorado", label: "Colorado" },
+  { value: "connecticut", label: "Connecticut" },
+  { value: "delaware", label: "Delaware" },
+  { value: "florida", label: "Florida" },
+  { value: "georgia", label: "Georgia" },
+  { value: "hawaii", label: "Hawaii" },
+  { value: "idaho", label: "Idaho" },
+  { value: "illinois", label: "Illinois" },
+  { value: "indiana", label: "Indiana" },
+  { value: "iowa", label: "Iowa" },
+  { value: "kansas", label: "Kansas" },
+  { value: "kentucky", label: "Kentucky" },
+  { value: "louisiana", label: "Louisiana" },
+  { value: "maine", label: "Maine" },
+  { value: "maryland", label: "Maryland" },
+  { value: "massachusetts", label: "Massachusetts" },
+  { value: "michigan", label: "Michigan" },
+  { value: "minnesota", label: "Minnesota" },
+  { value: "mississippi", label: "Mississippi" },
+  { value: "missouri", label: "Missouri" },
+  { value: "montana", label: "Montana" },
+  { value: "nebraska", label: "Nebraska" },
+  { value: "nevada", label: "Nevada" },
+  { value: "newHampshire", label: "New Hampshire" },
+  { value: "newJersey", label: "New Jersey" },
+  { value: "newMexico", label: "New Mexico" },
+  { value: "newYork", label: "New York" },
+  { value: "northCarolina", label: "North Carolina" },
+  { value: "northDakota", label: "North Dakota" },
+  { value: "ohio", label: "Ohio" },
+  { value: "oklahoma", label: "Oklahoma" },
+  { value: "oregon", label: "Oregon" },
+  { value: "pennsylvania", label: "Pennsylvania" },
+  { value: "rhodeIsland", label: "Rhode Island" },
+  { value: "southCarolina", label: "South Carolina" },
+  { value: "southDakota", label: "South Dakota" },
+  { value: "tennessee", label: "Tennessee" },
+  { value: "texas", label: "Texas" },
+  { value: "utah", label: "Utah" },
+  { value: "vermont", label: "Vermont" },
+  { value: "virginia", label: "Virginia" },
+  { value: "washington", label: "Washington" },
+  { value: "westVirginia", label: "West Virginia" },
+  { value: "wisconsin", label: "Wisconsin" },
+  { value: "wyoming", label: "Wyoming" },
 ];
 
 export default function VerificationStepOne() {
@@ -94,7 +137,7 @@ export default function VerificationStepOne() {
                 >
                   <SelectElement
                     name={`medicalLicense.${index}.state`}
-                    options={medicalSpecialtyOptions}
+                    options={stateOptions}
                     label="State"
                     placeholder="Select State"
                     triggerClassName="w-full min-h-[50px]"
@@ -152,7 +195,7 @@ export default function VerificationStepOne() {
                 >
                   <SelectElement
                     name={`deaLicense.${index}.state`}
-                    options={medicalSpecialtyOptions}
+                    options={stateOptions}
                     label="State"
                     placeholder="Select State"
                     triggerClassName="w-full min-h-[50px]"
