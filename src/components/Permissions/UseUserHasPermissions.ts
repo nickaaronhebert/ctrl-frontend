@@ -1,13 +1,12 @@
-import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { selectCurrentUser } from "@/redux/slices/auth";
+import useAuthentication from "@/hooks/use-authentication";
 import { canAccess } from "./CheckPermission";
 
 export function useUserHasPermission(
   resource: string,
   action: string
 ): boolean {
-  const user = useSelector(selectCurrentUser);
+  const { user } = useAuthentication();
   const [hasPermission, setHasPermission] = useState(false);
 
   useEffect(() => {

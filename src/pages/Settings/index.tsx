@@ -5,13 +5,12 @@ import { userData } from "@/components/provider/user-data";
 import MedicalVerification from "@/components/provider/medical-verification/MedicalVerification";
 import AffiliationStatus from "@/components/provider/affiliation-status/AffiliationStatus";
 import EditProfileDialog from "@/components/common/EditProfileForm/EditProfileForm";
-import { useAppSelector } from "@/hooks/useAppSelector";
-import { selectCurrentUser } from "@/redux/slices/auth";
+import useAuthentication from "@/hooks/use-authentication";
 
 const Settings = () => {
   const [activeTab, setActiveTab] = useState("personal");
   const [editProfileOpen, setEditProfileOpen] = useState(false);
-  const user = useAppSelector(selectCurrentUser);
+  const { user } = useAuthentication();
 
   return (
     <>

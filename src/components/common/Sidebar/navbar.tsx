@@ -11,17 +11,16 @@ import LogoutSVG from "@/assets/icons/LogOut";
 import { useNavigate } from "react-router-dom";
 import { logout } from "@/redux/slices/auth";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
-import { useAppSelector } from "@/hooks/useAppSelector";
-import { selectCurrentUser } from "@/redux/slices/auth";
+import useAuthentication from "@/hooks/use-authentication";
 
 export default function Navbar() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const user = useAppSelector(selectCurrentUser);
+  const { user } = useAuthentication();
 
   const handleLogout = () => {
     dispatch(logout());
-    navigate("/");
+    window.location.href = "/";
   };
 
   return (

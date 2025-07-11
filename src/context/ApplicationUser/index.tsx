@@ -3,7 +3,8 @@ import { selectIsLoggedIn } from "@/redux/slices/auth";
 
 import { useTypedSelector } from "@/redux/store";
 import type { UserDetails } from "@/types/responses/user-details";
-import { createContext, useContext, useMemo } from "react";
+import { createContext, useContext } from "react";
+import { Navigate } from "react-router-dom";
 
 export interface IApplicationUserContext {
   user: UserDetails | null;
@@ -29,6 +30,7 @@ export const useApplicationUserContext = () => {
 
 export const ApplicationUserContextProvider = (props: any) => {
   const isLoggedIn = useTypedSelector(selectIsLoggedIn);
+  console.log(isLoggedIn, ">auth_token>>>>>>>>>>>>>>>>>>");
 
   const { data: userData, isLoading: isUserDataLoading } =
     useCurrentUserDataQuery(undefined, {
@@ -41,18 +43,14 @@ export const ApplicationUserContextProvider = (props: any) => {
       },
     });
 
-  const user = useMemo<UserDetails | null>(() => {
-    if (isUserDataLoading || !userData) {
-      return null;
-    }
-
-    return userData;
-  }, [isUserDataLoading, userData]);
+  if ((isUserDataLoading || !userData) && isLoggedIn) {
+    return <>LOADING!!</>;
+  }
 
   return (
     <ApplicationUserContext.Provider
       value={{
-        user: user,
+        user: userData ?? null,
         isLoading: isUserDataLoading,
         isLoggedIn,
       }}

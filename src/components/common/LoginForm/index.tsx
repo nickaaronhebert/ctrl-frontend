@@ -5,17 +5,15 @@ import { loginSchema, type LoginFormValues } from "@/schemas/loginSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "react-router-dom";
 import { ROUTES } from "@/constants/routes";
-import { useNavigate } from "react-router-dom";
 import InputField from "../InputField/InputField";
 import { useLoginMutation } from "@/redux/services/authApi";
-import { setCredentials } from "@/redux/slices/auth";
-import { useAppDispatch } from "@/hooks/useAppDispatch";
 import AuthHeader from "../AuthHeader/AuthHeader";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
-  const navigate = useNavigate();
   const [login] = useLoginMutation();
-  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const form = useForm<LoginFormValues>({
     mode: "onChange",
@@ -31,31 +29,22 @@ const LoginForm = () => {
   } = form;
 
   const onSubmit = async (values: LoginFormValues) => {
+    console.log("Email", values.email);
+    console.log("Password", values.password);
     try {
       const response = await login({
         username: values.email,
         password: values.password,
       }).unwrap();
-
-      if (response) {
-        dispatch(
-          setCredentials({
-            user: response?.data?.user,
-            token: response?.data?.access_token,
-          })
-        );
-        form.reset();
-        navigate(ROUTES.DASHBOARD);
-      } else {
-        console.error("Login failed: No response received");
-        return;
-      }
+      console.log("response", response);
+      form.reset();
+      toast.success("Login Successful");
+      navigate("/provider/warning");
     } catch (error) {
       console.error("Login failed:", error);
-      return;
+      toast.error("Something went wrong");
     }
   };
-
   return (
     <div className="w-full max-w-lg">
       <div className="bg-white rounded-3xl shadow-sm border border-gray-200 p-8">

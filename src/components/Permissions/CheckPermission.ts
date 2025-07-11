@@ -1,7 +1,7 @@
-import { type User } from "@/types/global/commonTypes";
+import type { UserDetails } from "@/types/responses/user-details";
 
 export function canAccess(
-  user: User | undefined,
+  user: UserDetails | undefined,
   resource: string,
   action: string
 ): boolean {

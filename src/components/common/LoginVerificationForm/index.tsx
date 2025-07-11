@@ -3,8 +3,7 @@ import { Form, FormField } from "@/components/ui/form";
 import CTRLLogo from "../CTRLLogo";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useAppSelector } from "@/hooks/useAppSelector";
-import { selectCurrentUser } from "@/redux/slices/auth";
+import useAuthentication from "@/hooks/use-authentication";
 import {
   InputOTP,
   InputOTPGroup,
@@ -13,7 +12,7 @@ import {
 import { otpSchema, type OTPFormValues } from "@/schemas/otpSchema";
 
 const LoginVerificationForm = () => {
-  const user = useAppSelector(selectCurrentUser);
+  const { user } = useAuthentication();
 
   const form = useForm<OTPFormValues>({
     mode: "onChange",

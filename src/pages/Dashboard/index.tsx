@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
 import { Calendar, ArrowUpRight, ArrowDownRight, Clock } from "lucide-react";
-import { useAppSelector } from "@/hooks/useAppSelector";
-import { selectCurrentUser } from "@/redux/slices/auth";
+import useAuthentication from "@/hooks/use-authentication";
 import CTRLLogo from "@/components/common/CTRLLogo";
 
 const Dashboard = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
-  const user = useAppSelector(selectCurrentUser);
+  const { user } = useAuthentication();
 
   useEffect(() => {
     const timer = setInterval(() => {

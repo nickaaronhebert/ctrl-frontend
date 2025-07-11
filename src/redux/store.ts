@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { baseApi } from "./services";
 import authReducer from "@/redux/slices/auth";
-import providerReducer from "@/redux/slices/provider";
+// import providerReducer from "@/redux/slices/provider";
 import {
   useDispatch,
   useSelector,
@@ -12,7 +12,7 @@ export const store = configureStore({
   reducer: {
     [baseApi.reducerPath]: baseApi.reducer,
     auth: authReducer,
-    provider: providerReducer,
+    // provider: providerReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(baseApi.middleware),

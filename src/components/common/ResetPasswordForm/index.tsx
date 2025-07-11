@@ -7,12 +7,16 @@ import {
   type PasswordFormValues,
 } from "@/schemas/resetPasswordSchema";
 import { useNavigate } from "react-router-dom";
-import { ROUTES } from "@/constants/routes";
 import InputField from "../InputField/InputField";
 import AuthHeader from "../AuthHeader/AuthHeader";
+import { useResetPasswordMutation } from "@/redux/services/authApi";
+import { toast } from "sonner";
 
-const ResetPasswordForm = () => {
+const ResetPasswordForm = ({ token }: any) => {
+  console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", token);
+
   const navigate = useNavigate();
+  const [resetPassword] = useResetPasswordMutation();
 
   const form = useForm<PasswordFormValues>({
     mode: "onChange",
@@ -27,11 +31,31 @@ const ResetPasswordForm = () => {
     formState: { isDirty, isValid, isSubmitting },
   } = form;
 
-  const onSubmit = async (values: PasswordFormValues) => {
-    console.log("Form submitted:", values);
-    await new Promise((res) => setTimeout(res, 1000));
-    form.reset();
-    navigate(ROUTES.HOME);
+  const onSubmit = async (data: {
+    password: string;
+    confirmPassword: string;
+  }) => {
+    if (!token) {
+      toast.error("Invalid or missing reset token.");
+      return;
+    }
+
+    if (data.password !== data.confirmPassword) {
+      toast.error("Passwords do not match.");
+      return;
+    }
+
+    try {
+      await resetPassword({
+        password: data.password,
+        token,
+      }).unwrap();
+
+      toast.success("Password reset successful!");
+      navigate("/");
+    } catch (error) {
+      toast.error("Failed to reset password. Please try again.");
+    }
   };
 
   return (

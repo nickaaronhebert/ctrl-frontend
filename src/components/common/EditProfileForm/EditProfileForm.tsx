@@ -17,10 +17,10 @@ import {
   type EditProfile,
 } from "@/schemas/editProfileSchema";
 import InputField from "../InputField/InputField";
-import { type User } from "@/types/global/commonTypes";
+import type { UserDetails } from "@/types/responses/user-details";
 
 interface EditProfileDialogProps {
-  user: User;
+  user: UserDetails;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
 }

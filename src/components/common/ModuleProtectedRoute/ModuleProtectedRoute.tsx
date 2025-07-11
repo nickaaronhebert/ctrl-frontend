@@ -1,7 +1,7 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-import { selectCurrentUser } from "@/redux/slices/auth";
+// import { selectCurrentUser } from "@/redux/slices/auth";
+import useAuthentication from "@/hooks/use-authentication";
 import { ROUTES } from "@/constants/routes";
 
 interface PermissionCheck {
@@ -19,14 +19,15 @@ const ModuleProtectedRoute: React.FC<ModuleProtectedRouteProps> = ({
   element,
   permissions,
 }) => {
-  const user = useSelector(selectCurrentUser);
+  const { user } = useAuthentication();
+  console.log("MyUserrrrrrrrrrrrrr", user);
 
   if (!user) {
     return <Navigate to="/" replace />;
   }
 
   const hasAllPermissions = permissions.every(({ resource, permission }) =>
-    user.role?.permissions?.some(
+    user!?.role?.permissions?.some(
       (p) => p.resource === resource && p.action === permission
     )
   );

@@ -10,9 +10,13 @@ import { useNavigate } from "react-router-dom";
 import { ROUTES } from "@/constants/routes";
 import InputField from "../InputField/InputField";
 import AuthHeader from "../AuthHeader/AuthHeader";
+import { useRequestPasswordResetMutation } from "@/redux/services/authApi";
+import { toast } from "sonner";
 
 const ForgotPasswordForm = () => {
   const navigate = useNavigate();
+  const [requestPasswordReset] = useRequestPasswordResetMutation();
+
   const form = useForm<ForgotPasswordFormValues>({
     mode: "onChange",
     resolver: zodResolver(forgotPasswordSchema),
@@ -22,9 +26,22 @@ const ForgotPasswordForm = () => {
   });
 
   const onSubmit = async (values: ForgotPasswordFormValues) => {
-    console.log("Form submitted:", values);
-    await new Promise((res) => setTimeout(res, 1000));
-    form.reset();
+    try {
+      const response = await requestPasswordReset({
+        email: values.email,
+      }).unwrap();
+
+      if (response && response.statusCode === 200) {
+        toast.success("Reset link sent successfully to your email.");
+        form.reset();
+        navigate(ROUTES.RESET_LINK);
+      }
+    } catch (error) {
+      const err = error as { data?: { message?: string } };
+      const message =
+        err?.data?.message || "Failed to send reset link. Please try again.";
+      toast.error(message);
+    }
   };
 
   return (

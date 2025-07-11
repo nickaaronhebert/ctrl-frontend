@@ -1,9 +1,9 @@
 import { Mail, Phone, User } from "lucide-react";
-import type { User as CurrentUser } from "@/types/global/commonTypes";
+import type { UserDetails } from "@/types/responses/user-details";
 
 interface PersonalDetailsProps {
   onEditProfile: () => void;
-  user: CurrentUser;
+  user: UserDetails;
 }
 
 const PersonalDetails = ({ onEditProfile, user }: PersonalDetailsProps) => {

@@ -5,6 +5,7 @@ export interface LoginResponse {
     access_token: string;
     user: User;
   };
+  statusCode: number;
 }
 
 export interface SSOProviderOnboardResponse {
@@ -21,9 +22,10 @@ export interface LogoutResponse {
 }
 
 export interface RequestPasswordResetResponse {
-  status: string;
+  access_token: string;
+  statusCode: number;
 }
 
 export interface ResetPasswordResponse {
-  status: string;
+  access_token: string;
 }

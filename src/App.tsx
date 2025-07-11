@@ -32,8 +32,8 @@ const router = createBrowserRouter([
         element={<SidebarLayout />}
         permissions={[
           {
-            resource: MODULE.DASHBOARD,
-            permission: PERMISSIONS.READ,
+            resource: MODULE.PROVIDER,
+            permission: PERMISSIONS.WRITE,
           },
         ]}
       />
