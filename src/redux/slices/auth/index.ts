@@ -1,50 +1,57 @@
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { User } from "@/types/global/commonTypes";
-import type { RootState } from "@/redux/store";
+import { createSlice } from "@reduxjs/toolkit";
 
-export const AUTH_KEY = "auth";
+import { authApi } from "@/redux/services/authApi";
+import type { RootState } from "@/redux/reducers";
+export const AUTH_TOKEN = "auth_token";
 
-const persistedAuth =
-  localStorage.getItem(AUTH_KEY) || sessionStorage.getItem(AUTH_KEY);
+const persistedToken =
+  localStorage.getItem(AUTH_TOKEN) || sessionStorage.getItem(AUTH_TOKEN);
 
 interface AuthState {
-  user: (User & { token?: string }) | null;
+  token: string | null;
 }
 
 const initialState: AuthState = {
-  user: persistedAuth ? JSON.parse(persistedAuth) : null,
+  token: persistedToken ? JSON.parse(persistedToken) : null,
 };
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setCredentials: (
-      state,
-      action: PayloadAction<{ user: User; token: string }>
-    ) => {
-      state.user = { ...action.payload.user, token: action.payload.token };
-      sessionStorage.setItem(
-        AUTH_KEY,
-        JSON.stringify({ ...action.payload.user, token: action.payload.token })
-      );
-      localStorage.setItem(
-        AUTH_KEY,
-        JSON.stringify({ ...action.payload.user, token: action.payload.token })
-      );
-    },
-    logout: (state) => {
-      state.user = null;
-      sessionStorage.removeItem(AUTH_KEY);
-      localStorage.removeItem(AUTH_KEY);
+    logout: () => {
+      sessionStorage.removeItem(AUTH_TOKEN);
+      localStorage.removeItem(AUTH_TOKEN);
     },
   },
+  extraReducers(builder) {
+    builder.addMatcher(
+      authApi.endpoints.login.matchFulfilled,
+      (state, { payload }) => {
+        if (payload?.data.access_token) {
+          state.token = payload?.data.access_token;
+
+          sessionStorage.setItem(
+            AUTH_TOKEN,
+            JSON.stringify(payload?.data.access_token)
+          );
+          localStorage.setItem(
+            AUTH_TOKEN,
+            JSON.stringify(payload?.data.access_token)
+          );
+        } else {
+          state.token = null;
+          state.token = "";
+
+          localStorage.removeItem(AUTH_TOKEN);
+          sessionStorage.removeItem(AUTH_TOKEN);
+        }
+      }
+    );
+  },
 });
-export const selectCurrentUser = (state: RootState) => {
-  const user = state.auth.user;
-  return user && typeof user.token === "string" && user.token.trim()
-    ? user
-    : null;
-};
-export const { setCredentials, logout } = authSlice.actions;
+
+export const selectIsLoggedIn = (state: RootState) => !!state.auth.token;
+
+export const { logout } = authSlice.actions;
 export default authSlice.reducer;

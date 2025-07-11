@@ -8,6 +8,7 @@ export interface UserPermission {
 }
 
 export interface Role {
+  name: string;
   permissions: UserPermission[];
   id: string;
 }
@@ -21,4 +22,11 @@ export interface User {
   createdAt: string;
   updatedAt: string;
   id: string;
+}
+
+export interface Provider {
+  firstName?: string;
+  lastName?: string;
+  email: string;
+  phoneNUmber: string;
 }
