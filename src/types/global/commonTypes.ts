@@ -28,5 +28,7 @@ export interface Provider {
   firstName?: string;
   lastName?: string;
   email: string;
-  phoneNUmber: string;
+  phoneNUmber?: string;
+  npi: string;
+  id: string;
 }

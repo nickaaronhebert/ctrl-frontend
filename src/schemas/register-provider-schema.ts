@@ -28,7 +28,7 @@ export const passwordSchema = z
 
 export const registerProviderFormSchema = z
   .object({
-    phone: z.string(),
+    phoneNumber: z.string(),
     firstName: z
       .string()
       .min(3, {

@@ -51,6 +51,7 @@
   --color-alert: var(--alert);
   --color-alert-border: var(--alert-border);
   --color-primary-light: var(--primary-light);
+  --color-disabled: var(--disabled);
 }
 
 :root {
@@ -97,6 +98,7 @@
   --alert: hsla(39, 93%, 45%, 1);
   --alert-border: hsla(39, 100%, 86%, 1);
   --primary-light: hsla(273, 71%, 84%, 1);
+  --disabled: hsla(267, 4%, 77%, 1);
 }
 
 .dark {
