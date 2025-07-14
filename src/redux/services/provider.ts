@@ -17,10 +17,19 @@ export const providerApi = baseApi.injectEndpoints({
         body,
       }),
     }),
+
+    acceptProviderMedicalCredentials: builder.mutation<any, any>({
+      query: (body) => ({
+        url: `/user/medical-credentials`,
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
 export const {
   useVerifyProviderInvitationMutation,
   useAcceptProviderInvitationMutation,
+  useAcceptProviderMedicalCredentialsMutation,
 } = providerApi;

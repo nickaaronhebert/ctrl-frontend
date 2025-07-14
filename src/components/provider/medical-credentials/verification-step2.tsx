@@ -1,4 +1,3 @@
-import { cn } from "@/lib/utils";
 import {
   FormControl,
   FormField,
@@ -12,60 +11,22 @@ import { useFormContext } from "react-hook-form";
 import { useMultiStepForm } from "@/hooks/usemultistepForm";
 import { useEffect, useState } from "react";
 import ConfirmDetails from "./confirm-details";
+import PersonalDetail from "./personal-detail";
 
-const personalInfo = [
-  {
-    label: "Full Name",
-    name: "John Smith",
-  },
-  {
-    label: "Email",
-    name: "John@example.com",
-  },
-  {
-    label: "Phone",
-    name: "licenseNumber",
-  },
-];
-
-const medicalCredentialsInfo = [
-  {
-    label: "National Provider Identifier(NPI)",
-    value: "nationalProviderIdentifier",
-  },
-];
-
-const medicalLicenses = [
-  {
-    label: "California",
-    value: "CA-PH-001234",
-  },
-  {
-    label: "Texas",
-    value: "CA-PH-001234",
-  },
-];
-
-const deaLicenses = [
-  {
-    label: "California",
-    value: "F91234563",
-  },
-  {
-    label: "Texas",
-    value: "F32112332",
-  },
-];
 export default function VerificationStepTwo() {
   const [isValid, setIsValid] = useState(false);
 
-  const { onSubmit, handleBack } = useMultiStepForm();
+  const { onSubmit, handleBack, fullName, email, phone, isLoading } =
+    useMultiStepForm();
+
   const { formState } = useFormContext();
+  const formData = localStorage.getItem("formData");
+  const parsedData = formData ? JSON.parse(formData) : null;
 
   useEffect(() => {
     if (formState.errors.termsAndConditions) setIsValid(false);
     else {
-      if (formState.isDirty) setIsValid(true);
+      if (formState.dirtyFields.termsAndConditions) setIsValid(true);
     }
   }, [formState]);
 
@@ -80,94 +41,66 @@ export default function VerificationStepTwo() {
           <h2 className="font-semibold text-2xl  bg-secondary p-4 rounded-tl-xl rounded-tr-xl ">
             Personal Information
           </h2>
-          {personalInfo.map((info, index) => (
-            <div className="px-4 " key={info.name}>
-              <div
-                key={info.name}
-                className={cn(
-                  "flex justify-between mb-2  pt-3.5 ",
-                  index !== personalInfo.length - 1
-                    ? "pb-4 border-b border-gray-200"
-                    : ""
-                )}
-              >
-                <span className="font-semibold text-muted-foreground text-base">
-                  {info.label}:
-                </span>
-                <span className="text-primary-foreground font-semibold text-base">
-                  {info.name}
-                </span>
-              </div>
-            </div>
-          ))}
+          <PersonalDetail
+            label="Full Name"
+            value={fullName}
+            containerClass="pb-4 border-b border-gray-200"
+          />
+          <PersonalDetail
+            label="Email"
+            value={email}
+            containerClass="pb-4 border-b border-gray-200"
+          />
+          <PersonalDetail label="Phone" value={phone} />
         </div>
 
-        <div className="mt-6 rounded-xl  border-2 border-gray-200 w-[650px]">
-          <h2 className="font-semibold text-2xl  bg-secondary p-4 rounded-tl-xl rounded-tr-xl flex justify-between items-center">
-            Medical Credentials
-            <span
-              className="p-1 border-2 border-secondary-foreground text-sm w-14 rounded-[4px] text-center cursor-pointer"
-              onClick={handleBack}
-            >
-              EDIT
-            </span>
-          </h2>
-
-          <ConfirmDetails
-            field={medicalCredentialsInfo}
-            fieldClass="flex justify-between mb-2  pt-3.5"
-            lastIndexClass=""
-            indexClass="pb-4 border-b border-gray-200"
-            labelClass="font-semibold text-muted-foreground text-base"
-            valueClass="text-primary-foreground font-semibold text-base"
-          />
-
-          <h6 className="px-4 mb-1 mt-7 font-medium text-base">
-            Medical License ({medicalLicenses.length})
-          </h6>
-          <ConfirmDetails
-            field={medicalLicenses}
-            fieldClass="flex justify-between  p-3.5 bg-light-background"
-            labelClass="font-semibold text-muted-foreground text-base"
-            valueClass="text-primary-foreground font-semibold text-base"
-            lastIndexClass="border border-gray-200 border-t-0 mb-4"
-            indexClass="border border-gray-200"
-            indexRequired={true}
-          />
-
-          <h6 className="px-4 mb-1 mt-7 font-medium text-base">
-            DEA Number ({deaLicenses.length})
-          </h6>
-          <ConfirmDetails
-            field={deaLicenses}
-            fieldClass="flex justify-between  p-3.5 bg-light-background"
-            labelClass="font-semibold text-muted-foreground text-base"
-            valueClass="text-primary-foreground font-semibold text-base"
-            lastIndexClass="border border-gray-200 border-t-0 mb-4"
-            indexClass="border border-gray-200"
-            indexRequired={true}
-          />
-
-          {/* {medicalLicenses.map((info, index) => (
-            <div className="px-4" key={index}>
-              <div
-                className={cn(
-                  "flex justify-between  p-3.5 bg-light-background",
-                  index !== medicalLicenses.length - 1
-                    ? " border border-gray-200"
-                    : "border border-gray-200 border-t-0 mb-4"
-                )}
+        {parsedData && (
+          <div className="mt-6 rounded-xl  border-2 border-gray-200 w-[650px]">
+            <h2 className="font-semibold text-2xl  bg-secondary p-4 rounded-tl-xl rounded-tr-xl flex justify-between items-center">
+              Medical Credentials
+              <span
+                className="p-1 border-2 border-secondary-foreground text-sm w-14 rounded-[4px] text-center cursor-pointer"
+                onClick={handleBack}
               >
-                <span className="font-semibold text-muted-foreground text-base">
-                  {`${index + 1}. ${info.state}`}
-                </span>
-                <span className="text-primary-foreground font-semibold text-base">
-                  {info.licenseNumber}
-                </span>
-              </div>
-            </div>
-          ))} */}
-        </div>
+                EDIT
+              </span>
+            </h2>
+
+            {parsedData.medicalLicense && (
+              <>
+                <h6 className="px-4 mb-1 mt-7 font-medium text-base">
+                  Medical License ({parsedData.medicalLicense.length})
+                </h6>
+                <ConfirmDetails
+                  field={parsedData.medicalLicense}
+                  fieldClass="flex justify-between  p-3.5 bg-light-background"
+                  labelClass="font-semibold text-muted-foreground text-base"
+                  valueClass="text-primary-foreground font-semibold text-base"
+                  lastIndexClass="border border-gray-200 border-t-0 mb-4"
+                  indexClass="border border-gray-200"
+                  indexRequired={true}
+                />
+              </>
+            )}
+
+            {parsedData.deaLicense && (
+              <>
+                <h6 className="px-4 mb-1 mt-7 font-medium text-base">
+                  DEA Number ({parsedData.deaLicense.length})
+                </h6>
+                <ConfirmDetails
+                  field={parsedData.deaLicense}
+                  fieldClass="flex justify-between  p-3.5 bg-light-background"
+                  labelClass="font-semibold text-muted-foreground text-base"
+                  valueClass="text-primary-foreground font-semibold text-base"
+                  lastIndexClass="border border-gray-200 border-t-0 mb-4"
+                  indexClass="border border-gray-200"
+                  indexRequired={true}
+                />
+              </>
+            )}
+          </div>
+        )}
 
         <div className="my-6 w-[650px]">
           <FormField
@@ -196,7 +129,7 @@ export default function VerificationStepTwo() {
           <Button
             type="submit"
             onClick={onSubmit}
-            disabled={!isValid}
+            disabled={!isValid || isLoading}
             className="text-white rounded-full py-2.5 px-7 min-h-14 text-base font-semibold"
           >
             Complete Registration

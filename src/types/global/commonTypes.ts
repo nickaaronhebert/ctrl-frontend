@@ -32,3 +32,9 @@ export interface Provider {
   npi: string;
   id: string;
 }
+
+export type PROVIDER_STATUS = {
+  INVITED: "invited";
+  INVITATION_ACCEPTED: "invitation_accepted";
+  MED_SUBMITTED: "med_submitted";
+};
