@@ -47,6 +47,30 @@ export const completeMedicalVerificationSchema = stepSchemas.reduce(
   z.object({})
 );
 
+export const addMedicalLicenseSchema = z.object({
+  medicalLicense: z.array(
+    z.object({
+      state: z
+        .string({ required_error: "State is required" })
+        .min(2, { message: "State is required" }),
+      licenseNumber: z
+        .string({ required_error: "License Number is required" })
+        .min(2, { message: "License Number is required" }),
+    })
+  ),
+
+  deaLicense: z.array(
+    z.object({
+      state: z
+        .string({ required_error: "State is required" })
+        .min(2, { message: "State is required" }),
+      registrationNumber: z
+        .string({ required_error: "License Number is required" })
+        .min(2, { message: "License Number is required" }),
+    })
+  ),
+});
+
 export type CompleteMedicalVerificationSchemaType = z.infer<
   typeof completeMedicalVerificationSchema
 >;

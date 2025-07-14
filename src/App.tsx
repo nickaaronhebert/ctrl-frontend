@@ -45,14 +45,14 @@ const router = createBrowserRouter([
         path: "warning",
         element: <PrescriptionPage />,
       },
-      {
-        path: "start-verification",
-        element: <CompleteVerification />,
-      },
-      {
-        path: "complete-verification",
-        element: <SuccessfullVerification />,
-      },
+      // {
+      //   path: "start-verification",
+      //   element: <CompleteVerification />,
+      // },
+      // {
+      //   path: "complete-verification",
+      //   element: <SuccessfullVerification />,
+      // },
       {
         path: "pending-approval",
         element: <PendingApproval />,

@@ -11,7 +11,7 @@ import InsertIconSVG from "@/assets/icons/Insert";
 import { Link } from "react-router-dom";
 import { STEPPER_FORM } from "@/constants/routes";
 
-const stateOptions = [
+export const stateOptions = [
   { value: "alabama", label: "Alabama" },
   { value: "alaska", label: "Alaska" },
   { value: "arizona", label: "Arizona" },
