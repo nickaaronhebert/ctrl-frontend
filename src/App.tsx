@@ -20,24 +20,27 @@ import Settings from "./pages/Settings";
 import CompleteVerification from "./pages/Prescription/initiate-verification";
 import SuccessfullVerification from "./pages/Prescription/complete-verification";
 import PendingApproval from "./pages/Prescription/pending-approval";
-import ModuleProtectedRoute from "./components/common/ModuleProtectedRoute/ModuleProtectedRoute";
-import { MODULE, PERMISSIONS } from "./components/Permissions/permissions";
+// import ModuleProtectedRoute from "./components/common/ModuleProtectedRoute/ModuleProtectedRoute";
+// import { MODULE, PERMISSIONS } from "./components/Permissions/permissions";
 import Support from "./pages/Support/page";
+import Redirect from "./components/provider/redirect";
+import RoleChecker from "./guard/RoleChecker";
 
 const router = createBrowserRouter([
   {
     path: "/provider",
-    element: (
-      <ModuleProtectedRoute
-        element={<SidebarLayout />}
-        permissions={[
-          {
-            resource: MODULE.DASHBOARD,
-            permission: PERMISSIONS.READ,
-          },
-        ]}
-      />
-    ),
+    element: <SidebarLayout />,
+    // element: (
+    //   <ModuleProtectedRoute
+    //     element={<SidebarLayout />}
+    //     permissions={[
+    //       {
+    //         resource: MODULE.DASHBOARD,
+    //         permission: PERMISSIONS.READ,
+    //       },
+    //     ]}
+    //   />
+    // ),
     children: [
       {
         path: "warning",
@@ -65,14 +68,15 @@ const router = createBrowserRouter([
       },
     ],
   },
-  {
-    element: <OnboardingLayout />,
-    children: [
-      {
-        path: ROUTES.ONBOARDING,
-        element: <RegisterProvider />,
-      },
 
+  {
+    element: (
+      <RoleChecker
+        element={<OnboardingLayout />}
+        providerStatus={"invitation_accepted"}
+      />
+    ),
+    children: [
       {
         path: ROUTES.WELCOME,
         element: <WelcomeProvider />,
@@ -85,9 +89,34 @@ const router = createBrowserRouter([
         path: "/skip-verification",
         element: <SkipMedicalVerification />,
       },
+    ],
+  },
+
+  {
+    element: (
+      <RoleChecker
+        element={<OnboardingLayout />}
+        providerStatus={"med_submitted"}
+      />
+    ),
+    children: [
       {
         path: "/onboarding-success",
         element: <OnboardingSuccess />,
+      },
+    ],
+  },
+  {
+    element: <OnboardingLayout />,
+    children: [
+      {
+        path: ROUTES.ONBOARDING,
+        element: <RegisterProvider />,
+      },
+
+      {
+        path: "/redirect",
+        element: <Redirect />,
       },
     ],
   },
