@@ -43,7 +43,7 @@ const PersonalDetails = ({ onEditProfile, user }: PersonalDetailsProps) => {
           <div className="flex items-center">
             <Phone className="w-5 h-5 text-primary mr-1" />
             <span className="text-secondary-foreground font-medium text-[18px] leading-[26px]">
-              +1-123-456-7890
+              {user.phoneNumber}
             </span>
           </div>
         </div>

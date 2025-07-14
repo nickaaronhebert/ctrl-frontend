@@ -8,7 +8,7 @@ export const PERMISSIONS = {
 export const MODULE = {
   DASHBOARD: "business",
   PROFILE: "profile",
-  PROVIDER: "provider-group-invitation",
+  PROVIDER: "me",
 };
 
 export type AvailableModules = keyof typeof MODULE;

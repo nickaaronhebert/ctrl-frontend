@@ -32,7 +32,11 @@ const ModuleProtectedRoute: React.FC<ModuleProtectedRouteProps> = ({
     )
   );
 
-  return hasAllPermissions ? element : <Navigate to={ROUTES.UNAUTHORIZED} />;
+  return hasAllPermissions ? (
+    element
+  ) : (
+    <Navigate to={ROUTES.UNAUTHORIZED} replace />
+  );
 };
 
 export default ModuleProtectedRoute;

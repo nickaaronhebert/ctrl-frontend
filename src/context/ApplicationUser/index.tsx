@@ -4,7 +4,6 @@ import { selectIsLoggedIn } from "@/redux/slices/auth";
 import { useTypedSelector } from "@/redux/store";
 import type { UserDetails } from "@/types/responses/user-details";
 import { createContext, useContext } from "react";
-import { Navigate } from "react-router-dom";
 
 export interface IApplicationUserContext {
   user: UserDetails | null;

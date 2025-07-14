@@ -1,4 +1,5 @@
-import type { User } from "../global/commonTypes";
+import type { Business, User } from "../global/commonTypes";
+import type { UserDetails } from "./user-details";
 
 export interface LoginResponse {
   data: {
@@ -28,4 +29,17 @@ export interface RequestPasswordResetResponse {
 
 export interface ResetPasswordResponse {
   access_token: string;
+}
+
+export interface EditProfileResponse extends UserDetails {
+  phoneNumber: string;
+  password: string;
+  business: Business;
+  organizations: string[];
+  medicalLicense: string[];
+  deaNumber: string[];
+  otpSecret: string;
+  emailOtpSecret: string;
+  createdAt: Date;
+  updatedAt: Date;
 }

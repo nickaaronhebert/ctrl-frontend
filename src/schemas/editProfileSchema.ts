@@ -17,7 +17,7 @@ export const editProfileSchema = z.object({
     .min(2, {
       message: "Last name must be at least 2 characters.",
     }),
-  phone: z
+  phoneNumber: z
     .string()
     .min(1, {
       message: "Phone number is required.",

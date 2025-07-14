@@ -25,3 +25,10 @@ export interface ResetPasswordRequest {
   resetToken: string;
   newPassword: string;
 }
+
+export interface EditProfileRequest {
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  email?: string;
+}

@@ -22,5 +22,5 @@ export const baseApi = createApi({
   }),
   endpoints: () => ({}),
   reducerPath: "api",
-  // tagTypes: ["User", "Prescription", "Provider"],
+  tagTypes: ["CurrentUser"],
 });

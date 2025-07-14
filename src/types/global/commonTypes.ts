@@ -30,3 +30,13 @@ export interface Provider {
   email: string;
   phoneNUmber: string;
 }
+
+export interface Business {
+  id: string;
+  type: string;
+  name: string;
+  email: string;
+  phoneNumber: string;
+  status: "active" | "inactive" | string;
+  createdBy: Record<string, any>;
+}

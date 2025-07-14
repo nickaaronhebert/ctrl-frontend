@@ -10,6 +10,7 @@ const userProfileApi = baseApi.injectEndpoints({
           method: "get",
         };
       },
+      providesTags: ["CurrentUser"],
     }),
   }),
 });

@@ -4,7 +4,7 @@ import {
   type LoginRequest,
   type SSOProviderOnboardRequest,
   type RequestPasswordResetRequest,
-  type ResetPasswordRequest,
+  type EditProfileRequest,
 } from "@/types/requests";
 import {
   type LoginResponse,
@@ -12,6 +12,7 @@ import {
   type LogoutResponse,
   type RequestPasswordResetResponse,
   type ResetPasswordResponse,
+  type EditProfileResponse,
 } from "@/types/responses";
 
 export const authApi = baseApi.injectEndpoints({
@@ -75,6 +76,15 @@ export const authApi = baseApi.injectEndpoints({
         },
       }),
     }),
+
+    editProfile: builder.mutation<EditProfileResponse, EditProfileRequest>({
+      query: (body) => ({
+        url: "/user",
+        method: "PUT",
+        body,
+      }),
+      invalidatesTags: ["CurrentUser"],
+    }),
   }),
   overrideExisting: false,
 });
@@ -85,4 +95,5 @@ export const {
   useLogoutMutation,
   useRequestPasswordResetMutation,
   useResetPasswordMutation,
+  useEditProfileMutation,
 } = authApi;

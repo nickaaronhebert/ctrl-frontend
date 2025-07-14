@@ -33,7 +33,7 @@ const router = createBrowserRouter([
         permissions={[
           {
             resource: MODULE.PROVIDER,
-            permission: PERMISSIONS.WRITE,
+            permission: PERMISSIONS.READ,
           },
         ]}
       />

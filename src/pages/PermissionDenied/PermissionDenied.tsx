@@ -7,7 +7,7 @@ const PermissionDenied = () => {
   const navigate = useNavigate();
 
   const handleGoBack = () => {
-    navigate(-1);
+    navigate(-1); // go to previous page in history
   };
 
   const handleGoHome = () => {

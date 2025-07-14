@@ -18,6 +18,9 @@ import {
 } from "@/schemas/editProfileSchema";
 import InputField from "../InputField/InputField";
 import type { UserDetails } from "@/types/responses/user-details";
+import { useEditProfileMutation } from "@/redux/services/authApi";
+import { toast } from "sonner";
+import { useEffect } from "react";
 
 interface EditProfileDialogProps {
   user: UserDetails;
@@ -35,17 +38,32 @@ export default function EditProfileDialog({
     defaultValues: {
       firstName: user.firstName,
       lastName: user.lastName,
-      phone: "+1-123-456-7890",
+      phoneNumber: user.phoneNumber,
       email: user.email,
     },
   });
 
-  function onSubmit(values: EditProfile) {
-    console.log("Form submitted:", values);
-    // Handle form submission here
-    onOpenChange?.(false);
-  }
+  const [editProfile, { isSuccess, isError }] = useEditProfileMutation();
 
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Profile Updated Successfully");
+      onOpenChange?.(false);
+    }
+
+    if (isError) {
+      toast.error("Something went wrong");
+    }
+  }, [isSuccess, isError]);
+
+  async function onSubmit(values: EditProfile) {
+    const { email, ...payload } = values;
+    try {
+      await editProfile(payload).unwrap();
+    } catch (err) {
+      console.error("Update error:", err);
+    }
+  }
   function onCancel() {
     form.reset();
     onOpenChange?.(false);
@@ -99,7 +117,7 @@ export default function EditProfileDialog({
 
               <FormField
                 control={form.control}
-                name="phone"
+                name="phoneNumber"
                 render={({ field }) => (
                   <InputField
                     {...field}
@@ -119,6 +137,7 @@ export default function EditProfileDialog({
                 render={({ field }) => (
                   <InputField
                     {...field}
+                    disabled
                     name="email"
                     label="Email"
                     type="email"
