@@ -10,16 +10,24 @@ import { CenteredRow } from "@/components/ui/centered-row";
 import InputElement from "@/components/Form/input-element";
 import { useNavigate } from "react-router-dom";
 import PasswordInputElement from "@/components/Form/password-element";
+import { useTypedSelector } from "@/redux/store";
+
+import { useAcceptProviderInvitationMutation } from "@/redux/services/provider";
+import { selectProvider } from "@/redux/slices/auth";
 
 export default function RegisterProvider() {
+  const provider = useTypedSelector(selectProvider);
+  const provider_token = localStorage.getItem("provider_token");
+  const [acceptInvitation] = useAcceptProviderInvitationMutation();
+
   const form = useForm<z.infer<typeof registerProviderFormSchema>>({
     mode: "onChange",
     resolver: zodResolver(registerProviderFormSchema),
     defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      phone: "",
+      firstName: provider?.firstName || "",
+      lastName: provider?.lastName || "",
+      email: provider?.email || "",
+      phoneNumber: provider?.phoneNUmber || "",
       password: "",
       confirmPassword: "",
     },
@@ -28,8 +36,24 @@ export default function RegisterProvider() {
   const navigate = useNavigate();
   async function onSubmit(data: z.infer<typeof registerProviderFormSchema>) {
     console.log("Form Data:", data);
-    navigate("/welcome");
-    // Here you would typically send the data to your backend API
+    const { firstName, lastName, phoneNumber, password } = data;
+    const payload = {
+      firstName,
+      lastName,
+
+      phoneNumber,
+      password,
+      token: provider_token,
+    };
+    await acceptInvitation(payload)
+      .unwrap()
+      .then((res) => {
+        console.log("res", res);
+        navigate("/welcome");
+      })
+      .catch((err) => {
+        console.log("error", err);
+      });
   }
 
   return (
@@ -73,10 +97,12 @@ export default function RegisterProvider() {
               label="Email"
               isRequired={true}
               messageClassName="text-right"
+              disabled={true}
+              inputClassName="bg-disabled  border border-border"
             />
 
             <InputElement
-              name="phone"
+              name="phoneNumber"
               className="w-80"
               label="Phone"
               isRequired={true}

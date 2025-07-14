@@ -14,7 +14,8 @@ import VerificationStepTwo from "./medical-credentials/verification-step2";
 import type { MultiStepFormContextProps } from "@/types/credential-verification";
 import { ZodObject } from "zod";
 import { useNavigate } from "react-router-dom";
-import { STEPPER_FORM } from "@/constants/routes";
+import useAuthentication from "@/hooks/use-authentication";
+import { useAcceptProviderMedicalCredentialsMutation } from "@/redux/services/provider";
 
 type StepDefinition = {
   validationSchema: ZodObject<any>;
@@ -42,15 +43,19 @@ export const FormSteps: StepDefinition[] = [
 export default function ProviderSteppedForm({ slug }: ProviderStepperProps) {
   const [step, setStep] = useState(0);
   const [showMessage, setShowMessage] = useState(true);
+  const [acceptMedicalCredentials, { isLoading }] =
+    useAcceptProviderMedicalCredentialsMutation();
   const navigate = useNavigate();
   const totalSteps = FormSteps.length;
   const safeStep = step < FormSteps.length ? step : FormSteps.length - 1;
+  const { user } = useAuthentication();
+
   const form = useForm({
     mode: "onChange",
     resolver: zodResolver(FormSteps[safeStep].validationSchema),
 
     defaultValues: {
-      nationalProviderIdentifier: "",
+      nationalProviderIdentifier: user?.npi || "",
       medicalLicense: [
         {
           state: "",
@@ -73,7 +78,7 @@ export default function ProviderSteppedForm({ slug }: ProviderStepperProps) {
     console.log("handleNext called");
     const currentSchemas = FormSteps[safeStep].validationSchema;
     const currentStepData = form.getValues();
-
+    localStorage.setItem("formData", JSON.stringify(currentStepData));
     const currentValidation = currentSchemas.safeParse(currentStepData);
     if (currentValidation.success) {
       setStep(step + 1);
@@ -87,13 +92,27 @@ export default function ProviderSteppedForm({ slug }: ProviderStepperProps) {
     const result = completeMedicalVerificationSchema.safeParse(
       form.getValues()
     );
+
     if (result.success) {
       setStep(totalSteps);
+      const { deaLicense, medicalLicense } = form.getValues();
+      const payload = {
+        medicalLicenses: medicalLicense,
+        deaNumbers: deaLicense,
+      };
+      await acceptMedicalCredentials(payload)
+        .unwrap()
+        .then((res) => {
+          console.log("res", res);
+          navigate("/onboarding-success");
+        })
+        .catch((err) => {
+          console.log("error", err);
+        });
 
-      if (slug === STEPPER_FORM.ONBOARDING) navigate("/onboarding-success");
-      else navigate("/provider/complete-verification");
+      // if (slug === STEPPER_FORM.ONBOARDING) navigate("/onboarding-success");
+      // else navigate("/provider/complete-verification");
     }
-    console.log("final Data", result);
   };
   const handleBack = () => {
     if (step > 0) {
@@ -103,7 +122,7 @@ export default function ProviderSteppedForm({ slug }: ProviderStepperProps) {
 
   useEffect(() => {
     setShowMessage(true);
-    const timer = setTimeout(() => setShowMessage(false), 3000); // 3 seconds
+    const timer = setTimeout(() => setShowMessage(false), 1000); // 3 seconds
     return () => clearTimeout(timer);
   }, []);
 
@@ -115,6 +134,10 @@ export default function ProviderSteppedForm({ slug }: ProviderStepperProps) {
     handleBack,
     onSubmit,
     slug,
+    fullName: `${user?.firstName} ${user?.lastName}`,
+    email: user?.email || "",
+    phone: user?.phoneNumber || "",
+    isLoading,
   };
 
   return showMessage ? (

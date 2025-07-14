@@ -108,6 +108,8 @@ export default function VerificationStepOne() {
             label=" National Provider Identifier(NPI)"
             messageClassName="text-right"
             placeholder="Enter 10-digit NPI number"
+            inputClassName="bg-disabled  border border-border"
+            disabled={true}
           />
         </CenteredRow>
 

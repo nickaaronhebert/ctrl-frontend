@@ -6,8 +6,10 @@ export interface UserDetails {
   lastName: string;
   email: string;
   phoneNumber: string;
+  npi?: string;
   role: Role;
   isEmailVerified: string;
+  providerStatus?: string;
 }
 
 export interface IUserResponse {

@@ -28,7 +28,9 @@ export interface Provider {
   firstName?: string;
   lastName?: string;
   email: string;
-  phoneNUmber: string;
+  phoneNUmber?: string;
+  npi: string;
+  id: string;
 }
 
 export interface Business {
@@ -40,3 +42,8 @@ export interface Business {
   status: "active" | "inactive" | string;
   createdBy: Record<string, any>;
 }
+export type PROVIDER_STATUS = {
+  INVITED: "invited";
+  INVITATION_ACCEPTED: "invitation_accepted";
+  MED_SUBMITTED: "med_submitted";
+};
