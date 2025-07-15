@@ -1,7 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { RootState } from "../reducers";
+import { TAG_GET_USER_PROFILE } from "@/types/baseApiTags";
 
 export const baseApi = createApi({
+  reducerPath: "api",
+  tagTypes: [TAG_GET_USER_PROFILE],
   baseQuery: fetchBaseQuery({
     baseUrl:
       import.meta.env.VITE_BASE_BACKEND_URL ||
@@ -21,6 +24,4 @@ export const baseApi = createApi({
     },
   }),
   endpoints: () => ({}),
-  reducerPath: "api",
-  tagTypes: ["CurrentUser"],
 });

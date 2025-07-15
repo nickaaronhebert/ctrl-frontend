@@ -7,8 +7,6 @@ export default function useAuthentication() {
     isLoggedIn,
   } = useApplicationUserContext();
 
-  console.log("userrrrr<<<<<<===================", user);
-
   return {
     user,
     isLoadingUserDetails,
