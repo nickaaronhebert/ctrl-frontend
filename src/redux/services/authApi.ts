@@ -85,6 +85,19 @@ export const authApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["CurrentUser"],
     }),
+
+    // Update affiliation status
+    updateAffiliationStatus: builder.mutation<
+      void,
+      { id: string; status: boolean }
+    >({
+      query: ({ id, status }) => ({
+        url: `/user/affiliation-status/${id}`,
+        method: "POST",
+        body: { status },
+      }),
+      invalidatesTags: ["CurrentUser"],
+    }),
   }),
   overrideExisting: false,
 });
@@ -96,4 +109,5 @@ export const {
   useRequestPasswordResetMutation,
   useResetPasswordMutation,
   useEditProfileMutation,
+  useUpdateAffiliationStatusMutation,
 } = authApi;

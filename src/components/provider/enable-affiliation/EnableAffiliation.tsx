@@ -1,18 +1,38 @@
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import EnableAffiliation from "@/assets/icons/EnableAffiliation";
+import { useUpdateAffiliationStatusMutation } from "@/redux/services/authApi";
+import type { UseFormSetValue } from "react-hook-form";
+import type { AffiliationForm } from "@/schemas/affiliationSchema";
 
 interface EnableAffiliationDialogProps {
   open: boolean;
-  onConfirm: () => void;
+  id: string;
+  fieldIndex: number;
+  setValue: UseFormSetValue<AffiliationForm>;
   onCancel: () => void;
 }
 
 export function EnableAffiliationDialog({
   open,
-  onConfirm,
+  id,
+  fieldIndex,
+  setValue,
   onCancel,
 }: EnableAffiliationDialogProps) {
+  console.log("field id............", id);
+  console.log("field index........", fieldIndex);
+  const [editAffiliationStatus] = useUpdateAffiliationStatusMutation();
+
+  const handleConfirm = async () => {
+    try {
+      await editAffiliationStatus({ id, status: true }).unwrap();
+      setValue(`affiliations.${fieldIndex}.isAffiliationActive`, true);
+      onCancel();
+    } catch (err) {
+      console.error("Failed to enable affiliation", err);
+    }
+  };
   return (
     <Dialog open={open} onOpenChange={onCancel}>
       <DialogContent className="w-[382px] h-[330px] px-[25px] py-[45px] gap-0">
@@ -67,7 +87,7 @@ export function EnableAffiliationDialog({
               Cancel
             </Button>
             <Button
-              onClick={onConfirm}
+              onClick={handleConfirm}
               className="flex-1 bg-primary text-white"
             >
               Yes, Active

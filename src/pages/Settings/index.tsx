@@ -12,6 +12,12 @@ const Settings = () => {
   const [editProfileOpen, setEditProfileOpen] = useState(false);
   const { user } = useAuthentication();
 
+  // const transformedAffiliations = user?.affiliations?.map((aff: any) => ({
+  //   id: aff._id,
+  //   name: aff.business?.name ?? "N/A",
+  //   status: aff.isAffiliationActive === true,
+  // }));
+
   return (
     <>
       <div className="py-[50px] gap-8">
@@ -30,10 +36,10 @@ const Settings = () => {
               />
             </div>
             <div id="medical" className="scroll-mt-24 mb-10">
-              <MedicalVerification userData={userData} />
+              <MedicalVerification user={user!} />
             </div>
             <div id="affiliation">
-              <AffiliationStatus userData={userData} />
+              <AffiliationStatus userData={user} />
             </div>
           </div>
         </div>

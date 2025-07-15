@@ -9,7 +9,33 @@ export interface UserDetails {
   npi?: string;
   role: Role;
   isEmailVerified: string;
+  organisations: string[];
   providerStatus?: string;
+  medicalLicense?: MedicalLicense[];
+  deaNumber: DeaCredentials[];
+  affiliations: Affiliation[];
+}
+
+export interface MedicalLicense {
+  _id: string;
+  state: string;
+  licenseNumber: string;
+}
+
+export interface DeaCredentials {
+  _id: string;
+  state: string;
+  registrationNumber: string;
+}
+
+export interface Affiliation {
+  business: {
+    name: string;
+  };
+  _id: string;
+  type: string;
+  status: string;
+  isAffiliationActive: boolean;
 }
 
 export interface IUserResponse {

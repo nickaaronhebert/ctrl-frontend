@@ -1,5 +1,9 @@
 import type { Business, User } from "../global/commonTypes";
-import type { UserDetails } from "./user-details";
+import type {
+  DeaCredentials,
+  MedicalLicense,
+  UserDetails,
+} from "./user-details";
 
 export interface LoginResponse {
   data: {
@@ -36,8 +40,8 @@ export interface EditProfileResponse extends UserDetails {
   password: string;
   business: Business;
   organizations: string[];
-  medicalLicense: string[];
-  deaNumber: string[];
+  medicalLicense: MedicalLicense[];
+  deaNumber: DeaCredentials[];
   otpSecret: string;
   emailOtpSecret: string;
   createdAt: Date;

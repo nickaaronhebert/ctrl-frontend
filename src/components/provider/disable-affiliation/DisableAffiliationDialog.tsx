@@ -1,18 +1,35 @@
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import DisableAffiliation from "@/assets/icons/DisableAffiliation";
+import { useUpdateAffiliationStatusMutation } from "@/redux/services/authApi";
+import type { UseFormSetValue } from "react-hook-form";
+import type { AffiliationForm } from "@/schemas/affiliationSchema";
 
-interface EnableAffiliationDialogProps {
+interface DisableAffiliationDialogProps {
   open: boolean;
-  onConfirm: () => void;
+  id: string;
+  fieldIndex: number;
+  setValue: UseFormSetValue<AffiliationForm>;
   onCancel: () => void;
 }
-
 export function DisableAffiliationDialog({
   open,
-  onConfirm,
+  id,
+  fieldIndex,
+  setValue,
   onCancel,
-}: EnableAffiliationDialogProps) {
+}: DisableAffiliationDialogProps) {
+  const [editAffiliationStatus] = useUpdateAffiliationStatusMutation();
+
+  const handleConfirm = async () => {
+    try {
+      await editAffiliationStatus({ id, status: false }).unwrap();
+      setValue(`affiliations.${fieldIndex}.isAffiliationActive`, false);
+      onCancel();
+    } catch (err) {
+      console.error("Failed to disable affiliation", err);
+    }
+  };
   return (
     <Dialog open={open} onOpenChange={onCancel}>
       <DialogContent className="w-[382px] h-[352px] px-[25px] py-[45px]">
@@ -61,13 +78,13 @@ export function DisableAffiliationDialog({
           <div className="flex gap-3">
             <Button
               variant="outline"
-              onClick={onConfirm}
+              onClick={onCancel}
               className="flex-1 border-gray-300 text-gray-700 hover:bg-gray-50"
             >
               Cancel
             </Button>
             <Button
-              onClick={onConfirm}
+              onClick={handleConfirm}
               className="flex-1 bg-amber-500 hover:bg-amber-600 text-white border-amber-500"
             >
               Yes, Inactive

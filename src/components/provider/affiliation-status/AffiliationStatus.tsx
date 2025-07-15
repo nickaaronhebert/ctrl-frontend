@@ -5,23 +5,40 @@ import { Switch } from "@/components/ui/switch";
 import { useState } from "react";
 import { EnableAffiliationDialog } from "../enable-affiliation/EnableAffiliation";
 import { DisableAffiliationDialog } from "../disable-affiliation/DisableAffiliationDialog";
-import {
-  affiliationSchema,
-  type Affiliation,
-} from "@/schemas/affiliationSchema";
+import { affiliationSchema } from "@/schemas/affiliationSchema";
+import { type AffiliationForm } from "@/schemas/affiliationSchema";
 
-const AffiliationStatus = ({ userData }: any) => {
+interface Props {
+  userData: {
+    affiliations: AffiliationForm["affiliations"];
+  };
+}
+
+const AffiliationStatus = ({ userData }: Props) => {
+  console.log("userDataaaaa", userData.affiliations);
   const [dialogState, setDialogState] = useState<{
+    id: string;
     index: number;
-    intendedValue: "Active" | "Inactive";
+    intendedValue: boolean;
   } | null>(null);
 
-  const form = useForm<Affiliation>({
+  console.log("dialogState:::::", dialogState);
+
+  const form = useForm<AffiliationForm>({
     resolver: zodResolver(affiliationSchema),
     defaultValues: {
       affiliations: userData.affiliations,
     },
   });
+
+  console.log("form", form.getValues());
+
+  // useEffect(() => {
+  //   if (userData.affiliations && userData.affiliations.length > 0) {
+  //     console.log("here");
+  //     setValue("affiliations", userData.affiliations);
+  //   }
+  // }, [userData?.affiliations]);
 
   const { control, watch, setValue } = form;
 
@@ -29,10 +46,11 @@ const AffiliationStatus = ({ userData }: any) => {
     control,
     name: "affiliations",
   });
+  fields;
 
   const affiliations = watch("affiliations");
 
-  console.log("affilaitions", affiliations);
+  console.log("fields", fields);
 
   return (
     <>
@@ -49,7 +67,6 @@ const AffiliationStatus = ({ userData }: any) => {
 
           <div className="space-y-4">
             {fields.map((field, index) => {
-              console.log("fieldssssssssssss", fields);
               return (
                 <div
                   key={field.id}
@@ -57,43 +74,44 @@ const AffiliationStatus = ({ userData }: any) => {
                 >
                   <div className="flex items-center gap-3">
                     <span className="font-medium text-[16px] leading-[22px] text-secondary-foreground">
-                      {field.name}
+                      {field?.business?.name}
                     </span>
                     <div className="flex items-center gap-2">
                       <div
                         className={`w-2 h-2 rounded-full ${
-                          affiliations[index]?.status === "Active"
+                          affiliations[index]?.isAffiliationActive
                             ? "bg-green-500"
                             : "bg-gray-400"
                         }`}
                       />
                       <span
                         className={`text-xs font-medium ${
-                          affiliations[index]?.status === "Active"
+                          affiliations[index]?.isAffiliationActive
                             ? "text-green-600"
                             : "text-gray-500"
                         }`}
                       >
-                        {affiliations[index]?.status}
+                        {affiliations[index]?.isAffiliationActive}
                       </span>
                     </div>
                   </div>
 
                   <FormField
                     control={control}
-                    name={`affiliations.${index}.status`}
+                    name={`affiliations.${index}.isAffiliationActive`}
                     render={({ field }) => {
                       console.log("myFIeldddddddddddd", field);
+                      const affiliation = fields[index];
                       return (
                         <FormItem>
                           <FormControl>
                             <Switch
-                              checked={field.value === "Active"}
+                              checked={field.value}
                               onCheckedChange={(val) => {
-                                const newStatus = val ? "Active" : "Inactive";
                                 setDialogState({
+                                  id: affiliation._id, // ✅ correct access
                                   index,
-                                  intendedValue: newStatus,
+                                  intendedValue: val,
                                 });
                               }}
                               className="data-[state=checked]:bg-primary"
@@ -109,24 +127,22 @@ const AffiliationStatus = ({ userData }: any) => {
           </div>
         </form>
       </Form>
-      {dialogState && dialogState.intendedValue === "Active" && (
+      {dialogState && dialogState.intendedValue === true && (
         <EnableAffiliationDialog
           open={true}
-          onConfirm={() => {
-            setValue(`affiliations.${dialogState.index}.status`, "Active");
-            setDialogState(null);
-          }}
+          id={dialogState.id}
+          fieldIndex={dialogState.index}
+          setValue={setValue}
           onCancel={() => setDialogState(null)}
         />
       )}
 
-      {dialogState && dialogState.intendedValue === "Inactive" && (
+      {dialogState && dialogState.intendedValue === false && (
         <DisableAffiliationDialog
           open={true}
-          onConfirm={() => {
-            setValue(`affiliations.${dialogState.index}.status`, "Inactive");
-            setDialogState(null);
-          }}
+          id={dialogState.id}
+          fieldIndex={dialogState.index}
+          setValue={setValue}
           onCancel={() => setDialogState(null)}
         />
       )}
