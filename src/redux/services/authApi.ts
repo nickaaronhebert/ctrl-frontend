@@ -1,4 +1,5 @@
 // src/api/authApi.ts
+import { TAG_GET_USER_PROFILE } from "@/types/baseApiTags";
 import { baseApi } from ".";
 import {
   type LoginRequest,
@@ -83,7 +84,7 @@ export const authApi = baseApi.injectEndpoints({
         method: "PUT",
         body,
       }),
-      invalidatesTags: ["CurrentUser"],
+      invalidatesTags: [TAG_GET_USER_PROFILE],
     }),
   }),
   overrideExisting: false,

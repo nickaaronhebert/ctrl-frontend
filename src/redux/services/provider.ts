@@ -1,3 +1,4 @@
+import { TAG_GET_USER_PROFILE } from "@/types/baseApiTags";
 import { baseApi } from ".";
 
 export const providerApi = baseApi.injectEndpoints({
@@ -24,6 +25,7 @@ export const providerApi = baseApi.injectEndpoints({
         method: "POST",
         body,
       }),
+      invalidatesTags: [TAG_GET_USER_PROFILE],
     }),
   }),
 });

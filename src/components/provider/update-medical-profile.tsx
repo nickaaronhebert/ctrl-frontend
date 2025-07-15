@@ -20,7 +20,15 @@ import { stateOptions } from "./medical-credentials/verification-step1";
 import { cn } from "@/lib/utils";
 import type z from "zod";
 import { useAcceptProviderMedicalCredentialsMutation } from "@/redux/services/provider";
-export default function AddMedicalLicenseDialog() {
+
+interface AddMedicalLicenseDialogProps {
+  openAddLicenseModal: boolean;
+  setOpenLicenseModal: React.Dispatch<React.SetStateAction<boolean>>;
+}
+export default function AddMedicalLicenseDialog({
+  openAddLicenseModal,
+  setOpenLicenseModal,
+}: AddMedicalLicenseDialogProps) {
   const [acceptMedicalCredentials, { isLoading }] =
     useAcceptProviderMedicalCredentialsMutation();
   const form = useForm({
@@ -69,6 +77,8 @@ export default function AddMedicalLicenseDialog() {
       .unwrap()
       .then((res) => {
         console.log("res", res);
+        form.reset();
+        setOpenLicenseModal(false);
       })
       .catch((err) => {
         console.log("error", err);
@@ -76,16 +86,7 @@ export default function AddMedicalLicenseDialog() {
   }
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button
-          variant="outline"
-          size={"lg"}
-          className="bg-white text-base font-semibold text-black border border-black"
-        >
-          ADD LICENSE
-        </Button>
-      </DialogTrigger>
+    <Dialog open={openAddLicenseModal} onOpenChange={setOpenLicenseModal}>
       <DialogContent className="min-w-[600px]">
         <DialogHeader className="py-4 px-5 border-b border-card-border">
           <DialogTitle className="text-xl font-semibold text-black ">

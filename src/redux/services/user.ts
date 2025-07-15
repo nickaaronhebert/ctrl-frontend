@@ -1,5 +1,6 @@
 import type { IUserResponse } from "@/types/responses/user-details";
 import { baseApi } from ".";
+import { TAG_GET_USER_PROFILE } from "@/types/baseApiTags";
 
 const userProfileApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -10,7 +11,7 @@ const userProfileApi = baseApi.injectEndpoints({
           method: "get",
         };
       },
-      providesTags: ["CurrentUser"],
+      providesTags: [TAG_GET_USER_PROFILE],
     }),
   }),
 });
