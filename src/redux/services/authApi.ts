@@ -3,17 +3,17 @@ import { TAG_GET_USER_PROFILE } from "@/types/baseApiTags";
 import { baseApi } from ".";
 import {
   type LoginRequest,
-  type SSOProviderOnboardRequest,
   type RequestPasswordResetRequest,
   type EditProfileRequest,
+  type ResendOtpRequest,
 } from "@/types/requests";
 import {
   type LoginResponse,
-  type SSOProviderOnboardResponse,
   type LogoutResponse,
   type RequestPasswordResetResponse,
   type ResetPasswordResponse,
   type EditProfileResponse,
+  type ResendOtpResponse,
 } from "@/types/responses";
 
 export const authApi = baseApi.injectEndpoints({
@@ -31,17 +31,39 @@ export const authApi = baseApi.injectEndpoints({
           body: {},
         };
       },
+      invalidatesTags: [TAG_GET_USER_PROFILE],
     }),
 
-    ssoProviderOnboard: builder.mutation<
-      SSOProviderOnboardResponse,
-      SSOProviderOnboardRequest
+    verifyOtp: builder.mutation<
+      LoginResponse,
+      { username: string; password: string; otpCode: string }
     >({
-      query: (body) => ({
-        url: "/auth/sso-provider-onboard",
-        method: "POST",
-        body,
-      }),
+      query: ({ username, password, otpCode }) => {
+        const basicAuthHeader = `Basic ${btoa(`${username}:${password}`)}`;
+        return {
+          url: "/auth/verify/otp",
+          method: "POST",
+          headers: {
+            Authorization: basicAuthHeader,
+          },
+          body: { otpCode },
+        };
+      },
+      invalidatesTags: [TAG_GET_USER_PROFILE],
+    }),
+
+    resendOtp: builder.mutation<ResendOtpResponse, ResendOtpRequest>({
+      query: ({ username, password }) => {
+        const basicAuthHeader = `Basic ${btoa(`${username}:${password}`)}`;
+        return {
+          url: "/auth/resend/otp",
+          method: "POST",
+          headers: {
+            Authorization: basicAuthHeader,
+          },
+          body: {},
+        };
+      },
     }),
 
     logout: builder.mutation<LogoutResponse, void>({
@@ -97,7 +119,7 @@ export const authApi = baseApi.injectEndpoints({
         method: "POST",
         body: { status },
       }),
-      invalidatesTags: ["CurrentUser"],
+      invalidatesTags: [TAG_GET_USER_PROFILE],
     }),
   }),
   overrideExisting: false,
@@ -105,10 +127,11 @@ export const authApi = baseApi.injectEndpoints({
 
 export const {
   useLoginMutation,
-  useSsoProviderOnboardMutation,
   useLogoutMutation,
   useRequestPasswordResetMutation,
   useResetPasswordMutation,
   useEditProfileMutation,
   useUpdateAffiliationStatusMutation,
+  useVerifyOtpMutation,
+  useResendOtpMutation,
 } = authApi;

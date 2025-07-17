@@ -163,8 +163,6 @@ function Sidebar({
 }) {
   const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
 
-  console.log("state", state);
-
   if (collapsible === "none") {
     return (
       <div

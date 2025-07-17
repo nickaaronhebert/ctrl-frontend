@@ -16,6 +16,7 @@ import { ZodObject } from "zod";
 import { useNavigate } from "react-router-dom";
 import useAuthentication from "@/hooks/use-authentication";
 import { useAcceptProviderMedicalCredentialsMutation } from "@/redux/services/provider";
+import { toast } from "sonner";
 
 type StepDefinition = {
   validationSchema: ZodObject<any>;
@@ -75,7 +76,6 @@ export default function ProviderSteppedForm({ slug }: ProviderStepperProps) {
   });
 
   const handleNext = () => {
-    console.log("handleNext called");
     const currentSchemas = FormSteps[safeStep].validationSchema;
     const currentStepData = form.getValues();
     localStorage.setItem("formData", JSON.stringify(currentStepData));
@@ -88,7 +88,6 @@ export default function ProviderSteppedForm({ slug }: ProviderStepperProps) {
   };
 
   const onSubmit = async () => {
-    console.log("onsubmit called");
     const result = completeMedicalVerificationSchema.safeParse(
       form.getValues()
     );
@@ -102,8 +101,8 @@ export default function ProviderSteppedForm({ slug }: ProviderStepperProps) {
       };
       await acceptMedicalCredentials(payload)
         .unwrap()
-        .then((res) => {
-          console.log("res", res);
+        .then(() => {
+          toast.success("Credentials added successfully");
           navigate("/onboarding-success");
         })
         .catch((err) => {

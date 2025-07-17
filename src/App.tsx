@@ -17,14 +17,13 @@ import OnboardingSuccess from "./components/provider/onboarding-success";
 import SidebarLayout from "./components/common/Sidebar/sidebar-layout";
 import PrescriptionPage from "./pages/Prescription";
 import Settings from "./pages/Settings";
-import CompleteVerification from "./pages/Prescription/initiate-verification";
-import SuccessfullVerification from "./pages/Prescription/complete-verification";
 import PendingApproval from "./pages/Prescription/pending-approval";
 import ModuleProtectedRoute from "./components/common/ModuleProtectedRoute/ModuleProtectedRoute";
 import { MODULE, PERMISSIONS } from "./components/Permissions/permissions";
 import Support from "./pages/Support/page";
 import Redirect from "./components/provider/redirect";
 import RoleChecker from "./guard/RoleChecker";
+import PostLoginRedirect from "./components/common/PostLoginRedirect";
 
 const router = createBrowserRouter([
   {
@@ -45,14 +44,6 @@ const router = createBrowserRouter([
         path: "warning",
         element: <PrescriptionPage />,
       },
-      // {
-      //   path: "start-verification",
-      //   element: <CompleteVerification />,
-      // },
-      // {
-      //   path: "complete-verification",
-      //   element: <SuccessfullVerification />,
-      // },
       {
         path: "pending-approval",
         element: <PendingApproval />,
@@ -67,7 +58,6 @@ const router = createBrowserRouter([
       },
     ],
   },
-
   {
     element: (
       <RoleChecker
@@ -151,6 +141,10 @@ const router = createBrowserRouter([
   {
     path: ROUTES.PROVIDER_DASHBOARD,
     element: <ProviderDashboard />,
+  },
+  {
+    path: ROUTES.POST_LOGIN_REDIRECT,
+    element: <PostLoginRedirect />,
   },
 ]);
 

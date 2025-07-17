@@ -1,8 +1,9 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-// import { selectCurrentUser } from "@/redux/slices/auth";
 import useAuthentication from "@/hooks/use-authentication";
 import { ROUTES } from "@/constants/routes";
+import { useLocation } from "react-router-dom";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 interface PermissionCheck {
   resource: string;
@@ -19,11 +20,21 @@ const ModuleProtectedRoute: React.FC<ModuleProtectedRouteProps> = ({
   element,
   permissions,
 }) => {
-  const { user } = useAuthentication();
-  console.log("MyUserrrrrrrrrrrrrr", user);
+  const { user, isLoadingUserDetails, isLoggedIn } = useAuthentication();
+  const location = useLocation();
 
-  if (!user) {
-    return <Navigate to="/" replace />;
+  if (isLoadingUserDetails) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
+  if (!isLoggedIn || !user) {
+    return (
+      <Navigate to={ROUTES.HOME} state={{ from: location.pathname }} replace />
+    );
   }
 
   const hasAllPermissions = permissions.every(({ resource, permission }) =>

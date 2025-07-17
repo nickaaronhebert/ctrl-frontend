@@ -4,6 +4,7 @@ import PLatformAccessSVG from "@/assets/icons/PlatformAccess";
 import SuccessCheckSVG from "@/assets/icons/SuccessCheckIcon";
 import type { JSX } from "react";
 import { Link } from "react-router-dom";
+import useAuthentication from "@/hooks/use-authentication";
 
 interface OnboardingSuccessPerks {
   icon: JSX.Element;
@@ -31,12 +32,13 @@ const OnboardingSuccessPers: OnboardingSuccessPerks[] = [
   },
 ];
 export default function OnboardingSuccess() {
+  const { user, isLoadingUserDetails } = useAuthentication();
   return (
     <div className="flex flex-col items-center">
       <div className="flex flex-col items-center gap-2">
         <SuccessCheckSVG />
         <h1 className="font-semibold text-3xl text-primary-foreground mt-3.5">
-          All set, Johan Smith!
+          All set, {!isLoadingUserDetails && user?.firstName}
         </h1>
         <p className="text-muted-foreground text-center font-normal text-base ">
           You'll be ready to manage prescription workflow after verification.

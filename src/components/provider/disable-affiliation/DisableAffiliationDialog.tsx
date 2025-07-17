@@ -4,6 +4,7 @@ import DisableAffiliation from "@/assets/icons/DisableAffiliation";
 import { useUpdateAffiliationStatusMutation } from "@/redux/services/authApi";
 import type { UseFormSetValue } from "react-hook-form";
 import type { AffiliationForm } from "@/schemas/affiliationSchema";
+import { toast } from "sonner";
 
 interface DisableAffiliationDialogProps {
   open: boolean;
@@ -26,6 +27,7 @@ export function DisableAffiliationDialog({
       await editAffiliationStatus({ id, status: false }).unwrap();
       setValue(`affiliations.${fieldIndex}.isAffiliationActive`, false);
       onCancel();
+      toast.success("Affiliation disabled successfully");
     } catch (err) {
       console.error("Failed to disable affiliation", err);
     }

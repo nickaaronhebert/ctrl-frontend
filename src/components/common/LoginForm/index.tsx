@@ -29,20 +29,21 @@ const LoginForm = () => {
   } = form;
 
   const onSubmit = async (values: LoginFormValues) => {
-    console.log("Email", values.email);
-    console.log("Password", values.password);
     try {
-      const response = await login({
+      await login({
         username: values.email,
         password: values.password,
       }).unwrap();
-      console.log("response", response);
       form.reset();
-      toast.success("Login Successful");
-      navigate("/provider/warning");
+      navigate("/login-verification", {
+        state: {
+          username: values.email,
+          password: values.password,
+        },
+      });
     } catch (error) {
       console.error("Login failed:", error);
-      toast.error("Something went wrong");
+      toast.error("Login Failed");
     }
   };
   return (

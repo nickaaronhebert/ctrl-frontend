@@ -15,14 +15,11 @@ interface Props {
 }
 
 const AffiliationStatus = ({ userData }: Props) => {
-  console.log("userDataaaaa", userData.affiliations);
   const [dialogState, setDialogState] = useState<{
     id: string;
     index: number;
     intendedValue: boolean;
   } | null>(null);
-
-  console.log("dialogState:::::", dialogState);
 
   const form = useForm<AffiliationForm>({
     resolver: zodResolver(affiliationSchema),
@@ -30,15 +27,6 @@ const AffiliationStatus = ({ userData }: Props) => {
       affiliations: userData.affiliations,
     },
   });
-
-  console.log("form", form.getValues());
-
-  // useEffect(() => {
-  //   if (userData.affiliations && userData.affiliations.length > 0) {
-  //     console.log("here");
-  //     setValue("affiliations", userData.affiliations);
-  //   }
-  // }, [userData?.affiliations]);
 
   const { control, watch, setValue } = form;
 
@@ -49,8 +37,6 @@ const AffiliationStatus = ({ userData }: Props) => {
   fields;
 
   const affiliations = watch("affiliations");
-
-  console.log("fields", fields);
 
   return (
     <>
@@ -100,7 +86,6 @@ const AffiliationStatus = ({ userData }: Props) => {
                     control={control}
                     name={`affiliations.${index}.isAffiliationActive`}
                     render={({ field }) => {
-                      console.log("myFIeldddddddddddd", field);
                       const affiliation = fields[index];
                       return (
                         <FormItem>
@@ -109,7 +94,7 @@ const AffiliationStatus = ({ userData }: Props) => {
                               checked={field.value}
                               onCheckedChange={(val) => {
                                 setDialogState({
-                                  id: affiliation._id, // ✅ correct access
+                                  id: affiliation._id,
                                   index,
                                   intendedValue: val,
                                 });

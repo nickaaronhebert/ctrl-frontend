@@ -1,5 +1,6 @@
 import { Mail, Phone, User } from "lucide-react";
 import type { UserDetails } from "@/types/responses/user-details";
+import { Button } from "@/components/ui/button";
 
 interface PersonalDetailsProps {
   onEditProfile: () => void;
@@ -13,12 +14,13 @@ const PersonalDetails = ({ onEditProfile, user }: PersonalDetailsProps) => {
         <h2 className="font-semibold text-[20px] leading-[24px] text-black">
           Personal Details
         </h2>
-        <button
+        <Button
+          variant={"outline"}
           onClick={onEditProfile}
-          className="min-w-[80px] min-h-[32px] rounded-[4px] border-1 px-[10px] py-[5px] cursor-pointer"
+          className="min-w-[80px] min-h-[32px] font-bold text-[12px] leading-[16px] rounded-[4px] border-1 border-black px-[10px] py-[5px] cursor-pointer"
         >
           EDIT PROFILE
-        </button>
+        </Button>
       </div>
 
       <div className="w-full h-px bg-gray-200 mb-4" />

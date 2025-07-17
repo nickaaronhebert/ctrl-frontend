@@ -40,7 +40,7 @@ export default function PrescriptionWarning() {
           variant={"ctrl"}
           size={"xl"}
           onClick={() => {
-            navigate("/provider/start-verification");
+            navigate("/provider/settings");
           }}
         >
           Complete Verification Now

@@ -60,6 +60,7 @@ export default function EditProfileDialog({
       await editProfile(payload).unwrap();
     } catch (err) {
       console.error("Update error:", err);
+      toast.error("Error updating profile");
     }
   }
   function onCancel() {
@@ -123,7 +124,7 @@ export default function EditProfileDialog({
                     label="Phone"
                     type="text"
                     className="border border-gray-200 h-[52px]"
-                    placeholder="Enter your lastname"
+                    placeholder="Enter your phone number"
                     required
                   />
                 )}
@@ -139,7 +140,7 @@ export default function EditProfileDialog({
                     name="email"
                     label="Email"
                     type="email"
-                    className="border border-gray-200 h-[52px]"
+                    className="border border-gray-200 h-[52px] bg-gray-200"
                     placeholder="Enter your email"
                     required
                   />

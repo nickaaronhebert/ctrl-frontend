@@ -1,3 +1,4 @@
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { useCurrentUserDataQuery } from "@/redux/services/user";
 import { selectIsLoggedIn } from "@/redux/slices/auth";
 
@@ -29,7 +30,6 @@ export const useApplicationUserContext = () => {
 
 export const ApplicationUserContextProvider = (props: any) => {
   const isLoggedIn = useTypedSelector(selectIsLoggedIn);
-  console.log(isLoggedIn, ">auth_token>>>>>>>>>>>>>>>>>>");
 
   const { data: userData, isLoading: isUserDataLoading } =
     useCurrentUserDataQuery(undefined, {
@@ -43,7 +43,11 @@ export const ApplicationUserContextProvider = (props: any) => {
     });
 
   if ((isUserDataLoading || !userData) && isLoggedIn) {
-    return <>LOADING!!</>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <LoadingSpinner />
+      </div>
+    );
   }
 
   return (

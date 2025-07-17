@@ -34,55 +34,69 @@ const authSlice = createSlice({
     },
   },
   extraReducers(builder) {
+    // builder.addMatcher(
+    //   authApi.endpoints.login.matchFulfilled,
+
+    //   (state, { payload }) => {
+    //     if (payload?.data.access_token) {
+    //       state.token = payload?.data.access_token;
+
+    //       sessionStorage.setItem(
+    //         AUTH_TOKEN,
+    //         JSON.stringify(payload?.data.access_token)
+    //       );
+    //       localStorage.setItem(
+    //         AUTH_TOKEN,
+    //         JSON.stringify(payload?.data.access_token)
+    //       );
+    //     } else {
+    //       state.token = null;
+    //       state.token = "";
+
+    //       localStorage.removeItem(AUTH_TOKEN);
+    //       sessionStorage.removeItem(AUTH_TOKEN);
+    //     }
+    //   }
+    // );
     builder.addMatcher(
-      authApi.endpoints.login.matchFulfilled,
-
+      authApi.endpoints.verifyOtp.matchFulfilled,
       (state, { payload }) => {
-        if (payload?.data.access_token) {
-          state.token = payload?.data.access_token;
-
-          sessionStorage.setItem(
-            AUTH_TOKEN,
-            JSON.stringify(payload?.data.access_token)
-          );
-          localStorage.setItem(
-            AUTH_TOKEN,
-            JSON.stringify(payload?.data.access_token)
-          );
+        const token = payload?.data?.access_token;
+        if (token) {
+          state.token = token;
+          sessionStorage.setItem(AUTH_TOKEN, JSON.stringify(token));
+          localStorage.setItem(AUTH_TOKEN, JSON.stringify(token));
         } else {
           state.token = null;
-          state.token = "";
-
-          localStorage.removeItem(AUTH_TOKEN);
           sessionStorage.removeItem(AUTH_TOKEN);
+          localStorage.removeItem(AUTH_TOKEN);
         }
       }
-    );
-    builder.addMatcher(
-      providerApi.endpoints.acceptProviderInvitation.matchFulfilled,
-      (state, { payload }) => {
-        console.log("payload", payload);
-        if (payload?.data.token) {
-          state.token = payload?.data.token;
+    ),
+      builder.addMatcher(
+        providerApi.endpoints.acceptProviderInvitation.matchFulfilled,
+        (state, { payload }) => {
+          if (payload?.data.token) {
+            state.token = payload?.data.token;
 
-          sessionStorage.removeItem("provider_token");
-          localStorage.removeItem("provider_token");
-          sessionStorage.removeItem("provider");
-          localStorage.removeItem("provider");
-          sessionStorage.setItem(
-            "auth_token",
-            JSON.stringify(payload?.data.token)
-          );
-          localStorage.setItem(
-            "auth_token",
-            JSON.stringify(payload?.data.token)
-          );
-        } else {
-          localStorage.removeItem("auth_token");
-          sessionStorage.removeItem("auth_token");
+            sessionStorage.removeItem("provider_token");
+            localStorage.removeItem("provider_token");
+            sessionStorage.removeItem("provider");
+            localStorage.removeItem("provider");
+            sessionStorage.setItem(
+              "auth_token",
+              JSON.stringify(payload?.data.token)
+            );
+            localStorage.setItem(
+              "auth_token",
+              JSON.stringify(payload?.data.token)
+            );
+          } else {
+            localStorage.removeItem("auth_token");
+            sessionStorage.removeItem("auth_token");
+          }
         }
-      }
-    );
+      );
     builder.addMatcher(
       providerApi.endpoints.acceptProviderInvitation.matchRejected,
       (_, { payload }) => {
@@ -96,7 +110,6 @@ const authSlice = createSlice({
     builder.addMatcher(
       providerApi.endpoints.verifyProviderInvitation.matchFulfilled,
       (state, { payload }) => {
-        console.log("payload", payload);
         if (payload?.data) {
           state.provider = payload?.data;
 

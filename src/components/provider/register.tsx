@@ -11,7 +11,7 @@ import InputElement from "@/components/Form/input-element";
 import { useNavigate } from "react-router-dom";
 import PasswordInputElement from "@/components/Form/password-element";
 import { useTypedSelector } from "@/redux/store";
-
+import { toast } from "sonner";
 import { useAcceptProviderInvitationMutation } from "@/redux/services/provider";
 import { selectProvider } from "@/redux/slices/auth";
 
@@ -35,7 +35,6 @@ export default function RegisterProvider() {
 
   const navigate = useNavigate();
   async function onSubmit(data: z.infer<typeof registerProviderFormSchema>) {
-    console.log("Form Data:", data);
     const { firstName, lastName, phoneNumber, password } = data;
     const payload = {
       firstName,
@@ -47,8 +46,8 @@ export default function RegisterProvider() {
     };
     await acceptInvitation(payload)
       .unwrap()
-      .then((res) => {
-        console.log("res", res);
+      .then(() => {
+        toast.success("Invitation accepted successfully");
         navigate("/welcome");
       })
       .catch((err) => {

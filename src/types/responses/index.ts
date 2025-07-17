@@ -13,15 +13,6 @@ export interface LoginResponse {
   statusCode: number;
 }
 
-export interface SSOProviderOnboardResponse {
-  providerId: string;
-  providerToken: string;
-  affiliation: {
-    orgId: string;
-    status: "active" | "pending";
-  };
-}
-
 export interface LogoutResponse {
   success: boolean;
 }
@@ -33,6 +24,10 @@ export interface RequestPasswordResetResponse {
 
 export interface ResetPasswordResponse {
   access_token: string;
+}
+
+export interface ResendOtpResponse {
+  message: string;
 }
 
 export interface EditProfileResponse extends UserDetails {

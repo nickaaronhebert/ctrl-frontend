@@ -4,6 +4,7 @@ import EnableAffiliation from "@/assets/icons/EnableAffiliation";
 import { useUpdateAffiliationStatusMutation } from "@/redux/services/authApi";
 import type { UseFormSetValue } from "react-hook-form";
 import type { AffiliationForm } from "@/schemas/affiliationSchema";
+import { toast } from "sonner";
 
 interface EnableAffiliationDialogProps {
   open: boolean;
@@ -20,8 +21,6 @@ export function EnableAffiliationDialog({
   setValue,
   onCancel,
 }: EnableAffiliationDialogProps) {
-  console.log("field id............", id);
-  console.log("field index........", fieldIndex);
   const [editAffiliationStatus] = useUpdateAffiliationStatusMutation();
 
   const handleConfirm = async () => {
@@ -29,6 +28,7 @@ export function EnableAffiliationDialog({
       await editAffiliationStatus({ id, status: true }).unwrap();
       setValue(`affiliations.${fieldIndex}.isAffiliationActive`, true);
       onCancel();
+      toast.success("Affiliation enabled successfully");
     } catch (err) {
       console.error("Failed to enable affiliation", err);
     }

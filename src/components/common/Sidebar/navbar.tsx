@@ -20,7 +20,7 @@ export default function Navbar() {
 
   const handleLogout = () => {
     dispatch(logout());
-    window.location.href = "/";
+    navigate("/", { replace: true });
   };
 
   return (

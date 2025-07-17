@@ -1,17 +1,17 @@
-import { ShieldX, ArrowLeft, Home } from "lucide-react";
+import { ShieldX, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "@/redux/store";
+import { logout } from "@/redux/slices/auth";
 
 const PermissionDenied = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
-  const handleGoBack = () => {
-    navigate(-1); // go to previous page in history
-  };
-
-  const handleGoHome = () => {
-    navigate("/");
+  const handleSwitchAccount = () => {
+    dispatch(logout());
+    navigate("/", { replace: true });
   };
 
   return (
@@ -73,22 +73,13 @@ const PermissionDenied = () => {
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <Button
-            onClick={handleGoBack}
-            variant="outline"
+            onClick={handleSwitchAccount}
+            variant="destructive"
             size="lg"
-            className="group hover:bg-gray-50 border-gray-300 hover:border-gray-400 transition-all duration-200"
+            className="hover:scale-105 transition-all duration-200"
           >
-            <ArrowLeft className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform duration-200" />
-            Go Back
-          </Button>
-
-          <Button
-            onClick={handleGoHome}
-            size="lg"
-            className="bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
-          >
-            <Home className="w-5 h-5 mr-2" />
-            Go Home
+            <LogOut className="w-5 h-5 mr-2" />
+            Sign in with a Different Account
           </Button>
         </div>
 

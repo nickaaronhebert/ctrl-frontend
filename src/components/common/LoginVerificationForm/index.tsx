@@ -3,16 +3,25 @@ import { Form, FormField } from "@/components/ui/form";
 import CTRLLogo from "../CTRLLogo";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import useAuthentication from "@/hooks/use-authentication";
 import {
   InputOTP,
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { otpSchema, type OTPFormValues } from "@/schemas/otpSchema";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import { useVerifyOtpMutation } from "@/redux/services/authApi";
+import { useEffect, useState } from "react";
+import { useResendOtpMutation } from "@/redux/services/authApi";
+import { ROUTES } from "@/constants/routes";
 
-const LoginVerificationForm = () => {
-  const { user } = useAuthentication();
+const LoginVerificationForm = ({ username, password }: any) => {
+  const [resendOtp] = useResendOtpMutation();
+  const navigate = useNavigate();
+  const [verifyOtpMutation] = useVerifyOtpMutation();
+  const [secondsLeft, setSecondsLeft] = useState<number>(0);
+  const [isResendEnabled, setIsResendEnabled] = useState<boolean>(true);
 
   const form = useForm<OTPFormValues>({
     mode: "onChange",
@@ -26,8 +35,49 @@ const LoginVerificationForm = () => {
     formState: { isDirty, isValid, isSubmitting },
   } = form;
 
+  useEffect(() => {
+    if (secondsLeft > 0) {
+      const timer = setTimeout(() => setSecondsLeft((prev) => prev - 1), 1000);
+      return () => clearTimeout(timer);
+    } else {
+      setIsResendEnabled(true);
+    }
+  }, [secondsLeft]);
+
+  const handleResend = async () => {
+    if (!username || !password) {
+      toast.error("Missing credentials");
+      return;
+    }
+    try {
+      await resendOtp({ username, password }).unwrap();
+      toast.success("OTP resent to your email");
+      setSecondsLeft(30);
+      setIsResendEnabled(false);
+    } catch (err) {
+      toast.error("Failed to resend OTP");
+      console.error("Resend error", err);
+    }
+  };
+
   const onSubmit = async (values: OTPFormValues) => {
-    console.log("Otp value", values);
+    if (!username || !password) {
+      toast.error("Missing login credentials.");
+      return;
+    }
+    try {
+      await verifyOtpMutation({
+        username,
+        password,
+        otpCode: values.otp,
+      }).unwrap();
+
+      toast.success("Verification successful");
+      navigate(ROUTES.POST_LOGIN_REDIRECT);
+    } catch (error) {
+      toast.error("Invalid or expired OTP");
+      console.error("Verification error:", error);
+    }
   };
 
   return (
@@ -50,7 +100,7 @@ const LoginVerificationForm = () => {
           </span>{" "}
           <br />
           <span className="font-medium text-[16px] leading-[22px] text-primary">
-            {user?.email}
+            {username}
           </span>
         </div>
 
@@ -77,7 +127,7 @@ const LoginVerificationForm = () => {
               )}
             />
 
-            <div className="flex justify-center">
+            <div className="flex justify-center flex-col">
               <Button
                 disabled={!isDirty || !isValid}
                 type="submit"
@@ -85,6 +135,22 @@ const LoginVerificationForm = () => {
               >
                 {isSubmitting ? "Verifying..." : "Verify and Continue"}
               </Button>
+
+              <div className="text-center mt-2">
+                {isResendEnabled ? (
+                  <Button
+                    className="font-normal text-muted-foreground text-[14px] leading-[18px] text-center"
+                    variant={"link"}
+                    onClick={handleResend}
+                  >
+                    Resend Code
+                  </Button>
+                ) : (
+                  <span className="text-muted-foreground">
+                    Resend code in {secondsLeft}s
+                  </span>
+                )}
+              </div>
             </div>
           </form>
         </Form>

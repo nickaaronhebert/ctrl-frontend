@@ -82,8 +82,6 @@ export default function VerificationStepOne() {
     control: form.control,
   });
 
-  console.log("step-1 rendering........");
-
   return (
     <div>
       <div className="mb-10 flex flex-col items-center gap-1">

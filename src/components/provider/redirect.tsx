@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { LoadingSpinner } from "../ui/loading-spinner";
 import { useVerifyProviderInvitationMutation } from "@/redux/services/provider";
+import { toast } from "sonner";
 
 export default function Redirect() {
   const navigate = useNavigate();
@@ -24,6 +25,7 @@ export default function Redirect() {
   useEffect(() => {
     if (isSuccess) {
       navigate("/onboarding");
+      toast.success("Invitation accepted successfully");
     } else if (isError) {
       console.log("something went wrong");
     }

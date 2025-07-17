@@ -13,8 +13,6 @@ import { useResetPasswordMutation } from "@/redux/services/authApi";
 import { toast } from "sonner";
 
 const ResetPasswordForm = ({ token }: any) => {
-  console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", token);
-
   const navigate = useNavigate();
   const [resetPassword] = useResetPasswordMutation();
 
@@ -50,7 +48,6 @@ const ResetPasswordForm = ({ token }: any) => {
         password: data.password,
         token,
       }).unwrap();
-
       toast.success("Password reset successful!");
       navigate("/");
     } catch (error) {

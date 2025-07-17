@@ -1,7 +1,6 @@
 import PersonalDetails from "@/components/provider/personal-details/PersonalDetails";
 import ProfileTabs from "@/components/provider/profile-tab/ProfileTab";
 import { useState } from "react";
-import { userData } from "@/components/provider/user-data";
 import MedicalVerification from "@/components/provider/medical-verification/MedicalVerification";
 import AffiliationStatus from "@/components/provider/affiliation-status/AffiliationStatus";
 import EditProfileDialog from "@/components/common/EditProfileForm/EditProfileForm";
@@ -11,12 +10,6 @@ const Settings = () => {
   const [activeTab, setActiveTab] = useState("personal");
   const [editProfileOpen, setEditProfileOpen] = useState(false);
   const { user } = useAuthentication();
-
-  // const transformedAffiliations = user?.affiliations?.map((aff: any) => ({
-  //   id: aff._id,
-  //   name: aff.business?.name ?? "N/A",
-  //   status: aff.isAffiliationActive === true,
-  // }));
 
   return (
     <>
@@ -39,7 +32,7 @@ const Settings = () => {
               <MedicalVerification user={user!} />
             </div>
             <div id="affiliation">
-              <AffiliationStatus userData={user} />
+              <AffiliationStatus userData={user!} />
             </div>
           </div>
         </div>

@@ -2,14 +2,12 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { tabsConfig } from "@/constants";
 
 const ProfileTabs = ({
-  activeTab,
+  // activeTab,
   onTabChange,
 }: {
   activeTab: string;
   onTabChange: (id: string) => void;
 }) => {
-  console.log("Current active tab", activeTab);
-
   return (
     <div className="w-[291px] h-[162px]  bg-white rounded-lg shadow-sm">
       <Tabs defaultValue="personal" className="w-full">

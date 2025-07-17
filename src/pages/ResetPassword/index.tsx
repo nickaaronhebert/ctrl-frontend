@@ -21,8 +21,6 @@ const ResetPassword = () => {
     navigate({ search: searchParams.toString() }, { replace: true });
   }, [location.search, navigate]);
 
-  console.log("token", token);
-
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <div className="flex-1 flex items-center justify-center p-4 sm:p-6">

@@ -16,6 +16,7 @@ export const ROUTES = {
   CREDENTIAL_VERIFICATION: "/verification",
   PROVIDER_DASHBOARD: "/provider-dashboard",
   SUPPORT: "/provider/support",
+  POST_LOGIN_REDIRECT: "/post-login-redirect",
 };
 
 export const STEPPER_FORM = {

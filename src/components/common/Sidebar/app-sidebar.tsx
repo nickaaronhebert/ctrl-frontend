@@ -16,26 +16,52 @@ import CollapsedCTRLSVG from "@/assets/icons/CollapsedCTRL";
 import { SidebarToggle } from "./sidebar-toggle";
 import { useLocation } from "react-router-dom";
 import { PrescriptionSVG } from "@/assets/icons/PrescriptionSVG";
-
+import useAuthentication from "@/hooks/use-authentication";
 import SupportSVG from "@/assets/icons/Support";
-// Menu items.
-const items = [
-  {
-    title: "Prescriptions",
-    url: "/provider/warning",
-    icon: <PrescriptionSVG />,
-  },
-  {
-    title: "Support",
-    url: "/provider/support",
-    icon: <SupportSVG />,
-  },
-];
+
+// // Menu items.
+// const items = [
+//   {
+//     title: "Prescriptions",
+//     url: "/provider/warning",
+//     icon: <PrescriptionSVG />,
+//     activePaths: ["/provider/warning", "/provider/pending-approval"],
+//   },
+//   {
+//     title: "Prescriptions",
+//     url: "/provider/pending-approval",
+//     icon: <PrescriptionSVG />,
+//     activePaths: ["/provider/warning", "/provider/pending-approval"],
+//   },
+//   {
+//     title: "Support",
+//     url: "/provider/support",
+//     icon: <SupportSVG />,
+//   },
+// ];
 
 export function AppSidebar() {
   const { state, open, toggleSidebar } = useSidebar();
   const location = useLocation();
   const navigate = useNavigate();
+  const { user } = useAuthentication();
+
+  const items = [
+    {
+      title: "Prescriptions",
+      url:
+        user?.providerStatus === "med_submitted"
+          ? "/provider/pending-approval"
+          : "/provider/warning",
+      icon: <PrescriptionSVG />,
+      activePaths: ["/provider/warning", "/provider/pending-approval"],
+    },
+    {
+      title: "Support",
+      url: "/provider/support",
+      icon: <SupportSVG />,
+    },
+  ];
 
   return (
     <Sidebar
@@ -62,7 +88,9 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => {
-                const isActive = location.pathname === item.url;
+                const isActive = item.activePaths
+                  ? item.activePaths.includes(location.pathname)
+                  : location.pathname === item.url;
                 const { state } = useSidebar();
                 return (
                   <SidebarMenuItem

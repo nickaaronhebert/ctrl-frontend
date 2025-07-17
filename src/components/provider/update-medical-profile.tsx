@@ -5,7 +5,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import InputElement from "@/components/Form/input-element";
 import SelectElement from "@/components/Form/select-element";
@@ -18,8 +17,8 @@ import ClearSVG from "@/assets/icons/Clear";
 import InsertIconSVG from "@/assets/icons/Insert";
 import { stateOptions } from "./medical-credentials/verification-step1";
 import { cn } from "@/lib/utils";
-import type z from "zod";
 import { useAcceptProviderMedicalCredentialsMutation } from "@/redux/services/provider";
+import { toast } from "sonner";
 
 interface AddMedicalLicenseDialogProps {
   openAddLicenseModal: boolean;
@@ -66,8 +65,7 @@ export default function AddMedicalLicenseDialog({
     control: form.control,
   });
 
-  async function onSubmit(data: z.infer<typeof addMedicalLicenseSchema>) {
-    console.log("Form Data:", data);
+  async function onSubmit() {
     const { deaLicense, medicalLicense } = form.getValues();
     const payload = {
       medicalLicenses: medicalLicense,
@@ -75,13 +73,14 @@ export default function AddMedicalLicenseDialog({
     };
     await acceptMedicalCredentials(payload)
       .unwrap()
-      .then((res) => {
-        console.log("res", res);
+      .then(() => {
         form.reset();
         setOpenLicenseModal(false);
+        toast.success("Credentials added successfully");
       })
       .catch((err) => {
         console.log("error", err);
+        toast.error("Something went wrong");
       });
   }
 
