@@ -1,7 +1,9 @@
 import { Button } from "@/components/ui/button";
 import HandWaive from "@/assets/images/HandWave.svg";
 import { useNavigate } from "react-router-dom";
+import useAuthentication from "@/hooks/use-authentication";
 export default function WelcomeProvider() {
+  const { user } = useAuthentication();
   const navigate = useNavigate();
   return (
     <div className="flex justify-center items-center  min-h-[670px]">
@@ -9,7 +11,7 @@ export default function WelcomeProvider() {
         <div className="flex flex-col items-center gap-2">
           <img src={HandWaive} alt="Logo" className="h-16 w-16" />
           <h1 className="font-semibold text-3xl text-primary-foreground">
-            Hi Johan,
+            Hi {user?.firstName},
           </h1>
           <h1 className="font-semibold text-3xl text-secondary-foreground">
             we're excited to have you on board!

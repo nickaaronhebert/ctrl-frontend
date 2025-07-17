@@ -107,6 +107,7 @@ export default function ProviderSteppedForm({ slug }: ProviderStepperProps) {
         })
         .catch((err) => {
           console.log("error", err);
+          toast.error("Invalid Details");
         });
 
       // if (slug === STEPPER_FORM.ONBOARDING) navigate("/onboarding-success");

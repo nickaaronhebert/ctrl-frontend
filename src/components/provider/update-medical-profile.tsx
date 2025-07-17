@@ -80,7 +80,7 @@ export default function AddMedicalLicenseDialog({
       })
       .catch((err) => {
         console.log("error", err);
-        toast.error("Something went wrong");
+        toast.error(err?.data?.message || "Something went wrong");
       });
   }
 

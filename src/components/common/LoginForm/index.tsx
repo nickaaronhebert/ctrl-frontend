@@ -41,9 +41,18 @@ const LoginForm = () => {
           password: values.password,
         },
       });
-    } catch (error) {
+    } catch (error: unknown) {
       console.error("Login failed:", error);
-      toast.error("Login Failed");
+
+      const err = error as {
+        status?: number;
+        data?: {
+          message?: string;
+        };
+      };
+
+      const message = err?.data?.message || "An unexpected error occurred";
+      toast.error(message);
     }
   };
   return (

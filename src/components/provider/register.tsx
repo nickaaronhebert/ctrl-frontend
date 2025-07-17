@@ -52,6 +52,11 @@ export default function RegisterProvider() {
       })
       .catch((err) => {
         console.log("error", err);
+        toast.error(
+          err?.data?.message?.[0] ??
+            err?.data?.message ??
+            "Something went wrong"
+        );
       });
   }
 

@@ -49,18 +49,31 @@ export default function EditProfileDialog({
       onOpenChange?.(false);
     }
 
-    if (isError) {
-      toast.error("Something went wrong");
-    }
+    // if (isError) {
+    //   toast.error("Something went wrong");
+    // }
   }, [isSuccess, isError]);
 
   async function onSubmit(values: EditProfile) {
     const { email, ...payload } = values;
     try {
       await editProfile(payload).unwrap();
-    } catch (err) {
-      console.error("Update error:", err);
-      toast.error("Error updating profile");
+    } catch (error: unknown) {
+      console.error("Profile update failed:", error);
+
+      let message = "An unexpected error occurred";
+
+      if (typeof error === "object" && error !== null && "data" in error) {
+        const data = (error as any).data;
+
+        if (Array.isArray(data?.message)) {
+          message = data.message[0]; // e.g. "Last name must not contain numbers"
+        } else if (typeof data?.message === "string") {
+          message = data.message;
+        }
+      }
+
+      toast.error(message);
     }
   }
   function onCancel() {
