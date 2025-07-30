@@ -52,6 +52,13 @@
   --color-alert-border: var(--alert-border);
   --color-primary-light: var(--primary-light);
   --color-disabled: var(--disabled);
+  --color-progress-secondary: var(--progress-secondary);
+  --color-queued: var(--queued);
+  --color-queued-secondary: var(--queued-secondary);
+  --color-pending: var(--pending);
+  --color-pending-secondary: var(--pending-secondary);
+  --color-failed: var(--failed);
+  --color-failed-secondary: var(--failed-secondary);
 }
 
 :root {
@@ -72,7 +79,9 @@
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.245 27.325);
+
   --progress: hsla(152, 70%, 43%, 1);
+  --progress-secondary: hsla(165, 67%, 94%, 1);
   --border: hsla(208, 7%, 65%, 1);
   --border-secondary: hsla(0, 0%, 21%, 1);
   --input: oklch(0.922 0 0);
@@ -99,6 +108,12 @@
   --alert-border: hsla(39, 100%, 86%, 1);
   --primary-light: hsla(273, 71%, 84%, 1);
   --disabled: hsla(267, 4%, 77%, 1);
+  --queued: hsla(203, 100%, 44%, 1);
+  --queued-secondary: hsla(203, 79%, 94%, 1);
+  --pending: hsla(31, 99%, 42%, 1);
+  --pending-secondary: hsla(39, 100%, 95%, 1);
+  --failed: hsla(0, 87%, 48%, 1);
+  --failed-secondary: hsla(0, 100%, 96%, 1);
 }
 
 .dark {
