@@ -41,7 +41,7 @@ export function DataTable<TData>({
     <>
       {/* // ? below div and scroll area is commented */}
       {/* <ScrollArea className="h-[75vh] rounded-none border w-full overflow-x-auto"> */}
-      <Table className={cn("w-full space-y-2.5 overflow-auto", className)}>
+      <Table className={cn("", className)}>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow

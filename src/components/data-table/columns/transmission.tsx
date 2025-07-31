@@ -20,41 +20,75 @@ export type Pharmacy = {
   name: string;
   id: string;
 };
-export type Order = {
+export type Transmission = {
   id: string;
-  patient: {
-    name: string;
-    id: string;
-  };
   provider: Provider;
   pharmacy: Pharmacy;
-  createdAt: string;
   status: "queued" | "transmitted" | "pending" | "failed";
   medication: Medication[];
-  //   email: string
+  amount: string;
 };
 
-export function organizationOrderColumns(): ColumnDef<Order>[] {
+export function organizationTransmissionColumns(): ColumnDef<Transmission>[] {
   return [
     {
       accessorKey: "id",
-      header: "Order ID",
-      //   header: ({ column }) => (
-      //     <DataTableColumnHeader
-      //       column={column}
-      //       title="Campaign Name"
-      //       className="uppercase"
-      //       //   className="min-w-[5rem]"
-      //     />
-      //   ),
+      header: "Transmission ID",
       cell: ({ row }) => {
-        return (
-          //   <p className="max-w-[10rem] truncate font-medium">
-          <p className="text-xs font-medium">{row.getValue("id")}</p>
-        );
+        return <p className="text-xs font-medium">{row.getValue("id")}</p>;
       },
       enableSorting: false,
       enableHiding: false,
+    },
+
+    {
+      accessorKey: "status",
+      header: "Status",
+      cell: ({ row }) => {
+        const orderStatus = row.getValue("status");
+
+        return (
+          <>
+            {orderStatus === "queued" ? (
+              <QueuedBadge />
+            ) : orderStatus === "transmitted" ? (
+              <SuccessBadge />
+            ) : orderStatus === "pending" ? (
+              <PendingBadge />
+            ) : orderStatus === "failed" ? (
+              <FailedBadge />
+            ) : null}
+          </>
+        );
+      },
+    },
+
+    {
+      accessorKey: "provider",
+      header: "Provider",
+      cell: ({ row }) => {
+        const provider: Provider = row.getValue("provider");
+        return (
+          <>
+            <p className="text-xs font-medium">{provider.name}</p>
+            <p className="text-[10px] font-medium">{provider.npi}</p>
+          </>
+        );
+      },
+    },
+
+    {
+      accessorKey: "pharmacy",
+      header: "Pharmacy",
+      cell: ({ row }) => {
+        const pharmacy: Pharmacy = row.getValue("pharmacy");
+        return (
+          <>
+            <p className="text-xs font-medium">{pharmacy.name}</p>
+            <p className="text-[10px] font-medium">{pharmacy.id}</p>
+          </>
+        );
+      },
     },
 
     {
@@ -106,77 +140,21 @@ export function organizationOrderColumns(): ColumnDef<Order>[] {
         );
       },
     },
-    {
-      accessorKey: "patient",
-      header: "Patient",
-      cell: ({ row }) => {
-        const patient: { name: string; id: string } = row.getValue("patient");
-        return (
-          <>
-            <p className="text-xs font-medium">{patient.name}</p>
-            <p className="text-[10px] font-medium">{patient.id}</p>
-          </>
-        );
-      },
-    },
-    {
-      accessorKey: "provider",
-      header: "Provider",
-      cell: ({ row }) => {
-        const provider: Provider = row.getValue("provider");
-        return (
-          <>
-            <p className="text-xs font-medium">{provider.name}</p>
-            <p className="text-[10px] font-medium">{provider.npi}</p>
-          </>
-        );
-      },
-    },
-    {
-      accessorKey: "pharmacy",
-      header: "Pharmacy",
-      cell: ({ row }) => {
-        const pharmacy: Pharmacy = row.getValue("pharmacy");
-        return (
-          <>
-            <p className="text-xs font-medium">{pharmacy.name}</p>
-            <p className="text-[10px] font-medium">{pharmacy.id}</p>
-          </>
-        );
-      },
-    },
-    {
-      accessorKey: "createdAt",
-      header: "Created On",
-      cell: ({ row }) => {
-        return (
-          <>
-            <p className="text-xs font-medium">{row.getValue("createdAt")}</p>
-          </>
-        );
-      },
-    },
-    {
-      accessorKey: "status",
-      header: "Status",
-      cell: ({ row }) => {
-        const orderStatus = row.getValue("status");
 
+    {
+      accessorKey: "amount",
+      header: "Total Amount",
+      cell: ({ row }) => {
         return (
           <>
-            {orderStatus === "queued" ? (
-              <QueuedBadge />
-            ) : orderStatus === "transmitted" ? (
-              <SuccessBadge />
-            ) : orderStatus === "pending" ? (
-              <PendingBadge />
-            ) : orderStatus === "failed" ? (
-              <FailedBadge />
-            ) : null}
+            <p className="text-xs font-medium">{`$ ${row.getValue(
+              "amount"
+            )}`}</p>
           </>
         );
       },
     },
+
     {
       id: "actions",
       cell: () => {
