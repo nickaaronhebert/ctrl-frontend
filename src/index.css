@@ -115,7 +115,7 @@
   --disabled: hsla(267, 4%, 77%, 1);
   --queued: hsla(203, 100%, 44%, 1);
   --queued-secondary: hsla(203, 79%, 94%, 1);
-  --pending: hsla(31, 99%, 42%, 1);
+  --pending: hsla(31, 100%, 50%, 1);
   --pending-secondary: hsla(39, 100%, 95%, 1);
   --failed: hsla(0, 87%, 48%, 1);
   --failed-secondary: hsla(0, 100%, 96%, 1);

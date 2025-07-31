@@ -11,10 +11,6 @@ export type Medication = {
   quantityType: string;
   injectible: "oral" | "injectable";
 };
-export type Provider = {
-  name: string;
-  npi: string;
-};
 
 export type Pharmacy = {
   name: string;
@@ -22,11 +18,9 @@ export type Pharmacy = {
 };
 export type Transmission = {
   id: string;
-  provider: Provider;
   pharmacy: Pharmacy;
   status: "queued" | "transmitted" | "pending" | "failed";
   medication: Medication[];
-  amount: string;
 };
 
 export function recentTransmissionColumns(): ColumnDef<Transmission>[] {
@@ -127,6 +121,7 @@ export function recentTransmissionColumns(): ColumnDef<Transmission>[] {
     },
     {
       id: "actions",
+      header: "Actions",
       cell: () => {
         return (
           <Link

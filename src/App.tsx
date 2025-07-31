@@ -25,7 +25,7 @@ import Redirect from "./components/provider/redirect";
 import RoleChecker from "./guard/RoleChecker";
 import PostLoginRedirect from "./components/common/PostLoginRedirect";
 import OrganisationDashboard from "./pages/OrganizationDashboard";
-import Transmission from "./pages/Transmission";
+// import Transmission from "./pages/Transmission";
 import Orders from "./pages/Orders";
 import Providers from "./pages/Providers";
 import Transactions from "./pages/Transactions";
@@ -161,10 +161,10 @@ const router = createBrowserRouter([
         path: ROUTES.ORG_DASHBOARD,
         element: <OrganisationDashboard />,
       },
-      {
-        path: ROUTES.ORG_TRANSMISSIONS,
-        element: <Transmission />,
-      },
+      // {
+      //   path: ROUTES.ORG_TRANSMISSIONS,
+      //   element: <Transmission />,
+      // },
       {
         path: ROUTES.ORG_ORDERS,
         element: <Orders />,
