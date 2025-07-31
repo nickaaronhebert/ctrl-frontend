@@ -56,7 +56,19 @@ export function organizationOrderColumns(): ColumnDef<Order>[] {
       enableSorting: false,
       enableHiding: false,
     },
-
+    {
+      accessorKey: "patient",
+      header: "Patient",
+      cell: ({ row }) => {
+        const patient: { name: string; id: string } = row.getValue("patient");
+        return (
+          <>
+            <p className="text-xs font-medium">{patient.name}</p>
+            <p className="text-[10px] font-medium">{patient.id}</p>
+          </>
+        );
+      },
+    },
     {
       accessorKey: "medication",
       header: "Medication",
@@ -106,19 +118,7 @@ export function organizationOrderColumns(): ColumnDef<Order>[] {
         );
       },
     },
-    {
-      accessorKey: "patient",
-      header: "Patient",
-      cell: ({ row }) => {
-        const patient: { name: string; id: string } = row.getValue("patient");
-        return (
-          <>
-            <p className="text-xs font-medium">{patient.name}</p>
-            <p className="text-[10px] font-medium">{patient.id}</p>
-          </>
-        );
-      },
-    },
+
     {
       accessorKey: "provider",
       header: "Provider",
@@ -146,17 +146,6 @@ export function organizationOrderColumns(): ColumnDef<Order>[] {
       },
     },
     {
-      accessorKey: "createdAt",
-      header: "Created On",
-      cell: ({ row }) => {
-        return (
-          <>
-            <p className="text-xs font-medium">{row.getValue("createdAt")}</p>
-          </>
-        );
-      },
-    },
-    {
       accessorKey: "status",
       header: "Status",
       cell: ({ row }) => {
@@ -177,6 +166,18 @@ export function organizationOrderColumns(): ColumnDef<Order>[] {
         );
       },
     },
+    {
+      accessorKey: "createdAt",
+      header: "Created On",
+      cell: ({ row }) => {
+        return (
+          <>
+            <p className="text-xs font-medium">{row.getValue("createdAt")}</p>
+          </>
+        );
+      },
+    },
+
     {
       id: "actions",
       cell: () => {
