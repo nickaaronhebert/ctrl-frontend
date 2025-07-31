@@ -78,6 +78,10 @@ const router = createBrowserRouter([
             permission: PERMISSIONS.READ,
           },
           {
+            resource: MODULE.BUSINESS,
+            permission: PERMISSIONS.UPDATE,
+          },
+          {
             resource: MODULE.ORDER,
             permission: PERMISSIONS.READ,
           },
@@ -91,6 +95,62 @@ const router = createBrowserRouter([
           },
           {
             resource: MODULE.ORDER,
+            permission: PERMISSIONS.DELETE,
+          },
+          {
+            resource: MODULE.ACCESS_CONTROL,
+            permission: PERMISSIONS.READ,
+          },
+          {
+            resource: MODULE.ACCESS_CONTROL,
+            permission: PERMISSIONS.UPDATE,
+          },
+          {
+            resource: MODULE.ACCESS_CONTROL,
+            permission: PERMISSIONS.DELETE,
+          },
+          {
+            resource: MODULE.ACCESS_CONTROL,
+            permission: PERMISSIONS.UPDATE,
+          },
+          {
+            resource: MODULE.PRESCRIPTION,
+            permission: PERMISSIONS.READ,
+          },
+          {
+            resource: MODULE.PRESCRIPTION,
+            permission: PERMISSIONS.WRITE,
+          },
+          {
+            resource: MODULE.PRESCRIPTION,
+            permission: PERMISSIONS.DELETE,
+          },
+          {
+            resource: MODULE.PHARMACY_CATALOGUE,
+            permission: PERMISSIONS.READ,
+          },
+          {
+            resource: MODULE.MEDICATION_CATALOGUE,
+            permission: PERMISSIONS.READ,
+          },
+          {
+            resource: MODULE.PROVIDER_GROUP_INVITATION,
+            permission: PERMISSIONS.WRITE,
+          },
+          {
+            resource: MODULE.ME,
+            permission: PERMISSIONS.READ,
+          },
+          {
+            resource: MODULE.ME,
+            permission: PERMISSIONS.WRITE,
+          },
+          {
+            resource: MODULE.ME,
+            permission: PERMISSIONS.UPDATE,
+          },
+          {
+            resource: MODULE.ME,
             permission: PERMISSIONS.DELETE,
           },
         ]}

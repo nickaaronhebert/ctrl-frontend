@@ -2,10 +2,18 @@ import Failed from "@/assets/icons/Failed";
 import Pending from "@/assets/icons/Pending";
 import Queued from "@/assets/icons/Queued";
 import Transmitted from "@/assets/icons/Transmitted";
+import { PharmacyPerformance } from "@/components/common/PharmacyPerformance";
 import StatusCard from "@/components/common/StatusCard";
 import TripleToggleSwitch from "@/components/common/TripleToggleSwitch";
 import useAuthentication from "@/hooks/use-authentication";
-import { useCallback, useState } from "react";
+import { useCallback, useState, useMemo } from "react";
+import { recentTransmissionColumns } from "@/components/data-table/columns/recentTransmissions";
+import { DataTable } from "@/components/data-table/data-table";
+import {
+  getCoreRowModel,
+  getPaginationRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
 
 const OrganisationDashboard = () => {
   const labels = {
@@ -23,6 +31,90 @@ const OrganisationDashboard = () => {
     },
   };
 
+  const transmissionData = [
+    {
+      id: "a1b2c3d4",
+      provider: { name: "Dr. Adams", npi: "9876543210" },
+      pharmacy: { name: "Pharmacy B", id: "PH_0002" },
+      amount: "180",
+      status: "queued",
+      medication: [
+        {
+          name: "Metformin 500mg",
+          quantity: "60",
+          quantityType: "tablet",
+          injectible: "oral",
+        },
+      ],
+    },
+    {
+      id: "e5f6g7h8",
+      provider: { name: "Dr. Blake", npi: "1122334455" },
+      pharmacy: { name: "Pharmacy C", id: "PH_0003" },
+      amount: "95",
+      status: "queued",
+      medication: [
+        {
+          name: "Lisinopril 10mg",
+          quantity: "30",
+          quantityType: "tablet",
+          injectible: "oral",
+        },
+      ],
+    },
+    {
+      id: "i9j0k1l2",
+      provider: { name: "Dr. Chen", npi: "2233445566" },
+      pharmacy: { name: "Pharmacy D", id: "PH_0004" },
+      amount: "75",
+      status: "queued",
+      medication: [
+        {
+          name: "Atorvastatin 20mg",
+          quantity: "90",
+          quantityType: "tablet",
+          injectible: "oral",
+        },
+      ],
+    },
+    {
+      id: "m3n4o5p6",
+      provider: { name: "Dr. Smith", npi: "1234567890" },
+      pharmacy: { name: "Pharmacy A", id: "PH_0001" },
+      amount: "240",
+      status: "transmitted",
+      medication: [
+        {
+          name: "Tirzepatide 2.5mg/mL",
+          quantity: "30",
+          quantityType: "tablet",
+          injectible: "oral",
+        },
+        {
+          name: "B12 Injection 1000mcg/mL",
+          quantity: "1",
+          quantityType: "vial",
+          injectible: "oral",
+        },
+      ],
+    },
+    {
+      id: "q7r8s9t0",
+      provider: { name: "Dr. Patel", npi: "3344556677" },
+      pharmacy: { name: "Pharmacy E", id: "PH_0005" },
+      amount: "210",
+      status: "transmitted",
+      medication: [
+        {
+          name: "Semaglutide 1mg/mL",
+          quantity: "4",
+          quantityType: "pen",
+          injectible: "injectable",
+        },
+      ],
+    },
+  ];
+
   const { user } = useAuthentication();
   const [selectedPeriod, setSelectedPeriod] = useState(labels.left.value);
 
@@ -38,7 +130,14 @@ const OrganisationDashboard = () => {
     setSelectedPeriod(selectedValue);
   }, []);
 
-  console.log("Selected Time Period:", selectedPeriod);
+  const columns = useMemo(() => recentTransmissionColumns(), []);
+
+  const table = useReactTable({
+    data: transmissionData,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+  });
 
   return (
     <div className="h-screen bg-background">
@@ -99,6 +198,22 @@ const OrganisationDashboard = () => {
           }
           icon={Failed}
         />
+      </div>
+
+      {/* Pharmacy Layout  */}
+      <div className="mt-10 flex gap-10">
+        <div className="w-1/2">
+          <h2 className="text-xl font-semibold text-dashboard-title mb-6">
+            Recent Transmissions
+          </h2>
+          <DataTable table={table} className="p-5 bg-white" />
+        </div>
+        <div className="w-1/2">
+          <h2 className="text-xl font-semibold text-dashboard-title mb-6">
+            Pharmacy Performance
+          </h2>
+          <PharmacyPerformance />
+        </div>
       </div>
     </div>
   );
