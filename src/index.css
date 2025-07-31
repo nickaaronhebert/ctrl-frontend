@@ -59,6 +59,8 @@
   --color-pending-secondary: var(--pending-secondary);
   --color-failed: var(--failed);
   --color-failed-secondary: var(--failed-secondary);
+  --color-slate: var(--slate);
+  --color-slate-background: var(--slate-background);
 }
 
 :root {
@@ -80,6 +82,8 @@
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.245 27.325);
 
+  --slate: hsla(214 22% 31% 1);
+  --slate-background: hsla(211, 21%, 79%, 0.24);
   --progress: hsla(152, 70%, 43%, 1);
   --progress-secondary: hsla(165, 67%, 94%, 1);
   --border: hsla(208, 7%, 65%, 1);

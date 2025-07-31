@@ -23,12 +23,14 @@ const buttonVariants = cva(
         ctrl: "cursor-pointer text-white rounded-full  text-base font-semibold bg-primary",
         transparent:
           "border border-black text-black rounded-[50px] bg-transparent hover:bg-transparent cursor-pointer",
+        tabs: "rounded-tl-[10px] rounded-tr-[10px] rounded-bl-[0px] rounded-br-[0px] cursor-pointer",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",
         sm: "h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5",
         lg: "h-10 rounded-md px-6 has-[>svg]:px-4",
         xl: "py-2.5 px-7 h-14",
+        xxl: "h-14  px-4 py-3.5 ",
         icon: "size-9",
       },
     },
