@@ -44,15 +44,12 @@ export function DataTable<TData>({
       <Table className={cn("", className)}>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow
-              key={headerGroup.id}
-              className="bg-primary hover:bg-primary dark:bg-background"
-            >
+            <TableRow key={headerGroup.id} className="bg-lavender ">
               {headerGroup.headers.map((header) => {
                 return (
                   <TableHead
                     key={header.id}
-                    className="text-background dark:text-foreground text-xs h-10"
+                    className="text-black font-medium text-sm h-10"
                   >
                     {header.isPlaceholder
                       ? null

@@ -1057,10 +1057,18 @@ export default function OrganizationOrder() {
     getPaginationRowModel: getPaginationRowModel(),
   });
   return (
-    <div className="">
-      <DataTable table={table} />
+    <>
+      <div className=" lg:p-3.5">
+        <h1 className="text-2xl font-bold">Orders</h1>
+        <h6 className="font-normal text-sm text text-slate">
+          Manage prescription orders and fulfillment
+        </h6>
+      </div>
+      <div className="mt-3.5 px-1 bg-white">
+        <DataTable table={table} />
 
-      <DataTablePagination table={table} />
-    </div>
+        {/* <DataTablePagination table={table} /> */}
+      </div>
+    </>
   );
 }

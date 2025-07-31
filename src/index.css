@@ -61,6 +61,7 @@
   --color-failed-secondary: var(--failed-secondary);
   --color-slate: var(--slate);
   --color-slate-background: var(--slate-background);
+  --color-lavender: var(--lavender);
 }
 
 :root {
@@ -81,7 +82,7 @@
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.245 27.325);
-
+  --lavender: hsla(270, 32%, 94%, 1);
   --slate: hsla(214 22% 31% 1);
   --slate-background: hsla(211, 21%, 79%, 0.24);
   --progress: hsla(152, 70%, 43%, 1);
