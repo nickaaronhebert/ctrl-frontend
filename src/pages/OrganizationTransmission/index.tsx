@@ -560,7 +560,6 @@ export default function OrganizationTransmission() {
     getPaginationRowModel: getPaginationRowModel(),
   });
 
-  console.log("Active Status:", activeStatus);
   return (
     <div className=" lg:p-3.5">
       <h1 className="text-2xl font-bold">Transmissions</h1>
@@ -630,7 +629,7 @@ export default function OrganizationTransmission() {
             </span>
           </Button>
         </div>
-        <div className="p-5 bg-white">
+        <div className="p-5 bg-white shadow-[0px_2px_40px_0px_#00000014]">
           <DataTable table={table} />
         </div>
       </div>
