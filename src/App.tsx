@@ -24,6 +24,15 @@ import Support from "./pages/Support/page";
 import Redirect from "./components/provider/redirect";
 import RoleChecker from "./guard/RoleChecker";
 import PostLoginRedirect from "./components/common/PostLoginRedirect";
+import OrganisationDashboard from "./pages/OrganizationDashboard";
+import Transmission from "./pages/Transmission";
+import Orders from "./pages/Orders";
+import Providers from "./pages/Providers";
+import Transactions from "./pages/Transactions";
+import Medications from "./pages/Medications";
+import Pharmacies from "./pages/Pharmacies";
+import ActivityLog from "./pages/ActivityLog";
+import OrgSettings from "./pages/OrgSettings";
 
 const router = createBrowserRouter([
   {
@@ -41,20 +50,88 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        path: "warning",
+        path: ROUTES.WARNING,
         element: <PrescriptionPage />,
       },
       {
-        path: "pending-approval",
+        path: ROUTES.PENDING_APPROVAL,
         element: <PendingApproval />,
       },
       {
-        path: "settings",
+        path: ROUTES.SETTINGS,
         element: <Settings />,
       },
       {
         path: ROUTES.SUPPORT,
         element: <Support />,
+      },
+    ],
+  },
+  {
+    path: "/org",
+    element: (
+      <ModuleProtectedRoute
+        element={<SidebarLayout />}
+        permissions={[
+          {
+            resource: MODULE.BUSINESS,
+            permission: PERMISSIONS.READ,
+          },
+          {
+            resource: MODULE.ORDER,
+            permission: PERMISSIONS.READ,
+          },
+          {
+            resource: MODULE.ORDER,
+            permission: PERMISSIONS.WRITE,
+          },
+          {
+            resource: MODULE.ORDER,
+            permission: PERMISSIONS.UPDATE,
+          },
+          {
+            resource: MODULE.ORDER,
+            permission: PERMISSIONS.DELETE,
+          },
+        ]}
+      />
+    ),
+    children: [
+      {
+        path: ROUTES.ORG_DASHBOARD,
+        element: <OrganisationDashboard />,
+      },
+      {
+        path: ROUTES.ORG_TRANSMISSIONS,
+        element: <Transmission />,
+      },
+      {
+        path: ROUTES.ORG_ORDERS,
+        element: <Orders />,
+      },
+      {
+        path: ROUTES.ORG_PROVIDERS,
+        element: <Providers />,
+      },
+      {
+        path: ROUTES.ORG_TRANSACTIONS,
+        element: <Transactions />,
+      },
+      {
+        path: ROUTES.ORG_MEDICATIONS,
+        element: <Medications />,
+      },
+      {
+        path: ROUTES.ORG_PHARMACIES,
+        element: <Pharmacies />,
+      },
+      {
+        path: ROUTES.ORG_ACTIVITY_LOG,
+        element: <ActivityLog />,
+      },
+      {
+        path: ROUTES.ORG_SETTINGS,
+        element: <OrgSettings />,
       },
     ],
   },

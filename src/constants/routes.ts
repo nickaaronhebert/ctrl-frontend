@@ -17,6 +17,19 @@ export const ROUTES = {
   PROVIDER_DASHBOARD: "/provider-dashboard",
   SUPPORT: "/provider/support",
   POST_LOGIN_REDIRECT: "/post-login-redirect",
+  WARNING: "warning",
+  PENDING_APPROVAL: "pending-approval",
+  SETTINGS: "settings",
+  PROVIDER_SETTINGS: "provider/settings",
+  ORG_DASHBOARD: "dashboard",
+  ORG_TRANSMISSIONS: "transmissions",
+  ORG_ORDERS: "orders",
+  ORG_PROVIDERS: "providers",
+  ORG_TRANSACTIONS: "transactions",
+  ORG_MEDICATIONS: "medications",
+  ORG_PHARMACIES: "pharmacies",
+  ORG_ACTIVITY_LOG: "activity-log",
+  ORG_SETTINGS: "settings",
 };
 
 export const STEPPER_FORM = {

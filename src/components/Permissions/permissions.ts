@@ -9,6 +9,14 @@ export const MODULE = {
   DASHBOARD: "business",
   PROFILE: "profile",
   PROVIDER: "me",
+  ACCESS_CONTROL: "access-control",
+  PRESCRIPTION: "prescription",
+  PHARMACY_CATALOGUE: "pharmacy-catalogue",
+  ORDER: "order",
+  ME: "me",
+  MEDICATION_CATALOGUE: "medication-catalogue",
+  BUSINESS: "business",
+  PROVIDER_GROUP_INVITATION: "provider-group-invitation",
 };
 
 export type AvailableModules = keyof typeof MODULE;

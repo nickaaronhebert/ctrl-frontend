@@ -10,11 +10,18 @@ const PostLoginRedirect = () => {
   useEffect(() => {
     if (!isLoadingUserDetails && isLoggedIn && user) {
       const status = user.providerStatus;
+      const role = user.role.name;
 
-      if (status === "med_submitted") {
-        navigate("/provider/pending-approval", { replace: true });
+      if (role === "Organization Admin") {
+        navigate("/org/dashboard", { replace: true });
+      } else if (role === "Provider") {
+        if (status === "med_submitted") {
+          navigate("/provider/pending-approval", { replace: true });
+        } else {
+          navigate("/provider/warning", { replace: true });
+        }
       } else {
-        navigate("/provider/warning", { replace: true });
+        navigate("/unauthorized", { replace: true });
       }
     }
   }, [isLoadingUserDetails, isLoggedIn, user, navigate]);

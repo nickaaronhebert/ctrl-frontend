@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/sidebar";
 import { useSidebar } from "@/components/ui/sidebar";
 import { useNavigate } from "react-router-dom";
-
+import { organisationAdminItems } from "@/constants";
 import CTRLSVG from "@/assets/images/CTRL.svg";
 import CollapsedCTRLSVG from "@/assets/icons/CollapsedCTRL";
 import { SidebarToggle } from "./sidebar-toggle";
@@ -19,49 +19,44 @@ import { PrescriptionSVG } from "@/assets/icons/PrescriptionSVG";
 import useAuthentication from "@/hooks/use-authentication";
 import SupportSVG from "@/assets/icons/Support";
 
-// // Menu items.
-// const items = [
-//   {
-//     title: "Prescriptions",
-//     url: "/provider/warning",
-//     icon: <PrescriptionSVG />,
-//     activePaths: ["/provider/warning", "/provider/pending-approval"],
-//   },
-//   {
-//     title: "Prescriptions",
-//     url: "/provider/pending-approval",
-//     icon: <PrescriptionSVG />,
-//     activePaths: ["/provider/warning", "/provider/pending-approval"],
-//   },
-//   {
-//     title: "Support",
-//     url: "/provider/support",
-//     icon: <SupportSVG />,
-//   },
-// ];
-
 export function AppSidebar() {
   const { state, open, toggleSidebar } = useSidebar();
   const location = useLocation();
   const navigate = useNavigate();
   const { user } = useAuthentication();
 
-  const items = [
+  console.log("user>>>>>>", user);
+
+  const isOrganisationAdmin = user?.role?.name === "Organization Admin";
+  const isProvider = user?.role?.name === "Provider";
+
+  const providerItems = [
     {
       title: "Prescriptions",
       url:
-        user?.providerStatus === "med_submitted"
+        isProvider && user?.providerStatus === "med_submitted"
           ? "/provider/pending-approval"
           : "/provider/warning",
-      icon: <PrescriptionSVG />,
+      icon: PrescriptionSVG,
       activePaths: ["/provider/warning", "/provider/pending-approval"],
     },
     {
       title: "Support",
       url: "/provider/support",
-      icon: <SupportSVG />,
+      icon: SupportSVG,
     },
   ];
+
+  const menuItems = isOrganisationAdmin
+    ? organisationAdminItems
+    : providerItems;
+
+  const isActive = (item: any) => {
+    if (item.activePaths) {
+      return item.activePaths.includes(location.pathname);
+    }
+    return location.pathname === item.url;
+  };
 
   return (
     <Sidebar
@@ -87,10 +82,10 @@ export function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => {
-                const isActive = item.activePaths
-                  ? item.activePaths.includes(location.pathname)
-                  : location.pathname === item.url;
+              {menuItems.map((item) => {
+                // const isActive = item.activePaths
+                //   ? item.activePaths.includes(location.pathname)
+                //   : location.pathname === item.url;
                 const { state } = useSidebar();
                 return (
                   <SidebarMenuItem
@@ -100,12 +95,12 @@ export function AppSidebar() {
                     <SidebarMenuButton asChild size="lg" tooltip={item.title}>
                       <div
                         className={`flex items-center gap-3 w-full cursor-pointer ${
-                          isActive ? "bg-secondary font-semibold" : ""
+                          isActive(item) ? "bg-secondary font-semibold" : ""
                         }`}
                         onClick={() => navigate(item.url)}
                       >
                         <span className="min-w-[30px] min-h-[30px] flex items-center justify-center">
-                          {item.icon}
+                          <item.icon />
                         </span>
                         <span className="text-lg">
                           {state !== "collapsed" && item.title}
