@@ -25,14 +25,17 @@ import Redirect from "./components/provider/redirect";
 import RoleChecker from "./guard/RoleChecker";
 import PostLoginRedirect from "./components/common/PostLoginRedirect";
 import OrganisationDashboard from "./pages/OrganizationDashboard";
-import Transmission from "./pages/Transmission";
-import Orders from "./pages/Orders";
+
 import Providers from "./pages/Providers";
 import Transactions from "./pages/Transactions";
 import Medications from "./pages/Medications";
 import Pharmacies from "./pages/Pharmacies";
 import ActivityLog from "./pages/ActivityLog";
 import OrgSettings from "./pages/OrgSettings";
+import OrganizationTransmission from "./pages/OrganizationTransmission";
+import OrganizationOrder from "./pages/OrganizationOrder";
+
+import TransmissionDetails from "./pages/OrganizationTransmission/details";
 
 const router = createBrowserRouter([
   {
@@ -103,11 +106,11 @@ const router = createBrowserRouter([
       },
       {
         path: ROUTES.ORG_TRANSMISSIONS,
-        element: <Transmission />,
+        element: <OrganizationTransmission />,
       },
       {
         path: ROUTES.ORG_ORDERS,
-        element: <Orders />,
+        element: <OrganizationOrder />,
       },
       {
         path: ROUTES.ORG_PROVIDERS,
@@ -132,6 +135,10 @@ const router = createBrowserRouter([
       {
         path: ROUTES.ORG_SETTINGS,
         element: <OrgSettings />,
+      },
+      {
+        path: "/org/transmissions/:id",
+        element: <TransmissionDetails />,
       },
     ],
   },

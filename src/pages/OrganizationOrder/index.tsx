@@ -1064,7 +1064,7 @@ export default function OrganizationOrder() {
           Manage prescription orders and fulfillment
         </h6>
       </div>
-      <div className="mt-3.5 px-1 bg-white">
+      <div className="mt-3.5 bg-white shadow-[0px_2px_40px_0px_#00000014]">
         <DataTable table={table} />
 
         {/* <DataTablePagination table={table} /> */}

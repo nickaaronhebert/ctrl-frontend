@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 
-export default function SuccessBadge() {
+export default function SuccessBadge({ title = "Transmitted" }) {
   return (
     <Badge className="bg-progress-secondary text-progress font-medium text-xs p-1.5 border border-progress flex gap-1.5">
       <svg
@@ -22,7 +22,7 @@ export default function SuccessBadge() {
         />
       </svg>
 
-      <span>Transmitted</span>
+      <span>{title}</span>
     </Badge>
   );
 }

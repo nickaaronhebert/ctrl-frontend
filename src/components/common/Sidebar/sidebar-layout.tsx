@@ -1,9 +1,15 @@
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/common/Sidebar/app-sidebar";
 import Navbar from "./navbar";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
+import { cn } from "@/lib/utils";
 
 export default function SidebarLayout() {
+  const location = useLocation();
+  const isTransmissionDetailRoute = /^\/org\/transmissions\/[^/]+$/.test(
+    location.pathname
+  );
+
   return (
     <SidebarProvider
       style={{
@@ -14,7 +20,7 @@ export default function SidebarLayout() {
       <AppSidebar />
       <main className="relative  w-full ">
         <Navbar />
-        <div className="p-7.5">
+        <div className={cn(`${isTransmissionDetailRoute ? "" : "p-7.5"}`)}>
           <Outlet />
         </div>
         {/* <div className="flex justify-end">

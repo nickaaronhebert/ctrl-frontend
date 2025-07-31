@@ -61,10 +61,7 @@ export function AppSidebar() {
   return (
     <Sidebar
       collapsible="icon"
-      className="border-none"
-      style={{
-        boxShadow: "0px 2px 40px 0px hsla(0, 0%, 0%, 0.05)",
-      }}
+      className="border-none shadow-[0px_2px_40px_0px_#0000000D]"
     >
       <SidebarToggle isOpen={open} setIsOpen={toggleSidebar} />
       <SidebarHeader>
