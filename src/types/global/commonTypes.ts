@@ -42,8 +42,8 @@ export interface Business {
   status: "active" | "inactive" | string;
   createdBy: Record<string, any>;
 }
-export type PROVIDER_STATUS = {
-  INVITED: "invited";
-  INVITATION_ACCEPTED: "invitation_accepted";
-  MED_SUBMITTED: "med_submitted";
+export const PROVIDER_STATUS = {
+  INVITED: "invited",
+  INVITATION_ACCEPTED: "invitation_accepted",
+  MED_SUBMITTED: "med_submitted",
 };
