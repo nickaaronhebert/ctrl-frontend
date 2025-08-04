@@ -2,6 +2,10 @@ import FailedBadge from "@/components/TransmissionBadge/failed";
 import PendingBadge from "@/components/TransmissionBadge/pending";
 import QueuedBadge from "@/components/TransmissionBadge/queued";
 import SuccessBadge from "@/components/TransmissionBadge/success";
+import type {
+  ProductVariants,
+  TransmissionData,
+} from "@/types/responses/transmission";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Link } from "react-router-dom";
 
@@ -18,7 +22,7 @@ export type Provider = {
 
 export type Pharmacy = {
   name: string;
-  id: string;
+  address: string;
 };
 export type Transmission = {
   id: string;
@@ -29,16 +33,14 @@ export type Transmission = {
   amount: string;
 };
 
-export function organizationTransmissionColumns(): ColumnDef<Transmission>[] {
+export function organizationTransmissionColumns(): ColumnDef<TransmissionData>[] {
   return [
     {
-      accessorKey: "id",
+      accessorKey: "_id",
       header: "Transmission ID",
       cell: ({ row }) => {
-        return <p className="text-xs font-medium">{row.getValue("id")}</p>;
+        return <p className="text-xs font-medium">{row.getValue("_id")}</p>;
       },
-      enableSorting: false,
-      enableHiding: false,
     },
 
     {
@@ -53,7 +55,7 @@ export function organizationTransmissionColumns(): ColumnDef<Transmission>[] {
               <QueuedBadge />
             ) : orderStatus === "transmitted" ? (
               <SuccessBadge />
-            ) : orderStatus === "pending" ? (
+            ) : orderStatus === "PENDING" ? (
               <PendingBadge />
             ) : orderStatus === "failed" ? (
               <FailedBadge />
@@ -63,19 +65,19 @@ export function organizationTransmissionColumns(): ColumnDef<Transmission>[] {
       },
     },
 
-    {
-      accessorKey: "provider",
-      header: "Provider",
-      cell: ({ row }) => {
-        const provider: Provider = row.getValue("provider");
-        return (
-          <>
-            <p className="text-xs font-medium">{provider.name}</p>
-            <p className="text-[10px] font-medium">{provider.npi}</p>
-          </>
-        );
-      },
-    },
+    // {
+    //   accessorKey: "provider",
+    //   header: "Provider",
+    //   cell: ({ row }) => {
+    //     const provider: Provider = row.getValue("provider");
+    //     return (
+    //       <>
+    //         <p className="text-xs font-medium">{provider.name}</p>
+    //         <p className="text-[10px] font-medium">{provider.npi}</p>
+    //       </>
+    //     );
+    //   },
+    // },
 
     {
       accessorKey: "pharmacy",
@@ -85,22 +87,27 @@ export function organizationTransmissionColumns(): ColumnDef<Transmission>[] {
         return (
           <>
             <p className="text-xs font-medium">{pharmacy.name}</p>
-            <p className="text-[10px] font-medium">{pharmacy.id}</p>
+            <p className="text-[10px] font-medium">{pharmacy.address}</p>
           </>
         );
       },
     },
 
     {
-      accessorKey: "medication",
+      accessorKey: "productVariants",
       header: "Medication",
       cell: ({ row }) => {
-        const medication: Medication[] = row.getValue("medication");
-
+        const medication: ProductVariants[] = row.getValue("productVariants");
+        console.log("medication", medication);
+        if (!medication || medication.length === 0) {
+          return (
+            <p className="text-xs font-medium text-gray-500">No medications</p>
+          );
+        }
         const displayedMedications = medication.slice(0, 2);
         const remainingCount = medication.length - 2;
 
-        const getTypeColor = (type: "oral" | "injectable") => {
+        const getTypeColor = (type: "oral" | "Injectable") => {
           return type === "oral" ? "text-green-600" : "text-pink-600";
         };
 
@@ -109,21 +116,23 @@ export function organizationTransmissionColumns(): ColumnDef<Transmission>[] {
             {displayedMedications.map((medication, index) => (
               <div key={index} className="mb-3 last:mb-0">
                 <div className="font-medium text-gray-900 text-sm mb-1">
-                  {medication.name}
+                  {medication.medicationCatalogue.drugName}
                 </div>
                 <div className="flex items-center text-xs text-gray-600 mb-1">
                   <span>
-                    {medication.quantity} {medication.quantityType}
+                    {medication.containerQuantity} {medication.quantityType}
                   </span>
                   <div
                     className={`w-1.5 h-1.5 rounded-full mx-2 bg-[#63627F] `}
                   ></div>
                   <span
                     className={`capitalize ${getTypeColor(
-                      medication.injectible
+                      medication.medicationCatalogue.dosageForm as
+                        | "oral"
+                        | "Injectable"
                     )}`}
                   >
-                    {medication.injectible}
+                    {medication.medicationCatalogue.dosageForm}
                   </span>
                 </div>
               </div>
@@ -141,26 +150,26 @@ export function organizationTransmissionColumns(): ColumnDef<Transmission>[] {
       },
     },
 
-    {
-      accessorKey: "amount",
-      header: "Total Amount",
-      cell: ({ row }) => {
-        return (
-          <>
-            <p className="text-xs font-medium">{`$ ${row.getValue(
-              "amount"
-            )}`}</p>
-          </>
-        );
-      },
-    },
+    // {
+    //   accessorKey: "amount",
+    //   header: "Total Amount",
+    //   cell: ({ row }) => {
+    //     return (
+    //       <>
+    //         <p className="text-xs font-medium">{`$ ${row.getValue(
+    //           "amount"
+    //         )}`}</p>
+    //       </>
+    //     );
+    //   },
+    // },
 
     {
       id: "actions",
       cell: ({ row }) => {
         return (
           <Link
-            to={`/org/transmissions/${row.getValue("id")}`}
+            to={`/org/transmissions/${row.getValue("_id")}`}
             className="flex justify-center items-center py-1 px-5 w-[85px] h-[36px] rounded-[50px] border border-primary-foreground "
           >
             View
