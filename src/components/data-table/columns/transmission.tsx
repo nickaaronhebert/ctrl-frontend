@@ -98,7 +98,7 @@ export function organizationTransmissionColumns(): ColumnDef<TransmissionData>[]
       header: "Medication",
       cell: ({ row }) => {
         const medication: ProductVariants[] = row.getValue("productVariants");
-        console.log("medication", medication);
+        // console.log("medication", medication);
         if (!medication || medication.length === 0) {
           return (
             <p className="text-xs font-medium text-gray-500">No medications</p>

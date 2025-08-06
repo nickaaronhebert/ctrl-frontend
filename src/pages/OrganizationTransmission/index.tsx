@@ -1,25 +1,34 @@
 import { organizationTransmissionColumns } from "@/components/data-table/columns/transmission";
 import { DataTable } from "@/components/data-table/data-table";
+import { DataTablePagination } from "@/components/data-table/data-table-pagination";
 import { Button } from "@/components/ui/button";
+import { useDataTable } from "@/hooks/use-data-table";
 import { cn } from "@/lib/utils";
 import { useViewAllTransmissionsQuery } from "@/redux/services/transmission";
-import {
-  getCoreRowModel,
-  getPaginationRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
+
 import { useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 export default function OrganizationTransmission() {
-  const { data } = useViewAllTransmissionsQuery(undefined, {
-    selectFromResult: ({ data, isLoading, isError }) => ({
-      data: data?.data,
-      isLoading: isLoading,
-      isError: isError,
-    }),
-  });
+  const [searchParams] = useSearchParams();
 
-  console.log("Transmission Data:", data);
+  const page = parseInt(searchParams.get("page") || "1", 10);
+  const perPage = parseInt(searchParams.get("per_page") ?? "10", 10);
+
+  const { data, meta } = useViewAllTransmissionsQuery(
+    { page, perPage },
+    {
+      selectFromResult: ({ data, isLoading, isError }) => ({
+        data: data?.data,
+        meta: data?.meta,
+        isLoading: isLoading,
+        isError: isError,
+      }),
+    }
+  );
+
+  // console.log("Transmission Data:", data);
+  // console.log("Meta Data:", meta);
 
   const [activeStatus, setActiveStatus] = useState<
     "transmitted" | "queued" | "pending" | "failed"
@@ -34,11 +43,11 @@ export default function OrganizationTransmission() {
   //     : activeStatus === "pending"
   //     ? pendingData
   //     : failedData;
-  const table = useReactTable({
+
+  const { table } = useDataTable({
     data: data || [],
     columns,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
+    pageCount: meta?.pageCount ?? -1,
   });
 
   return (
@@ -112,6 +121,7 @@ export default function OrganizationTransmission() {
         </div>
         <div className="p-5 bg-white shadow-[0px_2px_40px_0px_#00000014]">
           <DataTable table={table} />
+          <DataTablePagination table={table} />
         </div>
       </div>
       {/* Add your components and logic here */}

@@ -18,6 +18,19 @@ export type TransmissionData = {
   productVariants: ProductVariants[];
 };
 
+export type PaginationMeta = {
+  page: number;
+  limit: number;
+  itemCount: number;
+  pageCount: number;
+};
+
 export interface IViewAllTransmissionsResponse {
   data: TransmissionData[];
+  meta: PaginationMeta;
+}
+
+export interface IViewAllTransmissionsRequest {
+  page: number;
+  perPage: number;
 }

@@ -56,14 +56,14 @@ export function DataTablePagination<TData>({
   const pageNumbers = getPageNumbers();
 
   return (
-    <div className="flex items-center justify-center space-x-1">
+    <div className="flex items-center justify-end space-x-1 border-t border-card-border pt-3">
       {/* Previous Button */}
       <Button
         variant="ghost"
         size="sm"
         onClick={() => table.previousPage()}
         disabled={!table.getCanPreviousPage()}
-        className="px-3 py-2 text-sm font-medium text-gray-500 hover:text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="px-3 py-2 text-sm font-semibold text-[#9EA5AB] hover:text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         <ChevronLeft className="h-4 w-4 mr-1" />
         Previous
@@ -93,10 +93,10 @@ export function DataTablePagination<TData>({
               size="sm"
               onClick={() => table.setPageIndex(pageNumber - 1)}
               className={`
-                min-w-[40px] h-10 px-3 py-2 text-sm font-medium
+                min-w-[40px] h-10 px-3 py-2 text-sm font-semibold cursor-pointer
                 ${
                   isCurrentPage
-                    ? "bg-indigo-600 text-white hover:bg-indigo-700"
+                    ? "bg-primary text-white "
                     : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
                 }
               `}
@@ -113,7 +113,7 @@ export function DataTablePagination<TData>({
         size="sm"
         onClick={() => table.nextPage()}
         disabled={!table.getCanNextPage()}
-        className="px-3 py-2 text-sm font-medium text-gray-500 hover:text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="px-3 py-2 text-sm font-semibold text-[#9EA5AB]  disabled:opacity-50 disabled:cursor-not-allowed"
       >
         Next
         <ChevronRight className="h-4 w-4 ml-1" />
