@@ -1,0 +1,71 @@
+import type { Prescription } from "@/types/global/commonTypes";
+
+const prescriptionDisplayFields: {
+  label: string;
+  getValue: (prescription: Prescription) => string | number;
+}[] = [
+  {
+    label: "Container Qty",
+    getValue: (prescription) => prescription.productVariant?.containerQuantity,
+  },
+  {
+    label: "Container Qty Type",
+    getValue: (prescription) => prescription.productVariant?.quantityType,
+  },
+  {
+    label: "Dispensing Qty",
+    getValue: (prescription) => prescription.quantity,
+  },
+  {
+    label: "Sig",
+    getValue: (prescription) =>
+      prescription?.instructions || prescription?.notes,
+  },
+  {
+    label: "Price",
+    getValue: (prescription) => prescription.amount,
+  },
+];
+
+export default function PrescriptionCard({
+  prescriptions,
+}: {
+  prescriptions: Prescription[];
+}) {
+  return (
+    <div className=" p-5 border border-card-border rounded-bl-[10px] rounded-br-[10px] ">
+      {prescriptions.map((prescription: Prescription) => {
+        return (
+          <div
+            className=" border border-card-border   rounded-[10px]  mt-2"
+            key={prescription.id}
+          >
+            <div className="flex justify-between items-center p-5 border-b border-card-border rounded-tl-[10px] rounded-tr-[10px] bg-[#E6F3FC]">
+              <h2 className="text-base font-semibold">
+                {prescription.productVariant.medicationCatalogue.drugName}
+              </h2>
+
+              <div>
+                <h4 className="text-sm font-semibold text-[#3E4D61]">{`${prescription.provider.firstName} ${prescription.provider.lastName}`}</h4>
+                <h6 className="text-[10px] font-medium text-[#47499A]">{`(NPI: ${prescription.provider.npi})`}</h6>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7 p-5">
+              {prescriptionDisplayFields.map(({ label, getValue }) => (
+                <div key={label}>
+                  <h4 className="text-sm font-normal text-muted-foreground">
+                    {label}
+                  </h4>
+                  <span className="capitalize text-sm font-medium text-primary-foreground">
+                    {getValue(prescription as Prescription)}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}

@@ -62,6 +62,7 @@
   --color-slate: var(--slate);
   --color-slate-background: var(--slate-background);
   --color-lavender: var(--lavender);
+  --color-lilac: var(--lilac);
 }
 
 :root {
@@ -76,6 +77,7 @@
   --primary-foreground: hsla(213, 76%, 13%, 1);
   --secondary: hsla(270, 75%, 97%, 1);
   --secondary-foreground: hsla(219, 93%, 21%, 1);
+  --lilac: hsla(270, 40%, 94%, 1);
   --muted: hsla(267, 4%, 77%, 1);
   --muted-foreground: hsla(242, 13%, 44%, 1);
   --muted-peach: hsla(18, 81%, 68%, 1);

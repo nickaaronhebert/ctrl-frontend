@@ -9,6 +9,7 @@ export default function SidebarLayout() {
   const isTransmissionDetailRoute = /^\/org\/transmissions\/[^/]+$/.test(
     location.pathname
   );
+  const isOrderDetailRoute = /^\/org\/order\/[^/]+$/.test(location.pathname);
 
   return (
     <SidebarProvider
@@ -20,7 +21,11 @@ export default function SidebarLayout() {
       <AppSidebar />
       <main className="relative  w-full ">
         <Navbar />
-        <div className={cn(`${isTransmissionDetailRoute ? "" : "p-7.5"}`)}>
+        <div
+          className={cn(
+            `${isTransmissionDetailRoute || isOrderDetailRoute ? "" : "p-7.5"}`
+          )}
+        >
           <Outlet />
         </div>
         {/* <div className="flex justify-end">

@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 
-export default function FailedBadge() {
+export default function FailedBadge({ title = "Failed" }) {
   return (
     <Badge className="bg-failed-secondary text-failed font-medium text-xs p-1.5 border border-failed flex gap-1.5">
       <svg
@@ -40,7 +40,7 @@ export default function FailedBadge() {
         </defs>
       </svg>
 
-      <span>Failed</span>
+      <span>{title}</span>
     </Badge>
   );
 }

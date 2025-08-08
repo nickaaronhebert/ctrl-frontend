@@ -1,563 +1,53 @@
-import {
-  organizationTransmissionColumns,
-  type Transmission,
-} from "@/components/data-table/columns/transmission";
+import { organizationTransmissionColumns } from "@/components/data-table/columns/transmission";
 import { DataTable } from "@/components/data-table/data-table";
+import { DataTablePagination } from "@/components/data-table/data-table-pagination";
 import { Button } from "@/components/ui/button";
+import { useDataTable } from "@/hooks/use-data-table";
 import { cn } from "@/lib/utils";
-import {
-  getCoreRowModel,
-  getPaginationRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
+import { useViewAllTransmissionsQuery } from "@/redux/services/transmission";
+
 import { useMemo, useState } from "react";
-
-const transmissionData: Transmission[] = [
-  {
-    id: "728ed52f",
-    provider: { name: "Dr. Smith", npi: "1234567890" },
-    pharmacy: { name: "Pharmacy A", id: "PH_0001" },
-    amount: "240",
-    status: "transmitted",
-    medication: [
-      {
-        name: "Tirzepatide 2.5mg/mL",
-        quantity: "30",
-        quantityType: "tablet",
-        injectible: "oral",
-      },
-      {
-        name: "B12 Injection 1000mcg/mL",
-        quantity: "1",
-        quantityType: "vial",
-        injectible: "oral",
-      },
-    ],
-  },
-  {
-    id: "91af44c1",
-    provider: { name: "Dr. Emily Stone", npi: "4567891230" },
-    pharmacy: { name: "HealthPlus", id: "PH_0002" },
-    amount: "180",
-    status: "transmitted",
-    medication: [
-      {
-        name: "Vitamin D3 1000IU",
-        quantity: "60",
-        quantityType: "softgel",
-        injectible: "oral",
-      },
-    ],
-  },
-  {
-    id: "ba73d191",
-    provider: { name: "Dr. Alan Grant", npi: "9988776655" },
-    pharmacy: { name: "WellCare Pharmacy", id: "PH_0003" },
-    amount: "320",
-    status: "transmitted",
-    medication: [
-      {
-        name: "Metformin 500mg",
-        quantity: "60",
-        quantityType: "tablet",
-        injectible: "oral",
-      },
-      {
-        name: "Insulin Glargine 100U/mL",
-        quantity: "1",
-        quantityType: "vial",
-        injectible: "injectable",
-      },
-    ],
-  },
-  {
-    id: "3cfc21b5",
-    provider: { name: "Dr. Rachel Green", npi: "3216549870" },
-    pharmacy: { name: "PharmaDirect", id: "PH_0004" },
-    amount: "400",
-    status: "transmitted",
-    medication: [
-      {
-        name: "Prednisone 10mg",
-        quantity: "20",
-        quantityType: "tablet",
-        injectible: "oral",
-      },
-    ],
-  },
-  {
-    id: "ee77f3d9",
-    provider: { name: "Dr. Kevin Hart", npi: "1122112211" },
-    pharmacy: { name: "MediQuick", id: "PH_0005" },
-    amount: "290",
-    status: "transmitted",
-    medication: [
-      {
-        name: "Amoxicillin 500mg",
-        quantity: "30",
-        quantityType: "capsule",
-        injectible: "oral",
-      },
-      {
-        name: "B12 Injection 1000mcg/mL",
-        quantity: "1",
-        quantityType: "vial",
-        injectible: "injectable",
-      },
-    ],
-  },
-  {
-    id: "f44bb298",
-    provider: { name: "Dr. Lisa Monroe", npi: "4455667788" },
-    pharmacy: { name: "ExpressRx", id: "PH_0006" },
-    amount: "150",
-    status: "transmitted",
-    medication: [
-      {
-        name: "Multivitamin Tablets",
-        quantity: "90",
-        quantityType: "tablet",
-        injectible: "oral",
-      },
-    ],
-  },
-  {
-    id: "6d9a9f1e",
-    provider: { name: "Dr. Olivia Ray", npi: "7788990011" },
-    pharmacy: { name: "Unity Pharmacy", id: "PH_0007" },
-    amount: "360",
-    status: "transmitted",
-    medication: [
-      {
-        name: "HCG 5000IU/mL",
-        quantity: "1",
-        quantityType: "vial",
-        injectible: "injectable",
-      },
-      {
-        name: "Levothyroxine 50mcg",
-        quantity: "30",
-        quantityType: "tablet",
-        injectible: "oral",
-      },
-    ],
-  },
-];
-
-const queuedData: Transmission[] = [
-  {
-    id: "728ed52f",
-    provider: { name: "Dr. Smith", npi: "1234567890" },
-    pharmacy: { name: "Pharmacy A", id: "PH_0001" },
-    amount: "240",
-    status: "queued",
-    medication: [
-      {
-        name: "Tirzepatide 2.5mg/mL",
-        quantity: "30",
-        quantityType: "tablet",
-        injectible: "oral",
-      },
-      {
-        name: "B12 Injection 1000mcg/mL",
-        quantity: "1",
-        quantityType: "vial",
-        injectible: "oral",
-      },
-    ],
-  },
-  {
-    id: "91af44c1",
-    provider: { name: "Dr. Emily Stone", npi: "4567891230" },
-    pharmacy: { name: "HealthPlus", id: "PH_0002" },
-    amount: "180",
-    status: "queued",
-    medication: [
-      {
-        name: "Vitamin D3 1000IU",
-        quantity: "60",
-        quantityType: "softgel",
-        injectible: "oral",
-      },
-    ],
-  },
-  {
-    id: "ba73d191",
-    provider: { name: "Dr. Alan Grant", npi: "9988776655" },
-    pharmacy: { name: "WellCare Pharmacy", id: "PH_0003" },
-    amount: "320",
-    status: "queued",
-    medication: [
-      {
-        name: "Metformin 500mg",
-        quantity: "60",
-        quantityType: "tablet",
-        injectible: "oral",
-      },
-      {
-        name: "Insulin Glargine 100U/mL",
-        quantity: "1",
-        quantityType: "vial",
-        injectible: "injectable",
-      },
-    ],
-  },
-  {
-    id: "3cfc21b5",
-    provider: { name: "Dr. Rachel Green", npi: "3216549870" },
-    pharmacy: { name: "PharmaDirect", id: "PH_0004" },
-    amount: "400",
-    status: "queued",
-    medication: [
-      {
-        name: "Prednisone 10mg",
-        quantity: "20",
-        quantityType: "tablet",
-        injectible: "oral",
-      },
-    ],
-  },
-  {
-    id: "ee77f3d9",
-    provider: { name: "Dr. Kevin Hart", npi: "1122112211" },
-    pharmacy: { name: "MediQuick", id: "PH_0005" },
-    amount: "290",
-    status: "queued",
-    medication: [
-      {
-        name: "Amoxicillin 500mg",
-        quantity: "30",
-        quantityType: "capsule",
-        injectible: "oral",
-      },
-      {
-        name: "B12 Injection 1000mcg/mL",
-        quantity: "1",
-        quantityType: "vial",
-        injectible: "injectable",
-      },
-    ],
-  },
-  {
-    id: "f44bb298",
-    provider: { name: "Dr. Lisa Monroe", npi: "4455667788" },
-    pharmacy: { name: "ExpressRx", id: "PH_0006" },
-    amount: "150",
-    status: "queued",
-    medication: [
-      {
-        name: "Multivitamin Tablets",
-        quantity: "90",
-        quantityType: "tablet",
-        injectible: "oral",
-      },
-    ],
-  },
-  {
-    id: "6d9a9f1e",
-    provider: { name: "Dr. Olivia Ray", npi: "7788990011" },
-    pharmacy: { name: "Unity Pharmacy", id: "PH_0007" },
-    amount: "360",
-    status: "queued",
-    medication: [
-      {
-        name: "HCG 5000IU/mL",
-        quantity: "1",
-        quantityType: "vial",
-        injectible: "injectable",
-      },
-      {
-        name: "Levothyroxine 50mcg",
-        quantity: "30",
-        quantityType: "tablet",
-        injectible: "oral",
-      },
-    ],
-  },
-];
-
-const pendingData: Transmission[] = [
-  {
-    id: "728ed52f",
-    provider: { name: "Dr. Smith", npi: "1234567890" },
-    pharmacy: { name: "Pharmacy A", id: "PH_0001" },
-    amount: "240",
-    status: "pending",
-    medication: [
-      {
-        name: "Tirzepatide 2.5mg/mL",
-        quantity: "30",
-        quantityType: "tablet",
-        injectible: "oral",
-      },
-      {
-        name: "B12 Injection 1000mcg/mL",
-        quantity: "1",
-        quantityType: "vial",
-        injectible: "oral",
-      },
-    ],
-  },
-  {
-    id: "91af44c1",
-    provider: { name: "Dr. Emily Stone", npi: "4567891230" },
-    pharmacy: { name: "HealthPlus", id: "PH_0002" },
-    amount: "180",
-    status: "pending",
-    medication: [
-      {
-        name: "Vitamin D3 1000IU",
-        quantity: "60",
-        quantityType: "softgel",
-        injectible: "oral",
-      },
-    ],
-  },
-  {
-    id: "ba73d191",
-    provider: { name: "Dr. Alan Grant", npi: "9988776655" },
-    pharmacy: { name: "WellCare Pharmacy", id: "PH_0003" },
-    amount: "320",
-    status: "pending",
-    medication: [
-      {
-        name: "Metformin 500mg",
-        quantity: "60",
-        quantityType: "tablet",
-        injectible: "oral",
-      },
-      {
-        name: "Insulin Glargine 100U/mL",
-        quantity: "1",
-        quantityType: "vial",
-        injectible: "injectable",
-      },
-    ],
-  },
-  {
-    id: "3cfc21b5",
-    provider: { name: "Dr. Rachel Green", npi: "3216549870" },
-    pharmacy: { name: "PharmaDirect", id: "PH_0004" },
-    amount: "400",
-    status: "pending",
-    medication: [
-      {
-        name: "Prednisone 10mg",
-        quantity: "20",
-        quantityType: "tablet",
-        injectible: "oral",
-      },
-    ],
-  },
-  {
-    id: "ee77f3d9",
-    provider: { name: "Dr. Kevin Hart", npi: "1122112211" },
-    pharmacy: { name: "MediQuick", id: "PH_0005" },
-    amount: "290",
-    status: "pending",
-    medication: [
-      {
-        name: "Amoxicillin 500mg",
-        quantity: "30",
-        quantityType: "capsule",
-        injectible: "oral",
-      },
-      {
-        name: "B12 Injection 1000mcg/mL",
-        quantity: "1",
-        quantityType: "vial",
-        injectible: "injectable",
-      },
-    ],
-  },
-  {
-    id: "f44bb298",
-    provider: { name: "Dr. Lisa Monroe", npi: "4455667788" },
-    pharmacy: { name: "ExpressRx", id: "PH_0006" },
-    amount: "150",
-    status: "pending",
-    medication: [
-      {
-        name: "Multivitamin Tablets",
-        quantity: "90",
-        quantityType: "tablet",
-        injectible: "oral",
-      },
-    ],
-  },
-  {
-    id: "6d9a9f1e",
-    provider: { name: "Dr. Olivia Ray", npi: "7788990011" },
-    pharmacy: { name: "Unity Pharmacy", id: "PH_0007" },
-    amount: "360",
-    status: "pending",
-    medication: [
-      {
-        name: "HCG 5000IU/mL",
-        quantity: "1",
-        quantityType: "vial",
-        injectible: "injectable",
-      },
-      {
-        name: "Levothyroxine 50mcg",
-        quantity: "30",
-        quantityType: "tablet",
-        injectible: "oral",
-      },
-    ],
-  },
-];
-
-const failedData: Transmission[] = [
-  {
-    id: "728ed52f",
-    provider: { name: "Dr. Smith", npi: "1234567890" },
-    pharmacy: { name: "Pharmacy A", id: "PH_0001" },
-    amount: "240",
-    status: "failed",
-    medication: [
-      {
-        name: "Tirzepatide 2.5mg/mL",
-        quantity: "30",
-        quantityType: "tablet",
-        injectible: "oral",
-      },
-      {
-        name: "B12 Injection 1000mcg/mL",
-        quantity: "1",
-        quantityType: "vial",
-        injectible: "oral",
-      },
-    ],
-  },
-  {
-    id: "91af44c1",
-    provider: { name: "Dr. Emily Stone", npi: "4567891230" },
-    pharmacy: { name: "HealthPlus", id: "PH_0002" },
-    amount: "180",
-    status: "failed",
-    medication: [
-      {
-        name: "Vitamin D3 1000IU",
-        quantity: "60",
-        quantityType: "softgel",
-        injectible: "oral",
-      },
-    ],
-  },
-  {
-    id: "ba73d191",
-    provider: { name: "Dr. Alan Grant", npi: "9988776655" },
-    pharmacy: { name: "WellCare Pharmacy", id: "PH_0003" },
-    amount: "320",
-    status: "failed",
-    medication: [
-      {
-        name: "Metformin 500mg",
-        quantity: "60",
-        quantityType: "tablet",
-        injectible: "oral",
-      },
-      {
-        name: "Insulin Glargine 100U/mL",
-        quantity: "1",
-        quantityType: "vial",
-        injectible: "injectable",
-      },
-    ],
-  },
-  {
-    id: "3cfc21b5",
-    provider: { name: "Dr. Rachel Green", npi: "3216549870" },
-    pharmacy: { name: "PharmaDirect", id: "PH_0004" },
-    amount: "400",
-    status: "failed",
-    medication: [
-      {
-        name: "Prednisone 10mg",
-        quantity: "20",
-        quantityType: "tablet",
-        injectible: "oral",
-      },
-    ],
-  },
-  {
-    id: "ee77f3d9",
-    provider: { name: "Dr. Kevin Hart", npi: "1122112211" },
-    pharmacy: { name: "MediQuick", id: "PH_0005" },
-    amount: "290",
-    status: "failed",
-    medication: [
-      {
-        name: "Amoxicillin 500mg",
-        quantity: "30",
-        quantityType: "capsule",
-        injectible: "oral",
-      },
-      {
-        name: "B12 Injection 1000mcg/mL",
-        quantity: "1",
-        quantityType: "vial",
-        injectible: "injectable",
-      },
-    ],
-  },
-  {
-    id: "f44bb298",
-    provider: { name: "Dr. Lisa Monroe", npi: "4455667788" },
-    pharmacy: { name: "ExpressRx", id: "PH_0006" },
-    amount: "150",
-    status: "failed",
-    medication: [
-      {
-        name: "Multivitamin Tablets",
-        quantity: "90",
-        quantityType: "tablet",
-        injectible: "oral",
-      },
-    ],
-  },
-  {
-    id: "6d9a9f1e",
-    provider: { name: "Dr. Olivia Ray", npi: "7788990011" },
-    pharmacy: { name: "Unity Pharmacy", id: "PH_0007" },
-    amount: "360",
-    status: "failed",
-    medication: [
-      {
-        name: "HCG 5000IU/mL",
-        quantity: "1",
-        quantityType: "vial",
-        injectible: "injectable",
-      },
-      {
-        name: "Levothyroxine 50mcg",
-        quantity: "30",
-        quantityType: "tablet",
-        injectible: "oral",
-      },
-    ],
-  },
-];
+import { useSearchParams } from "react-router-dom";
 
 export default function OrganizationTransmission() {
+  const [searchParams] = useSearchParams();
+
+  const page = parseInt(searchParams.get("page") || "1", 10);
+  const perPage = parseInt(searchParams.get("per_page") ?? "10", 10);
+
+  const { data, meta } = useViewAllTransmissionsQuery(
+    { page, perPage },
+    {
+      selectFromResult: ({ data, isLoading, isError }) => ({
+        data: data?.data,
+        meta: data?.meta,
+        isLoading: isLoading,
+        isError: isError,
+      }),
+    }
+  );
+
+  // console.log("Transmission Data:", data);
+  // console.log("Meta Data:", meta);
+
   const [activeStatus, setActiveStatus] = useState<
     "transmitted" | "queued" | "pending" | "failed"
   >("transmitted");
   const columns = useMemo(() => organizationTransmissionColumns(), []);
-  const data =
-    activeStatus === "transmitted"
-      ? transmissionData
-      : activeStatus === "queued"
-      ? queuedData
-      : activeStatus === "pending"
-      ? pendingData
-      : failedData;
-  const table = useReactTable({
-    data,
+
+  // const data =
+  //   activeStatus === "transmitted"
+  //     ? transmissionData
+  //     : activeStatus === "queued"
+  //     ? queuedData
+  //     : activeStatus === "pending"
+  //     ? pendingData
+  //     : failedData;
+
+  const { table } = useDataTable({
+    data: data || [],
     columns,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
+    pageCount: meta?.pageCount ?? -1,
   });
 
   return (
@@ -631,6 +121,7 @@ export default function OrganizationTransmission() {
         </div>
         <div className="p-5 bg-white shadow-[0px_2px_40px_0px_#00000014]">
           <DataTable table={table} />
+          <DataTablePagination table={table} />
         </div>
       </div>
       {/* Add your components and logic here */}

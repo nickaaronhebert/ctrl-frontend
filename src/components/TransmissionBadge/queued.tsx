@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 
-export default function QueuedBadge() {
+export default function QueuedBadge({ title = "Queued" }) {
   return (
     <Badge className="bg-queued-secondary text-queued font-medium text-xs p-1.5 border border-queued flex gap-1.5">
       <svg
@@ -30,7 +30,7 @@ export default function QueuedBadge() {
         />
       </svg>
 
-      <span>Queued</span>
+      <span>{title}</span>
     </Badge>
   );
 }
