@@ -381,3 +381,9 @@ h4 {
     right: 85px;
   }
 }
+
+.icon-30 {
+  width: 30px !important;
+  height: 30px !important;
+  flex-shrink: 0;
+}
