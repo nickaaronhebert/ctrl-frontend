@@ -1,4 +1,7 @@
 import CubeSVG from "@/assets/icons/Cube";
+import MedicationLibrary from "@/assets/icons/MedicationLibrary";
+import Provider from "@/assets/icons/Provider";
+import Transmission from "@/assets/icons/Transmission";
 import OrderOverviewCard from "@/components/common/Card/order-overview";
 import PatientCard from "@/components/common/Card/patient";
 import TransmissionCard from "@/components/common/Card/transmission";
@@ -11,15 +14,18 @@ const menuItems = [
   {
     title: "Order Overview",
     scrollToId: "orderOverview",
+    icon: Transmission,
   },
   {
     title: "Patient Information",
     scrollToId: "patientInformation",
+    icon: Provider,
   },
 
   {
     title: "Transmissions",
     scrollToId: "transmissionDetails",
+    icon: MedicationLibrary,
   },
 ];
 
@@ -98,14 +104,16 @@ export default function ViewOrderDetails() {
               </div>
             </div>
           </div>
-          {menuItems.map((item, index) => (
-            <Button
-              key={item.title}
-              className={`w-full rounded-none text-white text-sm p-5 font-medium cursor-pointer !h-14 ${
-                activeTab === item.scrollToId
-                  ? "bg-primary"
-                  : "bg-white text-black hover:bg-white"
-              }
+          {menuItems.map((item, index) => {
+            const Icon = item.icon;
+            return (
+              <Button
+                key={item.title}
+                className={`flex justify-start items-center w-full rounded-none text-white text-sm p-5 font-medium cursor-pointer !h-14 ${
+                  activeTab === item.scrollToId
+                    ? "bg-primary"
+                    : "bg-white text-black hover:bg-white"
+                }
               
               ${
                 index === menuItems.length - 1
@@ -113,16 +121,20 @@ export default function ViewOrderDetails() {
                   : ""
               }
               `}
-              onClick={() => {
-                setActiveTab(item.scrollToId as any);
-                document.getElementById(item.scrollToId)?.scrollIntoView({
-                  behavior: "smooth",
-                });
-              }}
-            >
-              {item.title}
-            </Button>
-          ))}
+                onClick={() => {
+                  setActiveTab(item.scrollToId as any);
+                  document.getElementById(item.scrollToId)?.scrollIntoView({
+                    behavior: "smooth",
+                  });
+                }}
+              >
+                <Icon
+                  color={activeTab === item.scrollToId ? "#FFFFFF" : "#9AA2AC"}
+                />
+                {item.title}
+              </Button>
+            );
+          })}
         </div>
 
         <div className="flex flex-col gap-5 w-full">

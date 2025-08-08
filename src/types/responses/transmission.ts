@@ -1,7 +1,5 @@
 import type {
   MedicationCatalogue,
-  Pharmacy,
-  Prescription,
   ProductVariant,
   Transmission,
 } from "../global/commonTypes";
