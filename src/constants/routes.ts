@@ -30,6 +30,7 @@ export const ROUTES = {
   ORG_PHARMACIES: "pharmacies",
   ORG_ACTIVITY_LOG: "activity-log",
   ORG_SETTINGS: "settings",
+  ORG_ORDER_DETAILS: "order/:id",
 };
 
 export const STEPPER_FORM = {
