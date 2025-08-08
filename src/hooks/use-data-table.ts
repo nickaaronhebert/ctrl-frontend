@@ -1,56 +1,116 @@
-"use client";
-
 import * as React from "react";
+import { useSearchParams, useNavigate, useLocation } from "react-router-dom";
 
 import {
   getCoreRowModel,
+  getFacetedRowModel,
+  getFacetedUniqueValues,
+  getFilteredRowModel,
   getPaginationRowModel,
   useReactTable,
   type ColumnDef,
+  type ColumnFiltersState,
   type PaginationState,
 } from "@tanstack/react-table";
 
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { z } from "zod";
+import { useDebounce } from "@/hooks/use-debounce";
+
+export interface Option {
+  label: string;
+  value: string;
+  icon?: React.ComponentType<{ className?: string }>;
+  withCount?: boolean;
+}
+
+export interface DataTableFilterField<TData> {
+  label: string;
+  value: keyof TData;
+  placeholder?: string;
+  options?: Option[];
+}
 
 interface UseDataTableProps<TData, TValue> {
-  /**
-   * The data for the table.
-   * @default []
-   * @type TData[]
-   */
   data: TData[];
-
-  /**
-   * The columns of the table.
-   * @default []
-   * @type ColumnDef<TData, TValue>[]
-   */
   columns: ColumnDef<TData, TValue>[];
-
-  /**
-   * The number of pages in the table.
-   * @type number
-   */
   pageCount: number;
+  defaultPerPage?: number;
+
+  filterFields?: DataTableFilterField<TData>[];
+  enableAdvancedFilter?: boolean;
 }
+
+const schema = z.object({
+  page: z.coerce.number().default(1),
+  per_page: z.coerce.number().optional(),
+  sort: z.string().optional(),
+});
 
 export function useDataTable<TData, TValue>({
   data,
   columns,
   pageCount,
+  defaultPerPage = 10,
+
+  filterFields = [],
+  enableAdvancedFilter = false,
 }: UseDataTableProps<TData, TValue>) {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
 
-  //   console.log("searchParams", searchParams);
+  const queryParams = schema.parse(Object.fromEntries(searchParams));
+  const page = queryParams.page;
+  const perPage = queryParams.per_page ?? defaultPerPage;
 
-  const page = parseInt(searchParams.get("page") || "1", 10);
-  const perPage = parseInt(searchParams.get("per_page") ?? "10", 10);
+  const { searchableColumns, filterableColumns } = React.useMemo(
+    () => ({
+      searchableColumns: filterFields.filter((field) => !field.options),
+      filterableColumns: filterFields.filter((field) => field.options),
+    }),
+    [filterFields]
+  );
 
-  // Table states
+  console.log("searchableColumns", searchableColumns);
 
-  // Handle server-side pagination
+  const createQueryString = React.useCallback(
+    (params: Record<string, string | number | null>) => {
+      const newSearchParams = new URLSearchParams(location.search);
+      for (const [key, value] of Object.entries(params)) {
+        if (value === null) {
+          newSearchParams.delete(key);
+        } else {
+          newSearchParams.set(key, String(value));
+        }
+      }
+
+      console.log("query string", newSearchParams.toString());
+      return newSearchParams.toString();
+    },
+    [location.search]
+  );
+
+  const initialColumnFilters: ColumnFiltersState = React.useMemo(() => {
+    return Array.from(searchParams.entries()).reduce<ColumnFiltersState>(
+      (filters, [key, value]) => {
+        const faceted = filterableColumns.find((col) => col.value === key);
+        const searchable = searchableColumns.find((col) => col.value === key);
+        if (faceted) {
+          filters.push({ id: key, value: value.split(".") });
+        } else if (searchable) {
+          filters.push({ id: key, value: [value] });
+        }
+        return filters;
+      },
+      []
+    );
+  }, [filterableColumns, searchableColumns, searchParams]);
+
+  const [columnFilters, setColumnFilters] =
+    React.useState<ColumnFiltersState>(initialColumnFilters);
+
+  console.log("columnFilters", columnFilters);
+
   const [{ pageIndex, pageSize }, setPagination] =
     React.useState<PaginationState>({
       pageIndex: page - 1,
@@ -58,33 +118,103 @@ export function useDataTable<TData, TValue>({
     });
 
   const pagination = React.useMemo(
-    () => ({
-      pageIndex,
-      pageSize,
-    }),
+    () => ({ pageIndex, pageSize }),
     [pageIndex, pageSize]
   );
 
   React.useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    params.set("page", String(pageIndex + 1)); // URL is 1-based
-    params.set("per_page", String(pageSize));
+    const query = createQueryString({
+      page: pageIndex + 1,
+      per_page: pageSize,
+    });
 
-    navigate(`${location.pathname}?${params.toString()}`, { replace: true });
-  }, [pageIndex, pageSize]);
+    console.log("page change query", query);
+    navigate(`${location.pathname}?${query}`, { replace: true });
+  }, [pageIndex, pageSize, createQueryString, location.pathname, navigate]);
+
+  const debouncedSearchableFilters = JSON.parse(
+    useDebounce(
+      JSON.stringify(
+        columnFilters.filter((filter) =>
+          searchableColumns.find((col) => col.value === filter.id)
+        )
+      ),
+      500
+    )
+  ) as ColumnFiltersState;
+  console.log("****", debouncedSearchableFilters);
+
+  const facetedFilters = columnFilters.filter((filter) =>
+    filterableColumns.find((col) => col.value === filter.id)
+  );
+
+  React.useEffect(() => {
+    if (enableAdvancedFilter) return;
+
+    const newParams: Record<string, string | number | null> = { page: 1 };
+
+    for (const filter of debouncedSearchableFilters) {
+      console.log("debounce", filter);
+      if (typeof filter.value === "string") {
+        newParams[filter.id] = filter.value;
+      } else {
+        newParams[filter.id] = null;
+      }
+      // newParams[filter.id] = Array.isArray(filter.value)
+      //   ? filter.value[0]
+      //   : null;
+    }
+
+    for (const filter of facetedFilters) {
+      if (typeof filter.value === "string") {
+        newParams[filter.id] = filter.value;
+      } else {
+        newParams[filter.id] = null;
+      }
+      // newParams[filter.id] = Array.isArray(filter.value)
+      //   ? filter.value.join(".")
+      //   : null;
+    }
+
+    // Clean removed filters
+    for (const key of searchParams.keys()) {
+      const isSearchable = searchableColumns.find((col) => col.value === key);
+      const isFilterable = filterableColumns.find((col) => col.value === key);
+      const notInState = !columnFilters.find((filter) => filter.id === key);
+
+      if ((isSearchable || isFilterable) && notInState) {
+        newParams[key] = null;
+      }
+    }
+    console.log("filres", newParams);
+    navigate(`${location.pathname}?${createQueryString(newParams)}`, {
+      replace: true,
+    });
+    table.setPageIndex(0);
+  }, [
+    JSON.stringify(debouncedSearchableFilters),
+    JSON.stringify(facetedFilters),
+  ]);
 
   const table = useReactTable({
     data,
     columns,
-    pageCount: pageCount ?? -1,
+    pageCount,
     state: {
       pagination,
+      columnFilters,
     },
-
+    enableRowSelection: true,
     onPaginationChange: setPagination,
+    onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    getFacetedRowModel: getFacetedRowModel(),
+    getFacetedUniqueValues: getFacetedUniqueValues(),
     manualPagination: true,
+
+    manualFiltering: true,
   });
 
   return { table };

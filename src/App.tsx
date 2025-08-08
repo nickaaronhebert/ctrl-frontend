@@ -36,6 +36,7 @@ import OrganizationOrder from "./pages/OrganizationOrder";
 
 import TransmissionDetails from "./pages/OrganizationTransmission/details";
 import OrganizationAffiliatedProvider from "./pages/OrganizationAffiliatedProvider";
+import ViewOrderDetails from "./pages/OrganizationOrder/details";
 
 const router = createBrowserRouter([
   {
@@ -171,6 +172,10 @@ const router = createBrowserRouter([
       {
         path: ROUTES.ORG_ORDERS,
         element: <OrganizationOrder />,
+      },
+      {
+        path: ROUTES.ORG_ORDER_DETAILS,
+        element: <ViewOrderDetails />,
       },
       {
         path: ROUTES.ORG_PROVIDERS,

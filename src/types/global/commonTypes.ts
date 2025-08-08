@@ -24,15 +24,6 @@ export interface User {
   id: string;
 }
 
-export interface Provider {
-  firstName?: string;
-  lastName?: string;
-  email: string;
-  phoneNUmber?: string;
-  npi: string;
-  id: string;
-}
-
 export interface Business {
   id: string;
   type: string;
@@ -47,3 +38,81 @@ export const PROVIDER_STATUS = {
   INVITATION_ACCEPTED: "invitation_accepted",
   MED_SUBMITTED: "med_submitted",
 };
+
+export interface Patient {
+  firstName: string;
+  lastName: string;
+  dob: string;
+  state: string;
+  zipcode: string;
+  gender: string;
+  phoneNumber: string;
+  email: string;
+  _id: string;
+}
+
+export interface Pharmacy {
+  name: string;
+  email: string;
+  phoneNumber: string;
+  address: string;
+  id: string;
+}
+
+export interface MedicationCatalogue {
+  drugName: string;
+  isCompund: boolean;
+  dosageForm: string;
+  category: string;
+  condition: string;
+  _id: string;
+}
+
+export interface ProductVariant {
+  medicationCatalogue: MedicationCatalogue;
+  strength: string;
+  quantityType: string;
+  containerQuantity: number;
+  id: string;
+}
+
+export interface Provider {
+  firstName: string;
+  lastName: string;
+  email: string;
+  npi: string;
+  phoneNumber: string;
+  id: string;
+  medicalLicense: { state: string; licenseNumber: string; _id: string }[];
+}
+
+export interface Prescription {
+  productVariant: ProductVariant;
+  quantity: string;
+  notes: string;
+  instructions: string;
+  status: string;
+  isManualTransmission: boolean;
+  provider: Provider;
+  id: string;
+  prescriptionId: string;
+  amount: string;
+}
+
+export interface Transmission {
+  pharmacy: Pharmacy;
+  prescriptions: Prescription[];
+  status: string;
+  id: string;
+  transmissionId: string;
+}
+
+export interface Order {
+  orderId: string;
+  amount: string;
+  status: string;
+  patient: Patient;
+  transmissions: Transmission[];
+  id: string;
+  createdAt: string;
+}
