@@ -105,6 +105,7 @@ export interface Transmission {
   status: string;
   id: string;
   transmissionId: string;
+  amount: number;
 }
 
 export interface Order {

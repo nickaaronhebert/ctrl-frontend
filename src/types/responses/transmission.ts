@@ -1,5 +1,7 @@
 import type {
   MedicationCatalogue,
+  Pharmacy,
+  Prescription,
   ProductVariant,
   Transmission,
 } from "../global/commonTypes";
@@ -20,6 +22,10 @@ export type TransmissionDetails = Transmission & {
   productVariants: ProductVariantDetails;
 };
 
+interface IndividualTranmissionDetails extends Transmission {
+  createdAt: string;
+}
+
 export interface IViewAllTransmissionsResponse {
   data: TransmissionDetails[];
   meta: PaginationMeta;
@@ -28,4 +34,8 @@ export interface IViewAllTransmissionsResponse {
 export interface IViewAllTransmissionsRequest {
   page: number;
   perPage: number;
+}
+
+export interface IViewTransmissionByIdResponse {
+  data: IndividualTranmissionDetails;
 }

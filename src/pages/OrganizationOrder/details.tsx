@@ -1,7 +1,7 @@
 import CubeSVG from "@/assets/icons/Cube";
 import OrderOverviewCard from "@/components/common/Card/order-overview";
 import PatientCard from "@/components/common/Card/patient";
-import TransmissionCard from "@/components/common/Card/prescription";
+import TransmissionCard from "@/components/common/Card/transmission";
 import { Button } from "@/components/ui/button";
 import { useViewOrderByIdQuery } from "@/redux/services/order";
 import { useState } from "react";

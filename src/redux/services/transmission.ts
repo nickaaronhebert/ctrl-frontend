@@ -1,6 +1,7 @@
 import type {
   IViewAllTransmissionsRequest,
   IViewAllTransmissionsResponse,
+  IViewTransmissionByIdResponse,
 } from "@/types/responses/transmission";
 import { baseApi } from ".";
 
@@ -17,9 +18,19 @@ const transmissionApi = baseApi.injectEndpoints({
         };
       },
     }),
+
+    viewTransmissionById: builder.query<IViewTransmissionByIdResponse, string>({
+      query: (id) => {
+        return {
+          url: `/transmission/${id}`,
+          method: "GET",
+        };
+      },
+    }),
   }),
 });
 
-export const { useViewAllTransmissionsQuery } = transmissionApi;
+export const { useViewAllTransmissionsQuery, useViewTransmissionByIdQuery } =
+  transmissionApi;
 
 export default transmissionApi;
