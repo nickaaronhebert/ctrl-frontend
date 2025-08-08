@@ -11,6 +11,7 @@ import Pharmacies from "@/assets/icons/Pharmacies";
 import ActivityLog from "@/assets/icons/ActivityLog";
 import SettingsMain from "@/assets/icons/SettingsMain";
 import type { Transmission as MyTransmission } from "@/components/data-table/columns/recentTransmissions";
+import type { Medication } from "@/components/data-table/columns/medication-library";
 
 export interface TabConfig {
   id: string;
@@ -177,3 +178,41 @@ export const statusCardData = {
     failed: 60,
   },
 };
+
+export const dummyMedicationData: Medication[] = [
+  {
+    id: "1",
+    drugName: "Liraglutide",
+    variants: ["2.5mg/mL", "5.0mg/mL", "7.5mg/mL"],
+    category: "Type 2 Diabetes",
+    availablePharmacies: 5,
+  },
+  {
+    id: "2",
+    drugName: "Semaglutide",
+    variants: ["2.5mg/mL", "5.0mg/mL"],
+    category: "Weight Management",
+    availablePharmacies: 5,
+  },
+  {
+    id: "3",
+    drugName: "Metformin",
+    variants: ["5.0mg/mL", "7.5mg/mL"],
+    category: "Type 2 Diabetes",
+    availablePharmacies: 20,
+  },
+  {
+    id: "4",
+    drugName: "Dulaglutide",
+    variants: ["7.5mg/mL"],
+    category: "Type 2 Diabetes",
+    availablePharmacies: 12,
+  },
+  {
+    id: "5",
+    drugName: "Canagliflozin",
+    variants: ["2.5mg/mL", "5.0mg/mL"],
+    category: "Type 2 Diabetes",
+    availablePharmacies: 18,
+  },
+];

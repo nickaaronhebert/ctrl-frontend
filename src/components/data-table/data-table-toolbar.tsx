@@ -12,6 +12,7 @@ interface DataTableToolbarProps<TData>
   extends React.HTMLAttributes<HTMLDivElement> {
   table: Table<TData>;
   filterFields?: DataTableFilterField<TData>[];
+  searchIcon?: React.ReactNode;
 }
 
 export function DataTableToolbar<TData>({
@@ -19,6 +20,7 @@ export function DataTableToolbar<TData>({
   filterFields = [],
   children,
   className,
+  searchIcon,
   ...props
 }: DataTableToolbarProps<TData>) {
   console.log("Renderingg.....");
@@ -43,21 +45,28 @@ export function DataTableToolbar<TData>({
           searchableColumns.map(
             (column) =>
               table.getColumn(column.value ? String(column.value) : "") && (
-                <Input
-                  key={String(column.value)}
-                  placeholder={column.placeholder}
-                  value={
-                    (table
-                      .getColumn(String(column.value))
-                      ?.getFilterValue() as string) ?? ""
-                  }
-                  onChange={(event) =>
-                    table
-                      .getColumn(String(column.value))
-                      ?.setFilterValue(event.target.value)
-                  }
-                  className="h-12 w-40 lg:w-96 bg-white"
-                />
+                <div key={String(column.value)} className="relative">
+                  <Input
+                    key={String(column.value)}
+                    placeholder={column.placeholder}
+                    value={
+                      (table
+                        .getColumn(String(column.value))
+                        ?.getFilterValue() as string) ?? ""
+                    }
+                    onChange={(event) =>
+                      table
+                        .getColumn(String(column.value))
+                        ?.setFilterValue(event.target.value)
+                    }
+                    className="h-12 w-40 lg:w-96 bg-white"
+                  />
+                  {searchIcon && (
+                    <span className="absolute inset-y-0 right-3 flex items-center text-gray-400">
+                      {searchIcon}
+                    </span>
+                  )}
+                </div>
               )
           )}
         {/* {filterableColumns.length > 0 &&
