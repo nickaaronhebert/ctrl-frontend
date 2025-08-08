@@ -12,7 +12,13 @@ import ActivityLog from "@/assets/icons/ActivityLog";
 import SettingsMain from "@/assets/icons/SettingsMain";
 import type { Transmission as MyTransmission } from "@/components/data-table/columns/recentTransmissions";
 
-export const tabsConfig = [
+export interface TabConfig {
+  id: string;
+  label: string;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+}
+
+export const tabsConfig: TabConfig[] = [
   { id: "personal", label: "Personal Details", icon: User },
   { id: "medical", label: "Medical License", icon: Licence },
   { id: "affiliation", label: "Affiliation Status", icon: Affiliation },

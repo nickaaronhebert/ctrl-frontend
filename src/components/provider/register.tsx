@@ -27,7 +27,7 @@ export default function RegisterProvider() {
       firstName: provider?.firstName || "",
       lastName: provider?.lastName || "",
       email: provider?.email || "",
-      phoneNumber: provider?.phoneNUmber || "",
+      phoneNumber: provider?.phoneNumber || "",
       password: "",
       confirmPassword: "",
     },

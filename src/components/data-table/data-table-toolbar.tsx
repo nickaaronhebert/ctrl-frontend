@@ -3,11 +3,9 @@
 import * as React from "react";
 import type { Table } from "@tanstack/react-table";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 // import { DataTableFacetedFilter } from "@/components/data-table/data-table-faceted-filter";
 // import { DataTableFilterField } from "@/hooks/use-data-table";
-import { X } from "lucide-react";
 import type { DataTableFilterField } from "@/hooks/use-data-table";
 
 interface DataTableToolbarProps<TData>
@@ -24,8 +22,6 @@ export function DataTableToolbar<TData>({
   ...props
 }: DataTableToolbarProps<TData>) {
   console.log("Renderingg.....");
-  const isFiltered = table.getState().columnFilters.length > 0;
-
   // Memoize computation of searchableColumns and filterableColumns
   const { searchableColumns } = React.useMemo(() => {
     return {
