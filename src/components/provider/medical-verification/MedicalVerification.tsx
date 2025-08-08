@@ -4,14 +4,30 @@ import AddMedicalLicenseDialog from "../update-medical-profile";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
+interface MedicalLicense {
+  _id: string;
+  licenseNumber: string;
+  state: string;
+}
+
+interface DEA {
+  _id: string;
+  registrationNumber: string;
+  state: string;
+}
+
 interface MedicalVerificationProps {
   user: UserDetails;
+  medicalLicense?: MedicalLicense[];
+  deaNumber?: DEA[];
 }
 
 export default function MedicalVerification({
   user,
 }: MedicalVerificationProps) {
   const [openAddLicenseModal, setOpenLicenseModal] = useState(false);
+
+  console.log("Medical Licenses:: ", user?.medicalLicense);
 
   return (
     <>
@@ -56,9 +72,9 @@ export default function MedicalVerification({
                   Licensed State & Credentials
                 </h3>
                 <div>
-                  {user?.medicalLicense?.map((license: any, idx: any) => (
+                  {user?.medicalLicense?.map((license: MedicalLicense) => (
                     <div
-                      key={idx}
+                      key={license._id}
                       className="bg-light-background border border-gray-200 h-[60px] px-[15px] py-[12px] flex justify-between items-center"
                     >
                       <div>
@@ -87,9 +103,9 @@ export default function MedicalVerification({
                   DEA State & Credentials
                 </h3>
                 <div>
-                  {user?.deaNumber?.map((dea: any, idx: any) => (
+                  {user?.deaNumber?.map((dea: DEA) => (
                     <div
-                      key={idx}
+                      key={dea._id}
                       className="bg-light-background border border-card-border h-[60px] px-[15px] py-[12px] flex justify-between items-center"
                     >
                       <div>

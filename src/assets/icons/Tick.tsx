@@ -1,11 +1,5 @@
-const Tick = (props: any) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width={18}
-    height={18}
-    fill="none"
-    {...props}
-  >
+const Tick = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={18} height={18} fill="none">
     <path
       fill="#C3C1C6"
       stroke="#C3C1C6"

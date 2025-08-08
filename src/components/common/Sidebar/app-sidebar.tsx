@@ -18,6 +18,14 @@ import { useLocation } from "react-router-dom";
 import { PrescriptionSVG } from "@/assets/icons/PrescriptionSVG";
 import useAuthentication from "@/hooks/use-authentication";
 import SupportSVG from "@/assets/icons/Support";
+import type { FC, SVGProps } from "react";
+
+type MenuItem = {
+  title: string;
+  url: string;
+  icon: FC<SVGProps<SVGSVGElement>>;
+  activePaths?: string[];
+};
 
 export function AppSidebar() {
   const { state, open, toggleSidebar } = useSidebar();
@@ -51,7 +59,7 @@ export function AppSidebar() {
     ? organisationAdminItems
     : providerItems;
 
-  const isActive = (item: any) => {
+  const isActive = (item: MenuItem) => {
     if (item.activePaths) {
       return item.activePaths.includes(location.pathname);
     }

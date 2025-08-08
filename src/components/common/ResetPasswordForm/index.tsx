@@ -12,7 +12,11 @@ import AuthHeader from "../AuthHeader/AuthHeader";
 import { useResetPasswordMutation } from "@/redux/services/authApi";
 import { toast } from "sonner";
 
-const ResetPasswordForm = ({ token }: any) => {
+interface ResetPasswordFormProps {
+  token: string | null;
+}
+
+const ResetPasswordForm = ({ token }: ResetPasswordFormProps) => {
   const navigate = useNavigate();
   const [resetPassword] = useResetPasswordMutation();
 

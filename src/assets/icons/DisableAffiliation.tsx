@@ -1,11 +1,5 @@
-const DisableAffiliation = (props: any) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width={86}
-    height={86}
-    fill="none"
-    {...props}
-  >
+const DisableAffiliation = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={86} height={86} fill="none">
     <rect width={86} height={86} fill="#FFE5B5" rx={43} />
     <path
       stroke="#E09408"

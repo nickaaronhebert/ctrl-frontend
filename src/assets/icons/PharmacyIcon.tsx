@@ -1,11 +1,5 @@
-const PharmacyIcon = (props: any) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width={12}
-    height={12}
-    fill="none"
-    {...props}
-  >
+const PharmacyIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={12} height={12} fill="none">
     <path
       fill="#3E4D61"
       d="M10.585 2.733 5.962.12a.855.855 0 0 0-.878 0L.462 2.733A.923.923 0 0 0 0 3.519v7.094A1.39 1.39 0 0 0 1.387 12H9.66a1.39 1.39 0 0 0 1.387-1.387V3.52a.923.923 0 0 0-.463-.786Zm-.463 7.88a.464.464 0 0 1-.462.463H1.387a.464.464 0 0 1-.463-.463V3.52L5.524.93l4.598 2.612v7.071Z"

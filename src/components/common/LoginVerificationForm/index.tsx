@@ -16,7 +16,15 @@ import { useEffect, useState } from "react";
 import { useResendOtpMutation } from "@/redux/services/authApi";
 import { ROUTES } from "@/constants/routes";
 
-const LoginVerificationForm = ({ username, password }: any) => {
+interface LoginVerificationFormProps {
+  username: string;
+  password: string;
+}
+
+const LoginVerificationForm = ({
+  username,
+  password,
+}: LoginVerificationFormProps) => {
   const [resendOtp] = useResendOtpMutation();
   const navigate = useNavigate();
   const [verifyOtpMutation] = useVerifyOtpMutation();

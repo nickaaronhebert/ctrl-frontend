@@ -1,11 +1,5 @@
-const Failed = (props: any) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width={48}
-    height={48}
-    fill="none"
-    {...props}
-  >
+const Failed = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={48} height={48} fill="none">
     <path
       fill="#FFE9E9"
       d="M32 0c8.837 0 16 7.163 16 16v16c0 8.837-7.163 16-16 16H16C7.163 48 0 40.837 0 32V16C0 7.163 7.163 0 16 0h16Z"
