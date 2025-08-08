@@ -1,32 +1,27 @@
-export type ProductVariants = {
-  strength: string;
-  quantityType: string;
-  containerQuantity: number;
-  medicationCatalogue: {
-    drugName: string;
-    dosageForm: string;
-  };
-};
+import type {
+  MedicationCatalogue,
+  ProductVariant,
+  Transmission,
+} from "../global/commonTypes";
+import type { PaginationMeta } from "./pagination";
 
-export type TransmissionData = {
-  _id: string;
-  pharmacy: {
-    name: string;
-    address: string;
-  };
-  status: string;
-  productVariants: ProductVariants[];
+type MedicationCatalogueDetails = Omit<
+  MedicationCatalogue,
+  "category" | "condition"
+>;
+export type ProductVariantDetails = Omit<
+  ProductVariant,
+  "medicationCatalogue"
+> & {
+  medicationCatalogue: MedicationCatalogueDetails;
 };
-
-export type PaginationMeta = {
-  page: number;
-  limit: number;
-  itemCount: number;
-  pageCount: number;
+export type TransmissionDetails = Transmission & {
+  amount: string;
+  productVariants: ProductVariantDetails;
 };
 
 export interface IViewAllTransmissionsResponse {
-  data: TransmissionData[];
+  data: TransmissionDetails[];
   meta: PaginationMeta;
 }
 

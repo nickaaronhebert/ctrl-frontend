@@ -65,7 +65,7 @@ export interface MedicationCatalogue {
   dosageForm: string;
   category: string;
   condition: string;
-  _id: string;
+  id: string;
 }
 
 export interface ProductVariant {

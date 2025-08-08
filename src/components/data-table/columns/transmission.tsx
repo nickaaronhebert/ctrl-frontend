@@ -1,69 +1,51 @@
-import FailedBadge from "@/components/TransmissionBadge/failed";
-import PendingBadge from "@/components/TransmissionBadge/pending";
-import QueuedBadge from "@/components/TransmissionBadge/queued";
-import SuccessBadge from "@/components/TransmissionBadge/success";
+// import FailedBadge from "@/components/TransmissionBadge/failed";
+// import PendingBadge from "@/components/TransmissionBadge/pending";
+// import QueuedBadge from "@/components/TransmissionBadge/queued";
+// import SuccessBadge from "@/components/TransmissionBadge/success";
+
+import type { Pharmacy } from "@/types/global/commonTypes";
 import type {
-  ProductVariants,
-  TransmissionData,
+  ProductVariantDetails,
+  TransmissionDetails,
 } from "@/types/responses/transmission";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Link } from "react-router-dom";
 
-export type Medication = {
-  name: string;
-  quantity: string;
-  quantityType: string;
-  injectible: "oral" | "injectable";
-};
-export type Provider = {
-  name: string;
-  npi: string;
-};
-
-export type Pharmacy = {
-  name: string;
-  address: string;
-};
-export type Transmission = {
-  id: string;
-  provider: Provider;
-  pharmacy: Pharmacy;
-  status: "queued" | "transmitted" | "pending" | "failed";
-  medication: Medication[];
-  amount: string;
-};
-
-export function organizationTransmissionColumns(): ColumnDef<TransmissionData>[] {
+export function organizationTransmissionColumns(): ColumnDef<TransmissionDetails>[] {
   return [
     {
-      accessorKey: "_id",
+      accessorKey: "transmissionId",
       header: "Transmission ID",
       cell: ({ row }) => {
-        return <p className="text-xs font-medium">{row.getValue("_id")}</p>;
-      },
-    },
-
-    {
-      accessorKey: "status",
-      header: "Status",
-      cell: ({ row }) => {
-        const orderStatus = row.getValue("status");
-
         return (
-          <>
-            {orderStatus === "queued" ? (
-              <QueuedBadge />
-            ) : orderStatus === "transmitted" ? (
-              <SuccessBadge />
-            ) : orderStatus === "PENDING" ? (
-              <PendingBadge />
-            ) : orderStatus === "failed" ? (
-              <FailedBadge />
-            ) : null}
-          </>
+          <p className="text-xs font-medium">
+            {row.getValue("transmissionId")}
+          </p>
         );
       },
     },
+
+    // {
+    //   accessorKey: "status",
+    //   header: "Status",
+    //   cell: ({ row }) => {
+    //     const orderStatus = row.getValue("status");
+
+    //     return (
+    //       <>
+    //         {orderStatus === "queued" ? (
+    //           <QueuedBadge />
+    //         ) : orderStatus === "transmitted" ? (
+    //           <SuccessBadge />
+    //         ) : orderStatus === "PENDING" ? (
+    //           <PendingBadge />
+    //         ) : orderStatus === "failed" ? (
+    //           <FailedBadge />
+    //         ) : null}
+    //       </>
+    //     );
+    //   },
+    // },
 
     // {
     //   accessorKey: "provider",
@@ -97,8 +79,8 @@ export function organizationTransmissionColumns(): ColumnDef<TransmissionData>[]
       accessorKey: "productVariants",
       header: "Medication",
       cell: ({ row }) => {
-        const medication: ProductVariants[] = row.getValue("productVariants");
-        // console.log("medication", medication);
+        const medication: ProductVariantDetails[] =
+          row.getValue("productVariants");
         if (!medication || medication.length === 0) {
           return (
             <p className="text-xs font-medium text-gray-500">No medications</p>
@@ -112,7 +94,7 @@ export function organizationTransmissionColumns(): ColumnDef<TransmissionData>[]
         };
 
         return (
-          <div className=" max-w-sm ">
+          <div className=" max-w-md ">
             {displayedMedications.map((medication, index) => (
               <div key={index} className="mb-3 last:mb-0">
                 <div className="font-medium text-gray-900 text-sm mb-1">
@@ -150,26 +132,27 @@ export function organizationTransmissionColumns(): ColumnDef<TransmissionData>[]
       },
     },
 
-    // {
-    //   accessorKey: "amount",
-    //   header: "Total Amount",
-    //   cell: ({ row }) => {
-    //     return (
-    //       <>
-    //         <p className="text-xs font-medium">{`$ ${row.getValue(
-    //           "amount"
-    //         )}`}</p>
-    //       </>
-    //     );
-    //   },
-    // },
+    {
+      accessorKey: "amount",
+      header: "Total Amount",
+      cell: ({ row }) => {
+        return (
+          <>
+            <p className="text-xs font-medium">{`$ ${row.getValue(
+              "amount"
+            )}`}</p>
+          </>
+        );
+      },
+    },
 
     {
-      id: "actions",
+      accessorKey: "id",
+      header: "Action",
       cell: ({ row }) => {
         return (
           <Link
-            to={`/org/transmissions/${row.getValue("_id")}`}
+            to={`/org/transmissions/${row.getValue("id")}`}
             className="flex justify-center items-center py-1 px-5 w-[85px] h-[36px] rounded-[50px] border border-primary-foreground "
           >
             View
