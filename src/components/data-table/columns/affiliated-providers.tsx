@@ -2,7 +2,6 @@ import PendingBadge from "@/components/TransmissionBadge/pending";
 import SuccessBadge from "@/components/TransmissionBadge/success";
 
 import type { ColumnDef } from "@tanstack/react-table";
-import { Link } from "react-router-dom";
 
 export type Provider = {
   firstName: string;
@@ -56,20 +55,6 @@ export function organizationProviderColumns(): ColumnDef<Provider>[] {
           <SuccessBadge title="Active" />
         ) : (
           <PendingBadge title="Inactive" />
-        );
-      },
-    },
-
-    {
-      id: "actions",
-      cell: () => {
-        return (
-          <Link
-            to={"#"}
-            className="flex justify-center items-center py-1 px-5 w-[85px] h-[36px] rounded-[50px] border border-primary-foreground "
-          >
-            View
-          </Link>
         );
       },
     },

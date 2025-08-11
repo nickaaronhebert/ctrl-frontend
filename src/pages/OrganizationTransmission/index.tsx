@@ -57,7 +57,7 @@ export default function OrganizationTransmission() {
         Recent transmission volume and statistics
       </h6>
       <div className="mt-3.5 ">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+        {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
           <Button
             variant={"tabs"}
             size={"xxl"}
@@ -118,7 +118,7 @@ export default function OrganizationTransmission() {
               50
             </span>
           </Button>
-        </div>
+        </div> */}
         <div className="p-5 bg-white shadow-[0px_2px_40px_0px_#00000014]">
           <DataTable table={table} />
           <DataTablePagination table={table} />

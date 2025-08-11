@@ -1,4 +1,5 @@
 import type { Patient } from "@/types/global/commonTypes";
+import { format } from "date-fns";
 
 const patientDisplayFields: {
   label: string;
@@ -10,7 +11,8 @@ const patientDisplayFields: {
   },
   {
     label: "Date of Birth",
-    getValue: (patient) => patient.dob,
+    getValue: (patient) =>
+      patient.dob ? format(new Date(patient.dob), "MMM dd, yyyy") : "",
   },
   {
     label: "Gender",
