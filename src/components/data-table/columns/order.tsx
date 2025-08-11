@@ -176,7 +176,8 @@ export function organizationOrderColumns(): ColumnDef<OrderDetails>[] {
       header: "Amount",
 
       cell: ({ row }) => {
-        return <p className="text-xs font-medium">${row.getValue("amount")}</p>;
+        const amount = Number(row.getValue("amount")) || 0;
+        return <p className="text-xs font-medium">${amount.toFixed(2)}</p>;
       },
     },
 

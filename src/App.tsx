@@ -37,6 +37,7 @@ import OrganizationOrder from "./pages/OrganizationOrder";
 import TransmissionDetails from "./pages/OrganizationTransmission/details";
 import OrganizationAffiliatedProvider from "./pages/OrganizationAffiliatedProvider";
 import ViewOrderDetails from "./pages/OrganizationOrder/details";
+import MedicationDetails from "./pages/MedicationDetails";
 
 const router = createBrowserRouter([
   {
@@ -188,6 +189,10 @@ const router = createBrowserRouter([
       {
         path: ROUTES.ORG_MEDICATIONS,
         element: <Medications />,
+      },
+      {
+        path: ROUTES.ORG_MEDICATION_DETAILS,
+        element: <MedicationDetails />,
       },
       {
         path: ROUTES.ORG_PHARMACIES,

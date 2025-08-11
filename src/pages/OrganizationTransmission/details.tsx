@@ -132,7 +132,7 @@ export default function TransmissionDetails() {
           {pharmacy && <PharmacyCard pharmacy={pharmacy} />}
 
           <div
-            className="bg-white   rounded-[10px] shadow-[0px_2px_40px_0px_#00000014]"
+            className="bg-white rounded-[10px] shadow-[0px_2px_40px_0px_#00000014]"
             id="medicationInformation"
           >
             <h2 className="text-base font-semibold p-5 border-b border-card-border">

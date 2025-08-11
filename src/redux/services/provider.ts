@@ -27,6 +27,13 @@ export const providerApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [TAG_GET_USER_PROFILE],
     }),
+
+    viewAffiliateProviders: builder.query({
+      query: () => ({
+        url: "/business/affiliations",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -34,4 +41,5 @@ export const {
   useVerifyProviderInvitationMutation,
   useAcceptProviderInvitationMutation,
   useAcceptProviderMedicalCredentialsMutation,
+  useViewAffiliateProvidersQuery,
 } = providerApi;

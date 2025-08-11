@@ -1,12 +1,41 @@
 import { type ColumnDef } from "@tanstack/react-table";
 import { Link } from "react-router-dom";
 
+export interface MedicationVariant {
+  variantName: string;
+  strength: string;
+  containerQty: number;
+  containerQtyType: string;
+}
+
 export interface Medication {
   id: string;
   drugName: string;
-  variants: string[];
+  variants: MedicationVariant[];
   category: string;
   availablePharmacies: number;
+  form: string;
+  compound: string;
+  instructions: string;
+  administrationNotes: string;
+}
+
+export interface PharmacyVariant {
+  strength: string;
+  price: number;
+  container: string;
+  stockStatus: "In Stock" | "Limited" | "Out of Stock";
+}
+
+export interface Pharmacy {
+  id: string;
+  name: string;
+  phone: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+  variants: PharmacyVariant[];
 }
 
 export function medicationLibraryColumns(): ColumnDef<Medication>[] {
@@ -15,25 +44,32 @@ export function medicationLibraryColumns(): ColumnDef<Medication>[] {
       accessorKey: "drugName",
       header: "Medication",
       cell: ({ row }) => (
-        <p className="text-sm font-medium">{row.getValue("drugName")}</p>
+        <p className="font-medium text-[12px] leading-[16px] text-black">
+          {row.getValue("drugName")}
+        </p>
       ),
     },
     {
       accessorKey: "variants",
       header: "Variants",
       cell: ({ row }) => {
-        const variants: string[] = row.getValue("variants");
+        const variants: MedicationVariant[] = row.getValue("variants");
         return (
-          <div className="flex flex-wrap gap-2">
-            {variants.map((v, idx) => (
-              <span
-                key={idx}
-                className="px-2 py-1 text-xs border rounded-md bg-gray-50"
-              >
-                {v}
-              </span>
-            ))}
-          </div>
+          <>
+            <div className="flex  flex-wrap gap-2">
+              {variants.map((v) => (
+                <span
+                  key={v.variantName}
+                  className="px-[8px] font-semibold text-[12px] leading-[16px] text-black py-[4px] text-xs rounded-[5px] bg-light-background"
+                >
+                  {v?.strength}
+                </span>
+              ))}
+            </div>
+            <span className="font-medium text-[10px] leading-[12px] text-slate">
+              {row.original.form}
+            </span>
+          </>
         );
       },
     },
@@ -44,11 +80,11 @@ export function medicationLibraryColumns(): ColumnDef<Medication>[] {
         const category = row.getValue("category") as string;
         const categoryColor =
           category === "Type 2 Diabetes"
-            ? "bg-blue-100 text-blue-700"
-            : "bg-pink-100 text-pink-700";
+            ? "bg-strength text-queued"
+            : "bg-secondary text-category-secondary";
         return (
           <span
-            className={`px-2 py-1 text-xs rounded-md font-medium ${categoryColor}`}
+            className={`px-[8px] py-[4px] text-[12px] rounded-[5px] font-semibold ${categoryColor}`}
           >
             {category}
           </span>
@@ -59,7 +95,7 @@ export function medicationLibraryColumns(): ColumnDef<Medication>[] {
       accessorKey: "availablePharmacies",
       header: "Available Pharmacies",
       cell: ({ row }) => (
-        <p className="text-sm">
+        <p className="font-semibold text-[12px] leading-[16px] text-black">
           {row.getValue("availablePharmacies")} Pharmacies
         </p>
       ),
@@ -69,7 +105,7 @@ export function medicationLibraryColumns(): ColumnDef<Medication>[] {
       header: "Action",
       cell: ({ row }) => (
         <Link
-          to={`/medications/${row.getValue("id")}`}
+          to={`/org/medications/${row.getValue("id")}`}
           className="flex justify-center items-center py-1 px-5 w-[85px] h-[36px] rounded-[50px] border border-primary-foreground"
         >
           View

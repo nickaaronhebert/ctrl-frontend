@@ -105,7 +105,7 @@ export function AppSidebar() {
                         onClick={() => navigate(item.url)}
                       >
                         <span className="min-w-[30px] min-h-[30px] flex items-center justify-center">
-                          <item.icon />
+                          <item.icon color="#9aa2ac" />
                         </span>
                         <span className="text-lg">
                           {state !== "collapsed" && item.title}

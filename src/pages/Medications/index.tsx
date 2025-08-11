@@ -13,13 +13,6 @@ import {
   type DataTableFilterField,
 } from "@/hooks/use-data-table";
 import { dummyMedicationData } from "@/constants";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import CategorySelect from "@/components/common/CategorySelect/CategorySelect";
 
 const Medications = () => {

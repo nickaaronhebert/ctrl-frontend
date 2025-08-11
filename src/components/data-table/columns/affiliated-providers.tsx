@@ -1,26 +1,31 @@
 import PendingBadge from "@/components/TransmissionBadge/pending";
-import QueuedBadge from "@/components/TransmissionBadge/queued";
 import SuccessBadge from "@/components/TransmissionBadge/success";
-import { PROVIDER_STATUS } from "@/types/global/commonTypes";
 
 import type { ColumnDef } from "@tanstack/react-table";
 import { Link } from "react-router-dom";
 
 export type Provider = {
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
   npi: string;
   status: string;
+  isAffiliationActive: boolean;
 };
 
 export function organizationProviderColumns(): ColumnDef<Provider>[] {
   return [
     {
-      accessorKey: "name",
+      accessorKey: "firstName",
       header: "Name",
-
       cell: ({ row }) => {
-        return <p className="text-xs font-medium">{row.getValue("name")}</p>;
+        const firstName = row.original.firstName || "";
+        const lastName = row.original.lastName || "";
+        return (
+          <p className="text-xs font-medium">
+            {`${firstName} ${lastName}`.trim()}
+          </p>
+        );
       },
     },
 
@@ -43,21 +48,14 @@ export function organizationProviderColumns(): ColumnDef<Provider>[] {
     },
 
     {
-      accessorKey: "status",
+      accessorKey: "isAffiliationActive",
       header: "Status",
       cell: ({ row }) => {
-        const providerStatus = row.getValue("status");
-
-        return (
-          <>
-            {providerStatus === PROVIDER_STATUS.INVITED ? (
-              <PendingBadge title="Invited" />
-            ) : providerStatus === PROVIDER_STATUS.INVITATION_ACCEPTED ? (
-              <QueuedBadge title="Invitation Accepted" />
-            ) : (
-              <SuccessBadge title="Medical Credentials Submitted" />
-            )}
-          </>
+        const isActive = row.original.isAffiliationActive;
+        return isActive ? (
+          <SuccessBadge title="Active" />
+        ) : (
+          <PendingBadge title="Inactive" />
         );
       },
     },
