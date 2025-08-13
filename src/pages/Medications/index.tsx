@@ -3,7 +3,8 @@ import { DataTable } from "@/components/data-table/data-table";
 import { DataTablePagination } from "@/components/data-table/data-table-pagination";
 import { useMemo, useState } from "react";
 import { Search } from "lucide-react";
-// import { useSearchParams } from "react-router-dom";
+import { useGetMedicationCatalogueQuery } from "@/redux/services/medication";
+import { useSearchParams } from "react-router-dom";
 import {
   medicationLibraryColumns,
   type Medication,
@@ -12,26 +13,44 @@ import {
   useDataTable,
   type DataTableFilterField,
 } from "@/hooks/use-data-table";
-import { dummyMedicationData } from "@/constants";
+// import { dummyMedicationData } from "@/constants";
 import CategorySelect from "@/components/common/CategorySelect/CategorySelect";
 
 const Medications = () => {
   const [category, setCategory] = useState("");
   const columns = useMemo(() => medicationLibraryColumns(), []);
+  const [searchParams] = useSearchParams();
+  const page = parseInt(searchParams.get("page") || "1", 10);
+  const perPage = parseInt(searchParams.get("per_page") ?? "5", 5);
+  const drugName = searchParams.get("drugName") ?? "";
+
+  const { data: medicationData, meta } = useGetMedicationCatalogueQuery(
+    { page, perPage, q: drugName },
+    {
+      selectFromResult: ({ data, isLoading, isError }) => ({
+        data: data?.data,
+        meta: data?.meta,
+        isLoading: isLoading,
+        isError: isError,
+      }),
+    }
+  );
+
+  console.log("medicationDataaaa", medicationData);
 
   const filterFields: DataTableFilterField<Medication>[] = [
     {
       label: "Name",
       value: "drugName",
-      placeholder: "Search By Medication Name",
+      placeholder: "Search By Medication Name or Category",
     },
   ];
 
   const { table } = useDataTable({
-    data: dummyMedicationData || [],
+    data: medicationData || [],
     columns,
     filterFields,
-    pageCount: -1,
+    pageCount: meta?.pageCount ?? -1,
   });
   return (
     <>

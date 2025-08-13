@@ -2,22 +2,22 @@ import { type ColumnDef } from "@tanstack/react-table";
 import { Link } from "react-router-dom";
 
 export interface MedicationVariant {
-  variantName: string;
+  id: string;
   strength: string;
-  containerQty: number;
-  containerQtyType: string;
+  quantityType: string;
+  containerQuantity: number;
 }
 
 export interface Medication {
   id: string;
   drugName: string;
-  variants: MedicationVariant[];
+  productVariants: MedicationVariant[];
   category: string;
-  availablePharmacies: number;
-  form: string;
-  compound: string;
-  instructions: string;
-  administrationNotes: string;
+  availablePharmacies?: number;
+  dosageForm: string;
+  compound?: string;
+  instructions?: string;
+  administrationNotes?: string;
 }
 
 export interface PharmacyVariant {
@@ -53,13 +53,15 @@ export function medicationLibraryColumns(): ColumnDef<Medication>[] {
       accessorKey: "variants",
       header: "Variants",
       cell: ({ row }) => {
-        const variants: MedicationVariant[] = row.getValue("variants");
+        console.log("rowww", row);
+        const variants: MedicationVariant[] = row.original.productVariants;
+        console.log("variants", variants);
         return (
           <>
             <div className="flex  flex-wrap gap-2">
-              {variants.map((v) => (
+              {variants?.map((v) => (
                 <span
-                  key={v.variantName}
+                  key={v.id}
                   className="px-[8px] font-semibold text-[12px] leading-[16px] text-black py-[4px] text-xs rounded-[5px] bg-light-background"
                 >
                   {v?.strength}
@@ -67,7 +69,7 @@ export function medicationLibraryColumns(): ColumnDef<Medication>[] {
               ))}
             </div>
             <span className="font-medium text-[10px] leading-[12px] text-slate">
-              {row.original.form}
+              {row.original.dosageForm}
             </span>
           </>
         );
@@ -96,7 +98,7 @@ export function medicationLibraryColumns(): ColumnDef<Medication>[] {
       header: "Available Pharmacies",
       cell: ({ row }) => (
         <p className="font-semibold text-[12px] leading-[16px] text-black">
-          {row.getValue("availablePharmacies")} Pharmacies
+          {row.getValue("availablePharmacies")}2 Pharmacies
         </p>
       ),
     },

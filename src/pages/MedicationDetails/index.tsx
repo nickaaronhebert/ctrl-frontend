@@ -1,17 +1,18 @@
 import MedicationLibrary from "@/assets/icons/MedicationLibrary";
 import { useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { dummyMedicationData } from "@/constants";
 import { Button } from "@/components/ui/button";
 import MedDetails from "@/components/common/MedDetails/MedDetails";
 import type { MedicationVariant } from "@/components/data-table/columns/medication-library";
-import MedVariants from "@/components/common/MedVariants/MedVariants";
 import { DataTable } from "@/components/data-table/data-table";
 import { DataTablePagination } from "@/components/data-table/data-table-pagination";
 import { pharmacyColumns } from "@/components/data-table/columns/medication-library-pharmacy";
 import { useDataTable } from "@/hooks/use-data-table";
 import { dummyPharmacies } from "@/constants";
 import Pharmacies from "@/assets/icons/Pharmacies";
+import { useGetSingleMedicationCatalogueDetailsQuery } from "@/redux/services/medication";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { variantColumns } from "@/components/data-table/columns/variant-column";
 
 const menuItems = [
   {
@@ -34,17 +35,38 @@ const menuItems = [
 
 const MedicationDetails = () => {
   const { id } = useParams();
+  const { data: singleMedDetail, isLoading } =
+    useGetSingleMedicationCatalogueDetailsQuery(id!, {
+      skip: !id,
+    });
   const [activeTab, setActiveTab] = useState<
     "medicationDetails" | "variants" | "pharmacies"
   >("medicationDetails");
-  const singleMedItem = dummyMedicationData.find((item) => item.id === id);
+  console.log("singleMedItemmmm", singleMedDetail);
   const columns = useMemo(() => pharmacyColumns(), []);
+  const variantColumn = useMemo(() => variantColumns(), []);
 
-  const { table } = useDataTable({
+  const { table: pharmacyTable } = useDataTable({
     data: dummyPharmacies || [],
     columns,
     pageCount: -1,
   });
+
+  const { table: variantTable } = useDataTable({
+    data: singleMedDetail?.data?.productVariants || [],
+    columns: variantColumn,
+    pageCount: -1,
+  });
+
+  console.log("variant Dataaaa", singleMedDetail?.data?.productVariants);
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <LoadingSpinner size={50} />
+      </div>
+    );
+  }
 
   return (
     <div className="mb-5">
@@ -57,7 +79,7 @@ const MedicationDetails = () => {
         </Link>
 
         <h1 className="text-2xl font-bold mt-1">
-          Medication: {singleMedItem?.drugName}{" "}
+          Medication: {singleMedDetail?.data?.drugName}
         </h1>
       </div>
       <div className="flex gap-8 px-14 mt-6">
@@ -72,16 +94,18 @@ const MedicationDetails = () => {
               </div>
               <div>
                 <h4 className="text-base font-medium text-black">
-                  {singleMedItem?.drugName}
+                  {singleMedDetail?.data?.drugName}
                 </h4>
                 <div className="flex gap-2">
-                  {singleMedItem?.variants.map((variant: MedicationVariant) => {
-                    return (
-                      <span className="font-normal text-[12px] leading-[16px] text-slate">
-                        {variant?.strength}
-                      </span>
-                    );
-                  })}
+                  {singleMedDetail?.data?.productVariants.map(
+                    (variant: MedicationVariant) => {
+                      return (
+                        <span className="font-normal text-[12px] leading-[16px] text-slate">
+                          {variant?.strength}
+                        </span>
+                      );
+                    }
+                  )}
                 </div>
               </div>
             </div>
@@ -120,15 +144,34 @@ const MedicationDetails = () => {
         </div>
         <div className="flex flex-col gap-5 w-full">
           <MedDetails
-            drugName={singleMedItem?.drugName as string}
-            compound={singleMedItem?.compound as string}
-            category={singleMedItem?.category as string}
-            variants={singleMedItem?.variants as MedicationVariant[]}
-            form={singleMedItem?.form as string}
-            instructions={singleMedItem?.instructions as string}
-            administrationNotes={singleMedItem?.administrationNotes as string}
+            drugName={singleMedDetail?.data?.drugName as string}
+            compound={singleMedDetail?.data?.isCompound as string}
+            category={singleMedDetail?.data?.category as string}
+            variants={
+              singleMedDetail?.data?.productVariants as MedicationVariant[]
+            }
+            form={singleMedDetail?.data?.dosageForm as string}
+            clinicalInstructions={
+              singleMedDetail?.data?.clinicalInstructions as string
+            }
           />
-          <MedVariants variants={singleMedItem?.variants} />
+          <div className="bg-white rounded-[15px]">
+            <div className="flex items-center gap-2 p-3 mb-1">
+              <Pharmacies color="black" />
+              <h1 className="font-semibold text-[16px] leading-[22px] text-black">
+                Variants
+              </h1>
+            </div>
+            <div className="px-6">
+              <div
+                id="medVariants"
+                className="mt-3.5 bg-white shadow-[0px_2px_40px_0px_#00000014] pb-[12px]"
+              >
+                <DataTable table={variantTable} />
+                {/* <DataTablePagination table={variantTable} /> */}
+              </div>
+            </div>
+          </div>
 
           <div className="bg-white rounded-[15px]">
             <div className="flex items-center gap-2 p-3">
@@ -145,8 +188,8 @@ const MedicationDetails = () => {
                 id="medPharmacies"
                 className="mt-3.5 bg-white shadow-[0px_2px_40px_0px_#00000014] pb-[12px]"
               >
-                <DataTable table={table} />
-                <DataTablePagination table={table} />
+                <DataTable table={pharmacyTable} />
+                <DataTablePagination table={pharmacyTable} />
               </div>
             </div>
           </div>

@@ -7,9 +7,9 @@ export interface MultiStepFormContextProps {
   handleNext: () => void;
   handleBack: () => void;
   onSubmit: (data: CompleteMedicalVerificationSchemaType) => void;
-  slug: string;
+  slug?: string;
   fullName: string;
   email: string;
   phone: string;
-  isLoading: boolean;
+  isLoading?: boolean;
 }
