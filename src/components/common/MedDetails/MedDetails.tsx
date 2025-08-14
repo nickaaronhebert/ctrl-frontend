@@ -9,7 +9,6 @@ interface MedDetailsProps {
   category: string;
   variants: MedicationVariant[];
   form: string;
-  clinicalInstructions: string;
 }
 
 const CustomBadge = ({
@@ -62,7 +61,6 @@ export default function MedDetails({
   category,
   variants,
   form,
-  clinicalInstructions,
 }: MedDetailsProps) {
   return (
     <div id="medicationDetails" className="bg-white rounded-[15px] ">
@@ -80,11 +78,9 @@ export default function MedDetails({
           <InfoRow label="Medication Name">
             <span className="font-medium">{drugName}</span>
           </InfoRow>
-          <InfoRow label="Compound">
+          <InfoRow label="Type">
             <div className="flex items-center gap-2">
-              <span>
-                {!isCompound && !compoundBaseDrug ? "N/A" : compoundBaseDrug}
-              </span>
+              <span>{isCompound ? "Compound" : "Standard"}</span>
             </div>
           </InfoRow>
           <InfoRow label="Category">
@@ -107,13 +103,6 @@ export default function MedDetails({
             <span className="font-medium text-[14px] leading-[18px] ">
               {form}
             </span>
-          </InfoRow>
-        </div>
-        <div className="mb-6">
-          <InfoRow label="Clinical Instructions">
-            <p className="font-medium text-[14px] leading-[18px] text-primary-foreground">
-              {clinicalInstructions}
-            </p>
           </InfoRow>
         </div>
       </div>

@@ -93,36 +93,6 @@ export default function OrganizationTransmission() {
             variant={"tabs"}
             size={"xxl"}
             className={cn(
-              activeStatus === "Transmitted"
-                ? "bg-primary text-white"
-                : "bg-slate-background text-secondary-foreground"
-            )}
-            onClick={() => setActiveStatus("Transmitted")}
-          >
-            <span className=" font-medium text-base mx-2.5">Transmitted</span>
-            <span className="min-h-4 min-w-8 p-1 rounded-[8px] bg-white mr-2.5 text-secondary-foreground">
-              {getStatusCount("Transmitted")}
-            </span>
-          </Button>
-          <Button
-            variant={"tabs"}
-            size={"xxl"}
-            className={cn(
-              activeStatus === "Queued"
-                ? "bg-primary text-white"
-                : "bg-slate-background text-secondary-foreground"
-            )}
-            onClick={() => setActiveStatus("Queued")}
-          >
-            <span className=" font-medium text-base mx-2.5">Queued</span>
-            <span className="min-h-4 min-w-8 p-1 rounded-[8px] bg-white text-secondary-foreground mr-2.5">
-              {getStatusCount("Queued")}
-            </span>
-          </Button>
-          <Button
-            variant={"tabs"}
-            size={"xxl"}
-            className={cn(
               activeStatus === "Created"
                 ? "bg-primary text-white"
                 : "bg-slate-background text-secondary-foreground"
@@ -147,6 +117,36 @@ export default function OrganizationTransmission() {
             <span className=" font-medium text-base mx-2.5">Processing</span>
             <span className="min-h-4 min-w-8 p-1 rounded-[8px] bg-white text-secondary-foreground mr-2.5">
               {getStatusCount("Processing")}
+            </span>
+          </Button>
+          <Button
+            variant={"tabs"}
+            size={"xxl"}
+            className={cn(
+              activeStatus === "Queued"
+                ? "bg-primary text-white"
+                : "bg-slate-background text-secondary-foreground"
+            )}
+            onClick={() => setActiveStatus("Queued")}
+          >
+            <span className=" font-medium text-base mx-2.5">Queued</span>
+            <span className="min-h-4 min-w-8 p-1 rounded-[8px] bg-white text-secondary-foreground mr-2.5">
+              {getStatusCount("Queued")}
+            </span>
+          </Button>
+          <Button
+            variant={"tabs"}
+            size={"xxl"}
+            className={cn(
+              activeStatus === "Transmitted"
+                ? "bg-primary text-white"
+                : "bg-slate-background text-secondary-foreground"
+            )}
+            onClick={() => setActiveStatus("Transmitted")}
+          >
+            <span className=" font-medium text-base mx-2.5">Transmitted</span>
+            <span className="min-h-4 min-w-8 p-1 rounded-[8px] bg-white mr-2.5 text-secondary-foreground">
+              {getStatusCount("Transmitted")}
             </span>
           </Button>
         </div>

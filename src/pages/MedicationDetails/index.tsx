@@ -152,9 +152,6 @@ const MedicationDetails = () => {
               singleMedDetail?.data?.productVariants as MedicationVariant[]
             }
             form={singleMedDetail?.data?.dosageForm as string}
-            clinicalInstructions={
-              singleMedDetail?.data?.clinicalInstructions as string
-            }
           />
           <div className="bg-white rounded-[15px]">
             <div className="flex items-center gap-2 p-3 mb-1">
