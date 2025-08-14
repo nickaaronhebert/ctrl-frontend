@@ -15,7 +15,7 @@ const CreateOrder = () => {
         <h1 className="text-2xl font-bold mt-1">Create Order </h1>
       </div>
       <div
-        className="mt-10 min-h-screen rounded-[15px] max-w-[1000px] mx-auto p-6 bg-white"
+        className="mt-10 min-h-[600px] rounded-[15px] max-w-[1000px] mx-auto p-6 bg-white"
         style={{
           boxShadow: "0px 8px 10px 0px hsla(0, 0%, 0%, 0.08)",
         }}

@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/select";
 
 interface CategorySelectProps {
-  categories: string[];
+  categories: string[] | undefined;
   selected: string;
   setSelected: (value: string) => void;
 }
@@ -17,13 +17,18 @@ export default function CategorySelect({
   selected,
   setSelected,
 }: CategorySelectProps) {
+  console.log("categories", categories);
   return (
-    <Select value={selected} onValueChange={setSelected}>
+    <Select
+      defaultValue={categories?.[0]}
+      value={selected}
+      onValueChange={setSelected}
+    >
       <SelectTrigger className="w-[200px] min-h-[50px]">
         <SelectValue placeholder="Select category" />
       </SelectTrigger>
       <SelectContent>
-        {categories.map((cat) => (
+        {categories?.map((cat) => (
           <SelectItem key={cat} value={cat}>
             {cat}
           </SelectItem>

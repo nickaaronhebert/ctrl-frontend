@@ -145,7 +145,8 @@ const MedicationDetails = () => {
         <div className="flex flex-col gap-5 w-full">
           <MedDetails
             drugName={singleMedDetail?.data?.drugName as string}
-            compound={singleMedDetail?.data?.isCompound as string}
+            isCompound={singleMedDetail?.data?.isCompound as boolean}
+            compoundBaseDrug={singleMedDetail?.data?.compoundBaseDrug}
             category={singleMedDetail?.data?.category as string}
             variants={
               singleMedDetail?.data?.productVariants as MedicationVariant[]

@@ -1,7 +1,7 @@
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { DataTable } from "@/components/data-table/data-table";
 import { DataTablePagination } from "@/components/data-table/data-table-pagination";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { Search } from "lucide-react";
 import { useGetMedicationCatalogueQuery } from "@/redux/services/medication";
 import { useSearchParams } from "react-router-dom";
@@ -14,10 +14,8 @@ import {
   type DataTableFilterField,
 } from "@/hooks/use-data-table";
 // import { dummyMedicationData } from "@/constants";
-import CategorySelect from "@/components/common/CategorySelect/CategorySelect";
 
 const Medications = () => {
-  const [category, setCategory] = useState("");
   const columns = useMemo(() => medicationLibraryColumns(), []);
   const [searchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1", 10);
@@ -36,8 +34,6 @@ const Medications = () => {
     }
   );
 
-  console.log("medicationDataaaa", medicationData);
-
   const filterFields: DataTableFilterField<Medication>[] = [
     {
       label: "Name",
@@ -52,6 +48,7 @@ const Medications = () => {
     filterFields,
     pageCount: meta?.pageCount ?? -1,
   });
+
   return (
     <>
       <div className="lg:p-3.5">
@@ -69,11 +66,6 @@ const Medications = () => {
               filterFields={filterFields}
               searchIcon={<Search className="w-5 h-5" />}
               className=" h-full"
-            />
-            <CategorySelect
-              categories={["Type 2 Diabetes", "Weight Management", "Obesity"]}
-              selected={category}
-              setSelected={setCategory}
             />
           </div>
         </div>

@@ -1,10 +1,14 @@
 import { z } from "zod";
 
 export const patientSchema = z.object({
-  fullName: z.string().min(1, "Full name is required"),
+  firstName: z.string().min(1, "First name is required"),
+  lastName: z.string().min(1, "Last Name is required"),
   phoneNumber: z
     .string()
-    .regex(/^\d{10}$/, { message: "Phone number must be exactly 10 digits" }),
+    .regex(/^\+\d{1,3}\d{10}$/, {
+      message: "Phone number must include country code and be valid",
+    }),
+
   email: z.string().email("Invalid email address"),
   gender: z.enum(["Male", "Female", "Other"]),
   dob: z.string().refine((date) => !isNaN(Date.parse(date)), {

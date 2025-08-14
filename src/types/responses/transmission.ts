@@ -32,6 +32,8 @@ export interface IViewAllTransmissionsResponse {
 export interface IViewAllTransmissionsRequest {
   page: number;
   perPage: number;
+  q?: string;
+  activeStatus?: "Created" | "Processing" | "Queued" | "Transmitted";
 }
 
 export interface IViewTransmissionByIdResponse {

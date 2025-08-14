@@ -94,11 +94,11 @@ export function medicationLibraryColumns(): ColumnDef<Medication>[] {
       },
     },
     {
-      accessorKey: "availablePharmacies",
-      header: "Available Pharmacies",
+      accessorKey: "dosageForm",
+      header: "Dosage Form",
       cell: ({ row }) => (
         <p className="font-semibold text-[12px] leading-[16px] text-black">
-          {row.getValue("availablePharmacies")}2 Pharmacies
+          {row.getValue("dosageForm")}
         </p>
       ),
     },

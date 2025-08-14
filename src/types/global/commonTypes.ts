@@ -48,7 +48,7 @@ export interface Patient {
   gender: string;
   phoneNumber: string;
   email: string;
-  _id: string;
+  id: string;
 }
 
 export interface Pharmacy {

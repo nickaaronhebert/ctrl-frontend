@@ -454,3 +454,45 @@ export const dummyPharmacies: Pharmacy[] = [
     ],
   },
 ];
+export const dummyPatients = [
+  {
+    id: "1",
+    fullName: "Sarah Johnson",
+    phoneNumber: "5531634902",
+    email: "sarah.johnson@company.com",
+    gender: "Female",
+    dob: "1988-01-15",
+  },
+  {
+    id: "2",
+    fullName: "Michael Smith",
+    phoneNumber: "4422998421",
+    email: "michael.smith@company.com",
+    gender: "Male",
+    dob: "1990-06-20",
+  },
+  {
+    id: "3",
+    fullName: "Emily Davis",
+    phoneNumber: "3335127789",
+    email: "emily.davis@company.com",
+    gender: "Female",
+    dob: "1985-11-05",
+  },
+  {
+    id: "4",
+    fullName: "David Thompson",
+    phoneNumber: "6174829301",
+    email: "david.thompson@company.com",
+    gender: "Male",
+    dob: "1992-03-12",
+  },
+  {
+    id: "5",
+    fullName: "Olivia Martinez",
+    phoneNumber: "7256194830",
+    email: "olivia.martinez@company.com",
+    gender: "Female",
+    dob: "1987-08-29",
+  },
+];

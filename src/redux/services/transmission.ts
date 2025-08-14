@@ -11,9 +11,9 @@ const transmissionApi = baseApi.injectEndpoints({
       IViewAllTransmissionsResponse,
       IViewAllTransmissionsRequest
     >({
-      query: ({ page, perPage }) => {
+      query: ({ page, perPage, activeStatus }) => {
         return {
-          url: `/transmission?page=${page}&limit=${perPage}`,
+          url: `/transmission?page=${page}&limit=${perPage}&status=${activeStatus}`,
           method: "GET",
         };
       },

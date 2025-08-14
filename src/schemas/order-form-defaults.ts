@@ -6,19 +6,20 @@ export const orderFormDefaults: z.infer<
   typeof completeOrderVerificationSchema
 > = {
   // Step 1: patientSchema
-  fullName: "John Doe",
-  phoneNumber: "9876543210",
-  email: "john.doe@example.com",
-  gender: "Male",
-  dob: "1990-05-15",
-  medicationAllergies: ["Penicillin", "Peanuts"],
-  currentMedications: "Metformin, Lisinopril",
-  diagnosedConditions: ["Type 2 Diabetes, Hypertension"],
+  firstName: "",
+  lastName: "",
+  phoneNumber: "",
+  email: "",
+  gender: "",
+  dob: "",
+  medicationAllergies: [""],
+  currentMedications: [""],
+  diagnosedConditions: [""],
   vitalSigns: {
     bloodPressure: "120/80",
     heartRate: 75,
-    height: 175, // in cm
-    weight: 72, // in kg
+    height: 175,
+    weight: 72,
   },
   // Step 2: medicationsSchema
   medications: [

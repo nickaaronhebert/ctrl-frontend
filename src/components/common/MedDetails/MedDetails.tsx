@@ -4,7 +4,8 @@ import MedicationLibrary from "@/assets/icons/MedicationLibrary";
 
 interface MedDetailsProps {
   drugName: string;
-  compound: string;
+  isCompound: boolean;
+  compoundBaseDrug: string | null;
   category: string;
   variants: MedicationVariant[];
   form: string;
@@ -56,7 +57,8 @@ const InfoRow = ({
 
 export default function MedDetails({
   drugName,
-  compound,
+  isCompound,
+  compoundBaseDrug,
   category,
   variants,
   form,
@@ -80,7 +82,9 @@ export default function MedDetails({
           </InfoRow>
           <InfoRow label="Compound">
             <div className="flex items-center gap-2">
-              <span className="font-medium">{compound}</span>
+              <span>
+                {!isCompound && !compoundBaseDrug ? "N/A" : compoundBaseDrug}
+              </span>
             </div>
           </InfoRow>
           <InfoRow label="Category">

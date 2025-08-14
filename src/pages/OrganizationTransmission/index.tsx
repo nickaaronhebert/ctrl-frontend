@@ -15,8 +15,13 @@ export default function OrganizationTransmission() {
   const page = parseInt(searchParams.get("page") || "1", 10);
   const perPage = parseInt(searchParams.get("per_page") ?? "10", 10);
 
+  const [activeStatus, setActiveStatus] = useState<
+    "Created" | "Processing" | "Queued" | "Transmitted"
+  >("Transmitted");
+  const columns = useMemo(() => organizationTransmissionColumns(), []);
+
   const { data, meta } = useViewAllTransmissionsQuery(
-    { page, perPage },
+    { page, perPage, activeStatus },
     {
       selectFromResult: ({ data, isLoading, isError }) => ({
         data: data?.data,
@@ -27,28 +32,54 @@ export default function OrganizationTransmission() {
     }
   );
 
-  // console.log("Transmission Data:", data);
-  // console.log("Meta Data:", meta);
+  const { data: transmittedData } = useViewAllTransmissionsQuery(
+    { page: 1, perPage: 1, activeStatus: "Transmitted" },
+    {
+      selectFromResult: ({ data }) => ({ data: data?.meta }),
+    }
+  );
 
-  const [activeStatus, setActiveStatus] = useState<
-    "transmitted" | "queued" | "pending" | "failed"
-  >("transmitted");
-  const columns = useMemo(() => organizationTransmissionColumns(), []);
+  const { data: queuedData } = useViewAllTransmissionsQuery(
+    { page: 1, perPage: 1, activeStatus: "Queued" },
+    {
+      selectFromResult: ({ data }) => ({ data: data?.meta }),
+    }
+  );
 
-  // const data =
-  //   activeStatus === "transmitted"
-  //     ? transmissionData
-  //     : activeStatus === "queued"
-  //     ? queuedData
-  //     : activeStatus === "pending"
-  //     ? pendingData
-  //     : failedData;
+  const { data: createdData } = useViewAllTransmissionsQuery(
+    { page: 1, perPage: 1, activeStatus: "Created" },
+    {
+      selectFromResult: ({ data }) => ({ data: data?.meta }),
+    }
+  );
+
+  const { data: processingData } = useViewAllTransmissionsQuery(
+    { page: 1, perPage: 1, activeStatus: "Processing" },
+    {
+      selectFromResult: ({ data }) => ({ data: data?.meta }),
+    }
+  );
 
   const { table } = useDataTable({
     data: data || [],
     columns,
     pageCount: meta?.pageCount ?? -1,
   });
+
+  const getStatusCount = (status: string) => {
+    switch (status) {
+      case "Transmitted":
+        return transmittedData?.itemCount || 0;
+      case "Queued":
+        return queuedData?.itemCount || 0;
+      case "Created":
+        return createdData?.itemCount || 0;
+      case "Processing":
+        return processingData?.itemCount || 0;
+      default:
+        return 0;
+    }
+  };
 
   return (
     <div className=" lg:p-3.5">
@@ -57,65 +88,65 @@ export default function OrganizationTransmission() {
         Recent transmission volume and statistics
       </h6>
       <div className="mt-3.5 ">
-        <div className=" grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 hidden">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 mb-1">
           <Button
             variant={"tabs"}
             size={"xxl"}
             className={cn(
-              activeStatus === "transmitted"
+              activeStatus === "Transmitted"
                 ? "bg-primary text-white"
                 : "bg-slate-background text-secondary-foreground"
             )}
-            onClick={() => setActiveStatus("transmitted")}
+            onClick={() => setActiveStatus("Transmitted")}
           >
             <span className=" font-medium text-base mx-2.5">Transmitted</span>
             <span className="min-h-4 min-w-8 p-1 rounded-[8px] bg-white mr-2.5 text-secondary-foreground">
-              42
+              {getStatusCount("Transmitted")}
             </span>
           </Button>
           <Button
             variant={"tabs"}
             size={"xxl"}
             className={cn(
-              activeStatus === "queued"
+              activeStatus === "Queued"
                 ? "bg-primary text-white"
                 : "bg-slate-background text-secondary-foreground"
             )}
-            onClick={() => setActiveStatus("queued")}
+            onClick={() => setActiveStatus("Queued")}
           >
             <span className=" font-medium text-base mx-2.5">Queued</span>
             <span className="min-h-4 min-w-8 p-1 rounded-[8px] bg-white text-secondary-foreground mr-2.5">
-              42
+              {getStatusCount("Queued")}
             </span>
           </Button>
           <Button
             variant={"tabs"}
             size={"xxl"}
             className={cn(
-              activeStatus === "pending"
+              activeStatus === "Created"
                 ? "bg-primary text-white"
                 : "bg-slate-background text-secondary-foreground"
             )}
-            onClick={() => setActiveStatus("pending")}
+            onClick={() => setActiveStatus("Created")}
           >
-            <span className=" font-medium text-base mx-2.5">Pending</span>
+            <span className=" font-medium text-base mx-2.5">Created</span>
             <span className="min-h-4 min-w-8 p-1 rounded-[8px] bg-white text-secondary-foreground mr-2.5">
-              22
+              {getStatusCount("Created")}
             </span>
           </Button>
           <Button
             variant={"tabs"}
             size={"xxl"}
             className={cn(
-              activeStatus === "failed"
+              activeStatus === "Processing"
                 ? "bg-primary text-white"
                 : "bg-slate-background text-secondary-foreground"
             )}
-            onClick={() => setActiveStatus("failed")}
+            onClick={() => setActiveStatus("Processing")}
           >
-            <span className=" font-medium text-base mx-2.5">Failed</span>
+            <span className=" font-medium text-base mx-2.5">Processing</span>
             <span className="min-h-4 min-w-8 p-1 rounded-[8px] bg-white text-secondary-foreground mr-2.5">
-              50
+              {getStatusCount("Processing")}
             </span>
           </Button>
         </div>
