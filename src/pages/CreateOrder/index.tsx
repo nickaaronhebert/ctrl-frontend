@@ -1,7 +1,8 @@
-import CreateOrderForm from "@/components/provider/create-order-stepper";
+import CreateOrderFormV2 from "@/components/provider/create-order-stepperV2";
+
 import { Link } from "react-router-dom";
 
-const CreateOrder = () => {
+const CreateOrderPage = () => {
   return (
     <>
       <div className="bg-lilac py-3 px-12">
@@ -15,15 +16,15 @@ const CreateOrder = () => {
         <h1 className="text-2xl font-bold mt-1">Create Order </h1>
       </div>
       <div
-        className="mt-10 min-h-screen rounded-[15px] max-w-[1000px] mx-auto p-6 bg-white"
+        className="mt-10  rounded-[15px] max-w-[1000px] mx-auto p-6 bg-white"
         style={{
           boxShadow: "0px 8px 10px 0px hsla(0, 0%, 0%, 0.08)",
         }}
       >
-        <CreateOrderForm />
+        <CreateOrderFormV2 />
       </div>
     </>
   );
 };
 
-export default CreateOrder;
+export default CreateOrderPage;
