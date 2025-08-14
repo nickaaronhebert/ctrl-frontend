@@ -16,6 +16,7 @@ import { dispensingSchema } from "@/schemas/dispensingSchema";
 import Dispensing from "../organization/Dispensing";
 import PatientDetails from "./create-order/patient-details";
 import { patientSchema } from "@/schemas/patientSchema";
+import PatientForm from "../organization/PatientDetails";
 
 type StepDefinition = {
   validationSchema: ZodObject<any>;
@@ -26,9 +27,13 @@ export const MultiStepFormContext =
   createContext<MultiStepFormContextProps | null>(null);
 
 export const FormSteps: StepDefinition[] = [
+  // {
+  //   validationSchema: patientSchema,
+  //   component: <PatientDetails />,
+  // },
   {
     validationSchema: patientSchema,
-    component: <PatientDetails />,
+    component: <PatientForm />,
   },
   {
     validationSchema: medicationsSchema,

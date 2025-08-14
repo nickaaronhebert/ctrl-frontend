@@ -1,4 +1,5 @@
-import CreateOrderFormV2 from "@/components/provider/create-order-stepperV2";
+import CreateOrderForm from "@/components/provider/create-order-stepper";
+// import CreateOrderFormV2 from "@/components/provider/create-order-stepperV2";
 
 import { Link } from "react-router-dom";
 
@@ -21,7 +22,8 @@ const CreateOrderPage = () => {
           boxShadow: "0px 8px 10px 0px hsla(0, 0%, 0%, 0.08)",
         }}
       >
-        <CreateOrderFormV2 />
+        <CreateOrderForm />
+        {/* <CreateOrderFormV2 /> */}
       </div>
     </>
   );

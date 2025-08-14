@@ -14,6 +14,8 @@ import { dispensingSchema } from "@/schemas/dispensingSchema";
 import { completeOrderVerificationSchema } from "@/schemas/order-merge-schema";
 import Dispensing from "@/components/organization/Dispensing";
 import { orderFormDefaults } from "@/schemas/order-form-defaults";
+import SelectMedication from "./create-order/select-medication";
+import SelectProviderPharmacy from "./create-order/select-provider-pharmacy";
 
 type StepDefinition = {
   validationSchema: ZodObject<any>;
@@ -30,12 +32,20 @@ export const FormSteps: StepDefinition[] = [
   },
   {
     validationSchema: medicationsSchema,
-    component: <AddMedication />,
+    component: <SelectMedication />,
   },
   {
     validationSchema: providerPharmacySchema,
-    component: <PharmacySelection />,
+    component: <SelectProviderPharmacy />,
   },
+  // {
+  //   validationSchema: medicationsSchema,
+  //   component: <AddMedication />,
+  // },
+  // {
+  //   validationSchema: providerPharmacySchema,
+  //   component: <PharmacySelection />,
+  // },
   {
     validationSchema: dispensingSchema,
     component: <Dispensing />,
