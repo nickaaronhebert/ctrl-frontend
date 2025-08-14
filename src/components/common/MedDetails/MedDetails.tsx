@@ -57,7 +57,6 @@ const InfoRow = ({
 export default function MedDetails({
   drugName,
   isCompound,
-  compoundBaseDrug,
   category,
   variants,
   form,
