@@ -16,32 +16,56 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
+interface BaseOption {
+  label: string;
+  value: string;
+  [key: string]: any; // Allow additional properties
+}
+
 interface SelectElementProps
-  extends React.InputHTMLAttributes<HTMLSelectElement> {
+  extends Omit<React.InputHTMLAttributes<HTMLSelectElement>, "onChange"> {
   name: string;
   label?: string;
   description?: string;
   isOptional?: boolean;
   isRequired?: boolean;
-  options: {
-    label: string;
-    value: string;
-  }[];
+  errorClassName?: string;
+  placeholder?: string;
+  options: BaseOption[];
   triggerClassName?: string;
+  onChange?: (value: string) => void;
+  // Keys to display (if not provided, shows only 'label')
+  displayKeys?: string[];
+  // Separator for concatenating fields
+  separator?: string;
 }
 
 const SelectElement: React.FC<SelectElementProps> = ({
   name,
   label,
-  placeholder,
+  placeholder = "",
   description,
   isOptional,
   options,
   isRequired,
   triggerClassName,
+  errorClassName,
+  onChange,
+  displayKeys = ["label"], // Default to showing only label
+  separator = " , ",
   ...props
 }) => {
   const { control } = useFormContext();
+
+  const getDisplayText = (option: BaseOption): string => {
+    const displayValues = displayKeys
+      .map((key) => option[key])
+      .filter((value) => value !== null && value !== undefined && value !== "")
+      .map((value) => String(value));
+
+    return displayValues.join(separator);
+  };
+
   return (
     <FormField
       control={control}
@@ -60,7 +84,10 @@ const SelectElement: React.FC<SelectElementProps> = ({
             </FormLabel>
           )}
           <Select
-            onValueChange={field.onChange}
+            onValueChange={(value) => {
+              field.onChange(value); // Always update the form field
+              onChange?.(value); // Call custom onChange if provided
+            }}
             defaultValue={props.defaultValue || field.value}
             disabled={props.disabled}
           >
@@ -75,13 +102,13 @@ const SelectElement: React.FC<SelectElementProps> = ({
             <SelectContent>
               {options.map((option) => (
                 <SelectItem key={option.value} value={`${option.value}`}>
-                  {option.label}
+                  {getDisplayText(option)}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
           {description && <FormDescription>{description}</FormDescription>}
-          <FormMessage />
+          <FormMessage className={cn("", errorClassName)} />
         </FormItem>
       )}
     />

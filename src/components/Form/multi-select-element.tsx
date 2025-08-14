@@ -24,6 +24,7 @@ interface Props {
   }[];
   disabled?: boolean;
   className?: string;
+  messageClassName?: string;
 }
 
 const MultiSelectElement = ({
@@ -35,6 +36,7 @@ const MultiSelectElement = ({
   //   disabled = false,
   isRequired = false,
   className = "",
+  messageClassName = "",
 }: Props) => {
   const { control } = useFormContext();
 
@@ -65,7 +67,7 @@ const MultiSelectElement = ({
               />
             </FormControl>
             {description && <FormDescription>{description}</FormDescription>}
-            <FormMessage />
+            <FormMessage className={cn("", messageClassName)} />
           </FormItem>
         );
       }}
