@@ -38,17 +38,29 @@ export const PROVIDER_STATUS = {
   INVITATION_ACCEPTED: "invitation_accepted",
   MED_SUBMITTED: "med_submitted",
 };
-
 export interface Patient {
   firstName: string;
   lastName: string;
   dob: string;
-  state: string;
+  state?: string;
   zipcode: string;
   gender: string;
   phoneNumber: string;
   email: string;
-  id: string;
+  height?: number;
+  weight?: number;
+  medicationAllergies?: string[];
+  currentMedications?: string[];
+  source?: {
+    id: string;
+    name: string;
+  };
+  vitalSigns?: {
+    bloodPressure?: string;
+    heartRate?: number;
+    respiratoryRate?: number;
+    temperature?: number;
+  };
 }
 
 export interface Pharmacy {

@@ -1,37 +1,26 @@
 import { z } from "zod";
 
 export const patientSchema = z.object({
+  selectedPatient: z.any().optional(),
+
   firstName: z.string().min(1, "First name is required"),
-  lastName: z.string().min(1, "Last Name is required"),
-  phoneNumber: z.string().regex(/^\+\d{1,3}\d{10}$/, {
-    message: "Phone number must include country code and be valid",
-  }),
-
-  email: z.string().email("Invalid email address"),
+  lastName: z.string().min(1, "Last name is required"),
+  phoneNumber: z
+    .string()
+    .regex(/^\+\d{1,3}\d{10}$/, {
+      message: "Phone number must include country code and be valid",
+    })
+    .optional(),
+  email: z.string().email("Invalid email address").optional(),
   gender: z.enum(["Male", "Female", "Other"]),
-  dob: z.string().refine((date) => !isNaN(Date.parse(date)), {
-    message: "Invalid date format",
-  }),
-
-  medicationAllergies: z.array(z.string().min(1)).optional(),
-
-  currentMedications: z.array(z.string().min(1)),
-
-  diagnosedConditions: z.array(z.string().min(1)),
-
-  vitalSigns: z.object({
-    bloodPressure: z
-      .string()
-      .regex(/^\d{2,3}\/\d{2,3}$/, "Blood pressure must be in format ###/##"),
-    heartRate: z
-      .number({ invalid_type_error: "Heart rate must be a number" })
-      .min(30, "Heart rate too low")
-      .max(220, "Heart rate too high"),
-    height: z
-      .number({ invalid_type_error: "Height must be a number" })
-      .positive("Height must be positive"),
-    weight: z
-      .number({ invalid_type_error: "Weight must be a number" })
-      .positive("Weight must be positive"),
-  }),
+  dob: z
+    .string()
+    .optional()
+    .refine((date) => !date || !isNaN(Date.parse(date)), {
+      message: "Invalid date format",
+    }),
+  medicationAllergies: z.string().optional(),
+  currentMedications: z.string().optional(),
+  height: z.number().positive("Height must be positive").optional(),
+  weight: z.number().positive("Weight must be positive").optional(),
 });
