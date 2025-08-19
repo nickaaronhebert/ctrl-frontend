@@ -17,7 +17,7 @@ export default function OrganizationTransmission() {
 
   const [activeStatus, setActiveStatus] = useState<
     "Created" | "Processing" | "Queued" | "Transmitted"
-  >("Transmitted");
+  >("Created");
   const columns = useMemo(() => organizationTransmissionColumns(), []);
 
   const { data, meta } = useViewAllTransmissionsQuery(
