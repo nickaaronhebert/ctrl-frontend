@@ -10,17 +10,13 @@ export const orderFormDefaults: z.infer<
   lastName: "",
   phoneNumber: "",
   email: "",
-  gender: "",
+  gender: "Male",
   dob: "",
-  medicationAllergies: [""],
-  currentMedications: [""],
-  diagnosedConditions: [""],
-  vitalSigns: {
-    bloodPressure: "120/80",
-    heartRate: 75,
-    height: 175,
-    weight: 72,
-  },
+  medicationAllergies: "",
+  currentMedications: "",
+  height: undefined,
+  weight: undefined,
+
   // Step 2: medicationsSchema
   medications: [
     {

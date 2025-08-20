@@ -7,8 +7,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+
 import { cn } from "@/lib/utils";
+import { Textarea } from "@/components/ui/textarea";
 
 interface InputElementProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -22,7 +23,7 @@ interface InputElementProps
   messageClassName?: string;
 }
 
-const InputElement: React.FC<InputElementProps> = ({
+const TextAreaElement: React.FC<InputElementProps> = ({
   name,
   label,
   placeholder,
@@ -32,7 +33,6 @@ const InputElement: React.FC<InputElementProps> = ({
   labelClassName,
   inputClassName,
   messageClassName,
-
   ...props
 }) => {
   const { control } = useFormContext();
@@ -55,17 +55,23 @@ const InputElement: React.FC<InputElementProps> = ({
             </FormLabel>
           )}
           <FormControl>
-            <Input
-              {...field}
+            <Textarea
               placeholder={placeholder}
               className={cn("", inputClassName)}
+              {...field}
+            />
+            {/* <Input
+              {...field}
+              placeholder={placeholder}
+              
               type={props.type || "text"}
               disabled={props.disabled}
+              value={props.value || field.value}
               autoComplete={props.autoComplete}
-            />
+              onChange={field.onChange}
+            /> */}
           </FormControl>
           {description && <FormDescription>{description}</FormDescription>}
-
           <FormMessage className={cn("", messageClassName)} />
         </FormItem>
       )}
@@ -73,4 +79,4 @@ const InputElement: React.FC<InputElementProps> = ({
   );
 };
 
-export default InputElement;
+export default TextAreaElement;

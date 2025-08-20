@@ -4,18 +4,19 @@ import { FormProvider, useForm } from "react-hook-form";
 import type { MultiStepFormContextProps } from "@/types/credential-verification";
 import { ZodObject } from "zod";
 import useAuthentication from "@/hooks/use-authentication";
-import { patientSchema } from "@/schemas/patientSchema";
-import PatientDetails from "@/components/organization/PatientDetails";
+
 import { medicationsSchema } from "@/schemas/medicationSchema";
-import AddMedication from "@/components/organization/AddMedication";
+
 import { providerPharmacySchema } from "@/schemas/pharmacySchema";
-import PharmacySelection from "@/components/organization/PharmacySelection";
-import { dispensingSchema } from "@/schemas/dispensingSchema";
+
 import { completeOrderVerificationSchema } from "@/schemas/order-merge-schema";
-import Dispensing from "@/components/organization/Dispensing";
-import { orderFormDefaults } from "@/schemas/order-form-defaults";
 import SelectMedication from "./create-order/select-medication";
 import SelectProviderPharmacy from "./create-order/select-provider-pharmacy";
+import { dispensingSchema } from "@/schemas/dispensingSchema";
+import Dispensing from "../organization/Dispensing";
+import PatientDetails from "./create-order/patient-details";
+import { patientSchema } from "@/schemas/patientSchema";
+import PatientForm from "../organization/PatientDetails";
 
 type StepDefinition = {
   validationSchema: ZodObject<any>;
@@ -26,9 +27,13 @@ export const MultiStepFormContext =
   createContext<MultiStepFormContextProps | null>(null);
 
 export const FormSteps: StepDefinition[] = [
+  // {
+  //   validationSchema: patientSchema,
+  //   component: <PatientDetails />,
+  // },
   {
     validationSchema: patientSchema,
-    component: <PatientDetails />,
+    component: <PatientForm />,
   },
   {
     validationSchema: medicationsSchema,
@@ -38,21 +43,13 @@ export const FormSteps: StepDefinition[] = [
     validationSchema: providerPharmacySchema,
     component: <SelectProviderPharmacy />,
   },
-  // {
-  //   validationSchema: medicationsSchema,
-  //   component: <AddMedication />,
-  // },
-  // {
-  //   validationSchema: providerPharmacySchema,
-  //   component: <PharmacySelection />,
-  // },
   {
     validationSchema: dispensingSchema,
     component: <Dispensing />,
   },
 ];
 
-const CreateOrderForm = () => {
+const CreateOrderFormV2 = () => {
   const [step, setStep] = useState(0);
   const totalSteps = FormSteps.length;
   const safeStep = step < FormSteps.length ? step : FormSteps.length - 1;
@@ -61,26 +58,25 @@ const CreateOrderForm = () => {
   const form = useForm({
     mode: "onChange",
     resolver: zodResolver(FormSteps[safeStep].validationSchema),
-    defaultValues: orderFormDefaults,
+    defaultValues: {
+      medications: [
+        { selectMedication: "", quantity: 1, sigInstructions: "", unit: "" },
+      ],
+      selectProvider: "",
+      selectPharmacy: "",
+    },
   });
 
   const handleNext = () => {
     const currentSchemas = FormSteps[safeStep].validationSchema;
     const currentStepData = form.getValues();
-    console.log("currentStepData", currentStepData);
-    localStorage.setItem("formData", JSON.stringify(currentStepData));
+
     const currentValidation = currentSchemas.safeParse(currentStepData);
     console.log("currentValidation", currentValidation);
     if (currentValidation.success) {
       setStep(step + 1);
     } else {
-      console.error("Validation errors:", currentValidation.error.format());
-      // Or for a cleaner array of messages:
-      console.error(
-        currentValidation.error.errors.map(
-          (err) => `${err.path.join(".")}: ${err.message}`
-        )
-      );
+      console.log("error");
     }
   };
 
@@ -121,11 +117,11 @@ const CreateOrderForm = () => {
     <MultiStepFormContext.Provider value={value}>
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="my-5">
-          {form.formState.isReady && FormSteps[safeStep].component}
+          {FormSteps[safeStep].component}
         </form>
       </FormProvider>
     </MultiStepFormContext.Provider>
   );
 };
 
-export default CreateOrderForm;
+export default CreateOrderFormV2;

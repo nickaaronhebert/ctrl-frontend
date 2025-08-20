@@ -1,29 +1,22 @@
 import { z } from "zod";
 
 const medicationSchema = z.object({
-  selectMedication: z.string().min(1, "Medication selection is required"),
+  selectMedication: z.string().min(2, "Medication selection is required"),
 
-  quantity: z
-    .number({ invalid_type_error: "Quantity must be a number" })
-    .int("Quantity must be an integer")
-    .positive("Quantity must be greater than zero"),
+  quantity: z.coerce
+    .number({
+      invalid_type_error: "Invalid Number",
+    })
+    .int("Invalid Number")
+    .positive("Invalid Number"),
 
   unit: z.string().min(1, "Unit is required"),
 
   sigInstructions: z
     .string()
-    .min(1, "Instructions are required")
+
+    .min(2, "Instructions are required")
     .max(500, "Instructions too long"),
-
-  price: z
-    .number({ invalid_type_error: "Price must be a number" })
-    .positive("Price must be positive")
-    .optional(),
-
-  orderTotal: z
-    .number({ invalid_type_error: "Order total must be a number" })
-    .positive("Order total must be positive")
-    .optional(),
 });
 
 export const medicationsSchema = z.object({

@@ -1,7 +1,9 @@
 import CreateOrderForm from "@/components/provider/create-order-stepper";
+// import CreateOrderFormV2 from "@/components/provider/create-order-stepperV2";
+
 import { Link } from "react-router-dom";
 
-const CreateOrder = () => {
+const CreateOrderPage = () => {
   return (
     <>
       <div className="bg-lilac py-3 px-12">
@@ -21,9 +23,10 @@ const CreateOrder = () => {
         }}
       >
         <CreateOrderForm />
+        {/* <CreateOrderFormV2 /> */}
       </div>
     </>
   );
 };
 
-export default CreateOrder;
+export default CreateOrderPage;
