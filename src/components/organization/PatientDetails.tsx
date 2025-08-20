@@ -23,8 +23,6 @@ const PatientForm = () => {
   const { control } = form;
   const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
 
-  // const patientData = dummyPatients.find((p) => p.id === selectedPatientId);
-
   const options = [
     { value: "Aspirin", label: "Aspirin" },
     { value: "Codeine", label: "Codeine" },
