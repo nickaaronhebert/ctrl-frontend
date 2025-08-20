@@ -40,6 +40,8 @@ import ViewOrderDetails from "./pages/OrganizationOrder/details";
 import MedicationDetails from "./pages/MedicationDetails";
 
 import CreateOrderPage from "./pages/CreateOrder";
+import AccessControl from "./pages/AccessUI";
+import AccessDetail from "./pages/AccessDetail";
 
 const router = createBrowserRouter([
   {
@@ -217,6 +219,14 @@ const router = createBrowserRouter([
       {
         path: "/org/transmissions/:id",
         element: <TransmissionDetails />,
+      },
+      {
+        path: ROUTES.ORG_ACCESS_CONTROL,
+        element: <AccessControl />,
+      },
+      {
+        path: ROUTES.ORG_MEDICATION_SELECTION,
+        element: <AccessDetail />,
       },
     ],
   },

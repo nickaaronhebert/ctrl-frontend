@@ -33,6 +33,8 @@ export const ROUTES = {
   ORG_ORDER_DETAILS: "order/:id",
   ORG_MEDICATION_DETAILS: "medications/:id",
   ORG_CREATE_ORDER: "create-order",
+  ORG_ACCESS_CONTROL: "access-control",
+  ORG_MEDICATION_SELECTION: "access-control/medication",
 };
 
 export const STEPPER_FORM = {

@@ -251,25 +251,27 @@ const PatientForm = () => {
       </div>
       <div className="border-t border-dotted border-gray-300 mt-6" />
 
-      <div className="flex justify-end mt-6 items-center gap-2.5 ">
-        <Button
-          variant={"outline"}
-          // disabled={!form.formState.isValid}
-          onClick={() => {
-            form.reset(orderFormDefaults);
-          }}
-          className="cursor-pointer text-black rounded-full py-2.5 px-7 min-h-14 text-base font-semibold"
-        >
-          Cancel
-        </Button>
-        <Button
-          onClick={handleNext}
-          // disabled={!form.formState.isValid}
-          className="cursor-pointer text-white rounded-full py-2.5 px-7 min-h-14 text-base font-semibold"
-        >
-          Next
-        </Button>
-      </div>
+      {selectedPatient && (
+        <div className="flex justify-end mt-6 items-center gap-2.5 ">
+          <Button
+            variant={"outline"}
+            // disabled={!form.formState.isValid}
+            onClick={() => {
+              form.reset(orderFormDefaults);
+            }}
+            className="cursor-pointer text-black rounded-full py-2.5 px-7 min-h-14 text-base font-semibold"
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={handleNext}
+            // disabled={!form.formState.isValid}
+            className="cursor-pointer text-white rounded-full py-2.5 px-7 min-h-14 text-base font-semibold"
+          >
+            Next
+          </Button>
+        </div>
+      )}
     </>
   );
 };

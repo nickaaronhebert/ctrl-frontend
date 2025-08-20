@@ -23,7 +23,7 @@ export function PatientSearch({
   useEffect(() => {
     if (selectedPatient) {
       setSearch(
-        `${selectedPatient.firstName} ${selectedPatient.lastName}, ${selectedPatient.dob}`
+        `${selectedPatient.firstName} ${selectedPatient.lastName}, ${selectedPatient.phoneNumber}, ${selectedPatient?.email}`
       );
     } else {
       setSearch("");
@@ -87,7 +87,7 @@ export function PatientSearch({
                   // setSearch("");
                 }}
               >
-                {patient.firstName} {patient.lastName} , {patient.phoneNumber}
+                {patient.firstName} {patient.lastName} , {patient.phoneNumber},
                 {patient.email}
               </li>
             ))

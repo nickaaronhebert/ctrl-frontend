@@ -18,12 +18,11 @@ import { useLocation } from "react-router-dom";
 import { PrescriptionSVG } from "@/assets/icons/PrescriptionSVG";
 import useAuthentication from "@/hooks/use-authentication";
 import SupportSVG from "@/assets/icons/Support";
-import type { FC, SVGProps } from "react";
 
 type MenuItem = {
   title: string;
   url: string;
-  icon: FC<SVGProps<SVGSVGElement>>;
+  icon: React.ComponentType<any>;
   activePaths?: string[];
 };
 
@@ -32,8 +31,6 @@ export function AppSidebar() {
   const location = useLocation();
   const navigate = useNavigate();
   const { user } = useAuthentication();
-
-  console.log("user>>>>>>", user);
 
   const isOrganisationAdmin = user?.role?.name === "Organization Admin";
   const isProvider = user?.role?.name === "Provider";
@@ -88,9 +85,6 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {menuItems.map((item) => {
-                // const isActive = item.activePaths
-                //   ? item.activePaths.includes(location.pathname)
-                //   : location.pathname === item.url;
                 const { state } = useSidebar();
                 return (
                   <SidebarMenuItem
