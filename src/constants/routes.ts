@@ -33,6 +33,11 @@ export const ROUTES = {
   ORG_ORDER_DETAILS: "order/:id",
   ORG_MEDICATION_DETAILS: "medications/:id",
   ORG_CREATE_ORDER: "create-order",
+  ORG_EDIT_PATIENT: "edit-patient/:id",
+  ORG_CREATE_PATIENT: "create-patient",
+  ORG_VIEW_PATIENT_DETAILS: "patient/:id",
+  ORG_VIEW_PATIENT: "patients",
+  ORG_PATIENT_SUCCESS: "patient-success",
 };
 
 export const STEPPER_FORM = {

@@ -40,6 +40,12 @@ import ViewOrderDetails from "./pages/OrganizationOrder/details";
 import MedicationDetails from "./pages/MedicationDetails";
 
 import CreateOrderPage from "./pages/CreateOrder";
+import PatientList from "./pages/Organization/Patient";
+import CreatePatient from "./pages/Organization/Patient/create";
+import PatientStatus from "./pages/Organization/Patient/success";
+// import EditPatient from "./pages/Organization/Patient/edit";
+import ViewPatientDetails from "./pages/Organization/Patient/details";
+import EditPatient from "./pages/Organization/Patient/edit";
 
 const router = createBrowserRouter([
   {
@@ -189,6 +195,26 @@ const router = createBrowserRouter([
       {
         path: ROUTES.ORG_PROVIDERS,
         element: <OrganizationAffiliatedProvider />,
+      },
+      {
+        path: ROUTES.ORG_VIEW_PATIENT,
+        element: <PatientList />,
+      },
+      {
+        path: ROUTES.ORG_CREATE_PATIENT,
+        element: <CreatePatient />,
+      },
+      {
+        path: ROUTES.ORG_PATIENT_SUCCESS,
+        element: <PatientStatus />,
+      },
+      {
+        path: ROUTES.ORG_EDIT_PATIENT,
+        element: <EditPatient />,
+      },
+      {
+        path: ROUTES.ORG_VIEW_PATIENT_DETAILS,
+        element: <ViewPatientDetails />,
       },
       {
         path: ROUTES.ORG_TRANSACTIONS,
