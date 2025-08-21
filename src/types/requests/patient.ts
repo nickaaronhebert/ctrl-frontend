@@ -8,7 +8,7 @@ interface Patient {
   gender: string;
   phoneNumber: string;
   address: string;
-  email: string;
+
   height: number;
   weight: number;
 }

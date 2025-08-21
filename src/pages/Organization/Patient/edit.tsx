@@ -46,7 +46,8 @@ function UpdatePatientDetails({
 
   async function onSubmit(values: z.infer<typeof createPatientFormSchema>) {
     console.log(values);
-    await updatePatient({ ...values, gender: "Male", id: patientId })
+    const { email, ...payload } = values;
+    await updatePatient({ ...payload, gender: "Male", id: patientId })
       .unwrap()
       .then((data) => {
         console.log("data", data);

@@ -19,6 +19,17 @@ const patientApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
+      providesTags: (result) => {
+        return result
+          ? [
+              ...result?.data?.map(({ id }) => ({
+                type: "Patients" as const,
+                id,
+              })),
+              { type: "Patients", id: "LIST" },
+            ]
+          : [{ type: "Patients", id: "LIST" }];
+      },
     }),
 
     getPatientDetailsById: builder.query<
@@ -31,6 +42,7 @@ const patientApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
+      providesTags: (_result, _error, id) => [{ type: "Patients", id }],
     }),
 
     createPatient: builder.mutation<
@@ -42,6 +54,8 @@ const patientApi = baseApi.injectEndpoints({
         method: "POST",
         body,
       }),
+      invalidatesTags: (result) =>
+        result ? [{ type: "Patients", id: "LIST" }] : [],
     }),
 
     updatePatient: builder.mutation<
@@ -53,6 +67,8 @@ const patientApi = baseApi.injectEndpoints({
         method: "PUT",
         body,
       }),
+      invalidatesTags: (result, _error, arg) =>
+        result ? [{ type: "Patients", id: arg.id }] : [],
     }),
   }),
 });
