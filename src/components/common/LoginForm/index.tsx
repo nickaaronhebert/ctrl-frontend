@@ -60,7 +60,7 @@ const LoginForm = () => {
       <div className="bg-white rounded-3xl shadow-sm border border-gray-200 p-8">
         <AuthHeader title="Welcome Back" />
         <Form {...form}>
-          <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
             <FormField
               control={form.control}
               name="email"

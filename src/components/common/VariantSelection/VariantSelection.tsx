@@ -7,13 +7,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { type Medication } from "@/pages/AccessDetail";
+import { type Medication, type Variant } from "@/pages/AccessDetail";
 import { useGetSingleMedicationCatalogueDetailsQuery } from "@/redux/services/medication";
 import { useState } from "react";
 type MedicationSelectionProps = {
   selectedMedication: Medication | null;
-  selectedVariant: string | null;
-  setSelectedVariant: (value: string) => void;
+  selectedVariant: Variant | null;
+  setSelectedVariant: (value: Variant) => void;
 };
 
 export function VariantSelection({
@@ -26,14 +26,30 @@ export function VariantSelection({
     useGetSingleMedicationCatalogueDetailsQuery(selectedMedication?.id || "", {
       skip: !open || !selectedMedication?.id,
     });
-  console.log("selectedVariant", data);
+
+  const variantOptions = data?.data;
+  console.log("variantOptionsss", variantOptions);
 
   return (
     <Select
       open={open}
       onOpenChange={setOpen}
-      onValueChange={setSelectedVariant}
-      value={selectedVariant || ""}
+      onValueChange={(value) => {
+        const selectedVariant = variantOptions?.productVariants?.find(
+          (variant: any) => variant.id.toString() === value
+        );
+        console.log(
+          "selectedVariant----------------------------",
+          selectedVariant
+        );
+        if (selectedVariant) {
+          setSelectedVariant({
+            id: selectedVariant?.id?.toString(),
+            strength: selectedVariant?.strength,
+          });
+        }
+      }}
+      value={selectedVariant?.id || ""}
     >
       <SelectTrigger className="w-full">
         <SelectValue placeholder="Select Variant" />
