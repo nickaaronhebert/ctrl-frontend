@@ -27,6 +27,7 @@ interface DataTableProps<TData> extends React.HTMLAttributes<HTMLDivElement> {
    */
   floatingBar?: React.ReactNode | null;
   showPagination?: boolean;
+  headerClass?: boolean;
 }
 
 export function DataTable<TData>({
@@ -35,6 +36,7 @@ export function DataTable<TData>({
   children,
   className,
   showPagination,
+  headerClass = false,
   ...props
 }: DataTableProps<TData>) {
   return (
@@ -44,12 +46,19 @@ export function DataTable<TData>({
       <Table className={cn("", className)}>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id} className="bg-lavender ">
-              {headerGroup.headers.map((header) => {
+            <TableRow key={headerGroup.id} className="bg-lavender  ">
+              {headerGroup.headers.map((header, index) => {
                 return (
                   <TableHead
                     key={header.id}
-                    className="text-black font-medium text-sm h-10"
+                    className={cn(
+                      "text-black font-medium text-sm h-10",
+                      index === 0 && headerClass ? "rounded-tl-2xl" : "",
+                      index === headerGroup?.headers?.length - 1 && headerClass
+                        ? "rounded-tr-2xl"
+                        : ""
+                    )}
+                    // className="text-black font-medium text-sm h-10 "
                   >
                     {header.isPlaceholder
                       ? null
