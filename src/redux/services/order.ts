@@ -5,9 +5,9 @@ import type { IGetOrderById } from "@/types/responses/order";
 const orderApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     viewAllOrders: builder.query<any, ICommonSearchQuery>({
-      query: ({ page, perPage, q }) => {
+      query: ({ page, perPage, q, patient = "" }) => {
         return {
-          url: `/order?page=${page}&limit=${perPage}&q=${q}`,
+          url: `/order?page=${page}&limit=${perPage}&q=${q}&patient=${patient}`,
           method: "GET",
         };
       },

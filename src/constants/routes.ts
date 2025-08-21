@@ -35,6 +35,11 @@ export const ROUTES = {
   ORG_CREATE_ORDER: "create-order",
   ORG_ACCESS_CONTROL: "access-control",
   ORG_MEDICATION_SELECTION: "access-control/medication",
+  ORG_EDIT_PATIENT: "edit-patient/:id",
+  ORG_CREATE_PATIENT: "create-patient",
+  ORG_VIEW_PATIENT_DETAILS: "patient/:id",
+  ORG_VIEW_PATIENT: "patients",
+  ORG_PATIENT_SUCCESS: "patient-success",
 };
 
 export const STEPPER_FORM = {

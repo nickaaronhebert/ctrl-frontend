@@ -10,6 +10,10 @@ export default function SidebarLayout() {
     location.pathname
   );
   const isOrderDetailRoute = /^\/org\/order\/[^/]+$/.test(location.pathname);
+  const isViewPatientPatientDetailsRoute = /^\/org\/patient\/[^/]+$/.test(
+    location.pathname
+  );
+  const isCreatePatientRoute = location.pathname === "/org/create-patient";
 
   return (
     <SidebarProvider
@@ -23,7 +27,14 @@ export default function SidebarLayout() {
         <Navbar />
         <div
           className={cn(
-            `${isTransmissionDetailRoute || isOrderDetailRoute ? "" : "p-7.5"}`
+            `${
+              isTransmissionDetailRoute ||
+              isOrderDetailRoute ||
+              isViewPatientPatientDetailsRoute ||
+              isCreatePatientRoute
+                ? ""
+                : "p-7.5"
+            }`
           )}
         >
           <Outlet />

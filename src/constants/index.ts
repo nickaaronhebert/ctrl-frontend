@@ -34,6 +34,7 @@ export const organisationAdminItems = [
   { title: "Transmissions", url: "/org/transmissions", icon: Transmission },
   { title: "Orders", url: "/org/orders", icon: Orders },
   { title: "Providers", url: "/org/providers", icon: Provider },
+  { title: "Patients", url: "/org/patients", icon: Provider },
   { title: "Transactions", url: "/org/transactions", icon: Transactions },
   {
     title: "Medication Library",

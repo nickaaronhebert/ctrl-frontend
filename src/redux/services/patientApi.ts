@@ -1,6 +1,14 @@
 import type { ICommonSearchQuery } from "@/types/requests/search";
 import { baseApi } from ".";
-import type { PatientApiResponse } from "@/types/responses/patient";
+import type {
+  ICreatePatientApiResponse,
+  IGetPatientDetailsByIdResponse,
+  PatientApiResponse,
+} from "@/types/responses/patient";
+import type {
+  ICreatePatientRequest,
+  IUpdatePatientRequest,
+} from "@/types/requests/patient";
 
 const patientApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -11,8 +19,63 @@ const patientApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
+      providesTags: (result) => {
+        return result
+          ? [
+              ...result?.data?.map(({ id }) => ({
+                type: "Patients" as const,
+                id,
+              })),
+              { type: "Patients", id: "LIST" },
+            ]
+          : [{ type: "Patients", id: "LIST" }];
+      },
+    }),
+
+    getPatientDetailsById: builder.query<
+      IGetPatientDetailsByIdResponse,
+      string
+    >({
+      query: (id) => {
+        return {
+          url: `/patient/${id}`,
+          method: "GET",
+        };
+      },
+      providesTags: (_result, _error, id) => [{ type: "Patients", id }],
+    }),
+
+    createPatient: builder.mutation<
+      ICreatePatientApiResponse,
+      ICreatePatientRequest
+    >({
+      query: (body) => ({
+        url: "/patient",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: (result) =>
+        result ? [{ type: "Patients", id: "LIST" }] : [],
+    }),
+
+    updatePatient: builder.mutation<
+      ICreatePatientApiResponse,
+      IUpdatePatientRequest
+    >({
+      query: ({ id, ...body }) => ({
+        url: `/patient/${id}`,
+        method: "PUT",
+        body,
+      }),
+      invalidatesTags: (result, _error, arg) =>
+        result ? [{ type: "Patients", id: arg.id }] : [],
     }),
   }),
 });
 
-export const { useGetPatientDetailsQuery } = patientApi;
+export const {
+  useGetPatientDetailsQuery,
+  useCreatePatientMutation,
+  useGetPatientDetailsByIdQuery,
+  useUpdatePatientMutation,
+} = patientApi;
