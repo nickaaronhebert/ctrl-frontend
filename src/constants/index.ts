@@ -15,7 +15,7 @@ import type {
   Medication,
   Pharmacy,
 } from "@/components/data-table/columns/medication-library";
-import { type MedicationAssignment } from "@/components/data-table/columns/access-control";
+// import { type MedicationAssignment } from "@/components/data-table/columns/access-control";
 
 export interface TabConfig {
   id: string;
@@ -501,69 +501,6 @@ export const dummyPatients = [
     email: "olivia.martinez@company.com",
     gender: "Female",
     dob: "1987-08-29",
-  },
-];
-
-export const medicationAssignmentData: MedicationAssignment[] = [
-  {
-    id: "1",
-    variant: "Levothyroxine - 5mg",
-    assignedStates: "0 / 50",
-    status: "Not Assigned",
-  },
-  {
-    id: "2",
-    variant: "Levothyroxine - 10mg",
-    assignedStates: "41 / 50",
-    status: "Partial",
-  },
-  {
-    id: "3",
-    variant: "Metformin - 500mg",
-    assignedStates: "46 / 50",
-    status: "Partial",
-  },
-  {
-    id: "4",
-    variant: "Metformin - 850mg Extended-Release",
-    assignedStates: "36 / 50",
-    status: "Partial",
-  },
-  {
-    id: "5",
-    variant: "Metformin - 1000mg/ml",
-    assignedStates: "50 / 50",
-    status: "Assigned",
-  },
-  {
-    id: "6",
-    variant: "Insulin Glargine - 100 units/ml",
-    assignedStates: "0 / 50",
-    status: "Not Assigned",
-  },
-  {
-    id: "7",
-    variant: "Insulin Glargine - 300 units/ml",
-    assignedStates: "0 / 50",
-    status: "Not Assigned",
-  },
-  {
-    id: "8",
-    variant: "Hydrocortisone - 1%",
-    assignedStates: "50 / 50",
-    status: "Assigned",
-  },
-  {
-    id: "9",
-    variant: "Hydrocortisone - 2.5%",
-    assignedStates: "15 / 50",
-    status: "Partial",
-  },
-  {
-    id: "10",
-    variant: "Hydrochlorothiazide - 5mg",
-    assignedStates: "0 / 50",
-    status: "Not Assigned",
   },
 ];
 

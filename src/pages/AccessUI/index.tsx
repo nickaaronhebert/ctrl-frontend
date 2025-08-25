@@ -8,32 +8,44 @@ import { DataTable } from "@/components/data-table/data-table";
 import { DataTablePagination } from "@/components/data-table/data-table-pagination";
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { useMemo } from "react";
-import {
-  medicationAssignmentColumns,
-  type MedicationAssignment,
-} from "@/components/data-table/columns/access-control";
-import { medicationAssignmentData } from "@/constants";
+import { medicationAssignmentColumns } from "@/components/data-table/columns/access-control";
+import { useGetAccessControlQuery } from "@/redux/services/access-control";
+import type { DataItem } from "@/types/responses/access-control";
 
 const AccessControl = () => {
   const [searchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1", 10);
   const perPage = parseInt(searchParams.get("per_page") ?? "10", 10);
+  const drugName = searchParams.get("drugName") ?? "";
   const navigate = useNavigate();
+
+  const { data: accessControlData, meta } = useGetAccessControlQuery(
+    { page, perPage, q: drugName },
+    {
+      selectFromResult: ({ data, isLoading, isError }) => ({
+        data: data?.data,
+        meta: data?.meta,
+        isLoading: isLoading,
+        isError: isError,
+      }),
+    }
+  );
 
   const columns = useMemo(() => medicationAssignmentColumns(), []);
 
-  const filterFields: DataTableFilterField<MedicationAssignment>[] = [
+  const filterFields: DataTableFilterField<DataItem>[] = [
     {
-      label: "Medication Name",
-      value: "variant",
-      placeholder: "Search By Medication Name",
+      label: "Drug Name",
+      value: "drugName" as keyof DataItem,
+      placeholder: "Search By Drug Name",
     },
   ];
 
   const { table } = useDataTable({
-    data: medicationAssignmentData || [],
+    data: accessControlData || [],
     columns,
-    pageCount: -1,
+    filterFields,
+    pageCount: meta?.pageCount ?? -1,
   });
 
   return (
@@ -54,7 +66,7 @@ const AccessControl = () => {
               className="mb-2"
             />
             <Button
-              className="px-[20px] py-[5px] min-h-[40px] hover:bg-primary-foreground cursor-pointer rounded-[50px] bg-primary-foreground text-white  font-semibold text-[12px] leading-[16px] "
+              className="px-[20px] py-[5px] min-h-[40px] hover:bg-primary-foreground cursor-pointer rounded-[50px] bg-primary-foreground text-white font-semibold text-[12px] leading-[16px] "
               onClick={() => navigate("/org/access-control/medication")}
             >
               Configure

@@ -13,13 +13,26 @@ import { useState } from "react";
 type MedicationSelectionProps = {
   selectedMedication: Medication | null;
   setSelectedMedication: (med: Medication) => void;
+  disabled: boolean;
 };
 
 export function MedicationSelection({
   selectedMedication,
   setSelectedMedication,
+  disabled,
 }: MedicationSelectionProps) {
   const [open, setOpen] = useState<boolean>(false);
+  // const { data, isError, isLoading } = useGetMedicationCatalogueQuery(
+  //   {
+  //     page: 1,
+  //     perPage: 100,
+  //     q: "",
+  //   },
+  //   {
+  //     skip: !open,
+  //   }
+  // );
+
   const { data, isError, isLoading } = useGetMedicationCatalogueQuery(
     {
       page: 1,
@@ -27,14 +40,19 @@ export function MedicationSelection({
       q: "",
     },
     {
-      skip: !open,
+      skip: false,
     }
   );
 
+  console.log("selectedMedicationnnnn,,.,l", selectedMedication);
+
   const medicationOptions = data?.data;
+
+  console.log("medOptionssss", medicationOptions);
 
   return (
     <Select
+      disabled={disabled}
       open={open}
       onOpenChange={setOpen}
       onValueChange={(value) => {

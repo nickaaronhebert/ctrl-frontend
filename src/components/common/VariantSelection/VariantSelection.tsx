@@ -9,38 +9,42 @@ import {
 } from "@/components/ui/select";
 import { type Medication, type Variant } from "@/pages/AccessDetail";
 import { useGetSingleMedicationCatalogueDetailsQuery } from "@/redux/services/medication";
+import type { ProductVariant } from "@/types/global/commonTypes";
 import { useState } from "react";
 type MedicationSelectionProps = {
   selectedMedication: Medication | null;
   selectedVariant: Variant | null;
   setSelectedVariant: (value: Variant) => void;
+  disabled: boolean;
 };
 
 export function VariantSelection({
   selectedVariant,
   setSelectedVariant,
   selectedMedication,
+  disabled,
 }: MedicationSelectionProps) {
   const [open, setOpen] = useState<boolean>(false);
+  // const { data, isError, isLoading } =
+  //   useGetSingleMedicationCatalogueDetailsQuery(selectedMedication?.id || "", {
+  //     skip: !open || !selectedMedication?.id,
+  //   });
   const { data, isError, isLoading } =
     useGetSingleMedicationCatalogueDetailsQuery(selectedMedication?.id || "", {
-      skip: !open || !selectedMedication?.id,
+      skip: false,
     });
 
   const variantOptions = data?.data;
-  console.log("variantOptionsss", variantOptions);
+  console.log("variantOptions", variantOptions);
 
   return (
     <Select
+      disabled={disabled}
       open={open}
       onOpenChange={setOpen}
       onValueChange={(value) => {
         const selectedVariant = variantOptions?.productVariants?.find(
-          (variant: any) => variant.id.toString() === value
-        );
-        console.log(
-          "selectedVariant----------------------------",
-          selectedVariant
+          (variant: ProductVariant) => variant.id.toString() === value
         );
         if (selectedVariant) {
           setSelectedVariant({
@@ -62,7 +66,7 @@ export function VariantSelection({
 
           {isError && <div>Error loading medications</div>}
 
-          {data?.data?.productVariants?.map((med: any) => (
+          {data?.data?.productVariants?.map((med: ProductVariant) => (
             <SelectItem key={med.id} value={med.id.toString()}>
               {med.strength}
             </SelectItem>

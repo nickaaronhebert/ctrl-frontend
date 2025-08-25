@@ -67,7 +67,7 @@ export interface Pharmacy {
   name: string;
   email: string;
   phoneNumber: string;
-  address: string;
+  address?: string;
   id: string;
 }
 

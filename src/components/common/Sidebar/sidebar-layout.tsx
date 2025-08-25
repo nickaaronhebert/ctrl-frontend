@@ -18,8 +18,8 @@ export default function SidebarLayout() {
   return (
     <SidebarProvider
       style={{
-        ["--sidebar-width" as any]: "280px",
-        ["--sidebar-width-mobile" as any]: "280px",
+        ["--sidebar-width" as string]: "280px",
+        ["--sidebar-width-mobile" as string]: "280px",
       }}
     >
       <AppSidebar />
