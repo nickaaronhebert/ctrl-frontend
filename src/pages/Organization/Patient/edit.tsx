@@ -1,6 +1,6 @@
 import { createPatientFormSchema } from "@/schemas/createPatientSchema";
 import { useForm } from "react-hook-form";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { CenteredRow } from "@/components/ui/centered-row";
@@ -25,6 +25,7 @@ function UpdatePatientDetails({
   patientId,
 }: UpdatePatientDetailsProps) {
   // const [createPatient] = useCreatePatientMutation();
+  const navigate = useNavigate();
   const [updatePatient] = useUpdatePatientMutation();
   const form = useForm<z.infer<typeof createPatientFormSchema>>({
     resolver: zodResolver(createPatientFormSchema),
@@ -52,6 +53,7 @@ function UpdatePatientDetails({
       .then((data) => {
         console.log("data", data);
         toast.success(data?.message || "Patient Created Successfully");
+        navigate("/org/patients");
       })
       .catch((err) => {
         console.log("error", err);

@@ -4,7 +4,9 @@ import { useAppDispatch } from "@/redux/store";
 import { prevStep, resetOrder } from "@/redux/slices/create-order";
 import { useCreateOrderMutation } from "@/redux/services/order";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 export default function ReviewOrderDetails({ order }: { order: OrderState }) {
+  const navigate = useNavigate();
   const [createOrder] = useCreateOrderMutation();
   const dispatch = useAppDispatch();
   const allergyList = order.initialStep?.medicationAllergies
@@ -50,6 +52,7 @@ export default function ReviewOrderDetails({ order }: { order: OrderState }) {
         console.log("data", data);
         dispatch(resetOrder());
         toast.success(data?.message || "Patient Created Successfully");
+        navigate("/org/orders");
       })
       .catch((err) => {
         console.log("error", err);
