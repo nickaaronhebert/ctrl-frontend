@@ -1,6 +1,10 @@
 import type { ICommonSearchQuery } from "@/types/requests/search";
 import { baseApi } from ".";
-import type { IGetOrderById } from "@/types/responses/order";
+import type {
+  ICreateOrderResponse,
+  IGetOrderById,
+} from "@/types/responses/order";
+import type { ICreateOrderRequest } from "@/types/requests/order";
 
 const orderApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -21,9 +25,23 @@ const orderApi = baseApi.injectEndpoints({
         };
       },
     }),
+
+    createOrder: builder.mutation<ICreateOrderResponse, ICreateOrderRequest>({
+      query: (body) => {
+        return {
+          url: `/order`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
   }),
 });
 
-export const { useViewAllOrdersQuery, useViewOrderByIdQuery } = orderApi;
+export const {
+  useViewAllOrdersQuery,
+  useViewOrderByIdQuery,
+  useCreateOrderMutation,
+} = orderApi;
 
 export default orderApi;

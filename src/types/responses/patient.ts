@@ -7,6 +7,8 @@ export type PatientDetails = Omit<Patient, "state"> & {
   weight: number;
   address: string;
   patientId: string;
+  currentMedications?: string;
+  medicationAllergies?: string;
 };
 
 export interface PatientMeta {
