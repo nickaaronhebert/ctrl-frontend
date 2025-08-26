@@ -42,6 +42,7 @@ export default function OrganizationOrder() {
       placeholder: "Search By Order ID",
     },
   ];
+
   const { table } = useDataTable({
     data: orderData || [],
     columns,

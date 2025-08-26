@@ -34,8 +34,8 @@ export const providerApi = baseApi.injectEndpoints({
       IGetAllAffiliatedProvidersResponse,
       ICommonSearchQuery
     >({
-      query: () => ({
-        url: "/business/affiliations",
+      query: ({ page, perPage, q }) => ({
+        url: `/business/affiliations?page=${page}&limit=${perPage}&q=${q}`,
         method: "GET",
       }),
     }),

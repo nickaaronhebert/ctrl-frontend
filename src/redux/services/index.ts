@@ -1,10 +1,14 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { RootState } from "../reducers";
-import { TAG_GET_PATIENTS, TAG_GET_USER_PROFILE } from "@/types/baseApiTags";
+import {
+  TAG_GET_ORDERS,
+  TAG_GET_PATIENTS,
+  TAG_GET_USER_PROFILE,
+} from "@/types/baseApiTags";
 
 export const baseApi = createApi({
   reducerPath: "api",
-  tagTypes: [TAG_GET_USER_PROFILE, TAG_GET_PATIENTS],
+  tagTypes: [TAG_GET_USER_PROFILE, TAG_GET_PATIENTS, TAG_GET_ORDERS],
   baseQuery: fetchBaseQuery({
     baseUrl:
       import.meta.env.VITE_BASE_BACKEND_URL ||

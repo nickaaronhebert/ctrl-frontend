@@ -36,7 +36,7 @@ export default function SelectProductVariant({
       selectFromResult: ({ data }) => ({
         data:
           data?.data?.map((item) => ({
-            value: item.id,
+            value: `${item.id}/${item.medicationCatalogue.drugName} ${item.strength} `,
             label: `${item.medicationCatalogue.drugName} ${item.strength}`,
             unit: item.quantityType,
           })) ?? [],

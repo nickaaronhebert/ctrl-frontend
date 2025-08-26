@@ -5,7 +5,6 @@ import { prevStep, resetOrder } from "@/redux/slices/create-order";
 import { useCreateOrderMutation } from "@/redux/services/order";
 import { toast } from "sonner";
 export default function ReviewOrderDetails({ order }: { order: OrderState }) {
-  //   const medications = ["Amoxicillin 500mg"];
   const [createOrder] = useCreateOrderMutation();
   const dispatch = useAppDispatch();
   const allergyList = order.initialStep?.medicationAllergies
@@ -22,16 +21,23 @@ export default function ReviewOrderDetails({ order }: { order: OrderState }) {
         .filter((item) => item.length > 0) // removes empty strings
     : [];
 
+  const [providerId, providerName] = order.stepTwo.selectProvider.split("/");
+  const [pharmacyId, pharmacyName] = order.stepTwo.selectPharmacy.split("/");
+
   const handleSubmit = async () => {
     console.log("Order Payload", order);
-    const prescriptions = order.stepOne.medications.map((item) => ({
-      quantity: item.quantity,
-      provider: order.stepTwo.selectProvider,
-      productVariant: item.selectMedication,
-      pharmacy: order.stepTwo.selectPharmacy,
-      instructions: item.sigInstructions,
-      isManualTransmission: true,
-    }));
+
+    const prescriptions = order.stepOne.medications.map((item) => {
+      const [variantId, _variantName] = item.selectMedication.split("/");
+      return {
+        quantity: item.quantity,
+        provider: providerId,
+        productVariant: variantId,
+        pharmacy: pharmacyId,
+        instructions: item.sigInstructions,
+        isManualTransmission: true,
+      };
+    });
 
     const orderPayload = {
       patient: order.initialStep.selectedPatient?.id,
@@ -44,8 +50,6 @@ export default function ReviewOrderDetails({ order }: { order: OrderState }) {
         console.log("data", data);
         dispatch(resetOrder());
         toast.success(data?.message || "Patient Created Successfully");
-
-        // reset();
       })
       .catch((err) => {
         console.log("error", err);
@@ -148,15 +152,29 @@ export default function ReviewOrderDetails({ order }: { order: OrderState }) {
             <p className="text-base font-semibold text-black">
               Medications Selected
             </p>
-            <div className="flex justify-between items-start">
-              <p className="text-sm font-normal text-[#63627F]">Medication 1</p>
-              <div className="text-right">
-                <p className="text-sm font-medium text-black">Sarah Johnson</p>
-                <p className="text-xs font-normal text-black">
-                  Container Qty: 1 and Dispensing: 30mcg
-                </p>
-              </div>
-            </div>
+            {order.stepOne.medications?.map((item, index) => {
+              const [variantId, variantName] = item.selectMedication.split("/");
+
+              return (
+                <div
+                  className="flex justify-between items-start"
+                  key={variantId}
+                >
+                  <p className="text-sm font-normal text-[#63627F]">
+                    Medication {index + 1}
+                  </p>
+                  <div className="text-right">
+                    <p className="text-sm font-medium text-black">
+                      {variantName}
+                    </p>
+                    <p className="text-xs font-normal text-black">
+                      Container Qty: {item.quantity} and Dispensing Unit:{" "}
+                      {item.unit}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
           </div>
 
           <div className="border-b border-gray-100 py-3.5 px-5 space-y-[8px] bg-[#FFFFFF] ">
@@ -165,15 +183,11 @@ export default function ReviewOrderDetails({ order }: { order: OrderState }) {
             </p>
             <div className="flex justify-between">
               <p className="text-sm font-normal text-[#63627F]">Provider</p>
-              <p className="text-sm font-medium text-black">
-                {order.stepTwo.selectProvider}
-              </p>
+              <p className="text-sm font-medium text-black">{providerName}</p>
             </div>
             <div className="flex justify-between">
               <p className="text-sm font-normal text-[#63627F]">Pharmacy</p>
-              <p className="text-sm font-medium text-black">
-                {order.stepTwo.selectPharmacy}
-              </p>
+              <p className="text-sm font-medium text-black">{pharmacyName}</p>
             </div>
           </div>
 
