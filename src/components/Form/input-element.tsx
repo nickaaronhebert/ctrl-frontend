@@ -62,6 +62,7 @@ const InputElement: React.FC<InputElementProps> = ({
               type={props.type || "text"}
               disabled={props.disabled}
               autoComplete={props.autoComplete}
+              readOnly={props.readOnly}
             />
           </FormControl>
           {description && <FormDescription>{description}</FormDescription>}

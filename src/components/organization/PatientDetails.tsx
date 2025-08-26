@@ -21,10 +21,6 @@ const PatientForm = () => {
   const { control, watch } = form;
   const selectedPatient = watch("selectedPatient");
 
-  console.log("selected Patient????????????", selectedPatient);
-
-  console.log("for valid checkkkkk", form.formState.isValid);
-
   return (
     <>
       <div className="px-40 min-h-[500px]">
@@ -54,19 +50,15 @@ const PatientForm = () => {
                   form.setValue("phoneNumber", patient.phoneNumber);
                   form.setValue("gender", patient.gender);
                   form.setValue("dob", patient.dob);
-
                   form.setValue(
                     "medicationAllergies",
-                    Array.isArray(patient.medicationAllergies)
-                      ? patient.medicationAllergies.join(", ")
-                      : patient.medicationAllergies || ""
+                    patient.medicationAllergies
                   );
                   form.setValue(
                     "currentMedications",
-                    Array.isArray(patient.currentMedications)
-                      ? patient.currentMedications.join(", ")
-                      : patient.currentMedications || ""
+                    patient.currentMedications
                   );
+
                   form.setValue("height", patient.height ?? "");
                   form.setValue("weight", patient.weight ?? "");
                 }

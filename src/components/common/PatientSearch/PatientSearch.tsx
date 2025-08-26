@@ -3,29 +3,32 @@ import { Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useGetPatientDetailsQuery } from "@/redux/services/patientApi";
-import { type Patient } from "@/types/global/commonTypes";
+
+import type { PatientDetails } from "@/types/responses/patient";
+import { useDebounce } from "@/hooks/use-debounce";
 
 interface PatientSearchProps {
-  selectedPatient?: Patient | null;
-  onSelect: (patient: Patient | null) => void;
+  selectedPatient?: PatientDetails | null;
+  onSelect: (patient: PatientDetails | null) => void;
 }
 
 export function PatientSearch({
   selectedPatient,
   onSelect,
 }: PatientSearchProps) {
-  console.log(
-    "selectedPatientntttttttt!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1",
-    selectedPatient
-  );
   const [search, setSearch] = useState("");
+  const [displayValue, setDisplayValue] = useState("");
+
+  const debouncedSearch = useDebounce(search, 400);
 
   useEffect(() => {
     if (selectedPatient) {
-      setSearch(
+      setDisplayValue(
         `${selectedPatient.firstName} ${selectedPatient.lastName}, ${selectedPatient.phoneNumber}, ${selectedPatient?.email}`
       );
+      setSearch(""); // clear query so API doesn’t run
     } else {
+      setDisplayValue("");
       setSearch("");
     }
   }, [selectedPatient]);
@@ -34,14 +37,21 @@ export function PatientSearch({
     {
       page: 1,
       perPage: 10,
-      q: search,
+      q: debouncedSearch,
     },
     {
-      skip: search.trim().length === 0,
+      skip: debouncedSearch.trim().length === 0,
+      selectFromResult: ({ data, isFetching }) => {
+        return {
+          data: data?.data,
+          isFetching: isFetching,
+        };
+      },
     }
   );
 
   const handleClearSearch = () => {
+    setDisplayValue("");
     setSearch("");
     onSelect(null);
   };
@@ -52,10 +62,17 @@ export function PatientSearch({
         <Input
           type="text"
           placeholder="Search patient..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          value={displayValue}
+          onChange={(e) => {
+            if (!selectedPatient) {
+              setDisplayValue(e.target.value);
+              setSearch(e.target.value); // only update query if no selection
+            }
+          }}
+          readOnly={!!selectedPatient}
         />
-        {search ? (
+
+        {search || selectedPatient ? (
           <Button
             type="button"
             variant="ghost"
@@ -77,14 +94,17 @@ export function PatientSearch({
         <ul className="border rounded-md divide-y">
           {isFetching ? (
             <li className="p-2 text-gray-500">Loading...</li>
-          ) : data?.data?.length ? (
-            data?.data?.map((patient: any) => (
+          ) : data?.length ? (
+            data?.map((patient: PatientDetails) => (
               <li
                 key={patient.id}
                 className="p-2 hover:bg-gray-100 cursor-pointer"
                 onClick={() => {
                   onSelect(patient);
-                  // setSearch("");
+                  setDisplayValue(
+                    `${patient.firstName} ${patient.lastName}, ${patient.phoneNumber}, ${patient.email}`
+                  );
+                  setSearch(""); // clear search query so API doesn’t re-run
                 }}
               >
                 {patient.firstName} {patient.lastName} , {patient.phoneNumber},
