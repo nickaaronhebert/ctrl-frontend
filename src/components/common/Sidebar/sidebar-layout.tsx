@@ -14,6 +14,7 @@ export default function SidebarLayout() {
     location.pathname
   );
   const isCreatePatientRoute = location.pathname === "/org/create-patient";
+  const isCreateOrderRoute = location.pathname === "/org/create-order";
 
   return (
     <SidebarProvider
@@ -31,6 +32,7 @@ export default function SidebarLayout() {
               isTransmissionDetailRoute ||
               isOrderDetailRoute ||
               isViewPatientPatientDetailsRoute ||
+              isCreateOrderRoute ||
               isCreatePatientRoute
                 ? ""
                 : "p-7.5"

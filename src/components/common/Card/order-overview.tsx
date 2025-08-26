@@ -1,3 +1,4 @@
+import { formatDateMMDDYYYY } from "@/lib/utils";
 import type { Order } from "@/types/global/commonTypes";
 
 type OrderDetails = Pick<Order, "createdAt" | "amount" | "status"> & {
@@ -22,7 +23,7 @@ const orderDisplayFields: {
   },
   {
     label: "Order Date",
-    getValue: (order) => `${order.createdAt}`,
+    getValue: (order) => `${formatDateMMDDYYYY(order.createdAt)}`,
   },
 ];
 
