@@ -1,6 +1,7 @@
 import Orders from "@/assets/icons/Orders";
 import PatientIcon from "@/assets/icons/PatientIcon";
-import { organizationOrderColumns } from "@/components/data-table/columns/order";
+
+import { patientOrderColumns } from "@/components/data-table/columns/patient-order";
 import { DataTable } from "@/components/data-table/data-table";
 import { DataTablePagination } from "@/components/data-table/data-table-pagination";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
@@ -32,7 +33,7 @@ function PatientOrdersList({ patientId }: { patientId: string }) {
     }
   );
 
-  const columns = useMemo(() => organizationOrderColumns(), []);
+  const columns = useMemo(() => patientOrderColumns(), []);
   const { table } = useDataTable({
     data: orderData || [],
     columns,
@@ -58,6 +59,19 @@ function PatientDetails({ patientId }: { patientId: string }) {
   if (!data) return <LoadingSpinner />;
 
   const formattedDate = new Date(data?.createdAt).toLocaleDateString("en-US");
+  const allergyList = data?.medicationAllergies
+    ? data.medicationAllergies
+        .split(",")
+        .map((item) => item.trim())
+        .filter((item) => item.length > 0) // removes empty strings
+    : [];
+
+  const medicationList = data?.currentMedications
+    ? data.currentMedications
+        .split(",")
+        .map((item) => item.trim())
+        .filter((item) => item.length > 0) // removes empty strings
+    : [];
 
   return (
     <>
@@ -91,7 +105,7 @@ function PatientDetails({ patientId }: { patientId: string }) {
         </div>
       </div>
       <div className="p-12 flex gap-8">
-        <div className="min-w-[330px] max-w-[330px] border border-card-border rounded-[6px] h-fit">
+        <div className="min-w-[350px] max-w-[330px] border border-card-border rounded-[6px] h-fit">
           <div className="flex gap-4 p-4 rounded-tl-[6px] rounded-tr-[6px] border-b border-card-border bg-[#F6F8F9]">
             <div className="flex justify-center items-center h-16 w-16 p-4 bg-primary rounded-[8px]">
               <PatientIcon />
@@ -123,14 +137,50 @@ function PatientDetails({ patientId }: { patientId: string }) {
           </div>
           <div className="py-3.5 px-5 bg-white rounded-bl-[6px] rounded-br-[6px]">
             <p className="text-base font-semibold">Patient Diagnostics</p>
-            <div>
-              <div className="flex justify-between mt-1">
-                <p className="text-sm font-normal text-[#63627F]">
-                  Medication Allergies
-                </p>
-                {/* <p className="text-sm font-medium"> {data.}</p> */}
+            {allergyList?.length > 0 && (
+              <div>
+                <div className="flex justify-between mt-1">
+                  <p className="text-sm font-normal text-[#63627F]">
+                    Medication Allergies
+                  </p>
+                  <div className="max-h-32 overflow-y-auto   rounded-lg">
+                    <div className="flex justify-end flex-wrap gap-2">
+                      {allergyList.map((allergy, index) => (
+                        <span
+                          key={`${allergy}${index}`}
+                          className="text-xs bg-red-50 text-red-600 px-2 py-1 rounded-lg font-medium shadow-sm "
+                        >
+                          {allergy}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
+            )}
+
+            {medicationList?.length > 0 && (
+              <div>
+                <div className="flex justify-between my-2">
+                  <p className="text-sm font-normal text-[#63627F]">
+                    Current Medications
+                  </p>
+                  <div className="max-h-32 overflow-y-auto   rounded-lg">
+                    <div className="flex justify-end flex-wrap gap-2">
+                      {medicationList.map((medication, index) => (
+                        <span
+                          key={`${medication}${index}`}
+                          className="text-xs bg-[#F6F8F9] text-primary-foreground px-2 py-1 rounded-lg font-medium shadow-sm "
+                        >
+                          {medication}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
             <div>
               <div className="flex justify-between my-2">
                 <p className="text-sm font-normal text-[#63627F]">

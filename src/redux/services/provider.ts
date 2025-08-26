@@ -1,5 +1,7 @@
 import { TAG_GET_USER_PROFILE } from "@/types/baseApiTags";
 import { baseApi } from ".";
+import type { IGetAllAffiliatedProvidersResponse } from "@/types/responses/provider";
+import type { ICommonSearchQuery } from "@/types/requests/search";
 
 export const providerApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -28,7 +30,10 @@ export const providerApi = baseApi.injectEndpoints({
       invalidatesTags: [TAG_GET_USER_PROFILE],
     }),
 
-    viewAffiliateProviders: builder.query({
+    viewAffiliateProviders: builder.query<
+      IGetAllAffiliatedProvidersResponse,
+      ICommonSearchQuery
+    >({
       query: () => ({
         url: "/business/affiliations",
         method: "GET",

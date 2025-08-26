@@ -47,20 +47,7 @@ export interface Patient {
   gender: string;
   phoneNumber: string;
   email: string;
-  height?: number;
-  weight?: number;
-  medicationAllergies?: string[];
-  currentMedications?: string[];
-  source?: {
-    id: string;
-    name: string;
-  };
-  vitalSigns?: {
-    bloodPressure?: string;
-    heartRate?: number;
-    respiratoryRate?: number;
-    temperature?: number;
-  };
+  id: string;
 }
 
 export interface Pharmacy {

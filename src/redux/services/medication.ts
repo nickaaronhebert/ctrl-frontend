@@ -1,6 +1,7 @@
 import type { ICommonSearchQuery } from "@/types/requests/search";
 import { baseApi } from ".";
 import type { MedicationCatalogueResponse } from "@/types/responses/medication";
+import type { IGetAllProductVariantsResponse } from "@/types/responses/productVariant";
 
 const medicationApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -21,12 +22,25 @@ const medicationApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
+
+    getAllProductVariants: builder.query<
+      IGetAllProductVariantsResponse,
+      ICommonSearchQuery
+    >({
+      query: ({ page, perPage, q = "" }) => {
+        return {
+          url: `/product-variants?page=${page}&limit=${perPage}&q=${q}`,
+          method: "GET",
+        };
+      },
+    }),
   }),
 });
 
 export const {
   useGetMedicationCatalogueQuery,
   useGetSingleMedicationCatalogueDetailsQuery,
+  useGetAllProductVariantsQuery,
 } = medicationApi;
 
 export default medicationApi;

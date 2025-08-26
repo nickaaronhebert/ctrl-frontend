@@ -16,6 +16,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
+import { Search } from "lucide-react";
+
 interface BaseOption {
   label: string;
   value: string;
@@ -34,10 +36,12 @@ interface SelectElementProps
   options: BaseOption[];
   triggerClassName?: string;
   onChange?: (value: string) => void;
+  onSearch?: (value: string) => void;
   // Keys to display (if not provided, shows only 'label')
   displayKeys?: string[];
   // Separator for concatenating fields
   separator?: string;
+  searchValue?: string;
 }
 
 const SelectElement: React.FC<SelectElementProps> = ({
@@ -48,9 +52,12 @@ const SelectElement: React.FC<SelectElementProps> = ({
   isOptional,
   options,
   isRequired,
+  searchValue,
   triggerClassName,
   errorClassName,
+  onSearch,
   onChange,
+
   displayKeys = ["label"], // Default to showing only label
   separator = " , ",
   ...props
@@ -87,6 +94,7 @@ const SelectElement: React.FC<SelectElementProps> = ({
             onValueChange={(value) => {
               field.onChange(value); // Always update the form field
               onChange?.(value); // Call custom onChange if provided
+              onSearch?.("");
             }}
             defaultValue={props.defaultValue || field.value}
             disabled={props.disabled}
@@ -100,6 +108,28 @@ const SelectElement: React.FC<SelectElementProps> = ({
               </SelectTrigger>
             </FormControl>
             <SelectContent>
+              {onSearch && (
+                <div className="flex items-center px-2 border-b border-gray-200">
+                  <Search className="h-4 w-4 text-gray-400 mr-2" />
+                  <input
+                    type="text"
+                    placeholder="Search..."
+                    className="h-8 w-full text-sm outline-none border-0 focus:outline-none placeholder:text-gray-400"
+                    onKeyDown={(e) => e.stopPropagation()} // prevent Radix Select hijacking keys
+                    onChange={(e) => onSearch(e.target.value)}
+                    value={searchValue}
+                  />
+                </div>
+
+                // <Input
+                //   placeholder="Search..."
+                //   className="h-[26px] rounded-none border-0 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 focus:outline-none"
+                //   onChange={(e) => {
+                //     const query = e.target.value;
+                //     onSearch(query);
+                //   }}
+                // />
+              )}
               {options.map((option) => (
                 <SelectItem key={option.value} value={`${option.value}`}>
                   {getDisplayText(option)}

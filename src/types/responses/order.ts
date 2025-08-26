@@ -5,3 +5,8 @@ export interface IGetOrderById {
   message: string;
   code: string;
 }
+
+export interface ICreateOrderResponse {
+  message: string;
+  code: string;
+}
