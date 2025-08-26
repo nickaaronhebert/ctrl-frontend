@@ -5,15 +5,27 @@ import type {
   IGetOrderById,
 } from "@/types/responses/order";
 import type { ICreateOrderRequest } from "@/types/requests/order";
+import type { IViewAllOrderInterface } from "@/types/responses/IViewAllOrder";
 
 const orderApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    viewAllOrders: builder.query<any, ICommonSearchQuery>({
+    viewAllOrders: builder.query<IViewAllOrderInterface, ICommonSearchQuery>({
       query: ({ page, perPage, q, patient = "" }) => {
         return {
           url: `/order?page=${page}&limit=${perPage}&q=${q}&patient=${patient}`,
           method: "GET",
         };
+      },
+      providesTags: (result) => {
+        return result
+          ? [
+              ...result?.data?.map(({ id }) => ({
+                type: "Orders" as const,
+                id,
+              })),
+              { type: "Orders", id: "LIST" },
+            ]
+          : [{ type: "Orders", id: "LIST" }];
       },
     }),
 
@@ -34,6 +46,8 @@ const orderApi = baseApi.injectEndpoints({
           body,
         };
       },
+      invalidatesTags: (result) =>
+        result ? [{ type: "Orders", id: "LIST" }] : [],
     }),
   }),
 });

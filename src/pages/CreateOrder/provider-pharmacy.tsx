@@ -18,7 +18,7 @@ import { useDebounce } from "@/hooks/use-debounce";
 const pharmacyOptions = [
   {
     label: "rajan pharmacy",
-    value: "bsns::aad88c0b-a1d6-405b-a019-2452b325be2b",
+    value: "bsns::aad88c0b-a1d6-405b-a019-2452b325be2b/rajan pharmacy",
   },
 ];
 
@@ -36,7 +36,7 @@ export default function SelectProviderPharmacy({
       selectFromResult: ({ data }) => ({
         data:
           data?.data?.map((item) => ({
-            value: item.id,
+            value: `${item.id}/${item.firstName} ${item.lastName}`,
             label: `${item.firstName} ${item.lastName}`,
           })) ?? [],
       }),
@@ -52,6 +52,7 @@ export default function SelectProviderPharmacy({
 
   async function onSubmit(values: z.infer<typeof providerPharmacySchema>) {
     console.log("step 2 values", values);
+
     dispatch(updateStepTwo(values));
   }
 
