@@ -52,9 +52,6 @@ export default function ProgressOverview({
           </span>
         </div>
       </div>
-      <button className="w-full py-3 px-4 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors duration-200">
-        Clear All Assignment
-      </button>
     </div>
   );
 }

@@ -115,20 +115,22 @@ const DefaultPharmacy = ({
 
   console.log("configuredStatessss", configuredStates);
 
-  console.log("fullPharmaciesss", fullPharmacies);
-
-  console.log("pharmaciesByState", pharmaciesByState);
-
+  console.log("dataaaa", data);
   console.log("defaultPharmacyByState", data?.data?.defaultPharmacy);
+
+  console.log("selectedMedicationn", selectedMedication);
+
+  console.log("selectedVariant", selectedVariant);
 
   return (
     <div className="bg-white rounded-lg border border-gray-200 pt-4">
       <div className="flex justify-between items-start px-6">
         <div>
           <p className="font-semibold text-[18px] leading-[26px] text-black mb-3">
-            {data?.data?.productVariant?.medicationCatalogue?.drugName
+            {/* {data?.data?.productVariant?.medicationCatalogue?.drugName
               ? `${data.data.productVariant.medicationCatalogue.drugName} - ${data.data.productVariant.strength}`
-              : `${selectedMedication?.name} - ${selectedVariant?.strength}`}
+              : `${selectedMedication?.name} - ${selectedVariant?.strength}`} */}
+            {`${selectedMedication?.name} - ${selectedVariant?.strength}`}
           </p>
           <p className="font-normal text-[14px] leading-[16px] text-slate">
             Individual state assignments
