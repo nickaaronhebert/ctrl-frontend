@@ -10,6 +10,7 @@ export type Provider = {
   npi: string;
   status: string;
   isAffiliationActive: boolean;
+  id: string;
 };
 
 export function organizationProviderColumns(): ColumnDef<Provider>[] {
