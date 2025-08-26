@@ -7,7 +7,7 @@ type OrderDetails = Pick<Order, "createdAt" | "amount" | "status"> & {
 
 const orderDisplayFields: {
   label: string;
-  getValue: (order: OrderDetails) => string;
+  getValue: (order: OrderDetails) => string | number;
 }[] = [
   {
     label: "Status",
@@ -19,7 +19,7 @@ const orderDisplayFields: {
   },
   {
     label: "Amount",
-    getValue: (order) => `${order.amount}`,
+    getValue: (order) => Number(order.amount).toFixed(2),
   },
   {
     label: "Order Date",

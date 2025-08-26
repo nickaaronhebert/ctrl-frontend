@@ -1,6 +1,6 @@
 import { createPatientFormSchema } from "@/schemas/createPatientSchema";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { CenteredRow } from "@/components/ui/centered-row";
@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { useCreatePatientMutation } from "@/redux/services/patientApi";
 
 export default function CreatePatient() {
+  const navigate = useNavigate();
   const [createPatient] = useCreatePatientMutation();
   const form = useForm<z.infer<typeof createPatientFormSchema>>({
     resolver: zodResolver(createPatientFormSchema),
@@ -37,7 +38,9 @@ export default function CreatePatient() {
       .then((data) => {
         console.log("data", data);
         toast.success(data?.message || "Patient Created Successfully");
+
         reset();
+        navigate("/org/patients");
       })
       .catch((err) => {
         console.log("error", err);

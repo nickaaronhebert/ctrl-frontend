@@ -1,3 +1,4 @@
+import { formatDateMMDDYYYY } from "@/lib/utils";
 import type { Transmission } from "@/types/global/commonTypes";
 
 type TransmissionDetails = Pick<Transmission, "amount" | "status"> & {
@@ -6,7 +7,7 @@ type TransmissionDetails = Pick<Transmission, "amount" | "status"> & {
 
 const orderDisplayFields: {
   label: string;
-  getValue: (transmission: TransmissionDetails) => string;
+  getValue: (transmission: TransmissionDetails) => string | number;
 }[] = [
   {
     label: "Status",
@@ -15,11 +16,11 @@ const orderDisplayFields: {
 
   {
     label: "Amount",
-    getValue: (transmission) => `${transmission.amount}`,
+    getValue: (transmission) => Number(transmission.amount).toFixed(2),
   },
   {
     label: "Created At",
-    getValue: (transmission) => `${transmission.createdAt}`,
+    getValue: (transmission) => `${formatDateMMDDYYYY(transmission.createdAt)}`,
   },
 ];
 
