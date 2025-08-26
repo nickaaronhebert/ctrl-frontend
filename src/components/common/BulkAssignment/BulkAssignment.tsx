@@ -8,6 +8,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { CheckCircle, AlertTriangle } from "lucide-react";
 import { pharmacies } from "@/constants";
+import Globe from "@/assets/icons/Globe";
 
 type BulkAssignmentProps = {
   selectedPharmacy: string | null;
@@ -23,8 +24,8 @@ export function BulkAssignment({
       {/* Header */}
       <div className="mb-6">
         <div className="flex items-center gap-2 mb-1">
-          <div className="w-4 h-4 rounded-full border-2 border-gray-400 flex items-center justify-center">
-            <div className="w-2 h-2 rounded-full bg-gray-400"></div>
+          <div className="min-w-4 min-h-4 rounded-full  flex items-center justify-center">
+            <Globe />
           </div>
           <h2 className="text-lg font-semibold text-gray-900">
             Bulk Assignment
