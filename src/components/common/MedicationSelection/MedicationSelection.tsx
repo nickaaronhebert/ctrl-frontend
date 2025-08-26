@@ -44,11 +44,7 @@ export function MedicationSelection({
     }
   );
 
-  console.log("selectedMedicationnnnn,,.,l", selectedMedication);
-
   const medicationOptions = data?.data;
-
-  console.log("medOptionssss", medicationOptions);
 
   return (
     <Select

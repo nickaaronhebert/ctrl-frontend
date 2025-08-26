@@ -6,7 +6,6 @@ interface MedVariantsProps {
 }
 
 export default function MedVariants({ variants }: MedVariantsProps) {
-  console.log("variant", variants);
   return (
     <div id="medVariants" className="bg-white rounded-[15px]">
       {/* Header */}

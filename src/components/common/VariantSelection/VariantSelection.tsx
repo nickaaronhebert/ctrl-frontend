@@ -35,7 +35,6 @@ export function VariantSelection({
     });
 
   const variantOptions = data?.data;
-  console.log("variantOptions", variantOptions);
 
   return (
     <Select

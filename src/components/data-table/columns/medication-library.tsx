@@ -53,9 +53,7 @@ export function medicationLibraryColumns(): ColumnDef<Medication>[] {
       accessorKey: "variants",
       header: "Variants",
       cell: ({ row }) => {
-        console.log("rowww", row);
         const variants: MedicationVariant[] = row.original.productVariants;
-        console.log("variants", variants);
         return (
           <>
             <div className="flex  flex-wrap gap-2">

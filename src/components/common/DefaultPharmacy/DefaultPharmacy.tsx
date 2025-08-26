@@ -38,13 +38,12 @@ const DefaultPharmacy = ({
   setConfiguredStates,
 }: MedicationVariantProps) => {
   const [fullPharmacies, setFullPharmacies] = useState<{
-    [stateName: string]: Pharmacy;
+    [stateName: string]: Pharmacy | undefined;
   }>({});
+
   const [pharmaciesByState, setPharmaciesByState] = useState<
     Record<string, Pharmacy[]>
   >({});
-
-  console.log("variantAccessControlDataaaa:", data);
 
   const [openState, setOpenState] = useState<string | null>(null);
   const [createAccessControl] = useCreateAccessControlMutation();
@@ -83,7 +82,6 @@ const DefaultPharmacy = ({
     state: { name: string; shortCode: string },
     id: string
   ) => {
-    console.log("idddd", id);
     if (!selectedVariant) return;
 
     setConfiguredStates((prev) => {
@@ -91,6 +89,14 @@ const DefaultPharmacy = ({
         ...prev,
         [state.name]: id,
       };
+
+      setFullPharmacies((prevFullPharmacies) => ({
+        ...prevFullPharmacies,
+        [state.name]: pharmaciesByState[state.shortCode].find(
+          (pharmacy: Pharmacy) => pharmacy.id === id
+        ),
+      }));
+
       createAccessControl({
         productVariant: selectedVariant.id,
         defaultPharmacy: updated,
@@ -111,6 +117,10 @@ const DefaultPharmacy = ({
 
   console.log("fullPharmaciesss", fullPharmacies);
 
+  console.log("pharmaciesByState", pharmaciesByState);
+
+  console.log("defaultPharmacyByState", data?.data?.defaultPharmacy);
+
   return (
     <div className="bg-white rounded-lg border border-gray-200 pt-4">
       <div className="flex justify-between items-start px-6">
@@ -126,8 +136,7 @@ const DefaultPharmacy = ({
         </div>
         <div>
           <span className="py-[4px] px-[8px] rounded-[5px] bg-light-background font-normal text-[14px] leading-[16px]">
-            {Object.keys(data?.data?.defaultPharmacy || {}).length} / 50
-            configured
+            {Object.keys(configuredStates || {}).length} / 50 configured
           </span>
         </div>
       </div>
@@ -145,18 +154,21 @@ const DefaultPharmacy = ({
       </div>
       <div className="h-[2px] bg-gray-200 w-full my-5" />
 
-      <div className="px-6 pb-6">
-        <div className="grid grid-cols-2 gap-4 ">
+      <div className="px-6">
+        <div className="grid grid-cols-2 gap-4 items-start">
           {filteredStates.map((state) => {
             const isAssigned = configuredStates[state?.name];
             return (
               <div
                 key={state.shortCode}
-                className={cn("rounded-lg p-4 border border-card-border", {
-                  "bg-progress-secondary border border-progress":
-                    configuredStates[state?.name],
-                  "bg-light-background": !configuredStates[state?.name],
-                })}
+                className={cn(
+                  "rounded-lg p-4 border border-card-border flex flex-col",
+                  {
+                    "bg-progress-secondary border border-progress":
+                      configuredStates[state?.name],
+                    "bg-light-background": !configuredStates[state?.name],
+                  }
+                )}
               >
                 <div className="flex justify-between items-center mb-3">
                   <h3 className="font-medium text-[14px] text-black leading-[18px] ">
@@ -180,7 +192,9 @@ const DefaultPharmacy = ({
                 <Select
                   value={configuredStates[state.name] || ""}
                   onValueChange={(value) => {
-                    handleSelect(state, value);
+                    if (value && pharmaciesByState[state.shortCode]) {
+                      handleSelect(state, value);
+                    }
                   }}
                   onOpenChange={(isOpen) => {
                     if (isOpen && selectedVariant?.id) {
@@ -201,7 +215,10 @@ const DefaultPharmacy = ({
                 >
                   <SelectTrigger className="w-full bg-white border-gray-300">
                     <SelectValue placeholder="Select a pharmacy">
-                      {fullPharmacies[state.name]?.name || "Select a pharmacy"}
+                      {configuredStates[state.name]
+                        ? fullPharmacies[state.name]?.name ||
+                          "Select a pharmacy"
+                        : "Select a pharmacy"}
                     </SelectValue>
                   </SelectTrigger>
                   <SelectContent>
@@ -231,6 +248,15 @@ const DefaultPharmacy = ({
                     )}
                   </SelectContent>
                 </Select>
+                <div className="mt-2 flex items-center">
+                  {configuredStates[state.name] &&
+                  fullPharmacies[state.name] ? (
+                    <p className="text-sm text-green-700 font-medium">
+                      {fullPharmacies[state.name]?.name} – Default Pharmacy
+                      configured
+                    </p>
+                  ) : null}
+                </div>
               </div>
             );
           })}

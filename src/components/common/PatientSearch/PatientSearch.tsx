@@ -14,10 +14,6 @@ export function PatientSearch({
   selectedPatient,
   onSelect,
 }: PatientSearchProps) {
-  console.log(
-    "selectedPatientntttttttt!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1",
-    selectedPatient
-  );
   const [search, setSearch] = useState("");
 
   useEffect(() => {

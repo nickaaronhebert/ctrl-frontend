@@ -34,13 +34,13 @@ const accessControlApi = baseApi.injectEndpoints({
       invalidatesTags: [TAG_GET_ACCESS_CONTROL],
     }),
     getAccessControl: builder.query<AccessResponse, ICommonSearchQuery>({
-      query: ({ page, perPage, q }) => {
-        return {
-          url: `/access-control?page=${page}&limit=${perPage}&q=${q}`,
-          method: "GET",
-        };
-      },
+      query: ({ page, perPage, q }) => ({
+        url: `/access-control?page=${page}&limit=${perPage}&q=${q}`,
+        method: "GET",
+      }),
+      providesTags: [TAG_GET_ACCESS_CONTROL],
     }),
+
     getSingleAccessControl: builder.query({
       query: (id: string) => ({
         method: "GET",

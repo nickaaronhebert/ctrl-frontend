@@ -13,7 +13,6 @@ export function variantColumns(): ColumnDef<VariantData>[] {
       header: "Variants",
       cell: ({ row }) => {
         const value = row.original.strength;
-        console.log("valueeeeeeee", value);
         return <span className="font-medium">{value}</span>;
       },
     },

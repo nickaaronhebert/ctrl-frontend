@@ -17,7 +17,6 @@ export default function CategorySelect({
   selected,
   setSelected,
 }: CategorySelectProps) {
-  console.log("categories", categories);
   return (
     <Select
       defaultValue={categories?.[0]}
