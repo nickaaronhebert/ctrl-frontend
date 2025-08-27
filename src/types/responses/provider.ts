@@ -1,9 +1,10 @@
-import type { Provider } from "../global/commonTypes";
+import type { MetaData, Provider } from "../global/commonTypes";
 
-type AffiliatedProviders = Omit<Provider, "medicalLicense"> & {
+export type AffiliatedProviders = Omit<Provider, "medicalLicense"> & {
   isAffiliationActive: boolean;
 };
 
 export interface IGetAllAffiliatedProvidersResponse {
   data: AffiliatedProviders[];
+  meta: MetaData;
 }
