@@ -7,33 +7,46 @@ import ReviewOrderDetails from "./review";
 import { ChevronRight } from "lucide-react";
 import { cn, formatDateMMDDYYYY } from "@/lib/utils";
 import { useGetPatientDetailsByIdQuery } from "@/redux/services/patientApi";
+import { useAppDispatch } from "@/redux/store";
+import { useEffect } from "react";
+import { updateInitialStep } from "@/redux/slices/create-order";
 
 const CreateOrderPage = () => {
+  const dispatch = useAppDispatch();
   const [searchParams] = useSearchParams();
   const patientId = searchParams.get("patientId") ?? "";
-  const { data: patientData } = useGetPatientDetailsByIdQuery(patientId, {
-    skip: !patientId,
-    selectFromResult: ({ data, isFetching }) => ({
-      data: data?.data
-        ? {
-            selectedPatient: data.data,
-            address: data.data.address,
-            firstName: data.data.firstName,
-            lastName: data.data.lastName,
-            phoneNumber: data.data.phoneNumber,
-            email: data.data.email,
-            dob: formatDateMMDDYYYY(data.data.dob),
-            medicationAllergies: data.data.medicationAllergies,
-            currentMedications: data.data.currentMedications,
-            height: data.data.height,
-            weight: data.data.weight,
-            gender: data.data.gender,
-          }
-        : undefined,
+  const { data: patientData, isFetching } = useGetPatientDetailsByIdQuery(
+    patientId,
+    {
+      skip: !patientId,
+      selectFromResult: ({ data, isFetching }) => ({
+        data: data?.data
+          ? {
+              selectedPatient: data.data,
+              address: data.data.address,
+              firstName: data.data.firstName,
+              lastName: data.data.lastName,
+              phoneNumber: data.data.phoneNumber,
+              email: data.data.email,
+              dob: formatDateMMDDYYYY(data.data.dob),
+              medicationAllergies: data.data.medicationAllergies,
+              currentMedications: data.data.currentMedications,
+              height: data.data.height,
+              weight: data.data.weight,
+              gender: data.data.gender,
+            }
+          : undefined,
 
-      isFetching: isFetching,
-    }),
-  });
+        isFetching: isFetching,
+      }),
+    }
+  );
+
+  useEffect(() => {
+    if (patientData) {
+      dispatch(updateInitialStep(patientData));
+    }
+  }, [isFetching]);
 
   const order = useAppSelector((state) => state.order);
   console.log("orders", order);
