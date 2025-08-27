@@ -116,3 +116,12 @@ export interface Order {
   id: string;
   createdAt: string;
 }
+
+export interface MetaData {
+  page: number;
+  limit: number;
+  itemCount: number;
+  pageCount: number;
+  hasPreviousPage: boolean;
+  hasNextPage: boolean;
+}

@@ -1,15 +1,43 @@
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import SelectProductVariant from "./medication";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import SelectProviderPharmacy from "./provider-pharmacy";
 import SelectPatient from "./patient";
 import ReviewOrderDetails from "./review";
 import { ChevronRight } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, formatDateMMDDYYYY } from "@/lib/utils";
+import { useGetPatientDetailsByIdQuery } from "@/redux/services/patientApi";
 
 const CreateOrderPage = () => {
+  const [searchParams] = useSearchParams();
+  const patientId = searchParams.get("patientId") ?? "";
+  const { data: patientData } = useGetPatientDetailsByIdQuery(patientId, {
+    skip: !patientId,
+    selectFromResult: ({ data, isFetching }) => ({
+      data: data?.data
+        ? {
+            selectedPatient: data.data,
+            address: data.data.address,
+            firstName: data.data.firstName,
+            lastName: data.data.lastName,
+            phoneNumber: data.data.phoneNumber,
+            email: data.data.email,
+            dob: formatDateMMDDYYYY(data.data.dob),
+            medicationAllergies: data.data.medicationAllergies,
+            currentMedications: data.data.currentMedications,
+            height: data.data.height,
+            weight: data.data.weight,
+            gender: data.data.gender,
+          }
+        : undefined,
+
+      isFetching: isFetching,
+    }),
+  });
+
   const order = useAppSelector((state) => state.order);
   console.log("orders", order);
+
   return (
     <>
       <div className="bg-lilac py-3 px-12">
@@ -71,7 +99,7 @@ const CreateOrderPage = () => {
         </div>
 
         {order.currentStep === 0 && (
-          <SelectPatient patient={order.initialStep} />
+          <SelectPatient patient={patientData || order.initialStep} />
         )}
         {order.currentStep === 1 && (
           <SelectProductVariant productVariant={order.stepOne} />

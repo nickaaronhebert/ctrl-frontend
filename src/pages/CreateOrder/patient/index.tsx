@@ -200,21 +200,10 @@ export default function SelectPatient({
 
             {selectedPatient && (
               <div className="flex justify-end mt-6 items-center gap-2.5 border-t border-dashed border-gray-300 ">
-                {/* <Button
-                variant={"outline"}
-                // disabled={!form.formState.isValid}
-                onClick={() => {
-                  form.reset(orderFormDefaults);
-                }}
-                className="cursor-pointer text-black rounded-full py-2.5 px-7 min-h-14 text-base font-semibold"
-              >
-                Cancel
-              </Button> */}
                 <Button
                   type="submit"
-                  disabled={!form.formState.isValid}
+                  // disabled={!form.formState.isValid}
                   className="rounded-full min-h-[48px] min-w-[130px] text-[14px] font-semibold text-white mt-6 cursor-pointer"
-                  // className="mt-6 cursor-pointer text-white rounded-full py-2.5 px-7 min-h-14 text-base font-semibold"
                 >
                   Next
                 </Button>

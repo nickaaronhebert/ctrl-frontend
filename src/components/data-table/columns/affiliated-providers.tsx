@@ -1,19 +1,10 @@
 import PendingBadge from "@/components/TransmissionBadge/pending";
 import SuccessBadge from "@/components/TransmissionBadge/success";
+import type { AffiliatedProviders } from "@/types/responses/provider";
 
 import type { ColumnDef } from "@tanstack/react-table";
 
-export type Provider = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  npi: string;
-  status: string;
-  isAffiliationActive: boolean;
-  id: string;
-};
-
-export function organizationProviderColumns(): ColumnDef<Provider>[] {
+export function organizationProviderColumns(): ColumnDef<AffiliatedProviders>[] {
   return [
     {
       accessorKey: "firstName",
