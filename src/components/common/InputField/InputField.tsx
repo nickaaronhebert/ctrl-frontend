@@ -85,7 +85,7 @@ const InputField = ({
           )} */}
         </div>
       </FormControl>
-      <FormMessage />
+      <FormMessage className="text-right" />
     </FormItem>
   );
 };
