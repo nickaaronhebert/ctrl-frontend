@@ -113,15 +113,6 @@ const DefaultPharmacy = ({
     });
   };
 
-  console.log("configuredStatessss", configuredStates);
-
-  console.log("dataaaa", data);
-  console.log("defaultPharmacyByState", data?.data?.defaultPharmacy);
-
-  console.log("selectedMedicationn", selectedMedication);
-
-  console.log("selectedVariant", selectedVariant);
-
   return (
     <div className="bg-white rounded-lg border border-gray-200 pt-4">
       <div className="flex justify-between items-start px-6">
@@ -240,7 +231,6 @@ const DefaultPharmacy = ({
 
                     {(pharmaciesByState[state.shortCode] || []).map(
                       (pharmacy: Pharmacy) => {
-                        console.log("pharmacy bro", pharmacy);
                         return (
                           <SelectItem key={pharmacy.id} value={pharmacy.id}>
                             {pharmacy.name}

@@ -22,7 +22,6 @@ export default function OrganizationAffiliatedProvider() {
     perPage,
     q: providerFirstName || providerNpiNumber,
   });
-  console.log("data", data);
   const columns = useMemo(() => organizationProviderColumns(), []);
   const filterFields: DataTableFilterField<AffiliatedProviders>[] = [
     {

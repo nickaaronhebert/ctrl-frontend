@@ -32,11 +32,9 @@ export default function CreatePatient() {
   const { reset } = form;
 
   async function onSubmit(values: z.infer<typeof createPatientFormSchema>) {
-    console.log(values);
     await createPatient({ ...values, gender: "Male" })
       .unwrap()
       .then((data) => {
-        console.log("data", data);
         toast.success(data?.message || "Patient Created Successfully", {
           duration: 1500,
         });

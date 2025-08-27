@@ -63,8 +63,6 @@ export default function ViewOrderDetails() {
       },
     }),
   });
-  console.log("Order Details", data);
-  console.log("Transmission", transmissions);
 
   if (!patient || !transmissions) {
     return <div>Loading............</div>;

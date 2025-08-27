@@ -23,7 +23,6 @@ export function DataTableToolbar<TData>({
   searchIcon,
   ...props
 }: DataTableToolbarProps<TData>) {
-  console.log("Renderingg.....");
   // Memoize computation of searchableColumns and filterableColumns
   const { searchableColumns } = React.useMemo(() => {
     return {

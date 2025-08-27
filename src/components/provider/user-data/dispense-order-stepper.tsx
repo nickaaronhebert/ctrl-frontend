@@ -41,9 +41,7 @@ function DispenseOrder() {
   });
 
   const onSubmit = (values: z.infer<typeof stepper.current.schema>) => {
-    console.log(`Form values for step ${stepper.current.id}:`, values);
     if (stepper.isLast) {
-      console.log("all values", form.getValues());
       stepper.reset();
       form.reset();
     } else {
@@ -52,7 +50,6 @@ function DispenseOrder() {
   };
 
   const currentIndex = utils.getIndex(stepper.current.id);
-  console.log("currentIndex", currentIndex);
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6    ">

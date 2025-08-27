@@ -54,8 +54,6 @@ const OrganisationDashboard = () => {
     setSelectedPeriod(selectedValue);
   }, []);
 
-  console.log("Selected Period:", selectedPeriod);
-
   const columns = useMemo(() => recentTransmissionColumns(), []);
 
   const table = useReactTable<Transmission>({
@@ -66,7 +64,6 @@ const OrganisationDashboard = () => {
   });
 
   const currentStatus = statusCardData[selectedPeriod];
-  console.log("currentStatus:", currentStatus);
 
   return (
     <>

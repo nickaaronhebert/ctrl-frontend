@@ -42,7 +42,6 @@ export default function SelectPatient({
   const selectedPatient = watch("selectedPatient");
 
   async function onSubmit(values: z.infer<typeof patientSchema>) {
-    console.log("initial step values", values);
     dispatch(updateInitialStep(values));
   }
 

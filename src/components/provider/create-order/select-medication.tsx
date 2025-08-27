@@ -33,10 +33,7 @@ const medicationOptions = [
 ];
 export default function SelectMedication() {
   const { handleNext, handleBack } = useOrderMultiStepForm();
-  console.log("check");
-  const { control, getValues, setValue, trigger } =
-    useFormContext<MedicationFormValues>();
-  console.log("form values ", getValues());
+  const { control, setValue, trigger } = useFormContext<MedicationFormValues>();
 
   const { fields, append, remove } = useFieldArray({
     name: "medications",

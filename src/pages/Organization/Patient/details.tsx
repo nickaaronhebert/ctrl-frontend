@@ -216,7 +216,6 @@ function PatientDetails({ patientId }: { patientId: string }) {
 
 export default function ViewPatientDetails() {
   const { id } = useParams();
-  console.log("patientId", id);
 
   if (!id) {
     return <LoadingSpinner />;

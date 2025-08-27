@@ -14,7 +14,7 @@ import SelectMedication from "./create-order/select-medication";
 import SelectProviderPharmacy from "./create-order/select-provider-pharmacy";
 import { dispensingSchema } from "@/schemas/dispensingSchema";
 import Dispensing from "../organization/Dispensing";
-import PatientDetails from "./create-order/patient-details";
+// import PatientDetails from "./create-order/patient-details";
 import { patientSchema } from "@/schemas/patientSchema";
 import PatientForm from "../organization/PatientDetails";
 
@@ -72,7 +72,7 @@ const CreateOrderFormV2 = () => {
     const currentStepData = form.getValues();
 
     const currentValidation = currentSchemas.safeParse(currentStepData);
-    console.log("currentValidation", currentValidation);
+    // console.log("currentValidation", currentValidation);
     if (currentValidation.success) {
       setStep(step + 1);
     } else {
@@ -86,8 +86,8 @@ const CreateOrderFormV2 = () => {
     if (result.success) {
       setStep(totalSteps);
 
-      const payload = result.data;
-      console.log("Final Payload:", payload);
+      // const payload = result.data;
+      // console.log("Final Payload:", payload);
 
       // API call here...
     } else {

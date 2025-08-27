@@ -32,8 +32,7 @@ export default function OrganizationOrder() {
       }),
     }
   );
-  // console.log("ordersData", orderData);
-  // console.log("meta", meta);
+
   const columns = useMemo(() => organizationOrderColumns(), []);
   const filterFields: DataTableFilterField<OrderDetails>[] = [
     {

@@ -7,9 +7,9 @@ import useAuthentication from "@/hooks/use-authentication";
 import { patientSchema } from "@/schemas/patientSchema";
 import PatientDetails from "@/components/organization/PatientDetails";
 import { medicationsSchema } from "@/schemas/medicationSchema";
-import AddMedication from "@/components/organization/AddMedication";
+// import AddMedication from "@/components/organization/AddMedication";
 import { providerPharmacySchema } from "@/schemas/pharmacySchema";
-import PharmacySelection from "@/components/organization/PharmacySelection";
+// import PharmacySelection from "@/components/organization/PharmacySelection";
 import { dispensingSchema } from "@/schemas/dispensingSchema";
 import { completeOrderVerificationSchema } from "@/schemas/order-merge-schema";
 import Dispensing from "@/components/organization/Dispensing";
@@ -67,10 +67,8 @@ const CreateOrderForm = () => {
   const handleNext = () => {
     const currentSchemas = FormSteps[safeStep].validationSchema;
     const currentStepData = form.getValues();
-    console.log("currentStepData", currentStepData);
     localStorage.setItem("formData", JSON.stringify(currentStepData));
     const currentValidation = currentSchemas.safeParse(currentStepData);
-    console.log("currentValidation", currentValidation);
     if (currentValidation.success) {
       setStep(step + 1);
     } else {
@@ -90,8 +88,7 @@ const CreateOrderForm = () => {
     if (result.success) {
       setStep(totalSteps);
 
-      const payload = result.data;
-      console.log("Final Payload:", payload);
+      // const payload = result.data;
 
       // API call here...
     } else {

@@ -27,8 +27,6 @@ export default function MedicalVerification({
 }: MedicalVerificationProps) {
   const [openAddLicenseModal, setOpenLicenseModal] = useState(false);
 
-  console.log("Medical Licenses:: ", user?.medicalLicense);
-
   return (
     <>
       <div className="bg-white border border-gray-200 rounded-lg p-4">

@@ -42,7 +42,6 @@ const MedicationDetails = () => {
   const [activeTab, setActiveTab] = useState<
     "medicationDetails" | "variants" | "pharmacies"
   >("medicationDetails");
-  console.log("singleMedItemmmm", singleMedDetail);
   const columns = useMemo(() => pharmacyColumns(), []);
   const variantColumn = useMemo(() => variantColumns(), []);
 
@@ -57,8 +56,6 @@ const MedicationDetails = () => {
     columns: variantColumn,
     pageCount: -1,
   });
-
-  console.log("variant Dataaaa", singleMedDetail?.data?.productVariants);
 
   if (isLoading) {
     return (
