@@ -24,15 +24,6 @@ export interface User {
   id: string;
 }
 
-export interface Business {
-  id: string;
-  type: string;
-  name: string;
-  email: string;
-  phoneNumber: string;
-  status: "active" | "inactive" | string;
-  createdBy: Record<string, any>;
-}
 export const PROVIDER_STATUS = {
   INVITED: "invited",
   INVITATION_ACCEPTED: "invitation_accepted",

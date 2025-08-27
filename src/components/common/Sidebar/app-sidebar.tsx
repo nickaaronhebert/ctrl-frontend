@@ -94,7 +94,9 @@ export function AppSidebar() {
                     <SidebarMenuButton asChild size="lg" tooltip={item.title}>
                       <div
                         className={`flex items-center gap-3 w-full cursor-pointer ${
-                          isActive(item) ? "bg-secondary font-semibold" : ""
+                          isActive(item)
+                            ? "bg-secondary font-semibold text-primary"
+                            : ""
                         }`}
                         onClick={() => navigate(item.url)}
                       >
