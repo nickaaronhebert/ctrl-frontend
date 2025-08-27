@@ -4,10 +4,12 @@ import PatientIcon from "@/assets/icons/PatientIcon";
 import { patientOrderColumns } from "@/components/data-table/columns/patient-order";
 import { DataTable } from "@/components/data-table/data-table";
 import { DataTablePagination } from "@/components/data-table/data-table-pagination";
+
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { useDataTable } from "@/hooks/use-data-table";
 import { useViewAllOrdersQuery } from "@/redux/services/order";
 import { useGetPatientDetailsByIdQuery } from "@/redux/services/patientApi";
+
 import { useMemo } from "react";
 
 import { Link, useParams, useSearchParams } from "react-router-dom";
@@ -91,7 +93,7 @@ function PatientDetails({ patientId }: { patientId: string }) {
 
         <div className="flex gap-3">
           <Link
-            to={"/org/create-order"}
+            to={`/org/create-order?patientId=${data.id}`}
             className="bg-primary-foreground rounded-full text-white py-2.5 px-7 h-12"
           >
             Create Order
