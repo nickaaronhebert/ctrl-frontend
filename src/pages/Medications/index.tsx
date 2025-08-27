@@ -19,7 +19,7 @@ const Medications = () => {
   const columns = useMemo(() => medicationLibraryColumns(), []);
   const [searchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1", 10);
-  const perPage = parseInt(searchParams.get("per_page") ?? "5", 5);
+  const perPage = parseInt(searchParams.get("per_page") ?? "10", 10);
   const drugName = searchParams.get("drugName") ?? "";
 
   const { data: medicationData, meta } = useGetMedicationCatalogueQuery(
