@@ -28,7 +28,9 @@ export function EnableAffiliationDialog({
       await editAffiliationStatus({ id, status: true }).unwrap();
       setValue(`affiliations.${fieldIndex}.isAffiliationActive`, true);
       onCancel();
-      toast.success("Affiliation enabled successfully");
+      toast.success("Affiliation enabled successfully", {
+        duration: 1500,
+      });
     } catch (err) {
       console.error("Failed to enable affiliation", err);
     }

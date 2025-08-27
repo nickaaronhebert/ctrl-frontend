@@ -38,12 +38,16 @@ const ResetPasswordForm = ({ token }: ResetPasswordFormProps) => {
     confirmPassword: string;
   }) => {
     if (!token) {
-      toast.error("Invalid or missing reset token.");
+      toast.error("Invalid or missing reset token.", {
+        duration: 1500,
+      });
       return;
     }
 
     if (data.password !== data.confirmPassword) {
-      toast.error("Passwords do not match.");
+      toast.error("Passwords do not match.", {
+        duration: 1500,
+      });
       return;
     }
 
@@ -52,10 +56,14 @@ const ResetPasswordForm = ({ token }: ResetPasswordFormProps) => {
         password: data.password,
         token,
       }).unwrap();
-      toast.success("Password reset successful!");
+      toast.success("Password reset successful!", {
+        duration: 1500,
+      });
       navigate("/");
     } catch (error) {
-      toast.error("Failed to reset password. Please try again.");
+      toast.error("Failed to reset password. Please try again.", {
+        duration: 1500,
+      });
     }
   };
 

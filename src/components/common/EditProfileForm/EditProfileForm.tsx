@@ -45,7 +45,9 @@ export default function EditProfileDialog({
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success("Profile Updated Successfully");
+      toast.success("Profile Updated Successfully", {
+        duration: 1500,
+      });
       onOpenChange?.(false);
     }
 
@@ -73,7 +75,9 @@ export default function EditProfileDialog({
         }
       }
 
-      toast.error(message);
+      toast.error(message, {
+        duration: 1500,
+      });
     }
   }
   function onCancel() {

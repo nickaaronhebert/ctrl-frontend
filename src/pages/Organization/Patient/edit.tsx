@@ -52,7 +52,9 @@ function UpdatePatientDetails({
       .unwrap()
       .then((data) => {
         console.log("data", data);
-        toast.success(data?.message || "Patient Created Successfully");
+        toast.success(data?.message || "Patient Updated Successfully", {
+          duration: 1500,
+        });
         navigate("/org/patients");
       })
       .catch((err) => {
@@ -60,7 +62,10 @@ function UpdatePatientDetails({
         toast.error(
           err?.data?.message?.[0] ??
             err?.data?.message ??
-            "Something went wrong"
+            "Something went wrong",
+          {
+            duration: 1500,
+          }
         );
       });
   }

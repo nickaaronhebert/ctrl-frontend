@@ -76,11 +76,15 @@ export default function AddMedicalLicenseDialog({
       .then(() => {
         form.reset();
         setOpenLicenseModal(false);
-        toast.success("Credentials added successfully");
+        toast.success("Credentials added successfully", {
+          duration: 1500,
+        });
       })
       .catch((err) => {
         console.log("error", err);
-        toast.error(err?.data?.message || "Something went wrong");
+        toast.error(err?.data?.message || "Something went wrong", {
+          duration: 1500,
+        });
       });
   }
 

@@ -37,7 +37,9 @@ export default function CreatePatient() {
       .unwrap()
       .then((data) => {
         console.log("data", data);
-        toast.success(data?.message || "Patient Created Successfully");
+        toast.success(data?.message || "Patient Created Successfully", {
+          duration: 1500,
+        });
 
         reset();
         navigate("/org/patients");
@@ -47,7 +49,10 @@ export default function CreatePatient() {
         toast.error(
           err?.data?.message?.[0] ??
             err?.data?.message ??
-            "Something went wrong"
+            "Something went wrong",
+          {
+            duration: 1500,
+          }
         );
       });
   }

@@ -102,12 +102,16 @@ export default function ProviderSteppedForm({ slug }: ProviderStepperProps) {
       await acceptMedicalCredentials(payload)
         .unwrap()
         .then(() => {
-          toast.success("Credentials added successfully");
+          toast.success("Credentials added successfully", {
+            duration: 1500,
+          });
           navigate("/onboarding-success");
         })
         .catch((err) => {
           console.log("error", err);
-          toast.error("Invalid Details");
+          toast.error("Invalid Details", {
+            duration: 1500,
+          });
         });
 
       // if (slug === STEPPER_FORM.ONBOARDING) navigate("/onboarding-success");

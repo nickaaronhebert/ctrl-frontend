@@ -27,7 +27,9 @@ export function DisableAffiliationDialog({
       await editAffiliationStatus({ id, status: false }).unwrap();
       setValue(`affiliations.${fieldIndex}.isAffiliationActive`, false);
       onCancel();
-      toast.success("Affiliation disabled successfully");
+      toast.success("Affiliation disabled successfully", {
+        duration: 1500,
+      });
     } catch (err) {
       console.error("Failed to disable affiliation", err);
     }

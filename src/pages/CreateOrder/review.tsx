@@ -51,12 +51,16 @@ export default function ReviewOrderDetails({ order }: { order: OrderState }) {
       .then((data) => {
         console.log("data", data);
         dispatch(resetOrder());
-        toast.success(data?.message || "Patient Created Successfully");
+        toast.success(data?.message || "Order Created Successfully", {
+          duration: 1500,
+        });
         navigate("/org/orders");
       })
       .catch((err) => {
         console.log("error", err);
-        toast.error(err?.data?.message ?? "Something went wrong");
+        toast.error(err?.data?.message ?? "Something went wrong", {
+          duration: 1500,
+        });
       });
   };
 

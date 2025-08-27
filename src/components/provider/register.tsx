@@ -47,7 +47,9 @@ export default function RegisterProvider() {
     await acceptInvitation(payload)
       .unwrap()
       .then(() => {
-        toast.success("Invitation accepted successfully");
+        toast.success("Invitation accepted successfully", {
+          duration: 1500,
+        });
         navigate("/welcome");
       })
       .catch((err) => {
@@ -55,7 +57,10 @@ export default function RegisterProvider() {
         toast.error(
           err?.data?.message?.[0] ??
             err?.data?.message ??
-            "Something went wrong"
+            "Something went wrong",
+          {
+            duration: 1500,
+          }
         );
       });
   }

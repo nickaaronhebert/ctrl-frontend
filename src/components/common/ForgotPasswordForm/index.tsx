@@ -40,7 +40,9 @@ const ForgotPasswordForm = () => {
       const err = error as { data?: { message?: string } };
       const message =
         err?.data?.message || "Failed to send reset link. Please try again.";
-      toast.error(message);
+      toast.error(message, {
+        duration: 1500,
+      });
     }
   };
 

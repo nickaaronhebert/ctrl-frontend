@@ -54,16 +54,20 @@ const LoginVerificationForm = ({
 
   const handleResend = async () => {
     if (!username || !password) {
-      toast.error("Missing credentials");
+      toast.error("Missing credentials", { duration: 1500 });
       return;
     }
     try {
       await resendOtp({ username, password }).unwrap();
-      toast.success("OTP resent to your email");
+      toast.success("OTP resent to your email", {
+        duration: 1500,
+      });
       setSecondsLeft(30);
       setIsResendEnabled(false);
     } catch (err) {
-      toast.error("Failed to resend OTP");
+      toast.error("Failed to resend OTP", {
+        duration: 1500,
+      });
       console.error("Resend error", err);
     }
   };
@@ -80,10 +84,14 @@ const LoginVerificationForm = ({
         otpCode: values.otp,
       }).unwrap();
 
-      toast.success("Verification successful");
+      toast.success("Verification successful", {
+        duration: 1500,
+      });
       navigate(ROUTES.POST_LOGIN_REDIRECT);
     } catch (error) {
-      toast.error("Invalid or expired OTP");
+      toast.error("Invalid or expired OTP", {
+        duration: 1500,
+      });
       console.error("Verification error:", error);
     }
   };

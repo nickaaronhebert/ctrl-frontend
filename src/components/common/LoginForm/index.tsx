@@ -52,7 +52,9 @@ const LoginForm = () => {
       };
 
       const message = err?.data?.message || "An unexpected error occurred";
-      toast.error(message);
+      toast.error(message, {
+        duration: 1500,
+      });
     }
   };
   return (
