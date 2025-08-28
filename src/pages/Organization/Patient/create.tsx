@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { useCreatePatientMutation } from "@/redux/services/patientApi";
 
 import DateInputElement from "@/components/Form/date-input-element";
+import PhoneInputElement from "@/components/Form/phone-input-element";
 
 export default function CreatePatient() {
   const navigate = useNavigate();
@@ -101,7 +102,7 @@ export default function CreatePatient() {
               />
 
               <CenteredRow>
-                <InputElement
+                <PhoneInputElement
                   name="phoneNumber"
                   className="w-80"
                   label="Phone"
@@ -110,14 +111,6 @@ export default function CreatePatient() {
                   placeholder="eg. (555) 123-4567"
                 />
 
-                {/* <InputElement
-                  name="dob"
-                  className="w-80"
-                  label="DOB"
-                  isRequired={true}
-                  messageClassName="text-right"
-                  placeholder="MM/DD/YYYY"
-                /> */}
                 <DateInputElement
                   name="dob"
                   className="w-80"
