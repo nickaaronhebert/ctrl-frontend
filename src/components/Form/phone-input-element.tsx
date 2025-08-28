@@ -9,8 +9,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import USAIconSvg from "@/assets/icons/USAIcon";
 
-interface DateInputElementProps
+interface PhoneInputElementProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   name: string;
   label?: string;
@@ -22,7 +23,7 @@ interface DateInputElementProps
   messageClassName?: string;
 }
 
-const DateInputElement: React.FC<DateInputElementProps> = ({
+const PhoneInputElement: React.FC<PhoneInputElementProps> = ({
   name,
   label,
   placeholder,
@@ -43,24 +44,20 @@ const DateInputElement: React.FC<DateInputElementProps> = ({
       name={name}
       render={({ field }) => {
         const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-          let val = e.target.value;
-          const prevVal = field.value || "";
+          // remove all non-digit characters
+          let val = e.target.value.replace(/\D/g, "");
 
-          // allow only digits and "/"
-          val = val.replace(/[^\d/]/g, "");
-
-          // typing forward
-          if (val.length > prevVal.length) {
-            if (val.length === 2 && !val.includes("/")) {
-              val = val + "/";
-            } else if (val.length === 5 && val.split("/").length < 3) {
-              val = val + "/";
-            }
-          }
-
-          // limit to 10 chars
+          // limit to 10 digits
           if (val.length > 10) val = val.slice(0, 10);
 
+          // format as (XXX) XXX-XXXX
+          if (val.length >= 7) {
+            val = `(${val.slice(0, 3)}) ${val.slice(3, 6)}-${val.slice(6)}`;
+          } else if (val.length >= 4) {
+            val = `(${val.slice(0, 3)}) ${val.slice(3)}`;
+          } else if (val.length >= 1) {
+            val = `(${val}`;
+          }
           field.onChange(val);
         };
 
@@ -78,17 +75,22 @@ const DateInputElement: React.FC<DateInputElementProps> = ({
               </FormLabel>
             )}
             <FormControl>
-              <Input
-                {...field}
-                onChange={handleChange}
-                placeholder={placeholder}
-                className={cn("", inputClassName)}
-                type={props.type || "text"}
-                disabled={props.disabled}
-                maxLength={10}
-                autoComplete={props.autoComplete}
-                readOnly={props.readOnly}
-              />
+              <div className="flex items-center border border-input rounded-[5px]">
+                <div className="bg-[#EFEFEFE0] p-4 border-r  border-input h-full flex items-center">
+                  <USAIconSvg />
+                </div>
+
+                <Input
+                  {...field}
+                  onChange={handleChange}
+                  placeholder={placeholder}
+                  className={cn("!border-none", inputClassName)}
+                  type={props.type || "text"}
+                  disabled={props.disabled}
+                  autoComplete={props.autoComplete}
+                  readOnly={props.readOnly}
+                />
+              </div>
             </FormControl>
             {description && <FormDescription>{description}</FormDescription>}
 
@@ -100,4 +102,4 @@ const DateInputElement: React.FC<DateInputElementProps> = ({
   );
 };
 
-export default DateInputElement;
+export default PhoneInputElement;

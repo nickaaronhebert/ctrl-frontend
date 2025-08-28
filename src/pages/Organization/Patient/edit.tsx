@@ -15,6 +15,7 @@ import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import type { SelectedPatientDetails } from "@/types/responses/patient";
 import { toast } from "sonner";
 import DateInputElement from "@/components/Form/date-input-element";
+import PhoneInputElement from "@/components/Form/phone-input-element";
 // import { useCreatePatientMutation } from "@/redux/services/patientApi";
 
 interface UpdatePatientDetailsProps {
@@ -114,7 +115,7 @@ function UpdatePatientDetails({
               />
 
               <CenteredRow>
-                <InputElement
+                <PhoneInputElement
                   name="phoneNumber"
                   className="w-80"
                   label="Phone"
@@ -123,14 +124,6 @@ function UpdatePatientDetails({
                   placeholder="eg. (555) 123-4567"
                 />
 
-                {/* <InputElement
-                  name="dob"
-                  className="w-80"
-                  label="DOB"
-                  isRequired={true}
-                  messageClassName="text-right"
-                  placeholder="MM/DD/YYYY"
-                /> */}
                 <DateInputElement
                   name="dob"
                   className="w-80"

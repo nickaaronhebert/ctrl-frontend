@@ -1,5 +1,19 @@
 import { z } from "zod";
 
+const phoneNumberSchema = z
+  .string()
+  .min(1, { message: "Phone number is required." })
+  .refine(
+    (val) => {
+      // remove non-digit characters
+      const digits = val.replace(/\D/g, "");
+      return digits.length === 10;
+    },
+    {
+      message: "Phone number must be 10 digits.",
+    }
+  );
+
 const dobSchema = z
   .string()
   .regex(/^\d{2}\/\d{2}\/\d{4}$/, {
@@ -46,9 +60,7 @@ export const createPatientFormSchema = z.object({
     }),
   dob: dobSchema,
   email: z.string().email({ message: "Invalid email address." }),
-  phoneNumber: z.string().min(1, {
-    message: "Phone number is required.",
-  }),
+  phoneNumber: phoneNumberSchema,
   address: z.string().min(3, {
     message: "Invalid Address.",
   }),
