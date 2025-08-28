@@ -1,5 +1,32 @@
 import { z } from "zod";
 
+const dobSchema = z
+  .string()
+  .regex(/^\d{2}\/\d{2}\/\d{4}$/, {
+    message: "Date must be in MM/DD/YYYY format",
+  })
+  .refine(
+    (val) => {
+      const [month, day, year] = val.split("/").map(Number);
+      const date = new Date(year, month - 1, day);
+
+      // Check if date is real
+      const isValidDate =
+        date.getFullYear() === year &&
+        date.getMonth() === month - 1 &&
+        date.getDate() === day;
+
+      if (!isValidDate) return false;
+
+      // Check that DOB is not in the future
+      const today = new Date();
+      return date <= today;
+    },
+    {
+      message: "Invalid date!!",
+    }
+  );
+
 export const createPatientFormSchema = z.object({
   firstName: z
     .string()
@@ -17,9 +44,7 @@ export const createPatientFormSchema = z.object({
     .max(20, {
       message: "Last name must be less than 20 characters.",
     }),
-  dob: z.string().regex(/^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/\d{4}$/, {
-    message: "Date of birth must be in MM/DD/YYYY format.",
-  }),
+  dob: dobSchema,
   email: z.string().email({ message: "Invalid email address." }),
   phoneNumber: z.string().min(1, {
     message: "Phone number is required.",

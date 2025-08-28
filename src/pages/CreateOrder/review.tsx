@@ -35,7 +35,7 @@ export default function ReviewOrderDetails({ order }: { order: OrderState }) {
         quantity: item.quantity,
         provider: providerId,
         productVariant: variantId,
-        pharmacy: pharmacyId,
+        // pharmacy: pharmacyId,
         instructions: item.sigInstructions,
         isManualTransmission: true,
       };
@@ -52,7 +52,7 @@ export default function ReviewOrderDetails({ order }: { order: OrderState }) {
         console.log("data", data);
         dispatch(resetOrder());
         toast.success(data?.message || "Order Created Successfully", {
-          duration: 1500,
+          duration: 3000,
         });
         navigate("/org/orders");
       })

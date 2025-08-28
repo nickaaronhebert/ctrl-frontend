@@ -4,7 +4,7 @@ export interface ICreateOrderRequest {
     quantity: number;
     provider: string;
     productVariant: string;
-    pharmacy: string;
+    // pharmacy: string;
     notes?: string;
     instructions?: string;
     isManualTransmission: boolean;

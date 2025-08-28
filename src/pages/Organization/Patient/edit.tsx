@@ -14,6 +14,7 @@ import {
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import type { SelectedPatientDetails } from "@/types/responses/patient";
 import { toast } from "sonner";
+import DateInputElement from "@/components/Form/date-input-element";
 // import { useCreatePatientMutation } from "@/redux/services/patientApi";
 
 interface UpdatePatientDetailsProps {
@@ -28,6 +29,7 @@ function UpdatePatientDetails({
   const navigate = useNavigate();
   const [updatePatient] = useUpdatePatientMutation();
   const form = useForm<z.infer<typeof createPatientFormSchema>>({
+    mode: "onTouched",
     resolver: zodResolver(createPatientFormSchema),
     defaultValues: {
       firstName: patientData.firstName,
@@ -57,14 +59,9 @@ function UpdatePatientDetails({
       })
       .catch((err) => {
         console.log("error", err);
-        toast.error(
-          err?.data?.message?.[0] ??
-            err?.data?.message ??
-            "Something went wrong",
-          {
-            duration: 1500,
-          }
-        );
+        toast.error(err?.data?.message ?? "Something went wrong", {
+          duration: 3000,
+        });
       });
   }
 
@@ -126,7 +123,15 @@ function UpdatePatientDetails({
                   placeholder="eg. (555) 123-4567"
                 />
 
-                <InputElement
+                {/* <InputElement
+                  name="dob"
+                  className="w-80"
+                  label="DOB"
+                  isRequired={true}
+                  messageClassName="text-right"
+                  placeholder="MM/DD/YYYY"
+                /> */}
+                <DateInputElement
                   name="dob"
                   className="w-80"
                   label="DOB"
