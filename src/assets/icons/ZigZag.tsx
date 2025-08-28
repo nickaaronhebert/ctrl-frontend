@@ -5,8 +5,6 @@ const ZigZag = ({ color }: IconSVG) => (
     className="icon-30 flex justify-center items-center "
     fill={color}
     viewBox="0 0 30 30"
-    width={30}
-    height={30}
   >
     <path
       stroke="#fff"

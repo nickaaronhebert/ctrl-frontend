@@ -54,6 +54,11 @@ const DefaultPharmacy = ({
   };
 
   useEffect(() => {
+    setFullPharmacies({});
+    setConfiguredStates({});
+  }, [selectedVariant?.id]);
+
+  useEffect(() => {
     if (data?.data?.defaultPharmacy) {
       const fullPharmacies = Object.fromEntries(
         Object.entries(data?.data?.defaultPharmacy).map(([state, pharmacy]) => [
@@ -69,6 +74,9 @@ const DefaultPharmacy = ({
         ])
       );
       setConfiguredStates(pharmaciesWithIdsOnly);
+    } else {
+      setFullPharmacies({});
+      setConfiguredStates({});
     }
   }, [data]);
 
@@ -112,6 +120,9 @@ const DefaultPharmacy = ({
       return updated;
     });
   };
+
+  console.log("fullPharmacies", fullPharmacies);
+  console.log("configuredStatess", configuredStates);
 
   return (
     <div className="bg-white rounded-lg border border-gray-200 pt-4">

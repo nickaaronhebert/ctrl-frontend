@@ -1,3 +1,4 @@
+import MedicationLibrary from "@/assets/icons/MedicationLibrary";
 import type { Prescription } from "@/types/global/commonTypes";
 
 const prescriptionDisplayFields: {
@@ -41,9 +42,12 @@ export default function PrescriptionCard({
             key={prescription.id}
           >
             <div className="flex justify-between items-center p-5 border-b border-card-border rounded-tl-[10px] rounded-tr-[10px] bg-[#E6F3FC]">
-              <h2 className="text-base font-semibold">
-                {prescription.productVariant.medicationCatalogue.drugName}
-              </h2>
+              <div className="flex gap-1 items-center">
+                <MedicationLibrary color="purple" width={20} height={20} />
+                <h2 className="text-base font-semibold">
+                  {prescription.productVariant.medicationCatalogue.drugName}
+                </h2>
+              </div>
 
               <div>
                 <h4 className="text-sm font-semibold text-[#3E4D61]">{`${prescription.provider.firstName} ${prescription.provider.lastName}`}</h4>

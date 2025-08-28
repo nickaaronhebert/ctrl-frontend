@@ -103,6 +103,7 @@ export default function ViewOrderDetails() {
             </div>
           </div>
           {menuItems.map((item, index) => {
+            console.log("item icon", item);
             const Icon = item.icon;
             return (
               <Button

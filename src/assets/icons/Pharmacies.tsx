@@ -1,6 +1,6 @@
 import type { IconSVG } from "@/types/global/icon";
 
-const Pharmacies = ({ color }: IconSVG) => (
+const Pharmacies = ({ color = "#9AA2AC" }: IconSVG) => (
   <svg
     width={30}
     height={30}

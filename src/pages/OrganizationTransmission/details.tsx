@@ -135,9 +135,10 @@ export default function TransmissionDetails() {
             className="bg-white rounded-[10px] shadow-[0px_2px_40px_0px_#00000014]"
             id="medicationInformation"
           >
-            <h2 className="text-base font-semibold p-5 border-b border-card-border">
-              Prescription Information
-            </h2>
+            <div className="flex items-center gap-2 p-5 border-b border-card-border">
+              <MedicationLibrary color="black" width={30} height={30} />
+              <h2 className="text-base font-semibold ">Medications</h2>
+            </div>
             {prescriptions && (
               <PrescriptionCard prescriptions={prescriptions} />
             )}

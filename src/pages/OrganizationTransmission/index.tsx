@@ -150,7 +150,7 @@ export default function OrganizationTransmission() {
             </span>
           </Button>
         </div>
-        <div className=" bg-white shadow-[0px_2px_40px_0px_#00000014]">
+        <div className=" bg-white shadow-[0px_2px_40px_0px_#00000014] pb-[12px]">
           <DataTable table={table} />
           <DataTablePagination table={table} />
         </div>
