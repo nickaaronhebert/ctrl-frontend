@@ -55,6 +55,30 @@ export const organisationAdminItems = [
   },
 ];
 
+//// For future score /////
+// export const nestedOrgItems = [
+//   { title: "Providers", url: "/org/providers", icon: Provider },
+//   {
+//     title: "Pharmacies",
+//     url: "/org/pharmacies",
+//     icon: Pharmacies,
+//   },
+//   {
+//     title: "Medication Library",
+//     url: "/org/medications",
+//     icon: MedicationLibrary,
+//   },
+//   {
+//     title: "Pharmacy Assignment",
+//     url: "/org/access-control",
+//     icon: SettingsMain,
+//   },
+//   { title: "Activity Log", url: "/org/activity-log", icon: ActivityLog },
+//   { title: "Settings", url: "/org/settings", icon: SettingsMain },
+// ];
+
+// static/sidebar.ts
+
 export const transmissionData: {
   "24h": MyTransmission[];
   "7d": MyTransmission[];

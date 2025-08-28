@@ -34,6 +34,13 @@ const menuItems = [
 
 export default function TransmissionDetails() {
   const params = useParams();
+  const statusColorMap: Record<string, string> = {
+    created: "bg-background",
+    pending: "bg-pending-secondary",
+    queued: "bg-queued-secondary",
+    transmitted: "bg-progress-secondary",
+    failed: "bg-failed-secondary",
+  };
 
   const [activeTab, setActiveTab] = useState<
     "transmissionOverview" | "pharmacyInformation" | "medicationInformation"
@@ -55,9 +62,14 @@ export default function TransmissionDetails() {
       }),
     });
 
+  const status = data?.status?.toLowerCase();
+  const bgColor = statusColorMap[status as string];
+
+  console.log("status", data?.status);
+
   return (
     <div className="mb-5">
-      <div className=" bg-[#E6FAF5] py-3 px-12">
+      <div className={` ${bgColor} py-3 px-12`}>
         <Link
           to={"/org/transmissions"}
           className="font-normal text-sm text text-muted-foreground"
