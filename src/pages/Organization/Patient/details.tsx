@@ -60,7 +60,7 @@ function PatientDetails({ patientId }: { patientId: string }) {
 
   if (!data) return <LoadingSpinner />;
 
-  const formattedDate = new Date(data?.createdAt).toLocaleDateString("en-US");
+  const formattedDate = new Date(data?.dob).toLocaleDateString("en-US");
   const allergyList = data?.medicationAllergies
     ? data.medicationAllergies
         .split(",")
