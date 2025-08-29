@@ -1,5 +1,4 @@
 import { Link, useParams } from "react-router-dom";
-
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useViewTransmissionByIdQuery } from "@/redux/services/transmission";
@@ -7,7 +6,6 @@ import PharmacyCard from "@/components/common/Card/pharmacy";
 import PrescriptionCard from "@/components/common/Card/prescription";
 import TransmissionOverviewCard from "@/components/common/Card/transmission-overview";
 import CubeSVG from "@/assets/icons/Cube";
-
 import Pharmacies from "@/assets/icons/Pharmacies";
 import MedicationLibrary from "@/assets/icons/MedicationLibrary";
 import Transmission from "@/assets/icons/Transmission";
