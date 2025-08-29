@@ -20,6 +20,7 @@ interface InputElementProps
   inputClassName?: string;
   labelClassName?: string;
   messageClassName?: string;
+  isLoginLabel?: boolean;
 }
 
 const InputElement: React.FC<InputElementProps> = ({
@@ -32,7 +33,7 @@ const InputElement: React.FC<InputElementProps> = ({
   labelClassName,
   inputClassName,
   messageClassName,
-
+  isLoginLabel,
   ...props
 }) => {
   const { control } = useFormContext();
@@ -51,6 +52,14 @@ const InputElement: React.FC<InputElementProps> = ({
               )}
               {isRequired && (
                 <span className="text-destructive font-semibold">*</span>
+              )}
+              {isLoginLabel && (
+                <div className="flex justify-between w-full">
+                  <span className="text-destructive font-semibold">*</span>
+                  <span className="text-xs text-[#F0956D] font-semibold italic">
+                    (Will be used for login)
+                  </span>
+                </div>
               )}
             </FormLabel>
           )}

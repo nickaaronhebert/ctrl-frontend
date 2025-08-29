@@ -75,8 +75,8 @@ const PhoneInputElement: React.FC<PhoneInputElementProps> = ({
               </FormLabel>
             )}
             <FormControl>
-              <div className="flex items-center border border-input rounded-[5px]">
-                <div className="bg-[#EFEFEFE0] p-4 border-r  border-input h-full flex items-center">
+              <div className="flex items-center border border-[#9EA5AB] rounded-[5px] focus-within:border-ring focus-within:ring-ring/50 focus-within:ring-[3px]">
+                <div className="bg-[#EFEFEFE0] p-4 border-r  border-input h-full flex items-center rounded-tl-[5px] rounded-bl-[5px]">
                   <USAIconSvg />
                 </div>
 

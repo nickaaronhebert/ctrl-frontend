@@ -14,6 +14,7 @@ import { useTypedSelector } from "@/redux/store";
 import { toast } from "sonner";
 import { useAcceptProviderInvitationMutation } from "@/redux/services/provider";
 import { selectProvider } from "@/redux/slices/auth";
+import PhoneInputElement from "../Form/phone-input-element";
 
 export default function RegisterProvider() {
   const provider = useTypedSelector(selectProvider);
@@ -54,25 +55,20 @@ export default function RegisterProvider() {
       })
       .catch((err) => {
         console.log("error", err);
-        toast.error(
-          err?.data?.message?.[0] ??
-            err?.data?.message ??
-            "Something went wrong",
-          {
-            duration: 1500,
-          }
-        );
+        toast.error(err?.data?.message ?? "Something went wrong", {
+          duration: 1500,
+        });
       });
   }
 
   return (
     <>
-      <div className="mb-10">
-        <h2 className="font-semibold text-3xl text-center">
+      <div className="mb-10 space-y-2.5">
+        <h2 className="font-semibold text-[26px] text-center">
           Personalize your provider profile
         </h2>
-        <h4 className="text-muted-foreground text-center font-normal text-xl mt-1">
-          Registration takes 3-5 minutes
+        <h4 className="text-muted-foreground text-center font-normal text-base">
+          Registration in less than a minute
         </h4>
       </div>
 
@@ -88,6 +84,7 @@ export default function RegisterProvider() {
               label="First Name"
               isRequired={true}
               messageClassName="text-right"
+              inputClassName="border border-[#9EA5AB]"
             />
 
             <InputElement
@@ -96,6 +93,7 @@ export default function RegisterProvider() {
               label="Last Name"
               isRequired={true}
               messageClassName="text-right"
+              inputClassName="border border-[#9EA5AB]"
             />
           </CenteredRow>
 
@@ -104,18 +102,19 @@ export default function RegisterProvider() {
               name="email"
               className="w-80"
               label="Email"
-              isRequired={true}
+              isLoginLabel={true}
               messageClassName="text-right"
               disabled={true}
-              inputClassName="bg-disabled  border border-border"
+              inputClassName="bg-disabled  border border-[#9EA5AB]"
             />
 
-            <InputElement
+            <PhoneInputElement
               name="phoneNumber"
               className="w-80"
-              label="Phone"
+              label="Phone Number"
               isRequired={true}
               messageClassName="text-right"
+              inputClassName=" shadow-none focus-visible:ring-0 focus-visible:border-none"
             />
           </CenteredRow>
 
@@ -123,9 +122,10 @@ export default function RegisterProvider() {
             <PasswordInputElement
               name="password"
               className="w-80"
-              label="Password"
+              label="Create Password"
               isRequired={true}
               messageClassName="text-right"
+              inputClassName="border border-[#9EA5AB]"
             />
 
             <PasswordInputElement
@@ -134,6 +134,7 @@ export default function RegisterProvider() {
               label="Confirm Password"
               isRequired={true}
               messageClassName="text-right"
+              inputClassName="border border-[#9EA5AB]"
             />
           </CenteredRow>
 
@@ -143,7 +144,7 @@ export default function RegisterProvider() {
               type="submit"
               className="text-white rounded-full py-2.5 px-7 min-h-14 text-base font-semibold"
             >
-              Review and Crete Profile
+              Review & Create Profile
             </Button>
           </div>
         </form>

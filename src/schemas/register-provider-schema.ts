@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { phoneNumberSchema } from "./createPatientSchema";
 
 const minLengthErrorMessage = "Minimum 8 characters required.";
 const maxLengthErrorMessage = "Maximum 20 characters.";
@@ -28,7 +29,7 @@ export const passwordSchema = z
 
 export const registerProviderFormSchema = z
   .object({
-    phoneNumber: z.string(),
+    phoneNumber: phoneNumberSchema,
     firstName: z
       .string()
       .min(3, {

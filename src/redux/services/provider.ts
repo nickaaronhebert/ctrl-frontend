@@ -2,10 +2,15 @@ import { TAG_GET_USER_PROFILE } from "@/types/baseApiTags";
 import { baseApi } from ".";
 import type { IGetAllAffiliatedProvidersResponse } from "@/types/responses/provider";
 import type { ICommonSearchQuery } from "@/types/requests/search";
+import type { IVerifyProviderInvitationResponse } from "@/types/responses/IVerifyProviderInvitation";
+import type { IVerifyProviderInvitationRequest } from "@/types/requests/IVerifyProviderInvitationRequest";
 
 export const providerApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    verifyProviderInvitation: builder.mutation<any, any>({
+    verifyProviderInvitation: builder.mutation<
+      IVerifyProviderInvitationResponse,
+      IVerifyProviderInvitationRequest
+    >({
       query: (body) => ({
         url: `/invitation/verify-invitation`,
         method: "POST",
