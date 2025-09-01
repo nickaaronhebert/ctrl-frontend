@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/sidebar";
 import { useSidebar } from "@/components/ui/sidebar";
 import { useNavigate } from "react-router-dom";
-import { organisationAdminItems } from "@/constants";
+import { organisationAdminItems, pharmacyAdminItems } from "@/constants";
 import CTRLSVG from "@/assets/images/CTRL.svg";
 import CollapsedCTRLSVG from "@/assets/icons/CollapsedCTRL";
 import { SidebarToggle } from "./sidebar-toggle";
@@ -35,6 +35,7 @@ export function AppSidebar() {
 
   const isOrganisationAdmin = user?.role?.name === "Organization Admin";
   const isProvider = user?.role?.name === "Provider";
+  const isPharmacyAdmin = user?.role?.name === "Pharmacy Admin";
 
   const providerItems = [
     {
@@ -55,6 +56,8 @@ export function AppSidebar() {
 
   const menuItems = isOrganisationAdmin
     ? organisationAdminItems
+    : isPharmacyAdmin
+    ? pharmacyAdminItems
     : providerItems;
 
   const isActive = (item: MenuItem) => {

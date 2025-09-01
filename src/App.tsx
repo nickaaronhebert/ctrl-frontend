@@ -48,6 +48,10 @@ import PatientStatus from "./pages/Organization/Patient/success";
 // import EditPatient from "./pages/Organization/Patient/edit";
 import ViewPatientDetails from "./pages/Organization/Patient/details";
 import EditPatient from "./pages/Organization/Patient/edit";
+import PharmacyTransmission from "./pages/PharmacyTransmission";
+import PharmacyInvoices from "./pages/PharmacyInvoices";
+import PharmacyMedications from "./pages/PharmacyMedications";
+import PharmacySettings from "./pages/PharmacySettings";
 
 const router = createBrowserRouter([
   {
@@ -253,6 +257,30 @@ const router = createBrowserRouter([
       {
         path: ROUTES.ORG_MEDICATION_SELECTION,
         element: <AccessDetail />,
+      },
+    ],
+  },
+
+  // Pharmacy admin dashboard //
+  {
+    path: "/pharmacy",
+    element: <SidebarLayout />,
+    children: [
+      {
+        path: ROUTES.PHARMACY_TRANSMISSIONS,
+        element: <PharmacyTransmission />,
+      },
+      {
+        path: ROUTES.PHARMACY_INVOICES,
+        element: <PharmacyInvoices />,
+      },
+      {
+        path: ROUTES.PHARMACY_MEDICATIONS,
+        element: <PharmacyMedications />,
+      },
+      {
+        path: ROUTES.PHARMACY_SETTINGS,
+        element: <PharmacySettings />,
       },
     ],
   },

@@ -40,6 +40,10 @@ export const ROUTES = {
   ORG_VIEW_PATIENT_DETAILS: "patient/:id",
   ORG_VIEW_PATIENT: "patients",
   ORG_PATIENT_SUCCESS: "patient-success",
+  PHARMACY_TRANSMISSIONS: "transmissions",
+  PHARMACY_INVOICES: "invoices",
+  PHARMACY_MEDICATIONS: "medications",
+  PHARMACY_SETTINGS: "settings",
 };
 
 export const STEPPER_FORM = {
