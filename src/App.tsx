@@ -49,6 +49,13 @@ import PatientStatus from "./pages/Organization/Patient/success";
 import ViewPatientDetails from "./pages/Organization/Patient/details";
 import EditPatient from "./pages/Organization/Patient/edit";
 import ActivityLogs from "./pages/Organization/ActivityLogs";
+import PharmacyTransmission from "./pages/PharmacyTransmission";
+import PharmacyInvoices from "./pages/PharmacyInvoices";
+import PharmacyMedications from "./pages/PharmacyMedications";
+import PharmacySettings from "./pages/PharmacySettings";
+import RegisterPharmacy from "./components/pharmacy/register";
+import PharmacyRedirect from "./components/pharmacy/verify-invitation";
+import WelcomePharmacy from "./components/pharmacy/welcome";
 
 const router = createBrowserRouter([
   {
@@ -258,6 +265,30 @@ const router = createBrowserRouter([
     ],
   },
 
+  // Pharmacy admin dashboard //
+  {
+    path: "/pharmacy",
+    element: <SidebarLayout />,
+    children: [
+      {
+        path: ROUTES.PHARMACY_TRANSMISSIONS,
+        element: <PharmacyTransmission />,
+      },
+      {
+        path: ROUTES.PHARMACY_INVOICES,
+        element: <PharmacyInvoices />,
+      },
+      {
+        path: ROUTES.PHARMACY_MEDICATIONS,
+        element: <PharmacyMedications />,
+      },
+      {
+        path: ROUTES.PHARMACY_SETTINGS,
+        element: <PharmacySettings />,
+      },
+    ],
+  },
+
   {
     element: (
       <RoleChecker
@@ -269,6 +300,10 @@ const router = createBrowserRouter([
       {
         path: ROUTES.WELCOME,
         element: <WelcomeProvider />,
+      },
+      {
+        path: ROUTES.WELCOME_PHARMACY,
+        element: <WelcomePharmacy />,
       },
       {
         path: ROUTES.CREDENTIAL_VERIFICATION,
@@ -299,13 +334,21 @@ const router = createBrowserRouter([
     element: <OnboardingLayout />,
     children: [
       {
+        path: ROUTES.PHARMACY_ONBOARDING,
+        element: <RegisterPharmacy />,
+      },
+      {
         path: ROUTES.ONBOARDING,
         element: <RegisterProvider />,
       },
 
       {
-        path: "/redirect",
+        path: ROUTES.REDIRECT,
         element: <Redirect />,
+      },
+      {
+        path: ROUTES.PHARMACY_REDIRECT,
+        element: <PharmacyRedirect />,
       },
     ],
   },

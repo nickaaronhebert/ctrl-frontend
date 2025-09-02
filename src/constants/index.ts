@@ -15,6 +15,7 @@ import type {
   Medication,
   Pharmacy,
 } from "@/components/data-table/columns/medication-library";
+import Invoices from "@/assets/icons/Invoices";
 // import { type MedicationAssignment } from "@/components/data-table/columns/access-control";
 
 export interface TabConfig {
@@ -76,6 +77,21 @@ export const organisationAdminItems = [
 //   { title: "Activity Log", url: "/org/activity-log", icon: ActivityLog },
 //   { title: "Settings", url: "/org/settings", icon: SettingsMain },
 // ];
+
+export const pharmacyAdminItems = [
+  {
+    title: "Transmissions",
+    url: "/pharmacy/transmissions",
+    icon: Transmission,
+  },
+  { title: "Invoices", url: "/pharmacy/invoices", icon: Invoices },
+  {
+    title: "Medication Library",
+    url: "/pharmacy/medications",
+    icon: MedicationLibrary,
+  },
+  { title: "Settings", url: "/pharmacy/settings", icon: SettingsMain },
+];
 
 // static/sidebar.ts
 

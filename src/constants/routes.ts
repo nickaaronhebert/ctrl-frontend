@@ -6,13 +6,16 @@ export const ROUTES = {
   GET_PROFILE: "/get-my-profile",
   STORE_TOKEN: "/store-token",
   LOGOUT: "/logout",
+  REDIRECT: "/redirect",
   FORGOT_PASSWORD: "/forgot-password",
   RESET_PASSWORD: "/reset-password",
   RESET_LINK: "/reset-link",
   UNAUTHORIZED: "/unauthorized",
   NOT_FOUND: "*",
+  PHARMACY_ONBOARDING: "/pharmacy-onboarding",
   ONBOARDING: "/onboarding",
   WELCOME: "/welcome",
+  WELCOME_PHARMACY: "/welcome-pharmacy",
   CREDENTIAL_VERIFICATION: "/verification",
   PROVIDER_DASHBOARD: "/provider-dashboard",
   SUPPORT: "/provider/support",
@@ -40,6 +43,11 @@ export const ROUTES = {
   ORG_VIEW_PATIENT_DETAILS: "patient/:id",
   ORG_VIEW_PATIENT: "patients",
   ORG_PATIENT_SUCCESS: "patient-success",
+  PHARMACY_TRANSMISSIONS: "transmissions",
+  PHARMACY_INVOICES: "invoices",
+  PHARMACY_MEDICATIONS: "medications",
+  PHARMACY_SETTINGS: "settings",
+  PHARMACY_REDIRECT: "/pharmacy-redirect",
 };
 
 export const STEPPER_FORM = {

@@ -25,7 +25,7 @@ export default function Navbar() {
 
   return (
     <div
-      className="h-[80px]  bg-white "
+      className="h-[80px] bg-white "
       style={{
         backdropFilter: "blur(50px)",
         boxShadow: "0px 4px 4px 0px #0000000A",
