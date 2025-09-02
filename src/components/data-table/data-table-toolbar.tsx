@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 // import { DataTableFacetedFilter } from "@/components/data-table/data-table-faceted-filter";
 // import { DataTableFilterField } from "@/hooks/use-data-table";
 import type { DataTableFilterField } from "@/hooks/use-data-table";
+import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 
 interface DataTableToolbarProps<TData>
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -24,13 +25,14 @@ export function DataTableToolbar<TData>({
   ...props
 }: DataTableToolbarProps<TData>) {
   // Memoize computation of searchableColumns and filterableColumns
-  const { searchableColumns } = React.useMemo(() => {
+  const { searchableColumns, filterableColumns } = React.useMemo(() => {
     return {
       searchableColumns: filterFields.filter((field) => !field.options),
-      //   filterableColumns: filterFields.filter((field) => field.options),
+      filterableColumns: filterFields.filter((field) => field.options),
     };
   }, [filterFields]);
 
+  console.log("filterableColumns toolbar", filterableColumns);
   return (
     <div
       className={cn(
@@ -68,7 +70,7 @@ export function DataTableToolbar<TData>({
                 </div>
               )
           )}
-        {/* {filterableColumns.length > 0 &&
+        {filterableColumns.length > 0 &&
           filterableColumns.map(
             (column) =>
               table.getColumn(column.value ? String(column.value) : "") && (
@@ -81,7 +83,7 @@ export function DataTableToolbar<TData>({
                   options={column.options ?? []}
                 />
               )
-          )} */}
+          )}
         {/* {isFiltered && (
           <Button
             aria-label="Reset filters"

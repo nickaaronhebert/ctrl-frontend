@@ -29,7 +29,7 @@ import OrganisationDashboard from "./pages/OrganizationDashboard";
 import Transactions from "./pages/Transactions";
 import Medications from "./pages/Medications";
 import Pharmacies from "./pages/Pharmacies";
-import ActivityLog from "./pages/ActivityLog";
+
 import OrgSettings from "./pages/OrgSettings";
 import OrganizationTransmission from "./pages/OrganizationTransmission";
 import OrganizationOrder from "./pages/OrganizationOrder";
@@ -48,6 +48,7 @@ import PatientStatus from "./pages/Organization/Patient/success";
 // import EditPatient from "./pages/Organization/Patient/edit";
 import ViewPatientDetails from "./pages/Organization/Patient/details";
 import EditPatient from "./pages/Organization/Patient/edit";
+import ActivityLogs from "./pages/Organization/ActivityLogs";
 
 const router = createBrowserRouter([
   {
@@ -236,7 +237,7 @@ const router = createBrowserRouter([
       },
       {
         path: ROUTES.ORG_ACTIVITY_LOG,
-        element: <ActivityLog />,
+        element: <ActivityLogs />,
       },
       {
         path: ROUTES.ORG_SETTINGS,

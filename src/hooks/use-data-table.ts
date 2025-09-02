@@ -76,6 +76,7 @@ export function useDataTable<TData, TValue>({
   const createQueryString = React.useCallback(
     (params: Record<string, string | number | null>) => {
       const newSearchParams = new URLSearchParams(location.search);
+      console.log("params", params);
       for (const [key, value] of Object.entries(params)) {
         if (value === null) {
           newSearchParams.delete(key);
@@ -95,6 +96,7 @@ export function useDataTable<TData, TValue>({
       (filters, [key, value]) => {
         const faceted = filterableColumns.find((col) => col.value === key);
         const searchable = searchableColumns.find((col) => col.value === key);
+        console.log("****", faceted);
         if (faceted) {
           filters.push({ id: key, value: value.split(".") });
         } else if (searchable) {
@@ -148,6 +150,8 @@ export function useDataTable<TData, TValue>({
     filterableColumns.find((col) => col.value === filter.id)
   );
 
+  console.log("facetedFilters******", facetedFilters);
+
   React.useEffect(() => {
     if (enableAdvancedFilter) return;
 
@@ -165,12 +169,23 @@ export function useDataTable<TData, TValue>({
       //   : null;
     }
 
+    // for (const column of filterableColumnFilters) {
+    //   if (typeof column.value === "object" && Array.isArray(column.value)) {
+    //     Object.assign(newParamsObject, { [column.id]: column.value.join(".") });
+    //   }
+    // }
+
     for (const filter of facetedFilters) {
-      if (typeof filter.value === "string") {
-        newParams[filter.id] = filter.value;
-      } else {
-        newParams[filter.id] = null;
+      console.log("?????????", filter);
+      console.log("typeof", typeof filter.value);
+      if (typeof filter.value === "object" && Array.isArray(filter.value)) {
+        Object.assign(newParams, { [filter.id]: filter.value.join(".") });
       }
+      // if (typeof filter.value === "string") {
+      //   newParams[filter.id] = filter.value;
+      // } else {
+      //   newParams[filter.id] = null;
+      // }
       // newParams[filter.id] = Array.isArray(filter.value)
       //   ? filter.value.join(".")
       //   : null;
