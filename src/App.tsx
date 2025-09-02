@@ -52,6 +52,9 @@ import PharmacyTransmission from "./pages/PharmacyTransmission";
 import PharmacyInvoices from "./pages/PharmacyInvoices";
 import PharmacyMedications from "./pages/PharmacyMedications";
 import PharmacySettings from "./pages/PharmacySettings";
+import RegisterPharmacy from "./components/pharmacy/register";
+import PharmacyRedirect from "./components/pharmacy/verify-invitation";
+import WelcomePharmacy from "./components/pharmacy/welcome";
 
 const router = createBrowserRouter([
   {
@@ -298,6 +301,10 @@ const router = createBrowserRouter([
         element: <WelcomeProvider />,
       },
       {
+        path: ROUTES.WELCOME_PHARMACY,
+        element: <WelcomePharmacy />,
+      },
+      {
         path: ROUTES.CREDENTIAL_VERIFICATION,
         element: <ProviderSteppedForm slug="onboarding" />,
       },
@@ -326,13 +333,21 @@ const router = createBrowserRouter([
     element: <OnboardingLayout />,
     children: [
       {
+        path: ROUTES.PHARMACY_ONBOARDING,
+        element: <RegisterPharmacy />,
+      },
+      {
         path: ROUTES.ONBOARDING,
         element: <RegisterProvider />,
       },
 
       {
-        path: "/redirect",
+        path: ROUTES.REDIRECT,
         element: <Redirect />,
+      },
+      {
+        path: ROUTES.PHARMACY_REDIRECT,
+        element: <PharmacyRedirect />,
       },
     ],
   },
