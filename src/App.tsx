@@ -52,6 +52,7 @@ import PharmacyTransmission from "./pages/PharmacyTransmission";
 import PharmacyInvoices from "./pages/PharmacyInvoices";
 import PharmacyMedications from "./pages/PharmacyMedications";
 import PharmacySettings from "./pages/PharmacySettings";
+import TestAPI from "./pages/TestPage";
 
 const router = createBrowserRouter([
   {
@@ -372,6 +373,10 @@ const router = createBrowserRouter([
   {
     path: ROUTES.POST_LOGIN_REDIRECT,
     element: <PostLoginRedirect />,
+  },
+  {
+    path: "/test",
+    element: <TestAPI />,
   },
 ]);
 
