@@ -57,6 +57,8 @@ import RegisterPharmacy from "./components/pharmacy/register";
 import PharmacyRedirect from "./components/pharmacy/verify-invitation";
 import WelcomePharmacy from "./components/pharmacy/welcome";
 
+import OrganizationSettings from "./pages/Organization/Settings";
+
 const router = createBrowserRouter([
   {
     path: "/provider",
@@ -248,7 +250,7 @@ const router = createBrowserRouter([
       },
       {
         path: ROUTES.ORG_SETTINGS,
-        element: <OrgSettings />,
+        element: <OrganizationSettings />,
       },
       {
         path: "/org/transmissions/:id",

@@ -1,6 +1,6 @@
 import type { Column } from "@tanstack/react-table";
 import { cn } from "@/lib/utils";
-import { Badge } from "@/components/ui/badge";
+
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -16,7 +16,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Separator } from "@/components/ui/separator";
+
 import { Check, CirclePlus } from "lucide-react";
 import type { Option } from "@/hooks/use-data-table";
 
@@ -43,7 +43,7 @@ export function DataTableFacetedFilter<TData, TValue>({
         >
           <CirclePlus className="mr-2 size-4" />
           {title}
-          {selectedValues?.size > 0 && (
+          {/* {selectedValues?.size > 0 && (
             <>
               <Separator orientation="vertical" className="mx-2 h-4" />
               <Badge
@@ -75,7 +75,7 @@ export function DataTableFacetedFilter<TData, TValue>({
                 )}
               </div>
             </>
-          )}
+          )} */}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[12.5rem] p-0" align="start">
@@ -91,9 +91,9 @@ export function DataTableFacetedFilter<TData, TValue>({
                   <CommandItem
                     key={option.value}
                     onSelect={() => {
-                      if (isSelected) {
-                        selectedValues.delete(option.value);
-                      } else {
+                      selectedValues.clear();
+
+                      if (!isSelected) {
                         selectedValues.add(option.value);
                       }
                       const filterValues = Array.from(selectedValues);

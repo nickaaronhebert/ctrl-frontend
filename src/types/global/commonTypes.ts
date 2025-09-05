@@ -108,6 +108,21 @@ export interface Order {
   createdAt: string;
 }
 
+export interface CardDetails {
+  cardHolderName: string;
+  last4: string;
+  expiryMonth: string;
+  expiryYear: string;
+  cardBrand: string;
+  paymentMethodId: string;
+  user: string;
+  zipCode: string;
+  isDefault: boolean;
+  createdAt: string;
+  updatedAt: string;
+  id: string;
+}
+
 export interface MetaData {
   page: number;
   limit: number;
