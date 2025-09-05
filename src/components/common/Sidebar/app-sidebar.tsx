@@ -89,7 +89,7 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {menuItems.map((item) => {
-                console.log("item", item);
+                // console.log("item", item);
                 const { state } = useSidebar();
                 return (
                   <SidebarMenuItem

@@ -1,57 +1,62 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
 import * as z from "zod";
-
+import { selectPharmacy } from "@/redux/slices/auth";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { CenteredRow } from "@/components/ui/centered-row";
-
 import InputElement from "@/components/Form/input-element";
-// import { useNavigate } from "react-router-dom";
 import PasswordInputElement from "@/components/Form/password-element";
-import { useTypedSelector } from "@/redux/store";
-// import { toast } from "sonner";
-
-import { selectProvider } from "@/redux/slices/auth";
 import PhoneInputElement from "@/components/Form/phone-input-element";
 import { onboardingFormSchema } from "@/schemas/onboardingSchema";
+import { useTypedSelector } from "@/redux/store";
+import { useAcceptPharmacyInvitationMutation } from "@/redux/services/pharmacy";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 export default function RegisterPharmacy() {
-  const provider = useTypedSelector(selectProvider);
-  // const provider_token = localStorage.getItem("provider_token");
-  // const [acceptInvitation] = useAcceptProviderInvitationMutation();
+  const navigate = useNavigate();
+  const pharmacy = useTypedSelector(selectPharmacy);
+  const pharmacy_token = localStorage.getItem("pharmacy_token");
+  const [acceptInvitation] = useAcceptPharmacyInvitationMutation();
 
   const form = useForm<z.infer<typeof onboardingFormSchema>>({
     mode: "onChange",
     resolver: zodResolver(onboardingFormSchema),
     defaultValues: {
-      firstName: provider?.firstName || "",
-      lastName: provider?.lastName || "",
-      email: provider?.email || "",
-      phoneNumber: provider?.phoneNumber || "",
+      firstName: "",
+      lastName: "",
+      email: pharmacy?.email || "",
+      phoneNumber: "",
       password: "",
       confirmPassword: "",
     },
   });
 
-  // const navigate = useNavigate();
   async function onSubmit(data: z.infer<typeof onboardingFormSchema>) {
-    console.log("Form Data", data);
-    // await acceptInvitation(payload)
-    //   .unwrap()
-    //   .then(() => {
-    //     toast.success("Invitation accepted successfully", {
-    //       duration: 1500,
-    //     });
-    //     navigate("/welcome");
-    //   })
-    //   .catch((err) => {
-    //     console.log("error", err);
-    //     toast.error(err?.data?.message ?? "Something went wrong", {
-    //       duration: 1500,
-    //     });
-    //   });
+    const { firstName, lastName, phoneNumber, password } = data;
+    const payload = {
+      firstName,
+      lastName,
+
+      phoneNumber,
+      password,
+      token: pharmacy_token,
+    };
+    await acceptInvitation(payload)
+      .unwrap()
+      .then(() => {
+        toast.success("Invitation accepted successfully", {
+          duration: 1500,
+        });
+        navigate("/welcome-pharmacy");
+      })
+      .catch((err) => {
+        console.log("error", err);
+        toast.error(err?.data?.message ?? "Something went wrong", {
+          duration: 1500,
+        });
+      });
   }
 
   return (

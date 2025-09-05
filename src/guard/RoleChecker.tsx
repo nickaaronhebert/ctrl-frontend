@@ -31,4 +31,6 @@ export default function RoleChecker({
 
   if (user.role.name === "Provider" && user.providerStatus === providerStatus)
     return element;
+
+  if (user.role.name === "Pharmacy Admin") return element;
 }

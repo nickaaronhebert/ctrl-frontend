@@ -4,23 +4,36 @@ import { authApi } from "@/redux/services/authApi";
 import type { RootState } from "@/redux/reducers";
 import { providerApi } from "@/redux/services/provider";
 import type { Provider } from "@/types/global/commonTypes";
+import { pharmacyApi } from "@/redux/services/pharmacy";
 export const AUTH_TOKEN = "auth_token";
 export const PROVIDER_KEY = "provider";
+export const PHARMACY_KEY = "pharmacy";
 
+interface Pharmacy {
+  email: string;
+  phoneNumber: string;
+  firstName: string;
+  lastName: string;
+}
 const persistedToken =
   localStorage.getItem(AUTH_TOKEN) || sessionStorage.getItem(AUTH_TOKEN);
 
 const providerToken =
   localStorage.getItem(PROVIDER_KEY) || sessionStorage.getItem(PROVIDER_KEY);
 
+const pharmacyToken =
+  localStorage.getItem(PHARMACY_KEY) || sessionStorage.getItem(PHARMACY_KEY);
+
 interface AuthState {
   token: string | null;
   provider: Provider | null;
+  pharmacy: Pharmacy | null;
 }
 
 const initialState: AuthState = {
   token: persistedToken ? JSON.parse(persistedToken) : null,
   provider: providerToken ? JSON.parse(providerToken) : null,
+  pharmacy: pharmacyToken ? JSON.parse(pharmacyToken) : null,
 };
 
 const authSlice = createSlice({
@@ -107,6 +120,44 @@ const authSlice = createSlice({
         console.error(payload, "error");
       }
     );
+
+    builder.addMatcher(
+      pharmacyApi.endpoints.acceptPharmacyInvitation.matchFulfilled,
+      (state, { payload }) => {
+        if (payload?.data.token) {
+          state.token = payload?.data.token;
+
+          sessionStorage.removeItem("pharmacy_token");
+          localStorage.removeItem("pharmacy_token");
+          sessionStorage.removeItem("pharmacy");
+          localStorage.removeItem("pharmacy");
+          sessionStorage.setItem(
+            "auth_token",
+            JSON.stringify(payload?.data.token)
+          );
+          localStorage.setItem(
+            "auth_token",
+            JSON.stringify(payload?.data.token)
+          );
+        } else {
+          localStorage.removeItem("auth_token");
+          sessionStorage.removeItem("auth_token");
+        }
+      }
+    );
+    builder.addMatcher(
+      pharmacyApi.endpoints.acceptPharmacyInvitation.matchRejected,
+      (_, { payload }) => {
+        if (payload?.data) {
+        } else {
+          console.error(
+            `something went wrong while accepting pharmacy invitation`
+          );
+        }
+        console.error(payload, "error");
+      }
+    );
+
     builder.addMatcher(
       providerApi.endpoints.verifyProviderInvitation.matchFulfilled,
       (state, { payload }) => {
@@ -134,11 +185,40 @@ const authSlice = createSlice({
         console.error(payload, "error");
       }
     );
+
+    builder.addMatcher(
+      pharmacyApi.endpoints.verifyPharmacyInvitation.matchFulfilled,
+      (state, { payload }) => {
+        if (payload?.data) {
+          state.pharmacy = payload?.data;
+
+          sessionStorage.setItem(PHARMACY_KEY, JSON.stringify(payload?.data));
+          localStorage.setItem(PHARMACY_KEY, JSON.stringify(payload?.data));
+        } else {
+          state.provider = null;
+
+          sessionStorage.removeItem(PHARMACY_KEY);
+
+          localStorage.removeItem(PHARMACY_KEY);
+        }
+      }
+    );
+    builder.addMatcher(
+      pharmacyApi.endpoints.verifyPharmacyInvitation.matchRejected,
+      (_, { payload }) => {
+        if (payload?.data) {
+        } else {
+          console.error(`something went wrong`);
+        }
+        console.error(payload, "error");
+      }
+    );
   },
 });
 
 export const selectIsLoggedIn = (state: RootState) => !!state.auth.token;
 export const selectProvider = (state: RootState) => state.auth.provider;
+export const selectPharmacy = (state: RootState) => state.auth.pharmacy;
 
 export const { logout } = authSlice.actions;
 export default authSlice.reducer;

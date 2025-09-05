@@ -29,7 +29,7 @@ import OrganisationDashboard from "./pages/OrganizationDashboard";
 import Transactions from "./pages/Transactions";
 import Medications from "./pages/Medications";
 import Pharmacies from "./pages/Pharmacies";
-import ActivityLog from "./pages/ActivityLog";
+
 import OrgSettings from "./pages/OrgSettings";
 import OrganizationTransmission from "./pages/OrganizationTransmission";
 import OrganizationOrder from "./pages/OrganizationOrder";
@@ -48,11 +48,17 @@ import PatientStatus from "./pages/Organization/Patient/success";
 // import EditPatient from "./pages/Organization/Patient/edit";
 import ViewPatientDetails from "./pages/Organization/Patient/details";
 import EditPatient from "./pages/Organization/Patient/edit";
+import ActivityLogs from "./pages/Organization/ActivityLogs";
 import PharmacyTransmission from "./pages/PharmacyTransmission";
 import PharmacyInvoices from "./pages/PharmacyInvoices";
 import PharmacyMedications from "./pages/PharmacyMedications";
 import PharmacySettings from "./pages/PharmacySettings";
 import TestAPI from "./pages/TestPage";
+import RegisterPharmacy from "./components/pharmacy/register";
+import PharmacyRedirect from "./components/pharmacy/verify-invitation";
+import WelcomePharmacy from "./components/pharmacy/welcome";
+
+import OrganizationSettings from "./pages/Organization/Settings";
 
 const router = createBrowserRouter([
   {
@@ -241,11 +247,11 @@ const router = createBrowserRouter([
       },
       {
         path: ROUTES.ORG_ACTIVITY_LOG,
-        element: <ActivityLog />,
+        element: <ActivityLogs />,
       },
       {
         path: ROUTES.ORG_SETTINGS,
-        element: <OrgSettings />,
+        element: <OrganizationSettings />,
       },
       {
         path: "/org/transmissions/:id",
@@ -299,6 +305,10 @@ const router = createBrowserRouter([
         element: <WelcomeProvider />,
       },
       {
+        path: ROUTES.WELCOME_PHARMACY,
+        element: <WelcomePharmacy />,
+      },
+      {
         path: ROUTES.CREDENTIAL_VERIFICATION,
         element: <ProviderSteppedForm slug="onboarding" />,
       },
@@ -327,13 +337,21 @@ const router = createBrowserRouter([
     element: <OnboardingLayout />,
     children: [
       {
+        path: ROUTES.PHARMACY_ONBOARDING,
+        element: <RegisterPharmacy />,
+      },
+      {
         path: ROUTES.ONBOARDING,
         element: <RegisterProvider />,
       },
 
       {
-        path: "/redirect",
+        path: ROUTES.REDIRECT,
         element: <Redirect />,
+      },
+      {
+        path: ROUTES.PHARMACY_REDIRECT,
+        element: <PharmacyRedirect />,
       },
     ],
   },

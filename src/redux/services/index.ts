@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { RootState } from "../reducers";
 import {
   TAG_GET_ACCESS_CONTROL,
+  TAG_GET_CARDS,
   TAG_GET_ORDERS,
   TAG_GET_PATIENTS,
   TAG_GET_USER_PROFILE,
@@ -14,6 +15,7 @@ export const baseApi = createApi({
     TAG_GET_PATIENTS,
     TAG_GET_ACCESS_CONTROL,
     TAG_GET_ORDERS,
+    TAG_GET_CARDS,
   ],
   baseQuery: fetchBaseQuery({
     baseUrl:

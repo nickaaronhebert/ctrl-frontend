@@ -1,8 +1,13 @@
-const Orders = ({ color = "#9AA2AC" }) => (
+const Orders = ({
+  color = "#9AA2AC",
+  height = 30,
+  width = 30,
+  viewBox = "0 0 30 30",
+}) => (
   <svg
-    width={30}
-    height={30}
-    viewBox="0 0 30 30"
+    width={width}
+    height={height}
+    viewBox={viewBox}
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
