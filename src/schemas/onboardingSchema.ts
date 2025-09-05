@@ -53,3 +53,14 @@ export const onboardingFormSchema = z
     message: passwordMismatchErrorMessage,
     path: ["confirmPassword"],
   });
+
+export const editPasswordSchema = z
+  .object({
+    currentPassword: passwordSchema,
+    newPassword: passwordSchema,
+    confirmNewPassword: passwordSchema,
+  })
+  .refine((data) => data.newPassword === data.confirmNewPassword, {
+    message: passwordMismatchErrorMessage,
+    path: ["confirmNewPassword"],
+  });
