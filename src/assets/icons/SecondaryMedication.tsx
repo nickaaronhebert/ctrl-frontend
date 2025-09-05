@@ -1,4 +1,4 @@
-const Invoices = () => (
+const SecondaryMedication = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} fill="none">
     <g
       stroke="#9AA2AC"
@@ -17,4 +17,4 @@ const Invoices = () => (
     </defs>
   </svg>
 );
-export default Invoices;
+export default SecondaryMedication;

@@ -1,4 +1,5 @@
 import { type Permission } from "@/components/Permissions/permissions";
+import type { ProductVariantDetails } from "../responses/transmission";
 
 export interface UserPermission {
   action: Permission;
@@ -51,7 +52,7 @@ export interface Pharmacy {
 
 export interface MedicationCatalogue {
   drugName: string;
-  isCompund: boolean;
+  isCompound: boolean;
   dosageForm: string;
   category: string;
   condition: string;
@@ -97,6 +98,28 @@ export interface Transmission {
   transmissionId: string;
   amount: number;
 }
+
+// Pharmacy Transmission //
+export type PharmacyTransmissionRow = {
+  id: string;
+  transmissionId: string;
+  status: "Created" | "Transmitted" | "Queued" | "Failed";
+  provider: Provider;
+  patient: Patient;
+  productVariants: ProductVariantDetails[];
+  amount: number;
+};
+
+// Invoice one //
+export type InvoiceRow = {
+  transmissionId: string;
+  date: Date;
+  amount: number;
+  affiliate: {
+    name: string;
+    id: string;
+  };
+};
 
 export interface Order {
   orderId: string;

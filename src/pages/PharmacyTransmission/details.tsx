@@ -1,0 +1,170 @@
+import { Link, useParams } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
+// import { useViewTransmissionByIdQuery } from "@/redux/services/transmission";
+// import PharmacyCard from "@/components/common/Card/pharmacy";
+// import PrescriptionCard from "@/components/common/Card/prescription";
+// import TransmissionOverviewCard from "@/components/common/Card/transmission-overview";
+import CubeSVG from "@/assets/icons/Cube";
+import Pharmacies from "@/assets/icons/Pharmacies";
+import MedicationLibrary from "@/assets/icons/MedicationLibrary";
+import Transmission from "@/assets/icons/Transmission";
+import { dummyPharmacyTransmissions } from "@/constants";
+import ZigZag from "@/assets/icons/ZigZag";
+import PatientIcon from "@/assets/icons/PatientIcon";
+import Profile from "@/assets/icons/Profile";
+import Invoices from "@/assets/icons/Invoices";
+import SecondaryMedication from "@/assets/icons/SecondaryMedication";
+import TransmissionOverviewCard from "@/components/common/Card/transmission-overview";
+
+const menuItems = [
+  {
+    title: "Overview",
+    scrollToId: "transmissionOverview",
+    icon: ZigZag,
+  },
+
+  {
+    title: "Patient Information",
+    scrollToId: "pharmacyInformation",
+    icon: Profile,
+  },
+
+  {
+    title: "Affiliate Information",
+    scrollToId: "medicationInformation",
+    icon: Profile,
+  },
+  {
+    title: "Provider Information",
+    scrollToId: "medicationInformation",
+    icon: Profile,
+  },
+  {
+    title: "Medications",
+    scrollToId: "medicationInformation",
+    icon: SecondaryMedication,
+  },
+  {
+    title: "Transactions",
+    scrollToId: "medicationInformation",
+    icon: Invoices,
+  },
+];
+
+export default function PharmacyTransmissionDetails() {
+  const { id } = useParams();
+  const singlePharmacyTransmission = dummyPharmacyTransmissions.find(
+    (pharmacy) => pharmacy.id === id
+  );
+
+  console.log("singlePharmacyTransmission", singlePharmacyTransmission);
+
+  const statusColorMap: Record<string, string> = {
+    created: "bg-background",
+    pending: "bg-pending-secondary",
+    queued: "bg-queued-secondary",
+    transmitted: "bg-progress-secondary",
+    failed: "bg-failed-secondary",
+  };
+
+  const [activeTab, setActiveTab] = useState<
+    "transmissionOverview" | "pharmacyInformation" | "medicationInformation"
+  >("transmissionOverview");
+
+  return (
+    <div className="mb-5">
+      <div className={` py-3 px-12`}>
+        <Link
+          to={"/pharmacy/transmissions"}
+          className="font-normal text-sm text text-muted-foreground"
+        >
+          {"<- Back to Transmission"}
+        </Link>
+
+        <h1 className="text-2xl font-bold mt-1">
+          Transmissions: {singlePharmacyTransmission?.transmissionId}
+        </h1>
+      </div>
+
+      <div className="flex gap-8 px-14 mt-6">
+        <div
+          className="w-lg max-w-80
+                 rounded-[10px] shadow-[0px_2px_40px_0px_#00000014] h-fit"
+        >
+          <div className="p-3">
+            <div className="flex gap-3.5 items-center ">
+              <div className="w-[50px] h-[50px] flex justify-center items-center bg-lilac rounded-[8px]">
+                <CubeSVG />
+              </div>
+              <div>
+                <h4 className="text-base font-medium text-black">
+                  {singlePharmacyTransmission?.transmissionId}
+                </h4>
+                <h6 className="text-xs font-normal text-[#3E4D61]">
+                  {singlePharmacyTransmission?.productVariants.length}{" "}
+                  Prescriptions
+                </h6>
+              </div>
+            </div>
+          </div>
+          {menuItems.map((item, index) => {
+            const Icon = item.icon;
+            return (
+              <Button
+                key={item.title}
+                className={`flex justify-start items-center w-full rounded-none  text-white text-sm  font-medium cursor-pointer h-14 ${
+                  activeTab === item.scrollToId
+                    ? "bg-primary"
+                    : "bg-white text-black hover:bg-white"
+                }
+                      
+                      ${
+                        index === menuItems.length - 1
+                          ? "rounded-bl-[10px] rounded-br-[10px]"
+                          : ""
+                      }
+                      `}
+                onClick={() => {
+                  setActiveTab(item.scrollToId as any);
+                  document.getElementById(item.scrollToId)?.scrollIntoView({
+                    behavior: "smooth",
+                  });
+                }}
+              >
+                <Icon
+                  width={30}
+                  height={30}
+                  color={activeTab === item.scrollToId ? "#FFFFFF" : "#9AA2AC"}
+                />
+
+                {item.title}
+              </Button>
+            );
+          })}
+        </div>
+
+        <div className="flex flex-col gap-5 w-full">
+          {/* {singlePharmacyTransmission && (
+            <TransmissionOverviewCard transmission={singlePharmacyTransmission} />
+          )} */}
+
+          {/* {pharmacy && <PharmacyCard pharmacy={pharmacy} />} */}
+
+          {/* <div
+            className="bg-white rounded-[10px] shadow-[0px_2px_40px_0px_#00000014]"
+            id="medicationInformation"
+          >
+            <div className="flex items-center gap-2 p-5 border-b border-card-border">
+              <MedicationLibrary color="black" width={30} height={30} />
+              <h2 className="text-base font-semibold ">Medications</h2>
+            </div>
+            {prescriptions && (
+              <PrescriptionCard prescriptions={prescriptions} />
+            )}
+          </div> */}
+        </div>
+      </div>
+    </div>
+  );
+}

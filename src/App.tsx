@@ -59,6 +59,7 @@ import PharmacyRedirect from "./components/pharmacy/verify-invitation";
 import WelcomePharmacy from "./components/pharmacy/welcome";
 
 import OrganizationSettings from "./pages/Organization/Settings";
+import PharmacyTransmissionDetails from "./pages/PharmacyTransmission/details";
 
 const router = createBrowserRouter([
   {
@@ -288,6 +289,10 @@ const router = createBrowserRouter([
       {
         path: ROUTES.PHARMACY_SETTINGS,
         element: <PharmacySettings />,
+      },
+      {
+        path: `${ROUTES.PHARMACY_TRANSMISSIONS}/:id`,
+        element: <PharmacyTransmissionDetails />,
       },
     ],
   },
