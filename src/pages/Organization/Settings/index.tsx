@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import OrgStripeAccount from "./StripeAccount";
+import OrgAdminProfileSettings from "./Profile";
 
 const settingsMenu: {
   name: "Profile" | "Change Password" | "Payment Method";
@@ -45,7 +46,7 @@ export default function OrganizationSettings() {
         ))}
       </div>
       <div className="bg-white">
-        {activeTab === "Profile" && <div>Profile Settings</div>}
+        {activeTab === "Profile" && <OrgAdminProfileSettings />}
         {activeTab === "Change Password" && <div>Change Password Settings</div>}
         {activeTab === "Payment Method" && <OrgStripeAccount />}
       </div>
