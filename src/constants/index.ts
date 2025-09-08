@@ -11,15 +11,11 @@ import Pharmacies from "@/assets/icons/Pharmacies";
 import ActivityLog from "@/assets/icons/ActivityLog";
 import SettingsMain from "@/assets/icons/SettingsMain";
 import type { Transmission as MyTransmission } from "@/components/data-table/columns/recentTransmissions";
-import type {
-  InvoiceRow,
-  PharmacyTransmissionRow,
-} from "@/types/global/commonTypes";
+import type { InvoiceRow } from "@/types/global/commonTypes";
 import type {
   Medication,
   Pharmacy,
 } from "@/components/data-table/columns/medication-library";
-import Invoices from "@/assets/icons/Invoices";
 import InvoicesMain from "@/assets/icons/InvoicesMain";
 // import { type MedicationAssignment } from "@/components/data-table/columns/access-control";
 
