@@ -10,6 +10,7 @@ import { useGetPatientDetailsByIdQuery } from "@/redux/services/patientApi";
 import { useAppDispatch } from "@/redux/store";
 import { useEffect } from "react";
 import { updateInitialStep } from "@/redux/slices/create-order";
+import SelectPatientAddress from "./address";
 
 const CreateOrderPage = () => {
   const dispatch = useAppDispatch();
@@ -23,7 +24,10 @@ const CreateOrderPage = () => {
         data: data?.data
           ? {
               selectedPatient: data.data,
-              address: data.data.address,
+              address: data.data.addresses.filter(
+                (address) => address.isDefault === true
+              )?.[0],
+
               firstName: data.data.firstName,
               lastName: data.data.lastName,
               phoneNumber: data.data.phoneNumber,
@@ -87,7 +91,7 @@ const CreateOrderPage = () => {
             )}
           >
             <span>2.</span>
-            <span>Select Medications</span>
+            <span>Medications</span>
           </p>
           <ChevronRight />
           <p
@@ -97,7 +101,7 @@ const CreateOrderPage = () => {
             )}
           >
             <span>3.</span>
-            <span>Select Provider & Pharmacy</span>
+            <span> Provider </span>
           </p>
           <ChevronRight />
           <p
@@ -107,7 +111,7 @@ const CreateOrderPage = () => {
             )}
           >
             <span>4.</span>
-            <span>Select Dispensing</span>
+            <span>Dispensing</span>
           </p>
         </div>
 
@@ -120,7 +124,14 @@ const CreateOrderPage = () => {
         {order.currentStep === 2 && (
           <SelectProviderPharmacy providerPharmacy={order.stepTwo} />
         )}
-        {order.currentStep === 3 && <ReviewOrderDetails order={order} />}
+        {order.currentStep === 3 && (
+          <SelectPatientAddress
+            dispensingAddress={order.stepThree}
+            addressList={order?.initialStep?.selectedPatient}
+          />
+        )}
+
+        {order.currentStep === 4 && <ReviewOrderDetails order={order} />}
       </div>
     </>
   );
