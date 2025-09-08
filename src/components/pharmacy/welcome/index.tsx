@@ -36,7 +36,7 @@ export default function WelcomePharmacy() {
             Configure Payouts
           </Link>
           <Link
-            to="#"
+            to="/pharmacy/transmissions"
             className=" rounded-full py-4 px-7  text-[#3E4D61]  font-semibold bg-transparent border border-[#3E4D61]"
           >
             Skip for now
