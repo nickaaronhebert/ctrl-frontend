@@ -58,6 +58,8 @@ import PharmacyRedirect from "./components/pharmacy/verify-invitation";
 import WelcomePharmacy from "./components/pharmacy/welcome";
 
 import OrganizationSettings from "./pages/Organization/Settings";
+import Invoices from "./pages/Organization/Invoices";
+// import ViewInvoiceDetails from "./pages/Organization/Invoices/details";
 
 const router = createBrowserRouter([
   {
@@ -230,7 +232,7 @@ const router = createBrowserRouter([
       },
       {
         path: ROUTES.ORG_TRANSACTIONS,
-        element: <Transactions />,
+        element: <Invoices />,
       },
       {
         path: ROUTES.ORG_MEDICATIONS,
@@ -256,6 +258,10 @@ const router = createBrowserRouter([
         path: "/org/transmissions/:id",
         element: <TransmissionDetails />,
       },
+      // {
+      //   path: "/org/transactions/:id",
+      //   element: <ViewInvoiceDetails />,
+      // },
       {
         path: ROUTES.ORG_ACCESS_CONTROL,
         element: <AccessControl />,

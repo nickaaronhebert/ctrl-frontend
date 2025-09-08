@@ -56,7 +56,7 @@ export function DataTablePagination<TData>({
   const pageNumbers = getPageNumbers();
 
   return (
-    <div className="flex items-center justify-end space-x-1 border-t border-card-border pt-3">
+    <div className="flex items-center justify-end space-x-1 border-t border-card-border pt-3 pr-3.5">
       {/* Previous Button */}
       <Button
         variant="ghost"

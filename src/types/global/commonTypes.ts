@@ -133,6 +133,19 @@ export interface CardDetails {
   id: string;
 }
 
+export interface Invoices {
+  transmissionCode: string;
+  totalAmount: string;
+  id: string;
+  createdAt: string;
+  pharmacy: {
+    name: string;
+    phoneNumber: string;
+  };
+  medicationFee: string;
+  applicationFee: string;
+}
+
 export interface MetaData {
   page: number;
   limit: number;

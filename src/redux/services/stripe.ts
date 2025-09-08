@@ -1,5 +1,7 @@
 import { TAG_GET_CARDS } from "@/types/baseApiTags";
 import { baseApi } from ".";
+import type { IViewAllInvoices } from "@/types/responses/IViewOrganizationInvoices";
+import type { ICommonSearchQuery } from "@/types/requests/search";
 
 export const stripeApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -19,12 +21,25 @@ export const stripeApi = baseApi.injectEndpoints({
       query: () => "/payment/cards", // GET request
       providesTags: [TAG_GET_CARDS],
     }),
+
+    getOrganizationInvoices: builder.query<
+      IViewAllInvoices,
+      ICommonSearchQuery
+    >({
+      query: ({ page, perPage, q }) =>
+        `/transaction/transmissions?page=${page}&limit=${perPage}&q=${q}`, // GET request
+    }),
+
+    getOrganizationInvoiceById: builder.query({
+      query: (id) => `/transaction/${id}`,
+    }),
   }),
 });
 
 export const {
   useGetSetupIntentQuery,
   useGetAttachPaymentMethodMutation,
-
+  useGetOrganizationInvoicesQuery,
   useGetAdminCardsQuery,
+  useGetOrganizationInvoiceByIdQuery,
 } = stripeApi;

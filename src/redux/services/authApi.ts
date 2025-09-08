@@ -34,6 +34,15 @@ export const authApi = baseApi.injectEndpoints({
       invalidatesTags: [TAG_GET_USER_PROFILE],
     }),
 
+    updatePassword: builder.mutation({
+      query: (body) => ({
+        url: "/auth/change-password",
+        method: "PUT",
+        body,
+      }),
+      invalidatesTags: [TAG_GET_USER_PROFILE],
+    }),
+
     verifyOtp: builder.mutation<
       LoginResponse,
       { username: string; password: string; otpCode: string }
@@ -137,4 +146,5 @@ export const {
   useUpdateAffiliationStatusMutation,
   useVerifyOtpMutation,
   useResendOtpMutation,
+  useUpdatePasswordMutation,
 } = authApi;
