@@ -7,6 +7,16 @@ export interface UserPermission {
   id: string;
 }
 
+export interface Address {
+  address1: string;
+  address2?: string;
+  city: string;
+  state: string;
+  zipcode: string;
+  country: string;
+  isDefault: boolean;
+}
+
 export interface Role {
   name: string;
   permissions: UserPermission[];
