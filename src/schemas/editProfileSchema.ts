@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { phoneNumberSchema } from "./createPatientSchema";
 
 export const editProfileSchema = z.object({
   firstName: z
@@ -17,14 +18,7 @@ export const editProfileSchema = z.object({
     .min(2, {
       message: "Last name must be at least 2 characters.",
     }),
-  phoneNumber: z
-    .string()
-    .min(1, {
-      message: "Phone number is required.",
-    })
-    .regex(/^[+]?[1-9][\d]{0,15}$/, {
-      message: "Please enter a valid phone number.",
-    }),
+  phoneNumber: phoneNumberSchema,
   email: z
     .string()
     .min(1, {
