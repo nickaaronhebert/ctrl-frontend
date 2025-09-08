@@ -1,36 +1,34 @@
-import { formatDateMMDDYYYY } from "@/lib/utils";
-import type { Transmission } from "@/types/global/commonTypes";
+import type { PharmacyTransmissionRow } from "@/types/global/commonTypes";
 import { Activity } from "lucide-react";
 import { StatusBadge } from "../StatusBadge/StatusBadge";
 import type { ReactNode } from "react";
 
-type TransmissionDetails = Pick<Transmission, "amount" | "status"> & {
-  createdAt: string;
-};
-
 const orderDisplayFields: {
   label: string;
-  getValue: (transmission: TransmissionDetails) => ReactNode;
+  getValue: (transmission: PharmacyTransmissionRow) => ReactNode;
 }[] = [
   {
     label: "Status",
     getValue: (transmission) => <StatusBadge status={transmission.status} />,
   },
-
   {
     label: "Total Amount",
-    getValue: (transmission) => Number(transmission.amount).toFixed(2),
+    getValue: (transmission) => `$${Number(transmission.amount).toFixed(2)}`,
   },
   {
     label: "Submitted",
-    getValue: (transmission) => `${formatDateMMDDYYYY(transmission.createdAt)}`,
+    getValue: (_transmission) => "Aug 10, 2025 8:02:15 AM", // static placeholder
+  },
+  {
+    label: "Completed",
+    getValue: (_transmission) => "Aug 10, 2025 8:02:15 AM", // static placeholder
   },
 ];
 
 export default function PharmacyOverviewCard({
   transmission,
 }: {
-  transmission: TransmissionDetails;
+  transmission: PharmacyTransmissionRow;
 }) {
   console.log("transmission", transmission);
   return (
@@ -49,7 +47,7 @@ export default function PharmacyOverviewCard({
               {label}
             </h4>
             <span className="capitalize font-medium text-primary-foreground text-sm mt-2">
-              {getValue(transmission as TransmissionDetails)}
+              {getValue(transmission)}
             </span>
           </div>
         ))}

@@ -79,7 +79,7 @@ export interface Provider {
 
 export interface Prescription {
   productVariant: ProductVariant;
-  quantity: string;
+  quantity: number;
   notes: string;
   instructions: string;
   status: string;
@@ -87,7 +87,7 @@ export interface Prescription {
   provider: Provider;
   id: string;
   prescriptionId: string;
-  amount: string;
+  amount: number;
 }
 
 export interface Transmission {
@@ -103,10 +103,11 @@ export interface Transmission {
 export type PharmacyTransmissionRow = {
   id: string;
   transmissionId: string;
-  status: "Created" | "Transmitted" | "Queued" | "Failed";
-  provider: Provider;
+  status: string;
+  providers: Provider;
   patient: Patient;
   productVariants: ProductVariantDetails[];
+  // prescriptions: Prescription[];
   amount: number;
 };
 

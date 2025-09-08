@@ -1,7 +1,15 @@
-const Profile = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none">
+import { type IconSVG } from "@/types/global/icon";
+
+const Profile = ({ color, width, height }: IconSVG) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    color={color}
+    width={width}
+    height={height}
+  >
     <g
-      stroke="#9AA2AC"
+      stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
       clipPath="url(#a)"

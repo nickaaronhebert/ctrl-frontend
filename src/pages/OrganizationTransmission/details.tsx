@@ -65,6 +65,8 @@ export default function TransmissionDetails() {
 
   console.log("status", data?.status);
 
+  console.log("prescriptions::: ", prescriptions);
+
   return (
     <div className="mb-5">
       <div className={` ${bgColor} py-3 px-12`}>

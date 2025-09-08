@@ -3,8 +3,8 @@ import { DataTablePagination } from "@/components/data-table/data-table-paginati
 import { useDataTable } from "@/hooks/use-data-table";
 import { useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
-import { dummyPharmacyTransmissions } from "@/constants";
 import { pharmacyTransmissionColumns } from "@/components/data-table/columns/pharmacyTransmission";
+import { useViewAllPharmacyTransmissionsQuery } from "@/redux/services/transmission";
 
 export default function PharmacyTransmission() {
   const [searchParams] = useSearchParams();
@@ -12,10 +12,22 @@ export default function PharmacyTransmission() {
   const perPage = parseInt(searchParams.get("per_page") ?? "10", 10);
   const columns = useMemo(() => pharmacyTransmissionColumns(), []);
 
+  const { data, meta } = useViewAllPharmacyTransmissionsQuery(
+    { page, perPage },
+    {
+      selectFromResult: ({ data, isLoading, isError }) => ({
+        data: data?.data,
+        meta: data?.meta,
+        isLoading: isLoading,
+        isError: isError,
+      }),
+    }
+  );
+
   const { table } = useDataTable({
-    data: dummyPharmacyTransmissions || [],
+    data: data || [],
     columns,
-    pageCount: -1,
+    pageCount: meta?.pageCount ?? -1,
   });
 
   return (

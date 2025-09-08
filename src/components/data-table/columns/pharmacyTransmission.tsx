@@ -2,7 +2,10 @@ import FailedBadge from "@/components/TransmissionBadge/failed";
 import PendingBadge from "@/components/TransmissionBadge/pending";
 import QueuedBadge from "@/components/TransmissionBadge/queued";
 import SuccessBadge from "@/components/TransmissionBadge/success";
-import type { PharmacyTransmissionRow } from "@/types/global/commonTypes";
+import type {
+  PharmacyTransmissionRow,
+  Provider,
+} from "@/types/global/commonTypes";
 import type { ProductVariantDetails } from "@/types/responses/transmission";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Link } from "react-router-dom";
@@ -46,38 +49,42 @@ export function pharmacyTransmissionColumns(): ColumnDef<PharmacyTransmissionRow
     },
 
     {
-      accessorKey: "provider",
+      accessorKey: "providers",
       header: "Providers",
       cell: ({ row }) => {
-        const provider: any = row.getValue("provider");
-        console.log("provider", provider);
-        return (
-          <>
-            <p className="text-xs font-medium">
-              {provider.firstName} {provider.lastName}
-            </p>
-            <p className="text-[10px] font-medium">{provider.npi}</p>
-          </>
-        );
-      },
-    },
+        const providers: Provider[] = row.getValue("providers");
 
-    {
-      accessorKey: "patient",
-      header: "Patients",
-      cell: ({ row }) => {
-        const patient: any = row.getValue("patient");
-        console.log("patient", patient);
         return (
-          <div className="flex flex-col gap-1">
-            <p className="text-xs font-medium">
-              {patient.firstName} {patient.lastName}
-            </p>
-            <p className="text-[10px] font-medium">{patient.phoneNumber}</p>
+          <div className="space-y-2">
+            {providers.map((provider, index) => (
+              <div key={index}>
+                <p className="text-xs font-medium">
+                  {provider.firstName} {provider.lastName}
+                </p>
+                <p className="text-[10px] font-medium">{provider.npi}</p>
+              </div>
+            ))}
           </div>
         );
       },
     },
+
+    // {
+    //   accessorKey: "patient",
+    //   header: "Patients",
+    //   cell: ({ row }) => {
+    //     const patient: any = row.getValue("patient");
+    //     console.log("patient", patient);
+    //     return (
+    //       <div className="flex flex-col gap-1">
+    //         <p className="text-xs font-medium">
+    //           {patient.firstName} {patient.lastName}
+    //         </p>
+    //         <p className="text-[10px] font-medium">{patient.phoneNumber}</p>
+    //       </div>
+    //     );
+    //   },
+    // },
 
     {
       accessorKey: "productVariants",

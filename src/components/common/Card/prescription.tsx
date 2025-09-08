@@ -33,6 +33,7 @@ export default function PrescriptionCard({
 }: {
   prescriptions: Prescription[];
 }) {
+  console.log("Prescriptions in PrescriptionCard:", prescriptions);
   return (
     <div className=" p-5 border border-card-border rounded-bl-[10px] rounded-br-[10px] ">
       {prescriptions.map((prescription: Prescription) => {

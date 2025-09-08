@@ -6,16 +6,17 @@ import { useState } from "react";
 // import PrescriptionCard from "@/components/common/Card/prescription";
 // import TransmissionOverviewCard from "@/components/common/Card/transmission-overview";
 import CubeSVG from "@/assets/icons/Cube";
-import Pharmacies from "@/assets/icons/Pharmacies";
 import MedicationLibrary from "@/assets/icons/MedicationLibrary";
-import Transmission from "@/assets/icons/Transmission";
 import { dummyPharmacyTransmissions } from "@/constants";
 import ZigZag from "@/assets/icons/ZigZag";
-import PatientIcon from "@/assets/icons/PatientIcon";
 import Profile from "@/assets/icons/Profile";
 import Invoices from "@/assets/icons/Invoices";
 import SecondaryMedication from "@/assets/icons/SecondaryMedication";
-import TransmissionOverviewCard from "@/components/common/Card/transmission-overview";
+import PharmacyOverviewCard from "@/components/common/Card/pharmacy-overview";
+import PatientCard from "@/components/common/Card/patient";
+import ProviderCard from "@/components/common/Card/provider";
+import PrescriptionCard from "@/components/common/Card/prescription";
+import { useViewTransmissionByIdQuery } from "@/redux/services/transmission";
 
 const menuItems = [
   {
@@ -30,11 +31,11 @@ const menuItems = [
     icon: Profile,
   },
 
-  {
-    title: "Affiliate Information",
-    scrollToId: "medicationInformation",
-    icon: Profile,
-  },
+  // {
+  //   title: "Affiliate Information",
+  //   scrollToId: "medicationInformation",
+  //   icon: Profile,
+  // },
   {
     title: "Provider Information",
     scrollToId: "medicationInformation",
@@ -68,6 +69,22 @@ export default function PharmacyTransmissionDetails() {
     failed: "bg-failed-secondary",
   };
 
+  const { data, pharmacy, prescriptions, transmissionDetails } =
+    useViewTransmissionByIdQuery(id as string, {
+      selectFromResult: ({ data, isLoading, isError }) => ({
+        data: data?.data,
+        pharmacy: data?.data?.pharmacy,
+        prescriptions: data?.data?.prescriptions,
+        transmissionDetails: {
+          amount: data?.data?.amount || 0,
+          createdAt: data?.data?.createdAt || "-",
+          status: data?.data?.status || "-",
+        },
+        isLoading: isLoading,
+        isError: isError,
+      }),
+    });
+
   const [activeTab, setActiveTab] = useState<
     "transmissionOverview" | "pharmacyInformation" | "medicationInformation"
   >("transmissionOverview");
@@ -83,7 +100,7 @@ export default function PharmacyTransmissionDetails() {
         </Link>
 
         <h1 className="text-2xl font-bold mt-1">
-          Transmissions: {singlePharmacyTransmission?.transmissionId}
+          Transmissions: {data?.transmissionId}
         </h1>
       </div>
 
@@ -99,10 +116,10 @@ export default function PharmacyTransmissionDetails() {
               </div>
               <div>
                 <h4 className="text-base font-medium text-black">
-                  {singlePharmacyTransmission?.transmissionId}
+                  {data?.transmissionId}
                 </h4>
                 <h6 className="text-xs font-normal text-[#3E4D61]">
-                  {singlePharmacyTransmission?.productVariants.length}{" "}
+                  {data?.prescriptions?.length}
                   Prescriptions
                 </h6>
               </div>
@@ -145,13 +162,19 @@ export default function PharmacyTransmissionDetails() {
         </div>
 
         <div className="flex flex-col gap-5 w-full">
-          {/* {singlePharmacyTransmission && (
-            <TransmissionOverviewCard transmission={singlePharmacyTransmission} />
-          )} */}
+          {singlePharmacyTransmission && (
+            <PharmacyOverviewCard transmission={singlePharmacyTransmission} />
+          )}
 
-          {/* {pharmacy && <PharmacyCard pharmacy={pharmacy} />} */}
+          {singlePharmacyTransmission && (
+            <PatientCard patient={singlePharmacyTransmission.patient} />
+          )}
 
-          {/* <div
+          {singlePharmacyTransmission && (
+            <ProviderCard provider={singlePharmacyTransmission.provider} />
+          )}
+
+          <div
             className="bg-white rounded-[10px] shadow-[0px_2px_40px_0px_#00000014]"
             id="medicationInformation"
           >
@@ -160,9 +183,9 @@ export default function PharmacyTransmissionDetails() {
               <h2 className="text-base font-semibold ">Medications</h2>
             </div>
             {prescriptions && (
-              <PrescriptionCard prescriptions={prescriptions} />
+              <PrescriptionCard prescriptions={prescriptions || []} />
             )}
-          </div> */}
+          </div>
         </div>
       </div>
     </div>
