@@ -1,11 +1,11 @@
-import type { Patient } from "../global/commonTypes";
+import type { Address, Patient } from "../global/commonTypes";
 
-export type PatientDetails = Omit<Patient, "state"> & {
+export type PatientDetails = Omit<Patient, "state" | "zipcode"> & {
   createdAt: string;
   updatedAt: string;
   height: number;
   weight: number;
-  address: string;
+  addresses: Address[];
   patientId: string;
   currentMedications?: string;
   medicationAllergies?: string;

@@ -8,8 +8,11 @@ import { Button } from "@/components/ui/button";
 import { CenteredRow } from "@/components/ui/centered-row";
 import PhoneInputElement from "@/components/Form/phone-input-element";
 import useAuthentication from "@/hooks/use-authentication";
+import { useEditProfileMutation } from "@/redux/services/authApi";
+import { toast } from "sonner";
 export default function OrgAdminProfileSettings() {
   const { user } = useAuthentication();
+  const [editProfile] = useEditProfileMutation();
   const form = useForm<z.infer<typeof editProfileSchema>>({
     resolver: zodResolver(editProfileSchema),
     defaultValues: {
@@ -22,6 +25,20 @@ export default function OrgAdminProfileSettings() {
 
   async function onSubmit(values: z.infer<typeof editProfileSchema>) {
     console.log("values", values);
+    const { email, ...payload } = values;
+    await editProfile(payload)
+      .unwrap()
+      .then(() => {
+        toast.success("User Updated Successfully", {
+          duration: 1500,
+        });
+      })
+      .catch((err) => {
+        console.log("error", err);
+        toast.error(err?.data?.message ?? "Something went wrong", {
+          duration: 3000,
+        });
+      });
   }
 
   return (

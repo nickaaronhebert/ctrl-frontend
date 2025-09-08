@@ -85,7 +85,7 @@ export default function OrgStripeAccount() {
             <p className="text-[20px] font-semibold ">Payment Method</p>
             <Button
               type="button"
-              className="min-h-[28px] min-w-[70px] rounded-sm text-white bg-black"
+              className="min-h-[28px] min-w-[70px] rounded-sm text-white bg-black cursor-pointer"
               onClick={() => setAddNewCard(!addNewCard)}
             >
               <InsertIconSVG />

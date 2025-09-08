@@ -88,7 +88,7 @@ export function pharmacyTransmissionColumns(): ColumnDef<PharmacyTransmissionRow
             <p className="text-[10px] font-medium">{patient.phoneNumber}</p>
 
             {defaultAddress && (
-              <div key={defaultAddress._id}>
+              <div>
                 <p className="text-[11px] font-medium">
                   {defaultAddress.address1}
                 </p>

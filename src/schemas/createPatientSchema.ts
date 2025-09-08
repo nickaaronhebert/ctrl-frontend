@@ -41,6 +41,17 @@ const dobSchema = z
     }
   );
 
+export const addressSchema = z.object({
+  address1: z.string().min(3, { message: "Address Line 1 is required." }),
+  address2: z.string().optional(),
+  city: z.string().min(2, { message: "City is required." }),
+  state: z.string().min(2, { message: "State is required." }),
+  zipcode: z.string().min(3, { message: "Zip code is required." }),
+  // .regex(/^\d{4,10}$/, { message: "Invalid zip code." }),
+  country: z.string().min(2, { message: "Country is required." }),
+  isDefault: z.boolean(),
+});
+
 export const createPatientFormSchema = z.object({
   firstName: z
     .string()
@@ -61,9 +72,10 @@ export const createPatientFormSchema = z.object({
   dob: dobSchema,
   email: z.string().email({ message: "Invalid email address." }),
   phoneNumber: phoneNumberSchema,
-  address: z.string().min(3, {
-    message: "Invalid Address.",
-  }),
+  addresses: z
+    .array(addressSchema)
+    .min(1, { message: "At least one address is required." }),
+
   medicationAllergies: z.string().optional(),
   currentMedications: z.string().optional(),
   height: z.coerce

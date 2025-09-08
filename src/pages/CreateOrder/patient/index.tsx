@@ -13,6 +13,7 @@ import {
   type PATIENT_DETAILS,
 } from "@/redux/slices/create-order";
 import { formatDateMMDDYYYY } from "@/lib/utils";
+import type { Address } from "@/types/global/commonTypes";
 
 export default function SelectPatient({
   patient,
@@ -84,7 +85,12 @@ export default function SelectPatient({
                         "currentMedications",
                         patient.currentMedications
                       );
-                      form.setValue("address", patient.address);
+                      form.setValue(
+                        "address",
+                        patient.addresses.filter(
+                          (address: Address) => address.isDefault === true
+                        )[0]
+                      );
                       form.setValue("height", patient.height ?? "");
                       form.setValue("weight", patient.weight ?? "");
                     }

@@ -24,10 +24,9 @@ export default function ReviewOrderDetails({ order }: { order: OrderState }) {
     : [];
 
   const [providerId, providerName] = order.stepTwo.selectProvider.split("/");
-  const [pharmacyId, pharmacyName] = order.stepTwo.selectPharmacy.split("/");
 
   const handleSubmit = async () => {
-    console.log("Order Payload", order);
+    const { _id, ...address } = order.stepThree.address;
 
     const prescriptions = order.stepOne.medications.map((item) => {
       const [variantId, _variantName] = item.selectMedication.split("/");
@@ -44,6 +43,7 @@ export default function ReviewOrderDetails({ order }: { order: OrderState }) {
     const orderPayload = {
       patient: order.initialStep.selectedPatient?.id,
       prescriptions,
+      address,
     };
 
     await createOrder(orderPayload)
@@ -185,20 +185,18 @@ export default function ReviewOrderDetails({ order }: { order: OrderState }) {
           </div>
 
           <div className="border-b border-gray-100 py-3.5 px-5 space-y-[8px] bg-[#FFFFFF] ">
-            <p className="text-base font-semibold text-black">
-              Provider & Pharmacy
-            </p>
+            <p className="text-base font-semibold text-black">Provider</p>
             <div className="flex justify-between">
               <p className="text-sm font-normal text-[#63627F]">Provider</p>
               <p className="text-sm font-medium text-black">{providerName}</p>
             </div>
-            <div className="flex justify-between">
+            {/* <div className="flex justify-between">
               <p className="text-sm font-normal text-[#63627F]">Pharmacy</p>
               <p className="text-sm font-medium text-black">{pharmacyName}</p>
-            </div>
+            </div> */}
           </div>
 
-          <div className=" py-3.5 px-5 space-y-[8px] bg-[#FFFFFF] rounded-bl-[6px] rounded-br-[6px]">
+          {/* <div className=" py-3.5 px-5 space-y-[8px] bg-[#FFFFFF] rounded-bl-[6px] rounded-br-[6px]">
             <p className="text-base font-semibold text-black">Dispensing</p>
             <div className="flex justify-between items-start">
               <p className="text-sm font-normal text-[#63627F]">Method</p>
@@ -207,11 +205,11 @@ export default function ReviewOrderDetails({ order }: { order: OrderState }) {
                   Ship to patient
                 </p>
                 <p className="text-xs font-normal text-black">
-                  {order.initialStep.address}
+                  
                 </p>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
       <div className="flex justify-between mt-10 border-t border-card-border border-dashed pt-10">

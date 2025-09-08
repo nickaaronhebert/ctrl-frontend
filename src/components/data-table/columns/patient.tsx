@@ -40,13 +40,18 @@ export function organizationPatientColumns(): ColumnDef<PatientDetails>[] {
       header: "Contact Information",
 
       cell: ({ row }) => {
-        const { email, phoneNumber, address } = row.original;
+        const { email, phoneNumber, addresses } = row.original;
+        const defaultAddress = addresses.filter(
+          (address) => address.isDefault === true
+        )?.[0];
 
         return (
           <>
             <p className="text-xs font-medium">{email}</p>
             <p className="text-xs font-medium py-0.5">{phoneNumber}</p>
-            <p className="text-[10px] font-medium text-[#3E4D61] ">{address}</p>
+            <p className="text-[10px] font-medium text-[#3E4D61] ">{`${
+              defaultAddress?.address1 || ""
+            } ${defaultAddress?.address2 || ""}`}</p>
           </>
         );
       },

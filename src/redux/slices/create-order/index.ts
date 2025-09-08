@@ -1,4 +1,5 @@
 // orderSlice.ts
+import type { Address } from "@/types/global/commonTypes";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 export interface SELECT_MEDICATION {
@@ -22,12 +23,16 @@ export interface PATIENT_DETAILS {
   currentMedications?: string;
   height: number;
   weight: number;
-  address: string;
+  address: Address;
 }
 
 export interface SELECT_PROVIDER_PHARMACY {
   selectProvider: string;
-  selectPharmacy: string;
+  // selectPharmacy: string;
+}
+
+export interface SELECT_DISPENSING {
+  address: Address & { _id: string };
 }
 
 export interface OrderState {
@@ -35,6 +40,7 @@ export interface OrderState {
   initialStep: PATIENT_DETAILS;
   stepOne: SELECT_MEDICATION;
   stepTwo: SELECT_PROVIDER_PHARMACY;
+  stepThree: SELECT_DISPENSING;
 }
 
 const initialState: OrderState = {
@@ -48,7 +54,15 @@ const initialState: OrderState = {
     gender: "",
     dob: "",
     medicationAllergies: "",
-    address: "",
+    address: {
+      address1: "",
+      address2: "",
+      city: "",
+      zipcode: "",
+      state: "",
+      country: "",
+      isDefault: false,
+    },
     height: 0,
     weight: 0,
   },
@@ -59,7 +73,19 @@ const initialState: OrderState = {
   },
   stepTwo: {
     selectProvider: "",
-    selectPharmacy: "",
+    // selectPharmacy: "",
+  },
+  stepThree: {
+    address: {
+      address1: "",
+      address2: "",
+      city: "",
+      state: "",
+      zipcode: "",
+      isDefault: false,
+      country: "",
+      _id: "",
+    },
   },
 };
 
@@ -84,6 +110,10 @@ const orderSlice = createSlice({
       state.stepTwo = action.payload;
       state.currentStep += 1;
     },
+    updateStepThree: (state, action: PayloadAction<SELECT_DISPENSING>) => {
+      state.stepThree = action.payload;
+      state.currentStep += 1;
+    },
     resetOrder: () => initialState,
   },
 });
@@ -93,6 +123,7 @@ export const {
   updateStepOne,
   updateStepTwo,
   updateInitialStep,
+  updateStepThree,
   resetOrder,
 } = orderSlice.actions;
 export default orderSlice.reducer;

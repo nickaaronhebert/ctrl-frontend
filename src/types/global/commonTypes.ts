@@ -7,6 +7,16 @@ export interface UserPermission {
   id: string;
 }
 
+export interface Address {
+  address1: string;
+  address2?: string;
+  city: string;
+  state: string;
+  zipcode: string;
+  country: string;
+  isDefault: boolean;
+}
+
 export interface Role {
   name: string;
   permissions: UserPermission[];
@@ -30,16 +40,16 @@ export const PROVIDER_STATUS = {
   MED_SUBMITTED: "med_submitted",
 };
 
-export type Address = {
-  address1: string;
-  address2: string;
-  city: string;
-  country: string;
-  isDefault: boolean;
-  state: string;
-  zipcode: string;
-  _id: string;
-};
+// export type Address = {
+//   address1: string;
+//   address2: string;
+//   city: string;
+//   country: string;
+//   isDefault: boolean;
+//   state: string;
+//   zipcode: string;
+//   _id: string;
+// };
 export interface Patient {
   firstName: string;
   lastName: string;
@@ -168,6 +178,19 @@ export interface CardDetails {
   createdAt: string;
   updatedAt: string;
   id: string;
+}
+
+export interface Invoices {
+  transmissionCode: string;
+  totalAmount: string;
+  id: string;
+  createdAt: string;
+  pharmacy: {
+    name: string;
+    phoneNumber: string;
+  };
+  medicationFee: string;
+  applicationFee: string;
 }
 
 export interface MetaData {

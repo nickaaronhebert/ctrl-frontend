@@ -6,7 +6,10 @@ import { Button } from "@/components/ui/button";
 
 import { editPasswordSchema } from "@/schemas/onboardingSchema";
 import PasswordInputElement from "@/components/Form/password-element";
+import { useUpdatePasswordMutation } from "@/redux/services/authApi";
+import { toast } from "sonner";
 export default function OrgAdminPasswordSettings() {
+  const [changePassword] = useUpdatePasswordMutation();
   const form = useForm<z.infer<typeof editPasswordSchema>>({
     resolver: zodResolver(editPasswordSchema),
     defaultValues: {
@@ -18,6 +21,20 @@ export default function OrgAdminPasswordSettings() {
 
   async function onSubmit(values: z.infer<typeof editPasswordSchema>) {
     console.log("values", values);
+    const { confirmNewPassword, ...payload } = values;
+    await changePassword(payload)
+      .unwrap()
+      .then((data) => {
+        toast.success(data?.message || "Password Updated Successfully", {
+          duration: 1500,
+        });
+      })
+      .catch((err) => {
+        console.log("error", err);
+        toast.error(err?.data?.message ?? "Something went wrong", {
+          duration: 3000,
+        });
+      });
   }
 
   return (
@@ -51,28 +68,6 @@ export default function OrgAdminPasswordSettings() {
                   isRequired={true}
                   messageClassName="text-right"
                 />
-                {/* <InputElement
-                  name={`curretPassword`}
-                  label="Current Password"
-                  type="pas"
-                  isRequired={true}
-                  inputClassName="w-full border border-border"
-                />
-
-                <InputElement
-                  name={`lastName`}
-                  label="Last Name"
-                  isRequired={true}
-                  inputClassName="w-[260px] border border-border"
-                />
-
-                <InputElement
-                  name={`email`}
-                  label="Email"
-                  isRequired={true}
-                  disabled={true}
-                  inputClassName="w-[260px] disabled:cursor-not-allowed border border-border bg-muted"
-                /> */}
 
                 <div className="flex justify-end   pt-3">
                   <Button

@@ -4,53 +4,50 @@ import { z } from "zod";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import SelectElement from "@/components/Form/select-element";
-import { providerPharmacySchema } from "@/schemas/pharmacySchema";
+
 import { useAppDispatch } from "@/redux/store";
 import {
   prevStep,
-  updateStepTwo,
-  type SELECT_PROVIDER_PHARMACY,
+  updateStepThree,
+  type SELECT_DISPENSING,
 } from "@/redux/slices/create-order";
-import { useViewAffiliateProvidersQuery } from "@/redux/services/provider";
-import { useCallback, useState } from "react";
-import { useDebounce } from "@/hooks/use-debounce";
 
-export default function SelectProviderPharmacy({
-  providerPharmacy,
-}: {
-  providerPharmacy: SELECT_PROVIDER_PHARMACY;
-}) {
-  const [providerQuery, setProviderQuery] = useState("");
-  const debouncedProviderQuery = useDebounce(providerQuery, 400);
+interface SELECT_PATIENT_ADDRESS_PROPS {
+  dispensingAddress: SELECT_DISPENSING;
+  addressList: any;
+}
+export const patientAddressSchema = z.object({
+  dispensingAddress: z.string().min(1, "Provider selection is required"),
+});
+
+export default function SelectPatientAddress({
+  dispensingAddress,
+  addressList,
+}: SELECT_PATIENT_ADDRESS_PROPS) {
   const dispatch = useAppDispatch();
-  const { data: providerOptions } = useViewAffiliateProvidersQuery(
-    { page: 1, perPage: 100, q: debouncedProviderQuery },
-    {
-      selectFromResult: ({ data }) => ({
-        data:
-          data?.data?.map((item) => ({
-            value: `${item.id}/${item.firstName} ${item.lastName}`,
-            label: `${item.firstName} ${item.lastName}`,
-          })) ?? [],
-      }),
-    }
-  );
-  const form = useForm<z.infer<typeof providerPharmacySchema>>({
-    resolver: zodResolver(providerPharmacySchema),
+  const form = useForm<z.infer<typeof patientAddressSchema>>({
+    resolver: zodResolver(patientAddressSchema),
     defaultValues: {
-      selectProvider: providerPharmacy.selectProvider,
+      dispensingAddress: dispensingAddress.address._id,
     },
   });
 
-  async function onSubmit(values: z.infer<typeof providerPharmacySchema>) {
-    console.log("step 2 values", values);
+  async function onSubmit(values: z.infer<typeof patientAddressSchema>) {
+    console.log(addressList?.addresses);
 
-    dispatch(updateStepTwo(values));
+    const selectedAddress = addressList?.addresses?.filter(
+      (address: any) => address._id === values.dispensingAddress
+    )?.[0];
+
+    dispatch(updateStepThree({ address: selectedAddress }));
   }
 
-  const handleSearchProvider = useCallback((value: string) => {
-    setProviderQuery(value);
-  }, []);
+  const formattedAddresses = addressList?.addresses?.map((item: any) => ({
+    label: `${item.address1}, ${item.city.trim()}, ${
+      item.state
+    }, ${item.zipcode.trim()}`,
+    value: item._id,
+  }));
 
   return (
     <div>
@@ -65,14 +62,12 @@ export default function SelectProviderPharmacy({
 
                 <div className="mt-3.5">
                   <SelectElement
-                    name="selectProvider"
-                    options={providerOptions}
-                    label="Select Provider"
+                    name="dispensingAddress"
+                    options={formattedAddresses || []}
+                    label="Select Dispensing"
                     isRequired={true}
                     className="w-[500px] min-h-[56px]"
                     placeholder="Select the option"
-                    onSearch={handleSearchProvider}
-                    searchValue={providerQuery}
                   />
                 </div>
               </div>

@@ -1,4 +1,4 @@
-import type { Business, User } from "../global/commonTypes";
+import type { User } from "../global/commonTypes";
 import type {
   DeaCredentials,
   MedicalLicense,
@@ -33,7 +33,7 @@ export interface ResendOtpResponse {
 export interface EditProfileResponse extends UserDetails {
   phoneNumber: string;
   password: string;
-  business: Business;
+  // business: Business;
   organizations: string[];
   medicalLicense: MedicalLicense[];
   deaNumber: DeaCredentials[];

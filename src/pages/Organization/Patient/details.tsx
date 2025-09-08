@@ -75,6 +75,10 @@ function PatientDetails({ patientId }: { patientId: string }) {
         .filter((item) => item.length > 0) // removes empty strings
     : [];
 
+  const defaultAddress = data?.addresses?.filter(
+    (address) => address?.isDefault === true
+  )?.[0];
+
   return (
     <>
       <div className=" bg-[#EFE8F5] py-3 px-12 flex justify-between items-center">
@@ -131,9 +135,11 @@ function PatientDetails({ patientId }: { patientId: string }) {
                   {data.gender}, {formattedDate}
                 </p>
               </div>
-              <div className="flex justify-between">
+              <div className="flex justify-between gap-4">
                 <p className="text-sm font-normal text-[#63627F]">Address</p>
-                <p className="text-sm font-medium">{data.address}</p>
+                <div>
+                  <p className="text-sm text-right font-medium">{`${defaultAddress?.address1}, ${defaultAddress?.address2}, ${defaultAddress?.city}, ${defaultAddress?.zipcode}, ${defaultAddress?.state}`}</p>
+                </div>
               </div>
             </div>
           </div>
@@ -191,10 +197,6 @@ function PatientDetails({ patientId }: { patientId: string }) {
                 <p className="text-sm font-medium">
                   {`${data.height}(inches), ${data.weight}(pounds)`}
                 </p>
-              </div>
-              <div className="flex justify-between">
-                <p className="text-sm font-normal text-[#63627F]">Address</p>
-                <p className="text-sm font-medium">{data.address}</p>
               </div>
             </div>
           </div>
