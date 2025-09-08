@@ -90,12 +90,12 @@ export default function OrganizationTransmission() {
       <div className="mt-3.5 ">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 mb-1">
           <Button
-            variant={"tabs"}
-            size={"xxl"}
+            size={"lg"}
             className={cn(
               activeStatus === "Created"
                 ? "bg-primary text-white"
-                : "bg-slate-background text-secondary-foreground"
+                : "bg-slate-background text-secondary-foreground hover:bg-slate-background",
+              "p-[30px]"
             )}
             onClick={() => setActiveStatus("Created")}
           >
@@ -105,12 +105,12 @@ export default function OrganizationTransmission() {
             </span>
           </Button>
           <Button
-            variant={"tabs"}
-            size={"xxl"}
+            size={"lg"}
             className={cn(
               activeStatus === "Processing"
                 ? "bg-primary text-white"
-                : "bg-slate-background text-secondary-foreground"
+                : "bg-slate-background text-secondary-foreground hover:bg-slate-background",
+              "p-[30px]"
             )}
             onClick={() => setActiveStatus("Processing")}
           >
@@ -120,12 +120,12 @@ export default function OrganizationTransmission() {
             </span>
           </Button>
           <Button
-            variant={"tabs"}
-            size={"xxl"}
+            size={"lg"}
             className={cn(
               activeStatus === "Queued"
                 ? "bg-primary text-white"
-                : "bg-slate-background text-secondary-foreground"
+                : "bg-slate-background text-secondary-foreground hover:bg-slate-background",
+              "p-[30px]"
             )}
             onClick={() => setActiveStatus("Queued")}
           >
@@ -135,12 +135,12 @@ export default function OrganizationTransmission() {
             </span>
           </Button>
           <Button
-            variant={"tabs"}
-            size={"xxl"}
+            size={"lg"}
             className={cn(
               activeStatus === "Transmitted"
                 ? "bg-primary text-white"
-                : "bg-slate-background text-secondary-foreground"
+                : "bg-slate-background text-secondary-foreground hover:bg-slate-background",
+              "p-[30px]"
             )}
             onClick={() => setActiveStatus("Transmitted")}
           >
@@ -155,7 +155,6 @@ export default function OrganizationTransmission() {
           <DataTablePagination table={table} />
         </div>
       </div>
-      {/* Add your components and logic here */}
     </div>
   );
 }

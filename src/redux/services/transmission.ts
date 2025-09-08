@@ -2,6 +2,7 @@ import type {
   IViewAllPharmacyTransmissionsResponse,
   IViewAllTransmissionsRequest,
   IViewAllTransmissionsResponse,
+  IViewPharmacyTransmissionByIdResponse,
   IViewTransmissionByIdResponse,
 } from "@/types/responses/transmission";
 import { baseApi } from ".";
@@ -40,6 +41,18 @@ const transmissionApi = baseApi.injectEndpoints({
         };
       },
     }),
+
+    viewPharmacyTransmissionById: builder.query<
+      IViewPharmacyTransmissionByIdResponse,
+      string
+    >({
+      query: (id) => {
+        return {
+          url: `/transmission/${id}`,
+          method: "GET",
+        };
+      },
+    }),
   }),
 });
 
@@ -47,6 +60,7 @@ export const {
   useViewAllTransmissionsQuery,
   useViewTransmissionByIdQuery,
   useViewAllPharmacyTransmissionsQuery,
+  useViewPharmacyTransmissionByIdQuery,
 } = transmissionApi;
 
 export default transmissionApi;

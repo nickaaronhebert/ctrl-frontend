@@ -9,7 +9,8 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 interface Affiliate {
   id: string;
-  name: string;
+  firstName: string;
+  lastName: string;
 }
 
 interface AffiliateFilterDialogProps {
@@ -31,6 +32,7 @@ export function AffiliateAdminDialog({
   selectedAffiliates,
   onSelectedAffiliatesChange,
 }: AffiliateFilterDialogProps) {
+  console.log("Affiliates:", affiliates);
   const { handleSubmit, watch, setValue } = useForm<FormData>({
     defaultValues: {
       selectedIds: selectedAffiliates,
@@ -100,13 +102,14 @@ export function AffiliateAdminDialog({
               const isChecked = watchedSelectedIds.includes(affiliate.id);
               return (
                 <div key={affiliate.id} className="flex items-center space-x-3">
-                  <Avatar className="h-10 w-10 bg-blue-100">
-                    <AvatarFallback className="text-blue-600 font-medium text-sm">
-                      {affiliate.name}
+                  <Avatar className="h-10 w-10 bg-strength">
+                    <AvatarFallback className="text-queued font-medium text-sm">
+                      {affiliate.firstName.charAt(0)}
+                      {affiliate.lastName.charAt(0)}
                     </AvatarFallback>
                   </Avatar>
                   <span className="flex-1 text-sm font-medium text-gray-900">
-                    {affiliate.name}
+                    {affiliate.firstName} {affiliate.lastName}
                   </span>
                   <Checkbox
                     checked={isChecked}
@@ -121,7 +124,7 @@ export function AffiliateAdminDialog({
           </div>
 
           {/* Apply Button */}
-          <div className="px-6 pb-6">
+          <div className="px-6 pb-3">
             <Button
               type="submit"
               className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-lg"

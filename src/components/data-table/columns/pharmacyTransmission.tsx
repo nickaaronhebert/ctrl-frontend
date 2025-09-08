@@ -3,6 +3,7 @@ import PendingBadge from "@/components/TransmissionBadge/pending";
 import QueuedBadge from "@/components/TransmissionBadge/queued";
 import SuccessBadge from "@/components/TransmissionBadge/success";
 import type {
+  Patient,
   PharmacyTransmissionRow,
   Provider,
 } from "@/types/global/commonTypes";
@@ -58,7 +59,7 @@ export function pharmacyTransmissionColumns(): ColumnDef<PharmacyTransmissionRow
           <div className="space-y-2">
             {providers.map((provider, index) => (
               <div key={index}>
-                <p className="text-xs font-medium">
+                <p className="text-sm font-medium">
                   {provider.firstName} {provider.lastName}
                 </p>
                 <p className="text-[10px] font-medium">{provider.npi}</p>
@@ -68,24 +69,37 @@ export function pharmacyTransmissionColumns(): ColumnDef<PharmacyTransmissionRow
         );
       },
     },
+    {
+      accessorKey: "patient",
+      header: "Patients",
+      cell: ({ row }) => {
+        const patient: Patient = row.getValue("patient");
+        console.log("patient", patient);
 
-    // {
-    //   accessorKey: "patient",
-    //   header: "Patients",
-    //   cell: ({ row }) => {
-    //     const patient: any = row.getValue("patient");
-    //     console.log("patient", patient);
-    //     return (
-    //       <div className="flex flex-col gap-1">
-    //         <p className="text-xs font-medium">
-    //           {patient.firstName} {patient.lastName}
-    //         </p>
-    //         <p className="text-[10px] font-medium">{patient.phoneNumber}</p>
-    //       </div>
-    //     );
-    //   },
-    // },
+        const defaultAddress = patient.addresses?.find(
+          (address) => address.isDefault
+        );
 
+        return (
+          <div className="flex flex-col gap-1">
+            <p className="text-sm font-medium">
+              {patient.firstName} {patient.lastName}
+            </p>
+            <p className="text-[10px] font-medium">{patient.phoneNumber}</p>
+
+            {defaultAddress && (
+              <div key={defaultAddress._id}>
+                <p className="text-[11px] font-medium">
+                  {defaultAddress.address1}
+                </p>
+                <p className="text-[11px]">{defaultAddress.city}</p>
+                <p className="text-[11px]">{defaultAddress.state}</p>
+              </div>
+            )}
+          </div>
+        );
+      },
+    },
     {
       accessorKey: "productVariants",
       header: "Medications",

@@ -44,3 +44,11 @@ export interface IViewAllTransmissionsRequest {
 export interface IViewTransmissionByIdResponse {
   data: IndividualTranmissionDetails;
 }
+
+export interface IViewPharmacyTransmissionByIdResponse {
+  data: PharmacyTransmissionRow;
+}
+
+// export interface IViewPharmacyInvoiceResponse {
+//   data:
+// }

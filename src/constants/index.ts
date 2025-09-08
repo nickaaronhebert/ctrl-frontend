@@ -20,6 +20,7 @@ import type {
   Pharmacy,
 } from "@/components/data-table/columns/medication-library";
 import Invoices from "@/assets/icons/Invoices";
+import InvoicesMain from "@/assets/icons/InvoicesMain";
 // import { type MedicationAssignment } from "@/components/data-table/columns/access-control";
 
 export interface TabConfig {
@@ -88,7 +89,7 @@ export const pharmacyAdminItems = [
     url: "/pharmacy/transmissions",
     icon: Transmission,
   },
-  { title: "Invoices", url: "/pharmacy/invoices", icon: Invoices },
+  { title: "Invoices", url: "/pharmacy/invoices", icon: InvoicesMain },
   {
     title: "Medication Library",
     url: "/pharmacy/medications",
@@ -1194,7 +1195,8 @@ export const dummyInvoices: InvoiceRow[] = [
     date: new Date("2025-08-28"),
     amount: 1350.0,
     affiliate: {
-      name: "John Smith",
+      firstName: "John",
+      lastName: "Smith",
       id: "AFF001",
     },
   },
@@ -1203,7 +1205,8 @@ export const dummyInvoices: InvoiceRow[] = [
     date: new Date("2025-08-26"),
     amount: 950.0,
     affiliate: {
-      name: "Sarah Johnson",
+      firstName: "Sarah",
+      lastName: "Johnson",
       id: "AFF002",
     },
   },
@@ -1212,7 +1215,8 @@ export const dummyInvoices: InvoiceRow[] = [
     date: new Date("2025-08-14"),
     amount: 2200.0,
     affiliate: {
-      name: "Daniel Kim",
+      firstName: "Daniel",
+      lastName: "Kim",
       id: "AFF003",
     },
   },
@@ -1221,7 +1225,8 @@ export const dummyInvoices: InvoiceRow[] = [
     date: new Date("2025-08-10"),
     amount: 450.0,
     affiliate: {
-      name: "Michael Lee",
+      firstName: "Michael",
+      lastName: "Lee",
       id: "AFF004",
     },
   },
@@ -1230,7 +1235,8 @@ export const dummyInvoices: InvoiceRow[] = [
     date: new Date("2025-08-05"),
     amount: 3000.0,
     affiliate: {
-      name: "David Martinez",
+      firstName: "David",
+      lastName: "Martinez",
       id: "AFF005",
     },
   },
@@ -1239,7 +1245,8 @@ export const dummyInvoices: InvoiceRow[] = [
     date: new Date("2025-08-01"),
     amount: 800.0,
     affiliate: {
-      name: "Emily Brown",
+      firstName: "Emily",
+      lastName: "Brown",
       id: "AFF006",
     },
   },
@@ -1248,7 +1255,8 @@ export const dummyInvoices: InvoiceRow[] = [
     date: new Date("2025-07-28"),
     amount: 1250.0,
     affiliate: {
-      name: "Olivia Wilson",
+      firstName: "Olivia",
+      lastName: "Wilson",
       id: "AFF007",
     },
   },

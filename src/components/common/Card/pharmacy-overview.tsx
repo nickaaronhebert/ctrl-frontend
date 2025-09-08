@@ -17,11 +17,7 @@ const orderDisplayFields: {
   },
   {
     label: "Submitted",
-    getValue: (_transmission) => "Aug 10, 2025 8:02:15 AM", // static placeholder
-  },
-  {
-    label: "Completed",
-    getValue: (_transmission) => "Aug 10, 2025 8:02:15 AM", // static placeholder
+    getValue: (_transmission) => "Aug 10, 2025 8:02:15 AM",
   },
 ];
 

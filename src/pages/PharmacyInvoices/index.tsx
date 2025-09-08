@@ -8,6 +8,9 @@ import { invoiceColumns } from "@/components/data-table/columns/invoiceTransacti
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
 import { AffiliateAdminDialog } from "@/components/common/AffiliateAdminDialog/AffiliateAdminDialog";
+import type { DateRange } from "react-day-picker";
+import { DateFilterDialog } from "@/components/common/DateRangeDialog/DateRangeDialog";
+import { useGetPharmacyInvoicesQuery } from "@/redux/services/pharmacy";
 
 export default function PharmacyInvoices() {
   const [searchParams] = useSearchParams();
@@ -17,16 +20,37 @@ export default function PharmacyInvoices() {
   const [openAffiliateDialog, setOpenAffiliateDialog] =
     useState<boolean>(false);
   const [selectedAffiliates, setSelectedAffiliates] = useState<string[]>([]);
+  const [openDatePicker, setOpenDatePicker] = useState(false);
+  const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
+
+  const { data } = useGetPharmacyInvoicesQuery(
+    { page, perPage },
+    {
+      // Use the selectFromResult method to omit pharmacy and organization fields
+      selectFromResult: (result) => ({
+        data:
+          result?.data?.data?.map((invoice) => {
+            console.log(">>", result.data);
+            const { pharmacy, organization, ...rest } = invoice;
+            return rest;
+          }) ?? [],
+        isLoading: result.isLoading,
+        isError: result.isError,
+      }),
+    }
+  );
+
+  console.log("Invoices Data:", data);
 
   const { table } = useDataTable({
-    data: dummyInvoices || [],
+    data: data || [],
     columns,
     pageCount: -1,
   });
 
   return (
-    <>
-      <div className=" lg:p-3.5">
+    <div className="flex flex-col min-h-screen">
+      <div className=" lg:p-3.5 flex-grow">
         <div className="flex justify-between items-center w-full">
           <div>
             <h1 className="text-2xl font-bold">Invoices</h1>
@@ -44,7 +68,10 @@ export default function PharmacyInvoices() {
                 <ChevronDown className="w-4 h-4 ml-2" />
               </Button>
 
-              <Button className="w-[113px] h-[44px] rounded-[6px] border border-card-border cursor-pointer p-[15px] text-black bg-white hover:bg-white flex items-center justify-between">
+              <Button
+                onClick={() => setOpenDatePicker(true)}
+                className="w-[113px] h-[44px] rounded-[6px] border border-card-border cursor-pointer p-[15px] text-black bg-white hover:bg-white flex items-center justify-between"
+              >
                 <span>All Dates</span>
                 <ChevronDown className="w-4 h-4 ml-2" />
               </Button>
@@ -67,6 +94,25 @@ export default function PharmacyInvoices() {
           onSelectedAffiliatesChange={setSelectedAffiliates}
         />
       )}
-    </>
+
+      {/* Date Filter Dialog */}
+      {openDatePicker && (
+        <DateFilterDialog
+          open={openDatePicker}
+          onOpenChange={setOpenDatePicker}
+          dateRange={dateRange}
+          onDateRangeChange={setDateRange}
+        />
+      )}
+      {/* <div className="flex justify-between items-center px-4 bg-strength">
+        <div>
+          <p>Total Amount (All Time)</p>
+          <span>$29,354.00</span>
+        </div>
+        <Button className="bg-black min-w-[110px] min-h-[40px] rounded-[50px] text-white px-[20px] py-[5px] hover:bg-black">
+          Get Excel Report
+        </Button>
+      </div> */}
+    </div>
   );
 }

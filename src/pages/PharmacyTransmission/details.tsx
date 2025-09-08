@@ -1,13 +1,8 @@
 import { Link, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-// import { useViewTransmissionByIdQuery } from "@/redux/services/transmission";
-// import PharmacyCard from "@/components/common/Card/pharmacy";
-// import PrescriptionCard from "@/components/common/Card/prescription";
-// import TransmissionOverviewCard from "@/components/common/Card/transmission-overview";
 import CubeSVG from "@/assets/icons/Cube";
 import MedicationLibrary from "@/assets/icons/MedicationLibrary";
-import { dummyPharmacyTransmissions } from "@/constants";
 import ZigZag from "@/assets/icons/ZigZag";
 import Profile from "@/assets/icons/Profile";
 import Invoices from "@/assets/icons/Invoices";
@@ -16,7 +11,7 @@ import PharmacyOverviewCard from "@/components/common/Card/pharmacy-overview";
 import PatientCard from "@/components/common/Card/patient";
 import ProviderCard from "@/components/common/Card/provider";
 import PrescriptionCard from "@/components/common/Card/prescription";
-import { useViewTransmissionByIdQuery } from "@/redux/services/transmission";
+import { useViewPharmacyTransmissionByIdQuery } from "@/redux/services/transmission";
 
 const menuItems = [
   {
@@ -27,7 +22,7 @@ const menuItems = [
 
   {
     title: "Patient Information",
-    scrollToId: "pharmacyInformation",
+    scrollToId: "patientInformation",
     icon: Profile,
   },
 
@@ -38,7 +33,7 @@ const menuItems = [
   // },
   {
     title: "Provider Information",
-    scrollToId: "medicationInformation",
+    scrollToId: "providerInformation",
     icon: Profile,
   },
   {
@@ -48,32 +43,28 @@ const menuItems = [
   },
   {
     title: "Transactions",
-    scrollToId: "medicationInformation",
+    scrollToId: "transactionInformation",
     icon: Invoices,
   },
 ];
 
 export default function PharmacyTransmissionDetails() {
   const { id } = useParams();
-  const singlePharmacyTransmission = dummyPharmacyTransmissions.find(
-    (pharmacy) => pharmacy.id === id
-  );
+  // console.log("singlePharmacyTransmission", singlePharmacyTransmission);
 
-  console.log("singlePharmacyTransmission", singlePharmacyTransmission);
+  // const statusColorMap: Record<string, string> = {
+  //   created: "bg-background",
+  //   pending: "bg-pending-secondary",
+  //   queued: "bg-queued-secondary",
+  //   transmitted: "bg-progress-secondary",
+  //   failed: "bg-failed-secondary",
+  // };
 
-  const statusColorMap: Record<string, string> = {
-    created: "bg-background",
-    pending: "bg-pending-secondary",
-    queued: "bg-queued-secondary",
-    transmitted: "bg-progress-secondary",
-    failed: "bg-failed-secondary",
-  };
-
-  const { data, pharmacy, prescriptions, transmissionDetails } =
-    useViewTransmissionByIdQuery(id as string, {
+  const { data, prescriptions } = useViewPharmacyTransmissionByIdQuery(
+    id as string,
+    {
       selectFromResult: ({ data, isLoading, isError }) => ({
         data: data?.data,
-        pharmacy: data?.data?.pharmacy,
         prescriptions: data?.data?.prescriptions,
         transmissionDetails: {
           amount: data?.data?.amount || 0,
@@ -83,11 +74,14 @@ export default function PharmacyTransmissionDetails() {
         isLoading: isLoading,
         isError: isError,
       }),
-    });
+    }
+  );
 
   const [activeTab, setActiveTab] = useState<
     "transmissionOverview" | "pharmacyInformation" | "medicationInformation"
   >("transmissionOverview");
+
+  console.log("Single Pharmacy transmissionnn", data);
 
   return (
     <div className="mb-5">
@@ -162,17 +156,13 @@ export default function PharmacyTransmissionDetails() {
         </div>
 
         <div className="flex flex-col gap-5 w-full">
-          {singlePharmacyTransmission && (
-            <PharmacyOverviewCard transmission={singlePharmacyTransmission} />
-          )}
+          {data && <PharmacyOverviewCard transmission={data} />}
 
-          {singlePharmacyTransmission && (
-            <PatientCard patient={singlePharmacyTransmission.patient} />
-          )}
+          {data && <PatientCard patient={data?.patient} />}
 
-          {singlePharmacyTransmission && (
-            <ProviderCard provider={singlePharmacyTransmission.provider} />
-          )}
+          {data?.prescriptions?.map((prescription, idx) => (
+            <ProviderCard key={idx} provider={prescription.provider} />
+          ))}
 
           <div
             className="bg-white rounded-[10px] shadow-[0px_2px_40px_0px_#00000014]"

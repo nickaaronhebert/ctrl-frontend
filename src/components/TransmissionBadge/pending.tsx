@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 
-export default function PendingBadge({ title = "Pending" }) {
+export default function PendingBadge({ title = "Created" }) {
   return (
     <Badge className="bg-pending-secondary text-pending font-medium text-xs p-1.5 border border-pending flex gap-1.5">
       <svg

@@ -16,6 +16,7 @@ const providerDisplayFields: {
 ];
 
 export default function ProviderCard({ provider }: { provider: Provider }) {
+  console.log("provider", provider);
   return (
     <div
       className="bg-white rounded-[10px] shadow-[0px_2px_40px_0px_#00000014]"

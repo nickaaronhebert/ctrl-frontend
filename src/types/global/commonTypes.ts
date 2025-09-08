@@ -1,5 +1,4 @@
 import { type Permission } from "@/components/Permissions/permissions";
-import type { ProductVariantDetails } from "../responses/transmission";
 
 export interface UserPermission {
   action: Permission;
@@ -30,6 +29,17 @@ export const PROVIDER_STATUS = {
   INVITATION_ACCEPTED: "invitation_accepted",
   MED_SUBMITTED: "med_submitted",
 };
+
+export type Address = {
+  address1: string;
+  address2: string;
+  city: string;
+  country: string;
+  isDefault: boolean;
+  state: string;
+  zipcode: string;
+  _id: string;
+};
 export interface Patient {
   firstName: string;
   lastName: string;
@@ -40,6 +50,7 @@ export interface Patient {
   phoneNumber: string;
   email: string;
   id: string;
+  addresses: Address[];
 }
 
 export interface Pharmacy {
@@ -57,6 +68,17 @@ export interface MedicationCatalogue {
   category: string;
   condition: string;
   id: string;
+}
+
+export interface Invoices {
+  transmissionCode: string;
+  totalAmount: string;
+  id: string;
+  createdAt: string;
+  pharmacy: {
+    name: string;
+    phoneNumber: string;
+  };
 }
 
 export interface ProductVariant {
@@ -106,9 +128,9 @@ export type PharmacyTransmissionRow = {
   status: string;
   providers: Provider;
   patient: Patient;
-  productVariants: ProductVariantDetails[];
-  // prescriptions: Prescription[];
+  prescriptions: Prescription[];
   amount: number;
+  createdAt: string;
 };
 
 // Invoice one //
@@ -117,7 +139,8 @@ export type InvoiceRow = {
   date: Date;
   amount: number;
   affiliate: {
-    name: string;
+    firstName: string;
+    lastName: string;
     id: string;
   };
 };
@@ -154,4 +177,53 @@ export interface MetaData {
   pageCount: number;
   hasPreviousPage: boolean;
   hasNextPage: boolean;
+}
+
+// Define the structure of a Line Item
+export interface LineItem {
+  productVariantPrice: number;
+  quantity: number;
+  productVariant: string;
+  pharmacyCatalogue: string;
+  totalPrice: number;
+  prescription: string;
+  prescriptionCode: string;
+  _id: string;
+}
+
+// Define the structure of the Transaction
+export interface Transaction {
+  order: string;
+  orderCode: string;
+  transmission: string;
+  transmissionCode: string;
+  pharmacy: string;
+  organization: string;
+  lineItems: LineItem[];
+  medicationFee: number;
+  applicationFee: number;
+  totalAmount: number;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  paymentIntent: string;
+  id: string;
+}
+
+// Define the structure of the Transfer
+export interface Transfer {
+  transferStatus: string;
+  pharmacy: string;
+  organization: string;
+  createdAt: string;
+  updatedAt: string;
+  id: string;
+}
+
+export interface PharmacyInvoices {
+  transaction: Transaction;
+  transferStatus: string;
+  createdAt: string;
+  updatedAt: string;
+  id: string;
 }

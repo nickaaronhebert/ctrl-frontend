@@ -1,3 +1,4 @@
+import type { PharmacyInvoiceResponse } from "@/types/responses/invoices";
 import { baseApi } from ".";
 
 export const pharmacyApi = baseApi.injectEndpoints({
@@ -17,10 +18,21 @@ export const pharmacyApi = baseApi.injectEndpoints({
         body,
       }),
     }),
+    // Pharmacy invoices get all //
+    getPharmacyInvoices: builder.query<
+      PharmacyInvoiceResponse,
+      { page: number; perPage: number }
+    >({
+      query: ({ page, perPage }) => ({
+        url: `/transaction/pharmacy-transfers?page=${page}&limit=${perPage}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
 export const {
   useVerifyPharmacyInvitationMutation,
   useAcceptPharmacyInvitationMutation,
+  useGetPharmacyInvoicesQuery,
 } = pharmacyApi;
