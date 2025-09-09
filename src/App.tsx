@@ -26,11 +26,9 @@ import RoleChecker from "./guard/RoleChecker";
 import PostLoginRedirect from "./components/common/PostLoginRedirect";
 import OrganisationDashboard from "./pages/OrganizationDashboard";
 
-import Transactions from "./pages/Transactions";
 import Medications from "./pages/Medications";
 import Pharmacies from "./pages/Pharmacies";
 
-import OrgSettings from "./pages/OrgSettings";
 import OrganizationTransmission from "./pages/OrganizationTransmission";
 import OrganizationOrder from "./pages/OrganizationOrder";
 
@@ -45,7 +43,7 @@ import AccessDetail from "./pages/AccessDetail";
 import PatientList from "./pages/Organization/Patient";
 import CreatePatient from "./pages/Organization/Patient/create";
 import PatientStatus from "./pages/Organization/Patient/success";
-// import EditPatient from "./pages/Organization/Patient/edit";
+
 import ViewPatientDetails from "./pages/Organization/Patient/details";
 import EditPatient from "./pages/Organization/Patient/edit";
 import ActivityLogs from "./pages/Organization/ActivityLogs";
@@ -59,7 +57,7 @@ import WelcomePharmacy from "./components/pharmacy/welcome";
 
 import OrganizationSettings from "./pages/Organization/Settings";
 import Invoices from "./pages/Organization/Invoices";
-// import ViewInvoiceDetails from "./pages/Organization/Invoices/details";
+import ViewInvoiceDetails from "./pages/Organization/Invoices/details";
 
 const router = createBrowserRouter([
   {
@@ -258,10 +256,10 @@ const router = createBrowserRouter([
         path: "/org/transmissions/:id",
         element: <TransmissionDetails />,
       },
-      // {
-      //   path: "/org/transactions/:id",
-      //   element: <ViewInvoiceDetails />,
-      // },
+      {
+        path: "/org/transactions/:id",
+        element: <ViewInvoiceDetails />,
+      },
       {
         path: ROUTES.ORG_ACCESS_CONTROL,
         element: <AccessControl />,
