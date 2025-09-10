@@ -5,16 +5,16 @@ import { useViewTransmissionByIdQuery } from "@/redux/services/transmission";
 import PharmacyCard from "@/components/common/Card/pharmacy";
 import PrescriptionCard from "@/components/common/Card/prescription";
 import TransmissionOverviewCard from "@/components/common/Card/transmission-overview";
-import CubeSVG from "@/assets/icons/Cube";
-import Pharmacies from "@/assets/icons/Pharmacies";
-import MedicationLibrary from "@/assets/icons/MedicationLibrary";
-import Transmission from "@/assets/icons/Transmission";
+import Pharmacies from "@/assets/mainlayouticons/Pharmacies";
+import ZigZag from "@/assets/mainlayouticons/ZigZag";
+import Medications from "@/assets/mainlayouticons/Medications";
+import SecondaryOverview from "@/assets/mainlayouticons/SecondaryOverview";
 
 const menuItems = [
   {
     title: "Overview",
     scrollToId: "transmissionOverview",
-    icon: Transmission,
+    icon: ZigZag,
   },
 
   {
@@ -26,7 +26,7 @@ const menuItems = [
   {
     title: "Prescription Information",
     scrollToId: "medicationInformation",
-    icon: MedicationLibrary,
+    icon: Medications,
   },
 ];
 
@@ -65,6 +65,8 @@ export default function TransmissionDetails() {
 
   console.log("status", data?.status);
 
+  console.log("prescriptions::: ", prescriptions);
+
   return (
     <div className="mb-5">
       <div className={` ${bgColor} py-3 px-12`}>
@@ -88,7 +90,7 @@ export default function TransmissionDetails() {
           <div className="p-3">
             <div className="flex gap-3.5 items-center ">
               <div className="w-[50px] h-[50px] flex justify-center items-center bg-lilac rounded-[8px]">
-                <CubeSVG />
+                <SecondaryOverview />
               </div>
               <div>
                 <h4 className="text-base font-medium text-black">
@@ -146,7 +148,7 @@ export default function TransmissionDetails() {
             id="medicationInformation"
           >
             <div className="flex items-center gap-2 p-5 border-b border-card-border">
-              <MedicationLibrary color="black" width={30} height={30} />
+              <Medications color="black" />
               <h2 className="text-base font-semibold ">Medications</h2>
             </div>
             {prescriptions && (

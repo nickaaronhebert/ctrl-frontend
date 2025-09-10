@@ -1,7 +1,7 @@
 import CubeSVG from "@/assets/icons/Cube";
-import MedicationLibrary from "@/assets/icons/MedicationLibrary";
-import Provider from "@/assets/icons/Provider";
-import Transmission from "@/assets/icons/Transmission";
+import Medications from "@/assets/mainlayouticons/Medications";
+import SecondaryPatient from "@/assets/mainlayouticons/SecondaryPatient";
+import ZigZag from "@/assets/mainlayouticons/ZigZag";
 import OrderOverviewCard from "@/components/common/Card/order-overview";
 import PatientCard from "@/components/common/Card/patient";
 import TransmissionCard from "@/components/common/Card/transmission";
@@ -14,18 +14,18 @@ const menuItems = [
   {
     title: "Order Overview",
     scrollToId: "orderOverview",
-    icon: Transmission,
+    icon: ZigZag,
   },
   {
     title: "Patient Information",
     scrollToId: "patientInformation",
-    icon: Provider,
+    icon: SecondaryPatient,
   },
 
   {
     title: "Transmissions",
     scrollToId: "transmissionDetails",
-    icon: MedicationLibrary,
+    icon: Medications,
   },
 ];
 

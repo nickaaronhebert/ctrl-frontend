@@ -1,5 +1,6 @@
 import type {
   MedicationCatalogue,
+  PharmacyTransmissionRow,
   ProductVariant,
   Transmission,
 } from "../global/commonTypes";
@@ -28,6 +29,10 @@ export interface IViewAllTransmissionsResponse {
   data: TransmissionDetails[];
   meta: PaginationMeta;
 }
+export interface IViewAllPharmacyTransmissionsResponse {
+  data: PharmacyTransmissionRow[];
+  meta: PaginationMeta;
+}
 
 export interface IViewAllTransmissionsRequest {
   page: number;
@@ -39,3 +44,11 @@ export interface IViewAllTransmissionsRequest {
 export interface IViewTransmissionByIdResponse {
   data: IndividualTranmissionDetails;
 }
+
+export interface IViewPharmacyTransmissionByIdResponse {
+  data: PharmacyTransmissionRow;
+}
+
+// export interface IViewPharmacyInvoiceResponse {
+//   data:
+// }

@@ -1,4 +1,4 @@
-import Pharmacies from "@/assets/icons/Pharmacies";
+import Pharmacies from "@/assets/mainlayouticons/Pharmacies";
 import { cn } from "@/lib/utils";
 import type { Pharmacy } from "@/types/global/commonTypes";
 

@@ -7,21 +7,22 @@ import Orders from "@/assets/icons/Orders";
 import Provider from "@/assets/icons/Provider";
 import Transactions from "@/assets/icons/Transactions";
 import MedicationLibrary from "@/assets/icons/MedicationLibrary";
-import Pharmacies from "@/assets/icons/Pharmacies";
 import ActivityLog from "@/assets/icons/ActivityLog";
 import SettingsMain from "@/assets/icons/SettingsMain";
 import type { Transmission as MyTransmission } from "@/components/data-table/columns/recentTransmissions";
+import type { InvoiceRow } from "@/types/global/commonTypes";
 import type {
   Medication,
   Pharmacy,
 } from "@/components/data-table/columns/medication-library";
-import Invoices from "@/assets/icons/Invoices";
+import InvoicesMain from "@/assets/icons/InvoicesMain";
+import PatientIcon from "@/assets/icons/PatientIcon";
 // import { type MedicationAssignment } from "@/components/data-table/columns/access-control";
 
 export interface TabConfig {
   id: string;
   label: string;
-  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  icon: React.ComponentType<any>;
 }
 
 export const tabsConfig: TabConfig[] = [
@@ -35,7 +36,7 @@ export const organisationAdminItems = [
   { title: "Transmissions", url: "/org/transmissions", icon: Transmission },
   { title: "Orders", url: "/org/orders", icon: Orders },
   { title: "Providers", url: "/org/providers", icon: Provider },
-  { title: "Patients", url: "/org/patients", icon: Provider },
+  { title: "Patients", url: "/org/patients", icon: PatientIcon },
   { title: "Transactions", url: "/org/transactions", icon: Transactions },
   {
     title: "Medication Library",
@@ -45,7 +46,33 @@ export const organisationAdminItems = [
   {
     title: "Pharmacies",
     url: "/org/pharmacies",
-    icon: Pharmacies,
+    icon: MedicationLibrary,
+  },
+  { title: "Activity Log", url: "/org/activity-log", icon: ActivityLog },
+  { title: "Settings", url: "/org/settings", icon: SettingsMain },
+  {
+    title: "Pharmacy Assignment",
+    url: "/org/access-control",
+    icon: SettingsMain,
+  },
+];
+
+export const sidebarIcons = [
+  { title: "Dashboard", url: "/org/dashboard", icon: Dashboard },
+  { title: "Transmissions", url: "/org/transmissions", icon: Transmission },
+  { title: "Orders", url: "/org/orders", icon: Orders },
+  { title: "Providers", url: "/org/providers", icon: Provider },
+  { title: "Patients", url: "/org/patients", icon: PatientIcon },
+  { title: "Transactions", url: "/org/transactions", icon: Transactions },
+  {
+    title: "Medication Library",
+    url: "/org/medications",
+    icon: MedicationLibrary,
+  },
+  {
+    title: "Pharmacies",
+    url: "/org/pharmacies",
+    icon: MedicationLibrary,
   },
   { title: "Activity Log", url: "/org/activity-log", icon: ActivityLog },
   { title: "Settings", url: "/org/settings", icon: SettingsMain },
@@ -84,7 +111,7 @@ export const pharmacyAdminItems = [
     url: "/pharmacy/transmissions",
     icon: Transmission,
   },
-  { title: "Invoices", url: "/pharmacy/invoices", icon: Invoices },
+  { title: "Invoices", url: "/pharmacy/invoices", icon: InvoicesMain },
   {
     title: "Medication Library",
     url: "/pharmacy/medications",
@@ -660,3 +687,652 @@ export const USA_STATES = [
 ];
 
 export default US_STATES;
+
+// Pharmacy module below //
+
+// export const dummyPharmacyTransmissions: PharmacyTransmissionRow[] = [
+//   {
+//     id: "1",
+//     transmissionId: "TMS_1101",
+//     status: "Transmitted",
+//     provider: {
+//       firstName: "James",
+//       lastName: "Wilson",
+//       email: "james.wilson@example.com",
+//       npi: "5566778899",
+//       phoneNumber: "555-123-4567",
+//       id: "prov_001",
+//       medicalLicense: [
+//         {
+//           state: "CA",
+//           licenseNumber: "CA1234567",
+//           _id: "ml_001",
+//         },
+//       ],
+//     },
+//     patient: {
+//       firstName: "Emma",
+//       lastName: "Smith",
+//       dob: "1985-06-15",
+//       state: "CA",
+//       zipcode: "90001",
+//       gender: "female",
+//       phoneNumber: "555-234-5678",
+//       email: "emma.smith@example.com",
+//       id: "pat_001",
+//     },
+//     productVariants: [
+//       {
+//         id: "pv_001",
+//         strength: "50 mcg",
+//         containerQuantity: 60,
+//         quantityType: "each",
+//         medicationCatalogue: {
+//           id: "med_001",
+//           drugName: "Levothyroxine",
+//           dosageForm: "oral",
+//           isCompound: false,
+//         },
+//       },
+//       {
+//         id: "pv_002",
+//         strength: "81 mg",
+//         containerQuantity: 30,
+//         quantityType: "tablets",
+//         medicationCatalogue: {
+//           id: "med_002",
+//           drugName: "Aspirin",
+//           dosageForm: "oral",
+//           isCompound: false,
+//         },
+//       },
+//     ],
+//     amount: 120.0,
+//   },
+//   {
+//     id: "2",
+//     transmissionId: "TMS_1102",
+//     status: "Queued",
+//     provider: {
+//       firstName: "Sophia",
+//       lastName: "Lee",
+//       email: "sophia.lee@example.com",
+//       npi: "9988776655",
+//       phoneNumber: "555-678-9012",
+//       id: "prov_002",
+//       medicalLicense: [
+//         {
+//           state: "NY",
+//           licenseNumber: "NY4567890",
+//           _id: "ml_002",
+//         },
+//       ],
+//     },
+//     patient: {
+//       firstName: "Liam",
+//       lastName: "Johnson",
+//       dob: "1992-11-30",
+//       state: "NY",
+//       zipcode: "10001",
+//       gender: "male",
+//       phoneNumber: "555-345-6789",
+//       email: "liam.johnson@example.com",
+//       id: "pat_002",
+//     },
+//     productVariants: [
+//       {
+//         id: "pv_003",
+//         strength: "500 mg",
+//         containerQuantity: 90,
+//         quantityType: "tablets",
+//         medicationCatalogue: {
+//           id: "med_003",
+//           drugName: "Metformin",
+//           dosageForm: "oral",
+//           isCompound: false,
+//         },
+//       },
+//       {
+//         id: "pv_004",
+//         strength: "10 mg",
+//         containerQuantity: 30,
+//         quantityType: "capsules",
+//         medicationCatalogue: {
+//           id: "med_004",
+//           drugName: "Lisinopril",
+//           dosageForm: "oral",
+//           isCompound: false,
+//         },
+//       },
+//       {
+//         id: "pv_005",
+//         strength: "20 mg",
+//         containerQuantity: 60,
+//         quantityType: "tablets",
+//         medicationCatalogue: {
+//           id: "med_005",
+//           drugName: "Atorvastatin",
+//           dosageForm: "oral",
+//           isCompound: false,
+//         },
+//       },
+//     ],
+//     amount: 75.5,
+//   },
+//   {
+//     id: "3",
+//     transmissionId: "TMS_1103",
+//     status: "Created",
+//     provider: {
+//       firstName: "David",
+//       lastName: "Nguyen",
+//       email: "david.nguyen@example.com",
+//       npi: "1122334455",
+//       phoneNumber: "555-789-0123",
+//       id: "prov_003",
+//       medicalLicense: [
+//         {
+//           state: "TX",
+//           licenseNumber: "TX7890123",
+//           _id: "ml_003",
+//         },
+//       ],
+//     },
+//     patient: {
+//       firstName: "Olivia",
+//       lastName: "Brown",
+//       dob: "1978-03-22",
+//       state: "TX",
+//       zipcode: "73301",
+//       gender: "female",
+//       phoneNumber: "555-456-7890",
+//       email: "olivia.brown@example.com",
+//       id: "pat_003",
+//     },
+//     productVariants: [
+//       {
+//         id: "pv_006",
+//         strength: "20 mg",
+//         containerQuantity: 30,
+//         quantityType: "capsules",
+//         medicationCatalogue: {
+//           id: "med_006",
+//           drugName: "Omeprazole",
+//           dosageForm: "oral",
+//           isCompound: false,
+//         },
+//       },
+//     ],
+//     amount: 40,
+//   },
+//   {
+//     id: "4",
+//     transmissionId: "TMS_1104",
+//     status: "Failed",
+//     provider: {
+//       firstName: "Michael",
+//       lastName: "Chen",
+//       email: "michael.chen@example.com",
+//       npi: "2233445566",
+//       phoneNumber: "555-890-1234",
+//       id: "prov_004",
+//       medicalLicense: [
+//         {
+//           state: "FL",
+//           licenseNumber: "FL8901234",
+//           _id: "ml_004",
+//         },
+//       ],
+//     },
+//     patient: {
+//       firstName: "Noah",
+//       lastName: "Davis",
+//       dob: "2000-09-10",
+//       state: "FL",
+//       zipcode: "33101",
+//       gender: "male",
+//       phoneNumber: "555-567-8901",
+//       email: "noah.davis@example.com",
+//       id: "pat_004",
+//     },
+//     productVariants: [
+//       {
+//         id: "pv_007",
+//         strength: "100 units/mL",
+//         containerQuantity: 3,
+//         quantityType: "vials",
+//         medicationCatalogue: {
+//           id: "med_007",
+//           drugName: "Insulin Glargine",
+//           dosageForm: "Injectable",
+//           isCompound: false,
+//         },
+//       },
+//       {
+//         id: "pv_008",
+//         strength: "1 mg/mL",
+//         containerQuantity: 1,
+//         quantityType: "kit",
+//         medicationCatalogue: {
+//           id: "med_008",
+//           drugName: "Glucagon",
+//           dosageForm: "Injectable",
+//           isCompound: true,
+//         },
+//       },
+//     ],
+//     amount: 200.25,
+//   },
+//   {
+//     id: "5",
+//     transmissionId: "TMS_1105",
+//     status: "Transmitted",
+//     provider: {
+//       firstName: "Emily",
+//       lastName: "Johnson",
+//       email: "emily.johnson@example.com",
+//       npi: "3344556677",
+//       phoneNumber: "555-901-2345",
+//       id: "prov_005",
+//       medicalLicense: [
+//         {
+//           state: "WA",
+//           licenseNumber: "WA1239876",
+//           _id: "ml_005",
+//         },
+//       ],
+//     },
+//     patient: {
+//       firstName: "Ava",
+//       lastName: "Martinez",
+//       dob: "1990-12-05",
+//       state: "WA",
+//       zipcode: "98101",
+//       gender: "female",
+//       phoneNumber: "555-678-9012",
+//       email: "ava.martinez@example.com",
+//       id: "pat_005",
+//     },
+//     productVariants: [
+//       {
+//         id: "pv_009",
+//         strength: "500 mg",
+//         containerQuantity: 21,
+//         quantityType: "capsules",
+//         medicationCatalogue: {
+//           id: "med_009",
+//           drugName: "Amoxicillin",
+//           dosageForm: "oral",
+//           isCompound: false,
+//         },
+//       },
+//       {
+//         id: "pv_010",
+//         strength: "200 mg",
+//         containerQuantity: 30,
+//         quantityType: "tablets",
+//         medicationCatalogue: {
+//           id: "med_010",
+//           drugName: "Ibuprofen",
+//           dosageForm: "oral",
+//           isCompound: false,
+//         },
+//       },
+//       {
+//         id: "pv_011",
+//         strength: "0.3 mg",
+//         containerQuantity: 2,
+//         quantityType: "auto-injectors",
+//         medicationCatalogue: {
+//           id: "med_011",
+//           drugName: "Epinephrine",
+//           dosageForm: "Injectable",
+//           isCompound: false,
+//         },
+//       },
+//     ],
+//     amount: 155.75,
+//   },
+// ];
+
+export const dummyPharmacyTransmissions = [
+  {
+    id: "1",
+    transmissionId: "TMS_1101",
+    status: "Transmitted",
+    amount: 120.0,
+    provider: {
+      firstName: "James",
+      lastName: "Wilson",
+      email: "james.wilson@example.com",
+      npi: "5566778899",
+      phoneNumber: "555-123-4567",
+      id: "prov_001",
+      medicalLicense: [
+        {
+          state: "CA",
+          licenseNumber: "CA1234567",
+          _id: "ml_001",
+        },
+      ],
+    },
+    patient: {
+      firstName: "Emma",
+      lastName: "Smith",
+      dob: "1985-06-15",
+      state: "CA",
+      zipcode: "90001",
+      gender: "female",
+      phoneNumber: "555-234-5678",
+      email: "emma.smith@example.com",
+      id: "pat_001",
+    },
+    prescriptions: [
+      {
+        id: "prsc_1_0",
+        prescriptionId: "PRE_000001_1",
+        productVariant: {
+          id: "pv_001",
+          strength: "50 mcg",
+          containerQuantity: 60,
+          quantityType: "each",
+          medicationCatalogue: {
+            id: "med_001",
+            drugName: "Levothyroxine",
+            dosageForm: "oral",
+            isCompound: false,
+            category: "Thyroid",
+            condition: "Hypothyroidism",
+          },
+        },
+        quantity: 60,
+        instructions: "Take once a day",
+        notes: "Patient is stable on this dose",
+        pharmacyCatalogue: "pc_1_0",
+        isManualTransmission: true,
+        amount: 130,
+        status: "Pending",
+        provider: {
+          firstName: "James",
+          lastName: "Wilson",
+          email: "james.wilson@example.com",
+          npi: "5566778899",
+          phoneNumber: "555-123-4567",
+          id: "prov_001",
+          medicalLicense: [
+            {
+              state: "CA",
+              licenseNumber: "CA1234567",
+              _id: "ml_001",
+            },
+          ],
+        },
+      },
+      {
+        id: "prsc_1_1",
+        prescriptionId: "PRE_000001_2",
+        productVariant: {
+          id: "pv_002",
+          strength: "81 mg",
+          containerQuantity: 30,
+          quantityType: "mg",
+          medicationCatalogue: {
+            id: "med_002",
+            drugName: "Aspirin",
+            dosageForm: "oral",
+            isCompound: false,
+            category: "Thyroid",
+            condition: "Hypothyroidism",
+          },
+        },
+        quantity: 30,
+        instructions: "Take once a day",
+        pharmacyCatalogue: "pc_1_1",
+        isManualTransmission: true,
+        status: "Pending",
+        amount: 120.0,
+        notes: "Patient is stable on this dose",
+        provider: {
+          firstName: "James",
+          lastName: "Wilson",
+          email: "james.wilson@example.com",
+          npi: "5566778899",
+          phoneNumber: "555-123-4567",
+          id: "prov_001",
+          medicalLicense: [
+            {
+              state: "CA",
+              licenseNumber: "CA1234567",
+              _id: "ml_001",
+            },
+          ],
+        },
+      },
+    ],
+  },
+
+  // Transmission 2
+  {
+    id: "2",
+    transmissionId: "TMS_1102",
+    status: "Queued",
+    amount: 75.5,
+    provider: {
+      firstName: "Sophia",
+      lastName: "Lee",
+      email: "sophia.lee@example.com",
+      npi: "9988776655",
+      phoneNumber: "555-678-9012",
+      id: "prov_002",
+      medicalLicense: [
+        {
+          state: "NY",
+          licenseNumber: "NY4567890",
+          _id: "ml_002",
+        },
+      ],
+    },
+    patient: {
+      firstName: "Liam",
+      lastName: "Johnson",
+      dob: "1992-11-30",
+      state: "NY",
+      zipcode: "10001",
+      gender: "male",
+      phoneNumber: "555-345-6789",
+      email: "liam.johnson@example.com",
+      id: "pat_002",
+    },
+    prescriptions: [
+      {
+        id: "prsc_2_0",
+        prescriptionId: "PRE_000002_1",
+        productVariant: {
+          id: "pv_003",
+          strength: "500 mg",
+          containerQuantity: 90,
+          quantityType: "ml",
+          medicationCatalogue: {
+            id: "med_003",
+            drugName: "Metformin",
+            dosageForm: "oral",
+            isCompound: false,
+            category: "Thyroid",
+            condition: "Hypothyroidism",
+          },
+        },
+        quantity: 90,
+        instructions: "Take twice a day",
+        pharmacyCatalogue: "pc_2_0",
+        isManualTransmission: true,
+        status: "Queued",
+        amount: 120.0,
+        notes: "Patient is stable on this dose",
+        provider: {
+          firstName: "Sophia",
+          lastName: "Lee",
+          email: "sophia.lee@example.com",
+          npi: "9988776655",
+          phoneNumber: "555-678-9012",
+          id: "prov_002",
+          medicalLicense: [
+            {
+              state: "NY",
+              licenseNumber: "NY4567890",
+              _id: "ml_002",
+            },
+          ],
+        },
+      },
+    ],
+  },
+
+  // Transmission 3
+  {
+    id: "3",
+    transmissionId: "TMS_1103",
+    status: "Created",
+    amount: 40,
+    provider: {
+      firstName: "David",
+      lastName: "Nguyen",
+      email: "david.nguyen@example.com",
+      npi: "1122334455",
+      phoneNumber: "555-789-0123",
+      id: "prov_003",
+      medicalLicense: [
+        {
+          state: "TX",
+          licenseNumber: "TX7890123",
+          _id: "ml_003",
+        },
+      ],
+    },
+    patient: {
+      firstName: "Olivia",
+      lastName: "Brown",
+      dob: "1978-03-22",
+      state: "TX",
+      zipcode: "73301",
+      gender: "female",
+      phoneNumber: "555-456-7890",
+      email: "olivia.brown@example.com",
+      id: "pat_003",
+    },
+    prescriptions: [
+      {
+        id: "prsc_3_0",
+        prescriptionId: "PRE_000003_1",
+        productVariant: {
+          id: "pv_006",
+          strength: "20 mg",
+          containerQuantity: 30,
+          quantityType: "ml",
+          medicationCatalogue: {
+            id: "med_006",
+            drugName: "Omeprazole",
+            dosageForm: "oral",
+            isCompound: false,
+            category: "Thyroid",
+            condition: "Hypothyroidism",
+          },
+        },
+        quantity: 30,
+        instructions: "Take before meals",
+        pharmacyCatalogue: "pc_3_0",
+        isManualTransmission: true,
+        status: "Created",
+        amount: 120.0,
+        notes: "Patient is stable on this dose",
+        provider: {
+          firstName: "David",
+          lastName: "Nguyen",
+          email: "david.nguyen@example.com",
+          npi: "1122334455",
+          phoneNumber: "555-789-0123",
+          id: "prov_003",
+          medicalLicense: [
+            {
+              state: "TX",
+              licenseNumber: "TX7890123",
+              _id: "ml_003",
+            },
+          ],
+        },
+      },
+    ],
+  },
+];
+
+export const dummyInvoices: InvoiceRow[] = [
+  {
+    transmissionId: "TMS_001234",
+    date: new Date("2025-08-28"),
+    amount: 1350.0,
+    affiliate: {
+      firstName: "John",
+      lastName: "Smith",
+      id: "AFF001",
+    },
+  },
+  {
+    transmissionId: "TMS_001233",
+    date: new Date("2025-08-26"),
+    amount: 950.0,
+    affiliate: {
+      firstName: "Sarah",
+      lastName: "Johnson",
+      id: "AFF002",
+    },
+  },
+  {
+    transmissionId: "TMS_001237",
+    date: new Date("2025-08-14"),
+    amount: 2200.0,
+    affiliate: {
+      firstName: "Daniel",
+      lastName: "Kim",
+      id: "AFF003",
+    },
+  },
+  {
+    transmissionId: "TMS_001239",
+    date: new Date("2025-08-10"),
+    amount: 450.0,
+    affiliate: {
+      firstName: "Michael",
+      lastName: "Lee",
+      id: "AFF004",
+    },
+  },
+  {
+    transmissionId: "TMS_001223",
+    date: new Date("2025-08-05"),
+    amount: 3000.0,
+    affiliate: {
+      firstName: "David",
+      lastName: "Martinez",
+      id: "AFF005",
+    },
+  },
+  {
+    transmissionId: "TMS_001221",
+    date: new Date("2025-08-01"),
+    amount: 800.0,
+    affiliate: {
+      firstName: "Emily",
+      lastName: "Brown",
+      id: "AFF006",
+    },
+  },
+  {
+    transmissionId: "TMS_001219",
+    date: new Date("2025-07-28"),
+    amount: 1250.0,
+    affiliate: {
+      firstName: "Olivia",
+      lastName: "Wilson",
+      id: "AFF007",
+    },
+  },
+];

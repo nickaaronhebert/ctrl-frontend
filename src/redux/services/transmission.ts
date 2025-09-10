@@ -1,6 +1,8 @@
 import type {
+  IViewAllPharmacyTransmissionsResponse,
   IViewAllTransmissionsRequest,
   IViewAllTransmissionsResponse,
+  IViewPharmacyTransmissionByIdResponse,
   IViewTransmissionByIdResponse,
 } from "@/types/responses/transmission";
 import { baseApi } from ".";
@@ -19,7 +21,31 @@ const transmissionApi = baseApi.injectEndpoints({
       },
     }),
 
+    viewAllPharmacyTransmissions: builder.query<
+      IViewAllPharmacyTransmissionsResponse,
+      IViewAllTransmissionsRequest
+    >({
+      query: ({ page, perPage }) => {
+        return {
+          url: `/transmission?page=${page}&limit=${perPage}`,
+          method: "GET",
+        };
+      },
+    }),
+
     viewTransmissionById: builder.query<IViewTransmissionByIdResponse, string>({
+      query: (id) => {
+        return {
+          url: `/transmission/${id}`,
+          method: "GET",
+        };
+      },
+    }),
+
+    viewPharmacyTransmissionById: builder.query<
+      IViewPharmacyTransmissionByIdResponse,
+      string
+    >({
       query: (id) => {
         return {
           url: `/transmission/${id}`,
@@ -30,7 +56,11 @@ const transmissionApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useViewAllTransmissionsQuery, useViewTransmissionByIdQuery } =
-  transmissionApi;
+export const {
+  useViewAllTransmissionsQuery,
+  useViewTransmissionByIdQuery,
+  useViewAllPharmacyTransmissionsQuery,
+  useViewPharmacyTransmissionByIdQuery,
+} = transmissionApi;
 
 export default transmissionApi;

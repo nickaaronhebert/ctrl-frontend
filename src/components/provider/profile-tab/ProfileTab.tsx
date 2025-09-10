@@ -2,18 +2,20 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { tabsConfig } from "@/constants";
 
 const ProfileTabs = ({
-  // activeTab,
+  activeTab,
   onTabChange,
 }: {
   activeTab: string;
   onTabChange: (id: string) => void;
 }) => {
   return (
-    <div className="w-[291px] h-[162px]  bg-white rounded-lg shadow-sm">
+    <div className="w-[291px] h-[162px] bg-white rounded-lg shadow-sm">
       <Tabs defaultValue="personal" className="w-full">
         <TabsList className="grid w-full grid-cols-1 bg-transparent p-0 h-auto">
           {tabsConfig.map((tab, index) => {
             const IconComponent = tab.icon;
+            const isActive = tab.id === activeTab;
+            console.log("isActive", isActive);
             return (
               <TabsTrigger
                 key={tab.id}
@@ -33,7 +35,9 @@ const ProfileTabs = ({
                   border-b border-gray-100 last:border-b-0
                 `}
               >
-                <IconComponent className="min-w-[30px] max-w-[30px] min-h-[30px] max-h-[30px]" />
+                <div className="min-w-[30px] min-h-[30px]">
+                  <IconComponent color={isActive ? "white" : "#9EA5AB"} />
+                </div>
                 <span className="font-medium text-[18px] leading-[26px]">
                   {tab.label}
                 </span>

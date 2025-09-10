@@ -1,4 +1,4 @@
-import Pharmacies from "@/assets/icons/Pharmacies";
+import Pharmacies from "@/assets/mainlayouticons/Pharmacies";
 import type { MedicationVariant } from "@/components/data-table/columns/medication-library";
 
 interface MedVariantsProps {

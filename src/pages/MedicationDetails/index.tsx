@@ -9,7 +9,7 @@ import { DataTablePagination } from "@/components/data-table/data-table-paginati
 import { pharmacyColumns } from "@/components/data-table/columns/medication-library-pharmacy";
 import { useDataTable } from "@/hooks/use-data-table";
 import { dummyPharmacies } from "@/constants";
-import Pharmacies from "@/assets/icons/Pharmacies";
+import Pharmacies from "@/assets/mainlayouticons/Pharmacies";
 import { useGetSingleMedicationCatalogueDetailsQuery } from "@/redux/services/medication";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { variantColumns } from "@/components/data-table/columns/variant-column";

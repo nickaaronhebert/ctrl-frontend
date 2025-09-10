@@ -1,13 +1,11 @@
 import type { IconSVG } from "@/types/global/icon";
 
-const Transmission = ({
-  color = "#9AA2AC",
-  height = 30,
-  width = 30,
-}: IconSVG) => (
+const Transmission = ({ color = "#9AA2AC" }: IconSVG) => (
   <svg
-    width={width}
-    height={height}
+    style={{
+      width: "30px",
+      height: "30px",
+    }}
     viewBox="0 0 30 30"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"

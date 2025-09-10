@@ -1,4 +1,4 @@
-import type { IconSVG } from "@/types/global/icon";
+import { type IconSVG } from "@/types/global/icon";
 const ZigZag = ({ color }: IconSVG) => (
   <svg
     width="16"

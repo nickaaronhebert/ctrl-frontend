@@ -49,15 +49,20 @@ import EditPatient from "./pages/Organization/Patient/edit";
 import ActivityLogs from "./pages/Organization/ActivityLogs";
 import PharmacyTransmission from "./pages/PharmacyTransmission";
 import PharmacyInvoices from "./pages/PharmacyInvoices";
-import PharmacyMedications from "./pages/PharmacyMedications";
-
 import RegisterPharmacy from "./components/pharmacy/register";
 import PharmacyRedirect from "./components/pharmacy/verify-invitation";
 import WelcomePharmacy from "./components/pharmacy/welcome";
 
 import OrganizationSettings from "./pages/Organization/Settings";
+import PharmacyTransmissionDetails from "./pages/PharmacyTransmission/details";
 import Invoices from "./pages/Organization/Invoices";
+import PharmacyMedicationsLayout from "./components/Layout/PharmacyMedicationLayout";
+import PharmacyMedicationsContent from "./pages/PharmacyMedications";
+import SetDefaultPrices from "./components/pharmacy/selectedMedications/SelectedMedications";
+import CatalogueCreationCard from "./components/common/CatalogueCreationCard/CatalogueCreationCard";
+// import ViewInvoiceDetails from "./pages/Organization/Invoices/details";
 import ViewInvoiceDetails from "./pages/Organization/Invoices/details";
+import CatalogueCreationSuccess from "./components/common/CatalogueCreationSuccess/CatalogueCreationSuccess";
 import PharmacySettings from "./pages/Pharmacy/Settings";
 
 const router = createBrowserRouter([
@@ -287,11 +292,33 @@ const router = createBrowserRouter([
       },
       {
         path: ROUTES.PHARMACY_MEDICATIONS,
-        element: <PharmacyMedications />,
+        element: <PharmacyMedicationsLayout />,
+        children: [
+          {
+            index: true,
+            element: <CatalogueCreationCard />,
+          },
+          {
+            path: "configure",
+            element: <PharmacyMedicationsContent />,
+          },
+          {
+            path: "selected-medications",
+            element: <SetDefaultPrices />,
+          },
+          {
+            path: "success",
+            element: <CatalogueCreationSuccess />,
+          },
+        ],
       },
       {
         path: ROUTES.PHARMACY_SETTINGS,
         element: <PharmacySettings />,
+      },
+      {
+        path: `${ROUTES.PHARMACY_TRANSMISSIONS}/:id`,
+        element: <PharmacyTransmissionDetails />,
       },
     ],
   },

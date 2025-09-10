@@ -121,9 +121,6 @@ const DefaultPharmacy = ({
     });
   };
 
-  console.log("fullPharmacies", fullPharmacies);
-  console.log("configuredStatess", configuredStates);
-
   return (
     <div className="bg-white rounded-lg border border-gray-200 pt-4">
       <div className="flex justify-between items-start px-6">

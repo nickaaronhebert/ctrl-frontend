@@ -53,12 +53,12 @@ export default function OrganizationTransmission() {
     }
   );
 
-  const { data: processingData } = useViewAllTransmissionsQuery(
-    { page: 1, perPage: 1, activeStatus: "Processing" },
-    {
-      selectFromResult: ({ data }) => ({ data: data?.meta }),
-    }
-  );
+  // const { data: processingData } = useViewAllTransmissionsQuery(
+  //   { page: 1, perPage: 1, activeStatus: "Processing" },
+  //   {
+  //     selectFromResult: ({ data }) => ({ data: data?.meta }),
+  //   }
+  // );
 
   const { table } = useDataTable({
     data: data || [],
@@ -74,8 +74,6 @@ export default function OrganizationTransmission() {
         return queuedData?.itemCount || 0;
       case "Created":
         return createdData?.itemCount || 0;
-      case "Processing":
-        return processingData?.itemCount || 0;
       default:
         return 0;
     }
@@ -88,14 +86,15 @@ export default function OrganizationTransmission() {
         Recent transmission volume and statistics
       </h6>
       <div className="mt-3.5 ">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 mb-1">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 mb-1">
           <Button
-            variant={"tabs"}
             size={"xxl"}
+            variant={"tabs"}
             className={cn(
               activeStatus === "Created"
                 ? "bg-primary text-white"
-                : "bg-slate-background text-secondary-foreground"
+                : "bg-slate-background text-secondary-foreground hover:bg-slate-background",
+              "p-[30px]"
             )}
             onClick={() => setActiveStatus("Created")}
           >
@@ -104,13 +103,13 @@ export default function OrganizationTransmission() {
               {getStatusCount("Created")}
             </span>
           </Button>
-          <Button
-            variant={"tabs"}
-            size={"xxl"}
+          {/* <Button
+            size={"lg"}
             className={cn(
               activeStatus === "Processing"
                 ? "bg-primary text-white"
-                : "bg-slate-background text-secondary-foreground"
+                : "bg-slate-background text-secondary-foreground hover:bg-slate-background",
+              "p-[30px]"
             )}
             onClick={() => setActiveStatus("Processing")}
           >
@@ -118,14 +117,15 @@ export default function OrganizationTransmission() {
             <span className="min-h-4 min-w-8 p-1 rounded-[8px] bg-white text-secondary-foreground mr-2.5">
               {getStatusCount("Processing")}
             </span>
-          </Button>
+          </Button> */}
           <Button
-            variant={"tabs"}
             size={"xxl"}
+            variant={"tabs"}
             className={cn(
               activeStatus === "Queued"
                 ? "bg-primary text-white"
-                : "bg-slate-background text-secondary-foreground"
+                : "bg-slate-background text-secondary-foreground hover:bg-slate-background",
+              "p-[30px]"
             )}
             onClick={() => setActiveStatus("Queued")}
           >
@@ -135,12 +135,13 @@ export default function OrganizationTransmission() {
             </span>
           </Button>
           <Button
-            variant={"tabs"}
             size={"xxl"}
+            variant={"tabs"}
             className={cn(
               activeStatus === "Transmitted"
                 ? "bg-primary text-white"
-                : "bg-slate-background text-secondary-foreground"
+                : "bg-slate-background text-secondary-foreground hover:bg-slate-background",
+              "p-[30px]"
             )}
             onClick={() => setActiveStatus("Transmitted")}
           >
@@ -155,7 +156,6 @@ export default function OrganizationTransmission() {
           <DataTablePagination table={table} />
         </div>
       </div>
-      {/* Add your components and logic here */}
     </div>
   );
 }

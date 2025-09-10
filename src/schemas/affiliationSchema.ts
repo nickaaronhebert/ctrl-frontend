@@ -5,7 +5,7 @@ export const affiliationSchema = z.object({
     z.object({
       _id: z.string(),
       isAffiliationActive: z.boolean(),
-      business: z.object({
+      organization: z.object({
         name: z.string(),
       }),
       // status: z.boolean(),

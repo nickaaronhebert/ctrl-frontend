@@ -60,7 +60,7 @@ const AffiliationStatus = ({ userData }: Props) => {
                 >
                   <div className="flex items-center gap-3">
                     <span className="font-medium text-[16px] leading-[22px] text-secondary-foreground">
-                      {field?.business?.name}
+                      {field?.organization?.name}
                     </span>
                     <div className="flex items-center gap-2">
                       <div

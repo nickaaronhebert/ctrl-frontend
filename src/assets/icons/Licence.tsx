@@ -1,7 +1,14 @@
-const Licence = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width={30} height={30} fill="none">
+import type { IconSVG } from "@/types/global/icon";
+
+const Licence = ({ color = "#fff" }: IconSVG) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    style={{ width: "30px", height: "30px" }}
+    fill="none"
+    color={color}
+  >
     <path
-      stroke="#9EA5AB"
+      stroke={color}
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={2}

@@ -1,5 +1,64 @@
-const PharmacyMedications = () => {
-  return <div>Pharmacy Medications</div>;
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { useGetMedicationCatalogueQuery } from "@/redux/services/medication";
+import { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
+import { useMedication } from "@/context/ApplicationUser/MedicationContext";
+import MedicationSelector from "@/components/common/MedicationSelector/MedicationSelector";
+import BottomPopup from "@/components/common/BottomPopup/BottomPopup";
+import { useNavigate } from "react-router-dom";
+
+const PharmacyMedicationsContent = () => {
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const page = parseInt(searchParams.get("page") || "1", 10);
+  const perPage = parseInt(searchParams.get("per_page") ?? "10", 10);
+  const { data, isLoading } = useGetMedicationCatalogueQuery({
+    page,
+    perPage,
+    q: "",
+  });
+  const { setMedications } = useMedication();
+
+  useEffect(() => {
+    if (data?.data) {
+      setMedications(data.data || []);
+    }
+  }, [data, setMedications]);
+
+  const handleCreateCatalogueFromPopup = () => {
+    navigate("/pharmacy/medications/selected-medications");
+    console.log("Hello");
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col justify-center items-center min-h-screen ">
+        <LoadingSpinner />
+        <span className="text-lg text-black font-semibold">
+          Loading Medications
+        </span>
+      </div>
+    );
+  }
+
+  return (
+    <div className="mb-5">
+      <div className="bg-lilac py-3 px-12">
+        <h1 className="font-semibold text-[24px] leading-[30px] text-black">
+          Medication Catalogue
+        </h1>
+        <span className="text-[14px] leading-[18px] text-gray-400 font-normal mt-1">
+          Manage your default pricing catalogue
+        </span>
+      </div>
+      {data?.data && (
+        <div className="mt-5">
+          <MedicationSelector />
+          <BottomPopup onCreateCatalogue={handleCreateCatalogueFromPopup} />
+        </div>
+      )}
+    </div>
+  );
 };
 
-export default PharmacyMedications;
+export default PharmacyMedicationsContent;

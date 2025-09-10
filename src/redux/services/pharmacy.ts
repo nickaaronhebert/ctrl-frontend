@@ -1,3 +1,4 @@
+import type { PharmacyInvoiceResponse } from "@/types/responses/invoices";
 import { TAG_GET_USER_PROFILE } from "@/types/baseApiTags";
 import { baseApi } from ".";
 
@@ -14,6 +15,23 @@ export const pharmacyApi = baseApi.injectEndpoints({
     acceptPharmacyInvitation: builder.mutation<any, any>({
       query: (body) => ({
         url: `/invitation/accept-pharmacy-invitation`,
+        method: "POST",
+        body,
+      }),
+    }),
+    // Pharmacy invoices get all //
+    getPharmacyInvoices: builder.query<
+      PharmacyInvoiceResponse,
+      { page: number; perPage: number }
+    >({
+      query: ({ page, perPage }) => ({
+        url: `/transaction/pharmacy-transfers?page=${page}&limit=${perPage}`,
+        method: "GET",
+      }),
+    }),
+    bulkUpsertPharmacyCatalogue: builder.mutation<any, any>({
+      query: (body) => ({
+        url: `/pharmacy-catalogue/bulk-upsert`,
         method: "POST",
         body,
       }),
@@ -38,5 +56,7 @@ export const pharmacyApi = baseApi.injectEndpoints({
 export const {
   useVerifyPharmacyInvitationMutation,
   useAcceptPharmacyInvitationMutation,
+  useGetPharmacyInvoicesQuery,
+  useBulkUpsertPharmacyCatalogueMutation,
   useSetActiveStatesMutation,
 } = pharmacyApi;
