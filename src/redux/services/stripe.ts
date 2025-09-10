@@ -2,6 +2,7 @@ import { TAG_GET_CARDS } from "@/types/baseApiTags";
 import { baseApi } from ".";
 import type { IViewAllInvoices } from "@/types/responses/IViewOrganizationInvoices";
 import type { ICommonSearchQuery } from "@/types/requests/search";
+import type { IGetOrganizationInvoicesResponse } from "@/types/responses/IGetOrganizationInvoicesDetails";
 
 export const stripeApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -30,7 +31,10 @@ export const stripeApi = baseApi.injectEndpoints({
         `/transaction/transmissions?page=${page}&limit=${perPage}&q=${q}`, // GET request
     }),
 
-    getOrganizationInvoiceById: builder.query({
+    getOrganizationInvoiceById: builder.query<
+      IGetOrganizationInvoicesResponse,
+      string
+    >({
       query: (id) => `/transaction/${id}`,
     }),
   }),

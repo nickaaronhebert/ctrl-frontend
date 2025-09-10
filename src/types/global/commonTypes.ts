@@ -188,9 +188,23 @@ export interface Invoices {
   pharmacy: {
     name: string;
     phoneNumber: string;
+    email: string;
+    id: string;
+    address: string;
   };
   medicationFee: string;
   applicationFee: string;
+  status: string;
+  lineItems: {
+    quantity: number;
+    productVariantPrice: number;
+    productVariant: ProductVariant;
+  }[];
+  card: {
+    last4: string;
+    id: string;
+  };
+  paymentIntent: string;
 }
 
 export interface MetaData {

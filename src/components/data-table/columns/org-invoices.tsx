@@ -1,4 +1,3 @@
-// import type { PatientDetails } from "@/types/responses/patient";
 import type { OrganizationInvoices } from "@/types/responses/IViewOrganizationInvoices";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Link } from "react-router-dom";
@@ -72,8 +71,7 @@ export function organizationInvoicesColumns(): ColumnDef<OrganizationInvoices>[]
       cell: ({ row }) => {
         return (
           <Link
-            to={`#`}
-            // to={`/org/transactions/${row.getValue("id")}`}
+            to={`/org/transactions/${row.getValue("id")}`}
             className="flex justify-center items-center py-1 px-5 w-[85px] h-[36px] rounded-[50px] border border-primary-foreground "
           >
             View
