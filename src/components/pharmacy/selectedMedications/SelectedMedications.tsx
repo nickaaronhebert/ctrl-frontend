@@ -5,11 +5,13 @@ import { ArrowLeft, Search } from "lucide-react";
 import { useMedication } from "@/context/ApplicationUser/MedicationContext";
 import MedicationLibrary from "@/assets/icons/MedicationLibrary";
 import { useBulkUpsertPharmacyCatalogueMutation } from "@/redux/services/pharmacy";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 export default function SetDefaultPrices() {
-  const { selectedVariants, medications } = useMedication();
+  const { selectedVariants, medications, prices, setPrices } = useMedication();
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
-  const [prices, setPrices] = useState<Record<string, string>>({});
   const [bulkUpsertPharmacyCatalogue] =
     useBulkUpsertPharmacyCatalogueMutation();
 
@@ -45,19 +47,33 @@ export default function SetDefaultPrices() {
         productVariant: variantId,
         price: Number(price),
         transmissionMethod: "api",
-        sku: "", // If SKU is optional and not available
-        metadata: {}, // If metadata is optional
+        sku: "",
+        metadata: {},
       }));
 
     const payload = { items };
 
     try {
-      const response = await bulkUpsertPharmacyCatalogue(payload).unwrap();
-      console.log("Success:", response);
-      // Optionally show a toast or redirect
-    } catch (error) {
-      console.error("Error saving catalogue:", error);
-      // Optionally show error UI
+      await bulkUpsertPharmacyCatalogue(payload).unwrap();
+      navigate("/pharmacy/medications/success");
+    } catch (error: unknown) {
+      console.error("Profile update failed:", error);
+
+      let message = "An unexpected error occurred";
+
+      if (typeof error === "object" && error !== null && "data" in error) {
+        const data = (error as any).data;
+
+        if (Array.isArray(data?.message)) {
+          message = data.message[0];
+        } else if (typeof data?.message === "string") {
+          message = data.message;
+        }
+      }
+
+      toast.error(message, {
+        duration: 1500,
+      });
     }
   };
 
@@ -79,35 +95,34 @@ export default function SetDefaultPrices() {
           </h1>
         </div>
         <div className="flex items-center gap-4">
-          <span className="text-sm text-gray-500">
+          <span className="font-normal text-[14px] leading-[18px] text-black">
             {pricedVariants} of {totalVariants} variants priced
           </span>
           <Button
             onClick={handleSaveCatalogue}
-            className="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded-lg"
+            className="bg-primary min-w-[110px] min-h-[40px] rounded-[50px] hover:bg-primary text-white px-[20px] py-[5px]"
           >
             Save Catalogue
           </Button>
         </div>
       </div>
       <div className="max-w-4xl mx-auto">
-        {/* Search */}
-        <div className="relative mb-6">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-          <Input
-            placeholder="Search medications by name"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10 py-3 border-gray-200 rounded-lg"
-          />
-        </div>
-
-        {/* Results count */}
-        <div className="text-right mb-4">
-          <span className="text-sm text-gray-500">
-            Showing {filteredMedications.length} of {selectedMedications.length}{" "}
-            medications
-          </span>
+        <div className="flex items-center justify-between gap-4 mb-4">
+          <div className="relative flex-1 max-w-md">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Search medications by name"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-[380px] h-[44px] rounded-[6px] pl-10 pr-[15px] py-[12px] bg-white border-card-border "
+            />
+          </div>
+          <div className="text-right ">
+            <span className="font-normal  text-[14px] leading-[18px] text-gray-400">
+              Showing {filteredMedications.length} of{" "}
+              {selectedMedications.length} medications
+            </span>
+          </div>
         </div>
 
         {/* Medications */}

@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import CubeSVG from "@/assets/icons/Cube";
 import MedicationLibrary from "@/assets/icons/MedicationLibrary";
-import ZigZag from "@/assets/icons/ZigZag";
+import ZigZag from "@/assets/mainlayouticons/ZigZag";
 import Profile from "@/assets/icons/Profile";
 import Invoices from "@/assets/icons/Invoices";
 import SecondaryMedication from "@/assets/icons/SecondaryMedication";

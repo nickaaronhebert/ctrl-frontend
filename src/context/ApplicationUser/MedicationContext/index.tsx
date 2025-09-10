@@ -34,6 +34,8 @@ interface MedicationContextType {
   selectAll: () => void;
   clearAll: () => void;
   getSelectedVariantsForMedication: (medicationId: string) => SelectedVariant[];
+  prices: Record<string, string>;
+  setPrices: React.Dispatch<React.SetStateAction<Record<string, string>>>;
   isVariantSelected: (medicationId: string, variantId: string) => boolean;
   getFilteredMedications: () => Medication[];
 }
@@ -48,6 +50,7 @@ export function MedicationProvider({ children }: { children: ReactNode }) {
     []
   );
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [prices, setPrices] = useState<Record<string, string>>({});
 
   //   console.log("Medicationssss Selected>>>>>>>>", medications);
   console.log("Variantsss Selectedddd>>>>>>>>", selectedVariants);
@@ -150,6 +153,8 @@ export function MedicationProvider({ children }: { children: ReactNode }) {
     getSelectedVariantsForMedication,
     isVariantSelected,
     getFilteredMedications,
+    prices,
+    setPrices,
   };
 
   return (

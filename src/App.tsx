@@ -64,6 +64,7 @@ import SetDefaultPrices from "./components/pharmacy/selectedMedications/Selected
 import CatalogueCreationCard from "./components/common/CatalogueCreationCard/CatalogueCreationCard";
 // import ViewInvoiceDetails from "./pages/Organization/Invoices/details";
 import ViewInvoiceDetails from "./pages/Organization/Invoices/details";
+import CatalogueCreationSuccess from "./components/common/CatalogueCreationSuccess/CatalogueCreationSuccess";
 
 const router = createBrowserRouter([
   {
@@ -305,6 +306,10 @@ const router = createBrowserRouter([
           {
             path: "selected-medications",
             element: <SetDefaultPrices />,
+          },
+          {
+            path: "success",
+            element: <CatalogueCreationSuccess />,
           },
         ],
       },

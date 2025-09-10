@@ -32,7 +32,6 @@ export function AffiliateAdminDialog({
   selectedAffiliates,
   onSelectedAffiliatesChange,
 }: AffiliateFilterDialogProps) {
-  console.log("Affiliates:", affiliates);
   const { handleSubmit, watch, setValue } = useForm<FormData>({
     defaultValues: {
       selectedIds: selectedAffiliates,

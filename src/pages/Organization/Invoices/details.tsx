@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useGetOrganizationInvoiceByIdQuery } from "@/redux/services/stripe";
 import { Link, useParams } from "react-router-dom";
-import ZigZag from "@/assets/icons/ZigZag";
+import ZigZag from "@/assets/mainlayouticons/ZigZag";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import InvoiceOverviewCard from "@/components/common/Card/invoice-overview";
 import InvoiceItemsCard from "@/components/common/Card/invoice-items";
@@ -10,7 +10,7 @@ import PharmacyCard from "@/components/common/Card/pharmacy";
 import PaymentMethodDetails from "@/components/common/Card/card-details";
 
 import CardSVG from "@/assets/icons/CardIcon";
-import Pharmacies from "@/assets/icons/Pharmacies";
+import Pharmacies from "@/assets/mainlayouticons/Pharmacies";
 import Invoices from "@/assets/icons/Invoices";
 import DocumentSVG from "@/assets/icons/Document";
 const menuItems = [

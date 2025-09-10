@@ -35,7 +35,7 @@ const CatalogueCreationCard = () => {
         </span>
         <Button
           onClick={handleCreateCatalogue}
-          className="bg-primary min-w-[142px] min-h-[40px] rounded-[50px] px-[20px] py-[5px] gap-[10px] text-white"
+          className="bg-primary min-w-[142px] min-h-[40px] rounded-[50px] cursor-pointer px-[20px] py-[5px] gap-[10px] text-white"
         >
           Create Catalogue
         </Button>

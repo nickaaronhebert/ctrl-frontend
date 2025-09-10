@@ -1,4 +1,4 @@
-import ZigZag from "@/assets/icons/ZigZag";
+import ZigZag from "@/assets/mainlayouticons/ZigZag";
 import type { Invoices } from "@/types/global/commonTypes";
 
 type InvoiceDetails = Pick<

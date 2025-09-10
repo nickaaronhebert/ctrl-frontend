@@ -7,7 +7,7 @@ import Orders from "@/assets/icons/Orders";
 import Provider from "@/assets/icons/Provider";
 import Transactions from "@/assets/icons/Transactions";
 import MedicationLibrary from "@/assets/icons/MedicationLibrary";
-import Pharmacies from "@/assets/icons/Pharmacies";
+import Pharmacies from "@/assets/mainlayouticons/Pharmacies";
 import ActivityLog from "@/assets/icons/ActivityLog";
 import SettingsMain from "@/assets/icons/SettingsMain";
 import type { Transmission as MyTransmission } from "@/components/data-table/columns/recentTransmissions";
@@ -47,7 +47,33 @@ export const organisationAdminItems = [
   {
     title: "Pharmacies",
     url: "/org/pharmacies",
-    icon: Pharmacies,
+    icon: MedicationLibrary,
+  },
+  { title: "Activity Log", url: "/org/activity-log", icon: ActivityLog },
+  { title: "Settings", url: "/org/settings", icon: SettingsMain },
+  {
+    title: "Pharmacy Assignment",
+    url: "/org/access-control",
+    icon: SettingsMain,
+  },
+];
+
+export const sidebarIcons = [
+  { title: "Dashboard", url: "/org/dashboard", icon: Dashboard },
+  { title: "Transmissions", url: "/org/transmissions", icon: Transmission },
+  { title: "Orders", url: "/org/orders", icon: Orders },
+  { title: "Providers", url: "/org/providers", icon: Provider },
+  { title: "Patients", url: "/org/patients", icon: PatientIcon },
+  { title: "Transactions", url: "/org/transactions", icon: Transactions },
+  {
+    title: "Medication Library",
+    url: "/org/medications",
+    icon: MedicationLibrary,
+  },
+  {
+    title: "Pharmacies",
+    url: "/org/pharmacies",
+    icon: MedicationLibrary,
   },
   { title: "Activity Log", url: "/org/activity-log", icon: ActivityLog },
   { title: "Settings", url: "/org/settings", icon: SettingsMain },

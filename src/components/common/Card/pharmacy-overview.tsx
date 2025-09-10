@@ -26,7 +26,6 @@ export default function PharmacyOverviewCard({
 }: {
   transmission: PharmacyTransmissionRow;
 }) {
-  console.log("transmission", transmission);
   return (
     <div
       className="bg-white rounded-[10px] shadow-[0px_2px_40px_0px_#00000014]"

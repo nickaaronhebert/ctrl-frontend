@@ -1,4 +1,4 @@
-import MedicationLibrary from "@/assets/icons/MedicationLibrary";
+import Medications from "@/assets/mainlayouticons/Medications";
 import type { Prescription } from "@/types/global/commonTypes";
 
 const prescriptionDisplayFields: {
@@ -33,7 +33,6 @@ export default function PrescriptionCard({
 }: {
   prescriptions: Prescription[];
 }) {
-  console.log("Prescriptions in PrescriptionCard:", prescriptions);
   return (
     <div className=" p-5 border border-card-border rounded-bl-[10px] rounded-br-[10px] ">
       {prescriptions.map((prescription: Prescription) => {
@@ -44,7 +43,8 @@ export default function PrescriptionCard({
           >
             <div className="flex justify-between items-center p-5 border-b border-card-border rounded-tl-[10px] rounded-tr-[10px] bg-[#E6F3FC]">
               <div className="flex gap-1 items-center">
-                <MedicationLibrary color="purple" width={20} height={20} />
+                {/* <Medication color="purple" width={20} height={20} /> */}
+                <Medications color="purple" />
                 <h2 className="text-base font-semibold">
                   {prescription.productVariant.medicationCatalogue.drugName}
                 </h2>
