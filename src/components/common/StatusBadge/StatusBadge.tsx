@@ -35,7 +35,7 @@ const statusStyles: Record<
     text: "text-queued",
   },
   Transmitted: {
-    icon: <Tick color="green" />,
+    icon: <Tick />,
     bg: "bg-progress-secondary",
     border: "border-progress",
     text: "text-progress",

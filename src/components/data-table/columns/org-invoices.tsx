@@ -56,9 +56,9 @@ export function organizationInvoicesColumns(): ColumnDef<OrganizationInvoices>[]
 
         return (
           <>
-            <p className="text-xs font-semibold">{pharmacy.name}</p>
+            <p className="text-xs font-semibold">{pharmacy?.name}</p>
             <p className="text-xs font-medium text-slate-foreground">
-              {pharmacy.phoneNumber}
+              {pharmacy?.phoneNumber}
             </p>
           </>
         );
