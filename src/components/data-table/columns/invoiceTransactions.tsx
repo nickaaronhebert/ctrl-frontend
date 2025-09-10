@@ -8,7 +8,6 @@ export function invoiceColumns(): ColumnDef<PharmacyInvoices>[] {
       accessorKey: "transaction.transmissionCode",
       header: "Transmission ID",
       cell: ({ row }) => {
-        console.log("transmissionCode", row.original);
         return (
           <p className="text-sm font-medium">
             {/* {row.getValue("transaction.transmissionCode")} */}
@@ -21,7 +20,6 @@ export function invoiceColumns(): ColumnDef<PharmacyInvoices>[] {
       accessorKey: "createdAt",
       header: "Date",
       cell: ({ row }) => {
-        console.log("createdAt", row.original.createdAt);
         const date = new Date(row.getValue("createdAt")).toLocaleDateString(
           "en-US",
           {
@@ -37,7 +35,6 @@ export function invoiceColumns(): ColumnDef<PharmacyInvoices>[] {
       accessorKey: "totalAmount",
       header: "Amount",
       cell: ({ row }) => {
-        console.log("amount", row.original);
         const amount = Number(row.original.transaction.totalAmount) || 0;
         return <p className="text-sm font-medium">${amount.toFixed(2)}</p>;
       },

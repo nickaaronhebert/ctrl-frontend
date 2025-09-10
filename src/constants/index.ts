@@ -17,12 +17,13 @@ import type {
   Pharmacy,
 } from "@/components/data-table/columns/medication-library";
 import InvoicesMain from "@/assets/icons/InvoicesMain";
+import PatientIcon from "@/assets/icons/PatientIcon";
 // import { type MedicationAssignment } from "@/components/data-table/columns/access-control";
 
 export interface TabConfig {
   id: string;
   label: string;
-  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  icon: React.ComponentType<any>;
 }
 
 export const tabsConfig: TabConfig[] = [
@@ -36,7 +37,7 @@ export const organisationAdminItems = [
   { title: "Transmissions", url: "/org/transmissions", icon: Transmission },
   { title: "Orders", url: "/org/orders", icon: Orders },
   { title: "Providers", url: "/org/providers", icon: Provider },
-  { title: "Patients", url: "/org/patients", icon: Provider },
+  { title: "Patients", url: "/org/patients", icon: PatientIcon },
   { title: "Transactions", url: "/org/transactions", icon: Transactions },
   {
     title: "Medication Library",

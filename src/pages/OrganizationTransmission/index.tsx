@@ -53,12 +53,12 @@ export default function OrganizationTransmission() {
     }
   );
 
-  const { data: processingData } = useViewAllTransmissionsQuery(
-    { page: 1, perPage: 1, activeStatus: "Processing" },
-    {
-      selectFromResult: ({ data }) => ({ data: data?.meta }),
-    }
-  );
+  // const { data: processingData } = useViewAllTransmissionsQuery(
+  //   { page: 1, perPage: 1, activeStatus: "Processing" },
+  //   {
+  //     selectFromResult: ({ data }) => ({ data: data?.meta }),
+  //   }
+  // );
 
   const { table } = useDataTable({
     data: data || [],
@@ -74,8 +74,6 @@ export default function OrganizationTransmission() {
         return queuedData?.itemCount || 0;
       case "Created":
         return createdData?.itemCount || 0;
-      case "Processing":
-        return processingData?.itemCount || 0;
       default:
         return 0;
     }
@@ -88,7 +86,7 @@ export default function OrganizationTransmission() {
         Recent transmission volume and statistics
       </h6>
       <div className="mt-3.5 ">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 mb-1">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 mb-1">
           <Button
             size={"lg"}
             className={cn(
@@ -104,7 +102,7 @@ export default function OrganizationTransmission() {
               {getStatusCount("Created")}
             </span>
           </Button>
-          <Button
+          {/* <Button
             size={"lg"}
             className={cn(
               activeStatus === "Processing"
@@ -118,7 +116,7 @@ export default function OrganizationTransmission() {
             <span className="min-h-4 min-w-8 p-1 rounded-[8px] bg-white text-secondary-foreground mr-2.5">
               {getStatusCount("Processing")}
             </span>
-          </Button>
+          </Button> */}
           <Button
             size={"lg"}
             className={cn(

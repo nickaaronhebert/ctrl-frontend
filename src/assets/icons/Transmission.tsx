@@ -6,8 +6,10 @@ const Transmission = ({
   width = 30,
 }: IconSVG) => (
   <svg
-    width={width}
-    height={height}
+    style={{
+      width: "30px",
+      height: "30px",
+    }}
     viewBox="0 0 30 30"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"

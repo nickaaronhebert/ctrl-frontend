@@ -29,7 +29,7 @@ export interface DeaCredentials {
 }
 
 export interface Affiliation {
-  business: {
+  organization: {
     name: string;
   };
   _id: string;

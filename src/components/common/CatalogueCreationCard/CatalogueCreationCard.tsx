@@ -7,7 +7,6 @@ const CatalogueCreationCard = () => {
 
   const handleCreateCatalogue = () => {
     navigate("/pharmacy/medications/configure");
-    console.log("Hello");
   };
 
   return (
