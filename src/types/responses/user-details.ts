@@ -14,6 +14,11 @@ export interface UserDetails {
   medicalLicense?: MedicalLicense[];
   deaNumber: DeaCredentials[];
   affiliations: Affiliation[];
+  pharmacy: {
+    allowedStates: string[];
+    name: string;
+    _id: string;
+  };
 }
 
 export interface MedicalLicense {

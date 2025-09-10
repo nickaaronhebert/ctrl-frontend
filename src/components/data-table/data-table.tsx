@@ -32,13 +32,13 @@ interface DataTableProps<TData> extends React.HTMLAttributes<HTMLDivElement> {
 
 export function DataTable<TData>({
   table,
-  floatingBar = null,
-  children,
+  // floatingBar = null,
+  // children,
   className,
-  showPagination,
+  // showPagination,
   headerClass = false,
-  ...props
-}: DataTableProps<TData>) {
+}: // ...props
+DataTableProps<TData>) {
   return (
     <>
       {/* // ? below div and scroll area is commented */}

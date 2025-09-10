@@ -1,6 +1,4 @@
-import type { IconSVG } from "@/types/global/icon";
-
-const Tick = ({ color = "#9AA2AC" }: IconSVG) => (
+const Tick = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width={18} height={18} fill="none">
     <path
       fill="#C3C1C6"

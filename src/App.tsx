@@ -50,7 +50,7 @@ import ActivityLogs from "./pages/Organization/ActivityLogs";
 import PharmacyTransmission from "./pages/PharmacyTransmission";
 import PharmacyInvoices from "./pages/PharmacyInvoices";
 import PharmacyMedications from "./pages/PharmacyMedications";
-import PharmacySettings from "./pages/PharmacySettings";
+
 import RegisterPharmacy from "./components/pharmacy/register";
 import PharmacyRedirect from "./components/pharmacy/verify-invitation";
 import WelcomePharmacy from "./components/pharmacy/welcome";
@@ -58,6 +58,7 @@ import WelcomePharmacy from "./components/pharmacy/welcome";
 import OrganizationSettings from "./pages/Organization/Settings";
 import Invoices from "./pages/Organization/Invoices";
 import ViewInvoiceDetails from "./pages/Organization/Invoices/details";
+import PharmacySettings from "./pages/Pharmacy/Settings";
 
 const router = createBrowserRouter([
   {
