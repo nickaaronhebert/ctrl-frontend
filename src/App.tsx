@@ -49,8 +49,6 @@ import EditPatient from "./pages/Organization/Patient/edit";
 import ActivityLogs from "./pages/Organization/ActivityLogs";
 import PharmacyTransmission from "./pages/PharmacyTransmission";
 import PharmacyInvoices from "./pages/PharmacyInvoices";
-import PharmacyMedications from "./pages/PharmacyMedications";
-
 import RegisterPharmacy from "./components/pharmacy/register";
 import PharmacyRedirect from "./components/pharmacy/verify-invitation";
 import WelcomePharmacy from "./components/pharmacy/welcome";

@@ -88,7 +88,8 @@ export default function OrganizationTransmission() {
       <div className="mt-3.5 ">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 mb-1">
           <Button
-            size={"lg"}
+            size={"xxl"}
+            variant={"tabs"}
             className={cn(
               activeStatus === "Created"
                 ? "bg-primary text-white"
@@ -118,7 +119,8 @@ export default function OrganizationTransmission() {
             </span>
           </Button> */}
           <Button
-            size={"lg"}
+            size={"xxl"}
+            variant={"tabs"}
             className={cn(
               activeStatus === "Queued"
                 ? "bg-primary text-white"
@@ -133,7 +135,8 @@ export default function OrganizationTransmission() {
             </span>
           </Button>
           <Button
-            size={"lg"}
+            size={"xxl"}
+            variant={"tabs"}
             className={cn(
               activeStatus === "Transmitted"
                 ? "bg-primary text-white"

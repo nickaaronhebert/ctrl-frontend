@@ -178,12 +178,13 @@ export default function SetDefaultPrices() {
                           <Input
                             type="number"
                             step="0.01"
+                            min="0"
                             placeholder="0"
                             value={prices[variant.variantId] || ""}
                             onChange={(e) =>
                               handlePriceChange(
                                 variant.variantId,
-                                Number(e.target.value)
+                                e.target.value
                               )
                             }
                             className="w-[115px] h-[38px] rounded-[6px] px-[12px] py-[10px] border-card-border bg-white text-right"
