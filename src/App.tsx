@@ -25,12 +25,8 @@ import Redirect from "./components/provider/redirect";
 import RoleChecker from "./guard/RoleChecker";
 import PostLoginRedirect from "./components/common/PostLoginRedirect";
 import OrganisationDashboard from "./pages/OrganizationDashboard";
-
-import Transactions from "./pages/Transactions";
 import Medications from "./pages/Medications";
 import Pharmacies from "./pages/Pharmacies";
-
-import OrgSettings from "./pages/OrgSettings";
 import OrganizationTransmission from "./pages/OrganizationTransmission";
 import OrganizationOrder from "./pages/OrganizationOrder";
 
@@ -51,7 +47,6 @@ import EditPatient from "./pages/Organization/Patient/edit";
 import ActivityLogs from "./pages/Organization/ActivityLogs";
 import PharmacyTransmission from "./pages/PharmacyTransmission";
 import PharmacyInvoices from "./pages/PharmacyInvoices";
-import PharmacyMedications from "./pages/PharmacyMedications";
 import PharmacySettings from "./pages/PharmacySettings";
 import TestAPI from "./pages/TestPage";
 import RegisterPharmacy from "./components/pharmacy/register";
@@ -61,6 +56,10 @@ import WelcomePharmacy from "./components/pharmacy/welcome";
 import OrganizationSettings from "./pages/Organization/Settings";
 import PharmacyTransmissionDetails from "./pages/PharmacyTransmission/details";
 import Invoices from "./pages/Organization/Invoices";
+import PharmacyMedicationsLayout from "./components/Layout/PharmacyMedicationLayout";
+import PharmacyMedicationsContent from "./pages/PharmacyMedications";
+import SetDefaultPrices from "./components/pharmacy/selectedMedications/SelectedMedications";
+import CatalogueCreationCard from "./components/common/CatalogueCreationCard/CatalogueCreationCard";
 // import ViewInvoiceDetails from "./pages/Organization/Invoices/details";
 
 const router = createBrowserRouter([
@@ -290,7 +289,21 @@ const router = createBrowserRouter([
       },
       {
         path: ROUTES.PHARMACY_MEDICATIONS,
-        element: <PharmacyMedications />,
+        element: <PharmacyMedicationsLayout />,
+        children: [
+          {
+            index: true,
+            element: <CatalogueCreationCard />,
+          },
+          {
+            path: "configure",
+            element: <PharmacyMedicationsContent />,
+          },
+          {
+            path: "selected-medications",
+            element: <SetDefaultPrices />,
+          },
+        ],
       },
       {
         path: ROUTES.PHARMACY_SETTINGS,

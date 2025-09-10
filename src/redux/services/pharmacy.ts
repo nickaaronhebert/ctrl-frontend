@@ -28,6 +28,13 @@ export const pharmacyApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
+    bulkUpsertPharmacyCatalogue: builder.mutation<any, any>({
+      query: (body) => ({
+        url: `/pharmacy-catalogue/bulk-upsert`,
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -35,4 +42,5 @@ export const {
   useVerifyPharmacyInvitationMutation,
   useAcceptPharmacyInvitationMutation,
   useGetPharmacyInvoicesQuery,
+  useBulkUpsertPharmacyCatalogueMutation,
 } = pharmacyApi;
