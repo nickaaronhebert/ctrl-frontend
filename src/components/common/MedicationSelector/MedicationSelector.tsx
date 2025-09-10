@@ -28,20 +28,20 @@ function MedicationSelector() {
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex items-end justify-between gap-4">
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             placeholder="Search medications by name"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10"
+            className="w-[380px] h-[44px] rounded-[6px] pl-10 pr-[15px] py-[12px] bg-white border-card-border "
           />
         </div>
         <Button
           variant="outline"
           onClick={handleSelectAll}
-          className="px-6 bg-transparent"
+          className="w-[110px] h-[40px] rounded-[50px] border border-primary px-[20px] py-[5px] text-primary hover:text-primary"
         >
           {hasSelections ? "Clear All" : "Select All"}
         </Button>

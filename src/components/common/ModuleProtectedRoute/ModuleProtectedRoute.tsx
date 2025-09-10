@@ -23,6 +23,10 @@ const ModuleProtectedRoute: React.FC<ModuleProtectedRouteProps> = ({
   const { user, isLoadingUserDetails, isLoggedIn } = useAuthentication();
   const location = useLocation();
 
+  console.log("user", user);
+  console.log("isLoggedIn", isLoggedIn);
+  console.log("isLoading", isLoadingUserDetails);
+
   if (isLoadingUserDetails) {
     return (
       <div className="flex justify-center items-center h-screen">

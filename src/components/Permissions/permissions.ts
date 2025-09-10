@@ -17,6 +17,7 @@ export const MODULE = {
   MEDICATION_CATALOGUE: "medication-catalogue",
   BUSINESS: "business",
   PROVIDER_GROUP_INVITATION: "provider-group-invitation",
+  TRANSMISSION: "transmission",
 };
 
 export type AvailableModules = keyof typeof MODULE;

@@ -32,7 +32,6 @@ export function DataTableToolbar<TData>({
     };
   }, [filterFields]);
 
-  console.log("filterableColumns toolbar", filterableColumns);
   return (
     <div
       className={cn(

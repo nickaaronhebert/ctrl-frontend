@@ -34,7 +34,7 @@ const PharmacyMedicationsContent = () => {
     return (
       <div className="flex flex-col justify-center items-center min-h-screen ">
         <LoadingSpinner />
-        <span className="text-lg text-black font-semibold">
+        <span className="text-lg text-black font-semibold mt-2">
           Loading Medications
         </span>
       </div>

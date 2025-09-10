@@ -280,7 +280,57 @@ const router = createBrowserRouter([
   // Pharmacy admin dashboard //
   {
     path: "/pharmacy",
-    element: <SidebarLayout />,
+    element: (
+      <ModuleProtectedRoute
+        element={<SidebarLayout />}
+        permissions={[
+          {
+            resource: MODULE.PRESCRIPTION,
+            permission: PERMISSIONS.READ,
+          },
+          {
+            resource: MODULE.PHARMACY_CATALOGUE,
+            permission: PERMISSIONS.DELETE,
+          },
+          {
+            resource: MODULE.PHARMACY_CATALOGUE,
+            permission: PERMISSIONS.UPDATE,
+          },
+          {
+            resource: MODULE.TRANSMISSION,
+            permission: PERMISSIONS.READ,
+          },
+          {
+            resource: MODULE.PHARMACY_CATALOGUE,
+            permission: PERMISSIONS.WRITE,
+          },
+          {
+            resource: MODULE.ME,
+            permission: PERMISSIONS.UPDATE,
+          },
+          {
+            resource: MODULE.PHARMACY_CATALOGUE,
+            permission: PERMISSIONS.READ,
+          },
+          {
+            resource: MODULE.ME,
+            permission: PERMISSIONS.WRITE,
+          },
+          {
+            resource: MODULE.ME,
+            permission: PERMISSIONS.READ,
+          },
+          {
+            resource: MODULE.ME,
+            permission: PERMISSIONS.DELETE,
+          },
+          {
+            resource: MODULE.MEDICATION_CATALOGUE,
+            permission: PERMISSIONS.READ,
+          },
+        ]}
+      />
+    ),
     children: [
       {
         path: ROUTES.PHARMACY_TRANSMISSIONS,
