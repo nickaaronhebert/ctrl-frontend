@@ -7,7 +7,6 @@ import Orders from "@/assets/icons/Orders";
 import Provider from "@/assets/icons/Provider";
 import Transactions from "@/assets/icons/Transactions";
 import MedicationLibrary from "@/assets/icons/MedicationLibrary";
-import Pharmacies from "@/assets/mainlayouticons/Pharmacies";
 import ActivityLog from "@/assets/icons/ActivityLog";
 import SettingsMain from "@/assets/icons/SettingsMain";
 import type { Transmission as MyTransmission } from "@/components/data-table/columns/recentTransmissions";

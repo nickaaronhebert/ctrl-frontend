@@ -70,9 +70,6 @@ const patientApi = baseApi.injectEndpoints({
       invalidatesTags: (result, _error, arg) =>
         result ? [{ type: "Patients", id: arg.id }] : [],
     }),
-    connectStripe: builder.query({
-      query: () => "/payment/connect-stripe",
-    }),
   }),
 });
 
@@ -81,5 +78,4 @@ export const {
   useCreatePatientMutation,
   useGetPatientDetailsByIdQuery,
   useUpdatePatientMutation,
-  useLazyConnectStripeQuery,
 } = patientApi;
