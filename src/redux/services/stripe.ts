@@ -3,6 +3,7 @@ import { baseApi } from ".";
 import type { IViewAllInvoices } from "@/types/responses/IViewOrganizationInvoices";
 import type { ICommonSearchQuery } from "@/types/requests/search";
 import type { IGetOrganizationInvoicesResponse } from "@/types/responses/IGetOrganizationInvoicesDetails";
+import type { IPharmacyPayoutSetupResponse } from "@/types/responses/IPharmacyPayoutSetup";
 
 export const stripeApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -37,6 +38,10 @@ export const stripeApi = baseApi.injectEndpoints({
     >({
       query: (id) => `/transaction/${id}`,
     }),
+
+    payoutSetup: builder.query<IPharmacyPayoutSetupResponse, void>({
+      query: () => `/payment/connect-stripe`,
+    }),
   }),
 });
 
@@ -46,4 +51,5 @@ export const {
   useGetOrganizationInvoicesQuery,
   useGetAdminCardsQuery,
   useGetOrganizationInvoiceByIdQuery,
+  useLazyPayoutSetupQuery,
 } = stripeApi;
