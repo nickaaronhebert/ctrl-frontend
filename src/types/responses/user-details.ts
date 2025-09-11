@@ -15,6 +15,7 @@ export interface UserDetails {
   deaNumber: DeaCredentials[];
   affiliations: Affiliation[];
   pharmacy: {
+    stripeAccountId: string;
     allowedStates: string[];
     name: string;
     _id: string;

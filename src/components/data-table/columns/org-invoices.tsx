@@ -1,3 +1,4 @@
+import { StatusBadge } from "@/components/common/StatusBadge/StatusBadge";
 import type { OrganizationInvoices } from "@/types/responses/IViewOrganizationInvoices";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Link } from "react-router-dom";
@@ -62,6 +63,16 @@ export function organizationInvoicesColumns(): ColumnDef<OrganizationInvoices>[]
             </p>
           </>
         );
+      },
+    },
+
+    {
+      accessorKey: "status",
+      header: "Status",
+      cell: ({ row }) => {
+        const { status } = row.original;
+
+        return <StatusBadge status={status} />;
       },
     },
 

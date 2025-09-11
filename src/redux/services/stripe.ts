@@ -3,6 +3,7 @@ import { baseApi } from ".";
 import type { IViewAllInvoices } from "@/types/responses/IViewOrganizationInvoices";
 import type { ICommonSearchQuery } from "@/types/requests/search";
 import type { IGetOrganizationInvoicesResponse } from "@/types/responses/IGetOrganizationInvoicesDetails";
+import type { IPharmacyPayoutSetupResponse } from "@/types/responses/IPharmacyPayoutSetup";
 
 export const stripeApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -10,10 +11,14 @@ export const stripeApi = baseApi.injectEndpoints({
       query: () => "/payment/setup-intent", // GET request
     }),
 
-    getAttachPaymentMethod: builder.mutation<any, string>({
-      query: (payment_id) => ({
-        url: `/payment/attach-payment-method/${payment_id}`,
-        method: "GET",
+    getAttachPaymentMethod: builder.mutation<
+      any,
+      { isDefault: boolean; payment_method_id: string }
+    >({
+      query: (body) => ({
+        url: `/payment/attach-payment-method`,
+        method: "POST",
+        body,
       }),
       invalidatesTags: [TAG_GET_CARDS],
     }),
@@ -37,6 +42,10 @@ export const stripeApi = baseApi.injectEndpoints({
     >({
       query: (id) => `/transaction/${id}`,
     }),
+
+    payoutSetup: builder.query<IPharmacyPayoutSetupResponse, void>({
+      query: () => `/payment/connect-stripe`,
+    }),
   }),
 });
 
@@ -46,4 +55,5 @@ export const {
   useGetOrganizationInvoicesQuery,
   useGetAdminCardsQuery,
   useGetOrganizationInvoiceByIdQuery,
+  useLazyPayoutSetupQuery,
 } = stripeApi;

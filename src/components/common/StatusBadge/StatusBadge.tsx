@@ -1,5 +1,6 @@
 import File from "@/assets/icons/File";
 import QueuedSecondary from "@/assets/icons/Queuedecondary";
+import { Check } from "lucide-react";
 import Tick from "@/assets/icons/Tick";
 import TripleDots from "@/assets/icons/TripleDots";
 
@@ -40,6 +41,12 @@ const statusStyles: Record<
     border: "border-progress",
     text: "text-progress",
   },
+  Succeeded: {
+    icon: <Check stroke="#3fd975" size={16} />,
+    bg: "bg-progress-secondary",
+    border: "border-progress",
+    text: "text-progress",
+  },
 };
 
 export const StatusBadge = ({ status }: StatusBadgeProps) => {
@@ -50,7 +57,7 @@ export const StatusBadge = ({ status }: StatusBadgeProps) => {
       className={`inline-flex items-center gap-1 px-2 py-1 rounded-md border text-xs font-medium ${style.bg} ${style.border} ${style.text}`}
     >
       {style.icon}
-      <span className="capitalize font-medium text-[10px] text-slate leading-[12px]">
+      <span className="capitalize font-medium text-[10px] text-slate leading-[12px] p-0.5">
         {status}
       </span>
     </span>

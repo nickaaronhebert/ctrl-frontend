@@ -45,6 +45,7 @@ export const ROUTES = {
   ORG_PATIENT_SUCCESS: "patient-success",
   PHARMACY_TRANSMISSIONS: "transmissions",
   PHARMACY_INVOICES: "invoices",
+  PHARMACY_INVOICES_DETAILS: "invoices/:id",
   PHARMACY_MEDICATIONS: "medications",
   PHARMACY_SETTINGS: "settings",
   PHARMACY_REDIRECT: "/pharmacy-redirect",
