@@ -1,5 +1,8 @@
 import { Input } from "@/components/ui/input";
-import type { Medication, Variant } from "@/pages/AccessDetail";
+import type {
+  Medication,
+  Variant,
+} from "@/pages/Organization/AccessControl/AccessDetail";
 import { Search } from "lucide-react";
 import { useState, type ChangeEvent, useEffect } from "react";
 import US_STATES from "@/constants";

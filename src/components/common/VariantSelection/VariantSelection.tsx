@@ -7,7 +7,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { type Medication, type Variant } from "@/pages/AccessDetail";
+import {
+  type Medication,
+  type Variant,
+} from "@/pages/Organization/AccessControl/AccessDetail";
 import { useGetSingleMedicationCatalogueDetailsQuery } from "@/redux/services/medication";
 import type { ProductVariant } from "@/types/global/commonTypes";
 import { useState } from "react";
