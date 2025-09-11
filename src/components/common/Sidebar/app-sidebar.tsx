@@ -43,6 +43,8 @@ export function AppSidebar() {
   const location = useLocation();
   const navigate = useNavigate();
   const { user } = useAuthentication();
+  const isSettingsItem = (item: MenuItem) => item.title === "Settings";
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   const isOrganisationAdmin = user?.role?.name === "Organization Admin";
   const isProvider = user?.role?.name === "Provider";
@@ -139,8 +141,7 @@ export function AppSidebar() {
             <SidebarMenu>
               {menuItems.map((item) => {
                 const { state } = useSidebar();
-                const isSettings = item.title === "Settings";
-                const [open, setOpen] = useState(false);
+                const isSettings = isSettingsItem(item);
 
                 return (
                   <SidebarMenuItem
@@ -148,7 +149,10 @@ export function AppSidebar() {
                     className="hover:bg-secondary"
                   >
                     {isSettings ? (
-                      <Collapsible open={open} onOpenChange={setOpen}>
+                      <Collapsible
+                        open={settingsOpen}
+                        onOpenChange={setSettingsOpen}
+                      >
                         <CollapsibleTrigger asChild>
                           <SidebarMenuButton
                             asChild
@@ -173,7 +177,7 @@ export function AppSidebar() {
                                 {state !== "collapsed" && item.title}
                               </span>
                               {state !== "collapsed" &&
-                                (open ? (
+                                (settingsOpen ? (
                                   <ChevronUp size={18} />
                                 ) : (
                                   <ChevronDown size={18} />

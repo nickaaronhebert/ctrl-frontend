@@ -68,8 +68,36 @@ const router = createBrowserRouter([
         element={<SidebarLayout />}
         permissions={[
           {
-            resource: MODULE.PROVIDER,
+            resource: MODULE.PRESCRIPTION,
             permission: PERMISSIONS.READ,
+          },
+          {
+            resource: MODULE.TRANSMISSION,
+            permission: PERMISSIONS.READ,
+          },
+          {
+            resource: MODULE.ORDER,
+            permission: PERMISSIONS.READ,
+          },
+          {
+            resource: MODULE.ME,
+            permission: PERMISSIONS.UPDATE,
+          },
+          {
+            resource: MODULE.ME,
+            permission: PERMISSIONS.WRITE,
+          },
+          {
+            resource: MODULE.PRESCRIPTION,
+            permission: PERMISSIONS.UPDATE,
+          },
+          {
+            resource: MODULE.ME,
+            permission: PERMISSIONS.READ,
+          },
+          {
+            resource: MODULE.ME,
+            permission: PERMISSIONS.DELETE,
           },
         ]}
       />
