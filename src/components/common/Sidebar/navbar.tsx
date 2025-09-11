@@ -45,10 +45,13 @@ export default function Navbar() {
             <ChevronDown stroke="black" />
           </DropdownMenuTrigger>
           <DropdownMenuContent className="p-4 w-[174px]">
-            <DropdownMenuItem onClick={() => navigate("/provider/settings")}>
-              <SettingsSVG />
-              Settings
-            </DropdownMenuItem>
+            {user?.role?.name === "provider" && (
+              <DropdownMenuItem onClick={() => navigate("/provider/settings")}>
+                <SettingsSVG />
+                Settings
+              </DropdownMenuItem>
+            )}
+
             <DropdownMenuItem onClick={handleLogout}>
               <LogoutSVG />
               Logout

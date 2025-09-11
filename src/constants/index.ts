@@ -4,10 +4,7 @@ import Affiliation from "@/assets/icons/Affiliation";
 import Dashboard from "@/assets/icons/Dashboard";
 import Transmission from "@/assets/icons/Transmission";
 import Orders from "@/assets/icons/Orders";
-import Provider from "@/assets/icons/Provider";
 import Transactions from "@/assets/icons/Transactions";
-import MedicationLibrary from "@/assets/icons/MedicationLibrary";
-import ActivityLog from "@/assets/icons/ActivityLog";
 import SettingsMain from "@/assets/icons/SettingsMain";
 import type { Transmission as MyTransmission } from "@/components/data-table/columns/recentTransmissions";
 import type { InvoiceRow } from "@/types/global/commonTypes";
@@ -33,77 +30,83 @@ export const tabsConfig: TabConfig[] = [
 
 export const organisationAdminItems = [
   { title: "Dashboard", url: "/org/dashboard", icon: Dashboard },
-  { title: "Transmissions", url: "/org/transmissions", icon: Transmission },
   { title: "Orders", url: "/org/orders", icon: Orders },
-  { title: "Providers", url: "/org/providers", icon: Provider },
-  { title: "Patients", url: "/org/patients", icon: PatientIcon },
+  { title: "Transmissions", url: "/org/transmissions", icon: Transmission },
   { title: "Transactions", url: "/org/transactions", icon: Transactions },
-  {
-    title: "Medication Library",
-    url: "/org/medications",
-    icon: MedicationLibrary,
-  },
-  {
-    title: "Pharmacies",
-    url: "/org/pharmacies",
-    icon: MedicationLibrary,
-  },
-  { title: "Activity Log", url: "/org/activity-log", icon: ActivityLog },
+  { title: "Patients", url: "/org/patients", icon: PatientIcon },
+  // { title: "Providers", url: "/org/providers", icon: Provider },
   { title: "Settings", url: "/org/settings", icon: SettingsMain },
-  {
-    title: "Pharmacy Assignment",
-    url: "/org/access-control",
-    icon: SettingsMain,
-  },
+  // {
+  //   title: "Medication Library",
+  //   url: "/org/medications",
+  //   icon: MedicationLibrary,
+  // },
+  // {
+  //   title: "Pharmacies",
+  //   url: "/org/pharmacies",
+  //   icon: MedicationLibrary,
+  // },
+  // { title: "Activity Log", url: "/org/activity-log", icon: ActivityLog },
+  // { title: "Settings", url: "/org/settings", icon: SettingsMain },
+  // {
+  //   title: "Pharmacy Assignment",
+  //   url: "/org/access-control",
+  //   icon: SettingsMain,
+  // },
 ];
 
-export const sidebarIcons = [
-  { title: "Dashboard", url: "/org/dashboard", icon: Dashboard },
-  { title: "Transmissions", url: "/org/transmissions", icon: Transmission },
-  { title: "Orders", url: "/org/orders", icon: Orders },
-  { title: "Providers", url: "/org/providers", icon: Provider },
-  { title: "Patients", url: "/org/patients", icon: PatientIcon },
-  { title: "Transactions", url: "/org/transactions", icon: Transactions },
-  {
-    title: "Medication Library",
-    url: "/org/medications",
-    icon: MedicationLibrary,
-  },
-  {
-    title: "Pharmacies",
-    url: "/org/pharmacies",
-    icon: MedicationLibrary,
-  },
-  { title: "Activity Log", url: "/org/activity-log", icon: ActivityLog },
-  { title: "Settings", url: "/org/settings", icon: SettingsMain },
-  {
-    title: "Pharmacy Assignment",
-    url: "/org/access-control",
-    icon: SettingsMain,
-  },
-];
-
-//// For future score /////
-// export const nestedOrgItems = [
+// export const sidebarIcons = [
+//   { title: "Dashboard", url: "/org/dashboard", icon: Dashboard },
+//   { title: "Transmissions", url: "/org/transmissions", icon: Transmission },
+//   { title: "Orders", url: "/org/orders", icon: Orders },
 //   { title: "Providers", url: "/org/providers", icon: Provider },
-//   {
-//     title: "Pharmacies",
-//     url: "/org/pharmacies",
-//     icon: Pharmacies,
-//   },
+//   { title: "Patients", url: "/org/patients", icon: PatientIcon },
+//   { title: "Transactions", url: "/org/transactions", icon: Transactions },
 //   {
 //     title: "Medication Library",
 //     url: "/org/medications",
 //     icon: MedicationLibrary,
 //   },
 //   {
+//     title: "Pharmacies",
+//     url: "/org/pharmacies",
+//     icon: MedicationLibrary,
+//   },
+//   { title: "Activity Log", url: "/org/activity-log", icon: ActivityLog },
+//   { title: "Settings", url: "/org/settings", icon: SettingsMain },
+//   {
 //     title: "Pharmacy Assignment",
 //     url: "/org/access-control",
 //     icon: SettingsMain,
 //   },
-//   { title: "Activity Log", url: "/org/activity-log", icon: ActivityLog },
-//   { title: "Settings", url: "/org/settings", icon: SettingsMain },
 // ];
+
+//// For future score /////
+export const nestedOrgItems = [
+  { title: "Providers", url: "/org/providers" },
+  {
+    title: "Pharmacies",
+    url: "/org/pharmacies",
+  },
+  {
+    title: "Medication Library",
+    url: "/org/medications",
+  },
+  {
+    title: "Pharmacy Assignment",
+    url: "/org/access-control",
+  },
+  { title: "Activity Log", url: "/org/activity-log" },
+  { title: "My Settings", url: "/org/settings" },
+];
+
+export const nestedPharmacyItems = [
+  {
+    title: "Medication Library",
+    url: "/pharmacy/catalogue-creation",
+  },
+  { title: "Settings", url: "/pharmacy/settings" },
+];
 
 export const pharmacyAdminItems = [
   {
@@ -112,11 +115,6 @@ export const pharmacyAdminItems = [
     icon: Transmission,
   },
   { title: "Invoices", url: "/pharmacy/invoices", icon: InvoicesMain },
-  {
-    title: "Medication Library",
-    url: "/pharmacy/catalogue-creation",
-    icon: MedicationLibrary,
-  },
   { title: "Settings", url: "/pharmacy/settings", icon: SettingsMain },
 ];
 

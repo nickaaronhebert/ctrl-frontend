@@ -10,7 +10,12 @@ import {
 } from "@/components/ui/sidebar";
 import { useSidebar } from "@/components/ui/sidebar";
 import { useNavigate } from "react-router-dom";
-import { organisationAdminItems, pharmacyAdminItems } from "@/constants";
+import {
+  nestedOrgItems,
+  nestedPharmacyItems,
+  organisationAdminItems,
+  pharmacyAdminItems,
+} from "@/constants";
 import CTRLSVG from "@/assets/images/CTRL.svg";
 import CollapsedCTRLSVG from "@/assets/icons/CollapsedCTRL";
 import { SidebarToggle } from "./sidebar-toggle";
@@ -18,12 +23,18 @@ import { useLocation } from "react-router-dom";
 import { PrescriptionSVG } from "@/assets/icons/PrescriptionSVG";
 import useAuthentication from "@/hooks/use-authentication";
 import SupportSVG from "@/assets/icons/Support";
-// import { ChevronDown, ChevronUp } from "lucide-react";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import { ChevronDown, ChevronUp } from "lucide-react";
+import { useState } from "react";
 
 type MenuItem = {
   title: string;
   url: string;
-  icon: React.ComponentType<any>;
+  icon?: React.ComponentType<any>;
   activePaths?: string[];
 };
 
@@ -36,6 +47,10 @@ export function AppSidebar() {
   const isOrganisationAdmin = user?.role?.name === "Organization Admin";
   const isProvider = user?.role?.name === "Provider";
   const isPharmacyAdmin = user?.role?.name === "Pharmacy Admin";
+
+  const nestedItems = isOrganisationAdmin
+    ? nestedOrgItems
+    : nestedPharmacyItems;
 
   const providerItems = [
     {
@@ -87,7 +102,7 @@ export function AppSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu>
+            {/* <SidebarMenu>
               {menuItems.map((item) => {
                 // console.log("item", item);
                 const { state } = useSidebar();
@@ -118,10 +133,10 @@ export function AppSidebar() {
                   </SidebarMenuItem>
                 );
               })}
-            </SidebarMenu>
+            </SidebarMenu> */}
 
             {/* For Future Scope */}
-            {/* <SidebarMenu>
+            <SidebarMenu>
               {menuItems.map((item) => {
                 const { state } = useSidebar();
                 const isSettings = item.title === "Settings";
@@ -166,8 +181,8 @@ export function AppSidebar() {
                             </div>
                           </SidebarMenuButton>
                         </CollapsibleTrigger>
-                        <CollapsibleContent className="ml-5 mt-2 flex flex-col gap-2">
-                          {nestedOrgItems.map((nestedItem) => (
+                        <CollapsibleContent className=" mt-2 flex flex-col gap-2">
+                          {nestedItems.map((nestedItem) => (
                             <SidebarMenuButton
                               key={nestedItem.title}
                               asChild
@@ -177,21 +192,12 @@ export function AppSidebar() {
                               <div
                                 className={`flex items-center gap-3 w-full cursor-pointer ${
                                   isActive(nestedItem)
-                                    ? "bg-secondary font-semibold text-primary"
+                                    ? "bg-secondary font-semibold text-red-300"
                                     : ""
                                 }`}
                                 onClick={() => navigate(nestedItem.url)}
                               >
-                                <span className="min-w-[30px] min-h-[30px] flex items-center ">
-                                  <nestedItem.icon
-                                    color={`${
-                                      isActive(nestedItem)
-                                        ? "#5354ac"
-                                        : "#9aa2ac"
-                                    }`}
-                                  />
-                                </span>
-                                <span className="text-[16px]">
+                                <span className="font-normal text-[16px] leading-[22px] ml-10 text-secondary-foreground">
                                   {state !== "collapsed" && nestedItem.title}
                                 </span>
                               </div>
@@ -225,7 +231,7 @@ export function AppSidebar() {
                   </SidebarMenuItem>
                 );
               })}
-            </SidebarMenu> */}
+            </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>

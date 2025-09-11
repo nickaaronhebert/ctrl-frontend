@@ -25,25 +25,20 @@ import Redirect from "./components/provider/redirect";
 import RoleChecker from "./guard/RoleChecker";
 import PostLoginRedirect from "./components/common/PostLoginRedirect";
 import OrganisationDashboard from "./pages/OrganizationDashboard";
-
 import Medications from "./pages/Medications";
 import Pharmacies from "./pages/Pharmacies";
-
 import OrganizationTransmission from "./pages/OrganizationTransmission";
 import OrganizationOrder from "./pages/OrganizationOrder";
-
 import TransmissionDetails from "./pages/OrganizationTransmission/details";
 import OrganizationAffiliatedProvider from "./pages/OrganizationAffiliatedProvider";
 import ViewOrderDetails from "./pages/OrganizationOrder/details";
 import MedicationDetails from "./pages/MedicationDetails";
-
 import CreateOrderPage from "./pages/CreateOrder";
 import AccessControl from "./pages/AccessUI";
 import AccessDetail from "./pages/AccessDetail";
 import PatientList from "./pages/Organization/Patient";
 import CreatePatient from "./pages/Organization/Patient/create";
 import PatientStatus from "./pages/Organization/Patient/success";
-
 import ViewPatientDetails from "./pages/Organization/Patient/details";
 import EditPatient from "./pages/Organization/Patient/edit";
 import ActivityLogs from "./pages/Organization/ActivityLogs";
@@ -52,7 +47,6 @@ import PharmacyInvoices from "./pages/Pharmacy/Invoices";
 import RegisterPharmacy from "./components/pharmacy/register";
 import PharmacyRedirect from "./components/pharmacy/verify-invitation";
 import WelcomePharmacy from "./components/pharmacy/welcome";
-
 import OrganizationSettings from "./pages/Organization/Settings";
 import PharmacyTransmissionDetails from "./pages/PharmacyTransmission/details";
 import Invoices from "./pages/Organization/Invoices";
