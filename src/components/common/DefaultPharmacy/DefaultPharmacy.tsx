@@ -56,6 +56,8 @@ const DefaultPharmacy = ({
     setSearchQuery(e.target.value);
   };
 
+  console.log("defaultPharmacy", data?.data?.defaultPharmacy);
+
   useEffect(() => {
     setFullPharmacies({});
     setConfiguredStates({});
@@ -81,13 +83,19 @@ const DefaultPharmacy = ({
       setFullPharmacies({});
       setConfiguredStates({});
     }
-  }, [data]);
+  }, [data, selectedVariant?.id]);
 
   const filteredStates = US_STATES.filter(
     (state) =>
       state.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       state.shortCode.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  // console.log("fullPharamcies", fullPharmacies);
+  // console.log("configuredStates", configuredStates);
+  // // console.log("pharmaciesByState", pharmaciesByState);
+  // console.log("selectedMedication", selectedMedication);
+  // console.log("selectedVariant", selectedVariant);
 
   const handleSelect = (
     state: { name: string; shortCode: string },
@@ -123,6 +131,9 @@ const DefaultPharmacy = ({
       return updated;
     });
   };
+
+  console.log("mmmm", selectedMedication);
+  console.log("sssss", selectedVariant);
 
   return (
     <div className="bg-white rounded-lg border border-gray-200 pt-4">

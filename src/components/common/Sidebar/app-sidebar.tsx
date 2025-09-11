@@ -34,7 +34,7 @@ import { useState } from "react";
 type MenuItem = {
   title: string;
   url: string;
-  icon?: React.ComponentType<any>;
+  icon?: React.ComponentType<{}>;
   activePaths?: string[];
 };
 

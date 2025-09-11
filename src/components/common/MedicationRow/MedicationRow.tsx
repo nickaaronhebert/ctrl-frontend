@@ -1,7 +1,15 @@
+import type {
+  PharmacyCatalogue,
+  PharmacyProductVariant,
+} from "@/types/responses/medication";
 import VariantRow from "../VariantRow/VariantRow";
 import MedicationLibrary from "@/assets/icons/MedicationLibrary";
 
-export function MedicationRow({ medication }: any) {
+interface MedicationProps {
+  medication: PharmacyCatalogue;
+}
+
+export function MedicationRow({ medication }: MedicationProps) {
   console.log("medication.............", medication);
   const variantCount = medication.productVariant.length;
 
@@ -30,8 +38,8 @@ export function MedicationRow({ medication }: any) {
           </div>
         </div>
 
-        {medication.productVariant.map((variant: any) => {
-          console.log("variant", variant);
+        {medication.productVariant.map((variant: PharmacyProductVariant) => {
+          console.log("variant>>>>>>>", variant);
           return (
             <VariantRow
               key={variant._id}

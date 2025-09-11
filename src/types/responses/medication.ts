@@ -26,3 +26,32 @@ export interface MedicationCatalogueResponse {
   data: Medication[];
   meta: MedicationCatalogueMeta;
 }
+
+export interface PharmacyMedicationCatalogue {
+  _id: string;
+  drugName: string;
+}
+
+export interface PharmacyProductVariant {
+  _id: string;
+  price: number;
+  productVariant: {
+    _id: string;
+    strength: string;
+  };
+}
+
+export interface PharmacyCatalogue {
+  _id: string;
+  medicationCatalogue: PharmacyMedicationCatalogue;
+  productVariant: PharmacyProductVariant[];
+}
+
+export interface PharmacyCatalogueResponse {
+  data: PharmacyCatalogue[];
+  meta?: MedicationCatalogueMeta;
+}
+
+export interface MedicationCatalogueCardProps {
+  data: PharmacyCatalogueResponse;
+}

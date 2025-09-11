@@ -292,3 +292,9 @@ export interface PharmacyInvoices {
   id: string;
   stripeTransferId: string;
 }
+
+export interface ApiError {
+  data?: {
+    message?: string | string[];
+  };
+}

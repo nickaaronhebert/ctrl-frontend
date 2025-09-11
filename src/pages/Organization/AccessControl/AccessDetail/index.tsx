@@ -58,7 +58,9 @@ const AccessDetail = () => {
   }, [id, singleAccessControl]);
 
   useEffect(() => {
+    console.log("**************");
     if (!id && selectedVariant?.id) {
+      console.log("####################");
       triggerGetAccessControl(selectedVariant?.id);
     }
   }, [selectedVariant, id, triggerGetAccessControl]);
@@ -73,6 +75,8 @@ const AccessDetail = () => {
     );
   }
 
+  console.log("ddddddd", variantAccessControlData);
+  console.log("iiiiiiiiii", id);
   console.log("selectedMedicationnnn", selectedMedication);
   console.log("selectedVariantttt", selectedVariant);
 
@@ -137,10 +141,10 @@ const AccessDetail = () => {
         </div>
         {selectedMedication && selectedVariant ? (
           <div className="w-full flex flex-col gap-5">
-            <BulkAssignment
+            {/* <BulkAssignment
               selectedPharmacy={selectedPharmacy}
               setSelectedPharmacy={setSelectedPharmacy}
-            />
+            /> */}
             <DefaultPharmacy
               selectedMedication={selectedMedication}
               selectedVariant={selectedVariant}

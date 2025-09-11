@@ -19,6 +19,7 @@ import type { UserDetails } from "@/types/responses/user-details";
 import { useEditProfileMutation } from "@/redux/services/authApi";
 import { toast } from "sonner";
 import { useEffect } from "react";
+import type { ApiError } from "@/types/global/commonTypes";
 
 interface EditProfileDialogProps {
   user: UserDetails;
@@ -66,10 +67,10 @@ export default function EditProfileDialog({
       let message = "An unexpected error occurred";
 
       if (typeof error === "object" && error !== null && "data" in error) {
-        const data = (error as any).data;
+        const data = (error as ApiError).data;
 
         if (Array.isArray(data?.message)) {
-          message = data.message[0]; // e.g. "Last name must not contain numbers"
+          message = data.message[0];
         } else if (typeof data?.message === "string") {
           message = data.message;
         }
@@ -80,6 +81,7 @@ export default function EditProfileDialog({
       });
     }
   }
+
   function onCancel() {
     form.reset();
     onOpenChange?.(false);

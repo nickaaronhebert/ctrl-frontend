@@ -1,4 +1,11 @@
-const VariantRow = ({ variant, drugName }: any) => {
+import type { PharmacyProductVariant } from "@/types/responses/medication";
+
+interface VariantProps {
+  drugName: string;
+  variant: PharmacyProductVariant;
+}
+
+const VariantRow = ({ variant, drugName }: VariantProps) => {
   console.log("Variant", variant);
   console.log("drugName", drugName);
   return (

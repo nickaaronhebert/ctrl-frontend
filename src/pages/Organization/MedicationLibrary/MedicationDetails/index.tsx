@@ -13,12 +13,15 @@ import Pharmacies from "@/assets/mainlayouticons/Pharmacies";
 import { useGetSingleMedicationCatalogueDetailsQuery } from "@/redux/services/medication";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { variantColumns } from "@/components/data-table/columns/variant-column";
+import Medications from "@/assets/mainlayouticons/Medications";
+
+type TabKey = "medicationDetails" | "medVariants" | "medPharmacies";
 
 const menuItems = [
   {
     title: "Medication Details",
     scrollToId: "medicationDetails",
-    icon: MedicationLibrary,
+    icon: Medications,
   },
   {
     title: "Variants",
@@ -39,9 +42,7 @@ const MedicationDetails = () => {
     useGetSingleMedicationCatalogueDetailsQuery(id!, {
       skip: !id,
     });
-  const [activeTab, setActiveTab] = useState<
-    "medicationDetails" | "variants" | "pharmacies"
-  >("medicationDetails");
+  const [activeTab, setActiveTab] = useState<TabKey>("medicationDetails");
   const columns = useMemo(() => pharmacyColumns(), []);
   const variantColumn = useMemo(() => variantColumns(), []);
 
@@ -125,7 +126,7 @@ const MedicationDetails = () => {
               }
               `}
                 onClick={() => {
-                  setActiveTab(item.scrollToId as any);
+                  setActiveTab(item.scrollToId as TabKey);
                   document.getElementById(item.scrollToId)?.scrollIntoView({
                     behavior: "smooth",
                   });
