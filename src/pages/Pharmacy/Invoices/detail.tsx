@@ -1,28 +1,21 @@
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
-import { useGetOrganizationInvoiceByIdQuery } from "@/redux/services/stripe";
 import { Link, useParams } from "react-router-dom";
 import ZigZag from "@/assets/mainlayouticons/ZigZag";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import InvoiceOverviewCard from "@/components/common/Card/invoice-overview";
 import InvoiceItemsCard from "@/components/common/Card/invoice-items";
-import PharmacyCard from "@/components/common/Card/pharmacy";
-import PaymentMethodDetails from "@/components/common/Card/card-details";
 
+import PaymentMethodDetails from "@/components/common/Card/card-details";
 import CardSVG from "@/assets/icons/CardIcon";
-import Pharmacies from "@/assets/mainlayouticons/Pharmacies";
 import Invoices from "@/assets/icons/Invoices";
 import DocumentSVG from "@/assets/icons/Document";
+import { useGetPharmacyInvoicesDetailsQuery } from "@/redux/services/pharmacy";
+import { useState } from "react";
 const menuItems = [
   {
     title: "Invoice Information",
     scrollToId: "invoiceInformation",
     icon: ZigZag,
-  },
-  {
-    title: "Pharmacy Information",
-    scrollToId: "pharmacyInformation",
-    icon: Pharmacies,
   },
 
   {
@@ -37,44 +30,38 @@ const menuItems = [
   },
 ];
 
-export default function ViewInvoiceDetails() {
+export default function ViewPharmacyInvoiceDetails() {
   const { id } = useParams();
+  console.log("id", id);
   const [activeTab, setActiveTab] = useState<
-    | "invoiceInformation"
-    | "pharmacyInformation"
-    | "medications"
-    | "paymentInformation"
+    "invoiceInformation" | "medications" | "paymentInformation"
   >("invoiceInformation");
 
   const {
-    data,
-    invoiceDetails,
+    data: invoiceData,
     medicationDetails,
-
-    pharmacyDetails,
+    invoiceDetails,
     isFetching,
-  } = useGetOrganizationInvoiceByIdQuery(id as string, {
+  } = useGetPharmacyInvoicesDetailsQuery(id as string, {
+    skip: !id,
     selectFromResult: ({ data, isLoading, isFetching, isError }) => {
-      const { id, createdAt, transmissionCode, totalAmount, pharmacy } =
-        data?.data || {};
       return {
         data: data?.data,
+
         invoiceDetails: {
-          id: id ?? "",
-          transmissionCode: transmissionCode ?? "",
-          totalAmount: totalAmount ?? 0,
-          createdAt: createdAt ?? "",
+          id: data?.data?.id ?? "",
+          transmissionCode: data?.data?.transaction?.transmissionCode ?? "",
+          totalAmount: data?.data?.transaction?.totalAmount ?? 0,
+          createdAt: data?.data?.createdAt ?? "",
         },
-
-        pharmacyDetails: {
-          name: pharmacy?.name ?? "",
-          email: pharmacy?.email ?? "",
-          address: pharmacy?.address ?? "",
-          phoneNumber: pharmacy?.phoneNumber ?? "",
-          id: pharmacy?.id ?? "",
-        },
-
-        medicationDetails: data?.data?.lineItems.map((item) => ({
+        //         medicationDetails: data?.data?.lineItems.map((item) => ({
+        //           variantId: item.productVariant.id,
+        //           variantUnit: item.productVariant.quantityType,
+        //           productName: item.productVariant.medicationCatalogue.drugName,
+        //           qty: item.quantity,
+        //           unitPrice: item.productVariantPrice,
+        //         })),
+        medicationDetails: data?.data?.transaction?.lineItems?.map((item) => ({
           variantId: item.productVariant.id,
           variantUnit: item.productVariant.quantityType,
           productName: item.productVariant.medicationCatalogue.drugName,
@@ -82,7 +69,6 @@ export default function ViewInvoiceDetails() {
           unitPrice: item.productVariantPrice,
           strength: item.productVariant.strength,
         })),
-
         isLoading: isLoading,
         isError: isError,
         isFetching: isFetching,
@@ -102,9 +88,7 @@ export default function ViewInvoiceDetails() {
           {"<- Back to Invoices"}
         </Link>
 
-        <h1 className="text-2xl font-bold mt-1">
-          Invoice: {data?.transmissionCode}{" "}
-        </h1>
+        <h1 className="text-2xl font-bold mt-1">Invoice:</h1>
       </div>
 
       <div className="flex gap-8 px-14 mt-6">
@@ -119,10 +103,10 @@ export default function ViewInvoiceDetails() {
               </div>
               <div>
                 <h4 className="text-base font-medium text-black">
-                  {data?.transmissionCode}
+                  {invoiceData?.transaction?.transmissionCode}
                 </h4>
                 <h6 className="text-xs font-normal text-[#3E4D61]">
-                  {data?.createdAt}
+                  {invoiceData?.createdAt}
                 </h6>
               </div>
             </div>
@@ -162,15 +146,15 @@ export default function ViewInvoiceDetails() {
 
         <div className="flex flex-col gap-5 w-full">
           <InvoiceOverviewCard invoice={invoiceDetails} />
-          <PharmacyCard pharmacy={pharmacyDetails} />
+
           <InvoiceItemsCard
             invoiceItems={medicationDetails}
-            totalAmount={invoiceDetails.totalAmount}
-            applicationFee={data?.applicationFee ?? ""}
+            totalAmount={invoiceData?.transaction?.totalAmount ?? ""}
+            applicationFee={invoiceData?.transaction?.applicationFee ?? ""}
           />
           <PaymentMethodDetails
-            cardInfo={data?.card?.last4 ?? ""}
-            transactionId={data?.paymentIntent ?? ""}
+            cardInfo={""}
+            transactionId={invoiceData?.stripeTransferId ?? ""}
           />
         </div>
       </div>

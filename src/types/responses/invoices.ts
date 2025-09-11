@@ -9,6 +9,7 @@ export interface PharmacyInvoiceResponse {
     createdAt: string;
     updatedAt: string;
     id: string;
+    stripeTransferId: string;
   }>;
   meta: {
     page: number;

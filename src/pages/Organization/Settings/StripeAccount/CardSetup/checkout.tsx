@@ -11,6 +11,8 @@ import type { StripeCardElementOptions } from "@stripe/stripe-js";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { useGetAttachPaymentMethodMutation } from "@/redux/services/stripe";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 
 interface Props {
   clientSecret: string; // Pass this from backend
@@ -78,7 +80,7 @@ const CustomCardForm = ({ clientSecret, hideCard }: Props) => {
   const [triggerAttachPaymentMethod] = useGetAttachPaymentMethodMutation();
   const stripe = useStripe();
   const elements = useElements();
-
+  const [defaultCardChecked, setDefaultCardChecked] = useState(false);
   const [cardholderName, setCardholderName] = useState("");
   const [zip, setZip] = useState("");
   const [loading, setLoading] = useState(false);
@@ -131,7 +133,10 @@ const CustomCardForm = ({ clientSecret, hideCard }: Props) => {
       console.log("SetupIntent confirmed:", setupIntent);
 
       // Attach payment method to backend
-      await triggerAttachPaymentMethod(paymentMethodId)
+      await triggerAttachPaymentMethod({
+        payment_method_id: paymentMethodId,
+        isDefault: defaultCardChecked,
+      })
         .unwrap()
         .then((res) => {
           console.log("res", res);
@@ -140,6 +145,7 @@ const CustomCardForm = ({ clientSecret, hideCard }: Props) => {
           });
           setCardholderName("");
           setZip("");
+          setDefaultCardChecked(false);
 
           // Reset Stripe Elements (optional)
           elements.getElement(CardNumberElement)?.clear();
@@ -156,7 +162,6 @@ const CustomCardForm = ({ clientSecret, hideCard }: Props) => {
           );
         });
     } catch (err: any) {
-      console.log("hiiiii");
       console.error("Error during card setup:", err);
       toast.error(err?.message || "Error during card setup. ", {
         duration: 1500,
@@ -223,6 +228,15 @@ const CustomCardForm = ({ clientSecret, hideCard }: Props) => {
           required
           className="w-full border border-card-border rounded-md p-4 focus:ring-2 focus:ring-blue-500 focus:outline-none"
         />
+      </div>
+
+      <div className="flex items-center gap-3">
+        <Checkbox
+          id="default-card"
+          checked={defaultCardChecked}
+          onCheckedChange={(value) => setDefaultCardChecked(value === true)}
+        />
+        <Label htmlFor="default-card">Use as a Default Card</Label>
       </div>
 
       {/* Submit Button */}

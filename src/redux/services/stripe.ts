@@ -11,10 +11,14 @@ export const stripeApi = baseApi.injectEndpoints({
       query: () => "/payment/setup-intent", // GET request
     }),
 
-    getAttachPaymentMethod: builder.mutation<any, string>({
-      query: (payment_id) => ({
-        url: `/payment/attach-payment-method/${payment_id}`,
-        method: "GET",
+    getAttachPaymentMethod: builder.mutation<
+      any,
+      { isDefault: boolean; payment_method_id: string }
+    >({
+      query: (body) => ({
+        url: `/payment/attach-payment-method`,
+        method: "POST",
+        body,
       }),
       invalidatesTags: [TAG_GET_CARDS],
     }),

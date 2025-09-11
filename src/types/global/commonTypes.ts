@@ -91,32 +91,32 @@ export interface MedicationCatalogue {
 //   };
 // }
 
-export interface Invoices {
-  transmissionCode: string;
-  totalAmount: string;
-  id: string;
-  createdAt: string;
-  pharmacy: {
-    name: string;
-    phoneNumber: string;
-    email: string;
-    id: string;
-    address: string;
-  };
-  medicationFee: string;
-  applicationFee: string;
-  status: string;
-  lineItems: {
-    quantity: number;
-    productVariantPrice: number;
-    productVariant: ProductVariant;
-  }[];
-  card: {
-    last4: string;
-    id: string;
-  };
-  paymentIntent: string;
-}
+// export interface Invoices {
+//   transmissionCode: string;
+//   totalAmount: string;
+//   id: string;
+//   createdAt: string;
+//   pharmacy: {
+//     name: string;
+//     phoneNumber: string;
+//     email: string;
+//     id: string;
+//     address: string;
+//   };
+//   medicationFee: string;
+//   applicationFee: string;
+//   status: string;
+//   lineItems: {
+//     quantity: number;
+//     productVariantPrice: number;
+//     productVariant: ProductVariant;
+//   }[];
+//   card: {
+//     last4: string;
+//     id: string;
+//   };
+//   paymentIntent: string;
+// }
 
 export interface ProductVariant {
   medicationCatalogue: MedicationCatalogue;
@@ -209,7 +209,7 @@ export interface CardDetails {
 
 export interface Invoices {
   transmissionCode: string;
-  totalAmount: string;
+  totalAmount: number;
   id: string;
   createdAt: string;
   pharmacy: {
@@ -247,7 +247,7 @@ export interface MetaData {
 export interface LineItem {
   productVariantPrice: number;
   quantity: number;
-  productVariant: string;
+  productVariant: ProductVariant;
   pharmacyCatalogue: string;
   totalPrice: number;
   prescription: string;
@@ -290,4 +290,5 @@ export interface PharmacyInvoices {
   createdAt: string;
   updatedAt: string;
   id: string;
+  stripeTransferId: string;
 }

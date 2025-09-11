@@ -53,12 +53,11 @@ export function invoiceColumns(): ColumnDef<PharmacyInvoices>[] {
     //   },
     // },
     {
-      accessorKey: "transmissionId",
-      id: "action",
+      accessorKey: "id",
       header: "Action",
       cell: ({ row }) => (
         <Link
-          to={`/org/invoices/${row.getValue("transmissionId")}`}
+          to={`/pharmacy/invoices/${row.getValue("id")}`}
           className="flex justify-center items-center py-1 px-5 w-[85px] h-[36px] rounded-[50px] border border-primary-foreground "
         >
           View

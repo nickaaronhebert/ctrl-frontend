@@ -7,6 +7,7 @@ type InvoiceItems =
       productName: string;
       qty: number;
       unitPrice: number;
+      strength: string;
     }[];
 
 type InvoiceItemCardsProps = {
@@ -36,10 +37,10 @@ export default function InvoiceItemsCard({
             return (
               <div className="flex justify-between space-y-1.5">
                 <span className="text-sm font-normal">
-                  {`${item.productName} (${item.qty} ${item.variantUnit})`}
+                  {`${item.productName} ${item.strength} (${item.qty} unit)`}
                 </span>
                 <span className="text-sm font-medium">
-                  {`$${item.unitPrice}`}
+                  {`$${item.unitPrice * item.qty}`}
                 </span>
               </div>
             );

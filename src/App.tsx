@@ -48,7 +48,7 @@ import ViewPatientDetails from "./pages/Organization/Patient/details";
 import EditPatient from "./pages/Organization/Patient/edit";
 import ActivityLogs from "./pages/Organization/ActivityLogs";
 import PharmacyTransmission from "./pages/PharmacyTransmission";
-import PharmacyInvoices from "./pages/PharmacyInvoices";
+import PharmacyInvoices from "./pages/Pharmacy/Invoices";
 import RegisterPharmacy from "./components/pharmacy/register";
 import PharmacyRedirect from "./components/pharmacy/verify-invitation";
 import WelcomePharmacy from "./components/pharmacy/welcome";
@@ -64,6 +64,7 @@ import CatalogueCreationCard from "./components/common/CatalogueCreationCard/Cat
 import ViewInvoiceDetails from "./pages/Organization/Invoices/details";
 import CatalogueCreationSuccess from "./components/common/CatalogueCreationSuccess/CatalogueCreationSuccess";
 import PharmacySettings from "./pages/Pharmacy/Settings";
+import ViewPharmacyInvoiceDetails from "./pages/Pharmacy/Invoices/detail";
 
 const router = createBrowserRouter([
   {
@@ -289,6 +290,10 @@ const router = createBrowserRouter([
       {
         path: ROUTES.PHARMACY_INVOICES,
         element: <PharmacyInvoices />,
+      },
+      {
+        path: ROUTES.PHARMACY_INVOICES_DETAILS,
+        element: <ViewPharmacyInvoiceDetails />,
       },
       {
         path: ROUTES.PHARMACY_MEDICATIONS,
