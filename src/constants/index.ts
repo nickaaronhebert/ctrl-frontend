@@ -43,11 +43,11 @@ export const organisationAdminItems = [
     url: "/org/medications",
     icon: MedicationLibrary,
   },
-  {
-    title: "Pharmacies",
-    url: "/org/pharmacies",
-    icon: MedicationLibrary,
-  },
+  // {
+  //   title: "Pharmacies",
+  //   url: "/org/pharmacies",
+  //   icon: MedicationLibrary,
+  // },
   { title: "Activity Log", url: "/org/activity-log", icon: ActivityLog },
   { title: "Settings", url: "/org/settings", icon: SettingsMain },
   {
