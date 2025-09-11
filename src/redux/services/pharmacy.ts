@@ -50,6 +50,12 @@ export const pharmacyApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [TAG_GET_USER_PROFILE],
     }),
+    getPharmacyCatalogue: builder.query({
+      query: ({ page, perPage }) => ({
+        url: `/pharmacy-catalogue?page=${page}&limit=${perPage}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -59,4 +65,5 @@ export const {
   useGetPharmacyInvoicesQuery,
   useBulkUpsertPharmacyCatalogueMutation,
   useSetActiveStatesMutation,
+  useGetPharmacyCatalogueQuery,
 } = pharmacyApi;

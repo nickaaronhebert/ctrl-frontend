@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowLeft, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { useMedication } from "@/context/ApplicationUser/MedicationContext";
 import MedicationLibrary from "@/assets/icons/MedicationLibrary";
 import { useBulkUpsertPharmacyCatalogueMutation } from "@/redux/services/pharmacy";
 import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function SetDefaultPrices() {
   const { selectedVariants, medications, prices, setPrices } = useMedication();
@@ -55,7 +55,11 @@ export default function SetDefaultPrices() {
 
     try {
       await bulkUpsertPharmacyCatalogue(payload).unwrap();
-      navigate("/pharmacy/medications/success");
+      navigate("/pharmacy/medications/success", {
+        state: {
+          pricedVariants: items.length,
+        },
+      });
     } catch (error: unknown) {
       console.error("Profile update failed:", error);
 
@@ -82,17 +86,15 @@ export default function SetDefaultPrices() {
   return (
     <div className="mb-5">
       <div className="bg-lilac py-3 px-12 flex justify-between mb-4">
-        <div className="flex flex-col gap-1">
-          <Button
-            variant="ghost"
-            className="flex items-start justify-start gap-2 text-gray-600 hover:text-gray-900"
+        <div>
+          <Link
+            to={"/pharmacy/medications/configure"}
+            className="font-normal text-sm text text-muted-foreground"
           >
-            <ArrowLeft className="w-4 h-4" />
-            Back to Medications
-          </Button>
-          <h1 className="text-2xl font-semibold text-gray-900">
-            Set Default Prices
-          </h1>
+            {"<- Back to Medications"}
+          </Link>
+
+          <h1 className="text-2xl font-bold mt-1">Set Default Prices</h1>
         </div>
         <div className="flex items-center gap-4">
           <span className="font-normal text-[14px] leading-[18px] text-black">
@@ -100,7 +102,7 @@ export default function SetDefaultPrices() {
           </span>
           <Button
             onClick={handleSaveCatalogue}
-            className="bg-primary min-w-[110px] min-h-[40px] rounded-[50px] hover:bg-primary text-white px-[20px] py-[5px]"
+            className="bg-primary min-w-[110px] cursor-pointer min-h-[40px] rounded-[50px] hover:bg-primary text-white px-[20px] py-[5px]"
           >
             Save Catalogue
           </Button>
@@ -153,10 +155,14 @@ export default function SetDefaultPrices() {
                   </span>
                 </div>
 
-                <div className="grid grid-cols-1 gap-4  border border-slate-200 rounded-lg pt-4">
-                  <div className="flex justify-between w-full gap-8 text-sm font-medium text-gray-500 px-[10px] uppercase tracking-wide">
-                    <div>VARIANTS</div>
-                    <div>DEFAULT PRICE</div>
+                <div className="space-y-0 rounded-[10px] border border-gray-200 overflow-hidden">
+                  <div className="flex justify-between items-center bg-white py-[9px] px-4 border-b border-gray-200">
+                    <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">
+                      VARIANTS
+                    </div>
+                    <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">
+                      DEFAULT PRICE
+                    </div>
                   </div>
 
                   {medicationVariants.map((variant) => {
@@ -164,7 +170,7 @@ export default function SetDefaultPrices() {
                     return (
                       <div
                         key={variant.variantId}
-                        className="flex w-full justify-between gap-8 bg-slate-100 border border-slate-200 px-[15px] py-[5px]"
+                        className="flex justify-between items-center py-3 px-4 bg-light-background border-b border-gray-200 last:border-b-0"
                       >
                         <div className="text-gray-900 w-1/2">
                           <span className="mt-[100px]">

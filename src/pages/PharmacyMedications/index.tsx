@@ -1,7 +1,7 @@
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { useGetMedicationCatalogueQuery } from "@/redux/services/medication";
 import { useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useMedication } from "@/context/ApplicationUser/MedicationContext";
 import MedicationSelector from "@/components/common/MedicationSelector/MedicationSelector";
 import BottomPopup from "@/components/common/BottomPopup/BottomPopup";
@@ -44,12 +44,14 @@ const PharmacyMedicationsContent = () => {
   return (
     <div className="mb-5">
       <div className="bg-lilac py-3 px-12">
-        <h1 className="font-semibold text-[24px] leading-[30px] text-black">
-          Medication Catalogue
-        </h1>
-        <span className="text-[14px] leading-[18px] text-gray-400 font-normal mt-1">
-          Manage your default pricing catalogue
-        </span>
+        <Link
+          to={"/pharmacy/catalogue-creation"}
+          className="font-normal text-sm text text-muted-foreground"
+        >
+          {"<- Back to Medication Catalogue"}
+        </Link>
+
+        <h1 className="text-2xl font-bold mt-1">Select Your Medications</h1>
       </div>
       {data?.data && (
         <div className="mt-5">

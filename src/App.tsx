@@ -64,6 +64,7 @@ import CatalogueCreationCard from "./components/common/CatalogueCreationCard/Cat
 import ViewInvoiceDetails from "./pages/Organization/Invoices/details";
 import CatalogueCreationSuccess from "./components/common/CatalogueCreationSuccess/CatalogueCreationSuccess";
 import PharmacySettings from "./pages/Pharmacy/Settings";
+import PharmacyDetailsPage from "./pages/PharmacyMedications/details";
 
 const router = createBrowserRouter([
   {
@@ -341,13 +342,13 @@ const router = createBrowserRouter([
         element: <PharmacyInvoices />,
       },
       {
+        path: "catalogue-creation",
+        element: <CatalogueCreationCard />,
+      },
+      {
         path: ROUTES.PHARMACY_MEDICATIONS,
         element: <PharmacyMedicationsLayout />,
         children: [
-          {
-            index: true,
-            element: <CatalogueCreationCard />,
-          },
           {
             path: "configure",
             element: <PharmacyMedicationsContent />,
@@ -359,6 +360,10 @@ const router = createBrowserRouter([
           {
             path: "success",
             element: <CatalogueCreationSuccess />,
+          },
+          {
+            path: "view-catalogue",
+            element: <PharmacyDetailsPage />,
           },
         ],
       },

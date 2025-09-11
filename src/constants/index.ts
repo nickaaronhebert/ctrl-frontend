@@ -114,7 +114,7 @@ export const pharmacyAdminItems = [
   { title: "Invoices", url: "/pharmacy/invoices", icon: InvoicesMain },
   {
     title: "Medication Library",
-    url: "/pharmacy/medications",
+    url: "/pharmacy/catalogue-creation",
     icon: MedicationLibrary,
   },
   { title: "Settings", url: "/pharmacy/settings", icon: SettingsMain },
