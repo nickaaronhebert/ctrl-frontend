@@ -39,7 +39,7 @@ export function MedicationCard({ medication }: MedicationCardProps) {
     }
   };
 
-  const handleVariantToggle = (variant: any) => {
+  const handleVariantToggle = (variant: ProductVariant) => {
     toggleVariant(medication, variant);
   };
 

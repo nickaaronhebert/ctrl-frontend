@@ -19,7 +19,7 @@ import PatientIcon from "@/assets/icons/PatientIcon";
 export interface TabConfig {
   id: string;
   label: string;
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<{}>;
 }
 
 export const tabsConfig: TabConfig[] = [

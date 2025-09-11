@@ -7,6 +7,7 @@ import MedicationLibrary from "@/assets/icons/MedicationLibrary";
 import { useBulkUpsertPharmacyCatalogueMutation } from "@/redux/services/pharmacy";
 import { toast } from "sonner";
 import { Link, useNavigate } from "react-router-dom";
+import type { ApiError } from "@/types/global/commonTypes";
 
 export default function SetDefaultPrices() {
   const { selectedVariants, medications, prices, setPrices } = useMedication();
@@ -66,7 +67,7 @@ export default function SetDefaultPrices() {
       let message = "An unexpected error occurred";
 
       if (typeof error === "object" && error !== null && "data" in error) {
-        const data = (error as any).data;
+        const data = (error as ApiError).data;
 
         if (Array.isArray(data?.message)) {
           message = data.message[0];
