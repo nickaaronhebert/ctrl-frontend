@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { type Medication } from "@/pages/AccessDetail";
+import { type Medication } from "@/pages/Organization/AccessControl/AccessDetail";
 import { useGetMedicationCatalogueQuery } from "@/redux/services/medication";
 import { useState } from "react";
 type MedicationSelectionProps = {
