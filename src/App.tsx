@@ -24,16 +24,15 @@ import Support from "./pages/Support/page";
 import Redirect from "./components/provider/redirect";
 import RoleChecker from "./guard/RoleChecker";
 import PostLoginRedirect from "./components/common/PostLoginRedirect";
-import OrganisationDashboard from "./pages/OrganizationDashboard";
-import Medications from "./pages/Medications";
-import Pharmacies from "./pages/Pharmacies";
-import OrganizationTransmission from "./pages/OrganizationTransmission";
-import OrganizationOrder from "./pages/OrganizationOrder";
-import TransmissionDetails from "./pages/OrganizationTransmission/details";
-import OrganizationAffiliatedProvider from "./pages/OrganizationAffiliatedProvider";
-import ViewOrderDetails from "./pages/OrganizationOrder/details";
-import MedicationDetails from "./pages/MedicationDetails";
-import CreateOrderPage from "./pages/CreateOrder";
+import OrganisationDashboard from "./pages/Organization/Dashboard";
+import Medications from "./pages/Organization/MedicationLibrary/Medications";
+import OrganizationTransmission from "./pages/Organization/Transmission";
+import OrganizationOrder from "./pages/Organization/Order";
+import TransmissionDetails from "./pages/Organization/Transmission/details";
+import OrganizationAffiliatedProvider from "./pages/Organization/AffiliatedProvider";
+import ViewOrderDetails from "./pages/Organization/Order/details";
+import MedicationDetails from "./pages/Organization/MedicationLibrary/MedicationDetails";
+import CreateOrderPage from "./pages/Organization/CreateOrder";
 import AccessControl from "./pages/AccessUI";
 import AccessDetail from "./pages/AccessDetail";
 import PatientList from "./pages/Organization/Patient";
@@ -242,10 +241,7 @@ const router = createBrowserRouter([
         path: ROUTES.ORG_MEDICATION_DETAILS,
         element: <MedicationDetails />,
       },
-      {
-        path: ROUTES.ORG_PHARMACIES,
-        element: <Pharmacies />,
-      },
+
       {
         path: ROUTES.ORG_ACTIVITY_LOG,
         element: <ActivityLogs />,
