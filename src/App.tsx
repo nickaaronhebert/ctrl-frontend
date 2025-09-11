@@ -50,15 +50,16 @@ import OrganizationSettings from "./pages/Organization/Settings";
 import PharmacyTransmissionDetails from "./pages/Pharmacy/Transmission/details";
 import Invoices from "./pages/Organization/Invoices";
 import PharmacyMedicationsLayout from "./components/Layout/PharmacyMedicationLayout";
-import PharmacyMedicationsContent from "./pages/PharmacyMedications";
+import PharmacyMedicationsContent from "./pages/Pharmacy/Medications";
 import SetDefaultPrices from "./components/pharmacy/selectedMedications/SelectedMedications";
 import CatalogueCreationCard from "./components/common/CatalogueCreationCard/CatalogueCreationCard";
 // import ViewInvoiceDetails from "./pages/Organization/Invoices/details";
 import ViewInvoiceDetails from "./pages/Organization/Invoices/details";
 import CatalogueCreationSuccess from "./components/common/CatalogueCreationSuccess/CatalogueCreationSuccess";
 import PharmacySettings from "./pages/Pharmacy/Settings";
-import PharmacyDetailsPage from "./pages/PharmacyMedications/details";
+import PharmacyDetailsPage from "./pages/Pharmacy/Medications/details";
 import ViewPharmacyInvoiceDetails from "./pages/Pharmacy/Invoices/detail";
+import OrgPharmaciesTransmission from "./pages/Organization/Pharmacies";
 
 const router = createBrowserRouter([
   {
@@ -293,6 +294,10 @@ const router = createBrowserRouter([
       {
         path: ROUTES.ORG_MEDICATION_SELECTION,
         element: <AccessDetail />,
+      },
+      {
+        path: ROUTES.ORG_PHARMACIES_TRANSMISSIONS,
+        element: <OrgPharmaciesTransmission />,
       },
     ],
   },
