@@ -29,3 +29,20 @@ export function formatDateMMDDYYYY(dateString: string) {
   const yyyy = date.getFullYear();
   return `${mm}/${dd}/${yyyy}`;
 }
+
+export function convertExtendedDate(
+  value: string,
+  locale: string = "en-US",
+  options: Intl.DateTimeFormatOptions = {
+    month: "numeric",
+    day: "numeric",
+    year: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+    hour12: true,
+  }
+): string {
+  const date = new Date(value);
+  return date.toLocaleString(locale, options);
+}

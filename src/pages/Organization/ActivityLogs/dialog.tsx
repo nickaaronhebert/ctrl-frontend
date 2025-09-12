@@ -5,6 +5,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { convertExtendedDate } from "@/lib/utils";
 import { useViewAuditLogsDetailsQuery } from "@/redux/services/audit";
 
 import { Files } from "lucide-react";
@@ -92,35 +93,41 @@ export default function ViewLogsDetail({
   setOpenLogsModal,
   id,
 }: AddMedicalLicenseDialogProps) {
-  const { data } = useViewAuditLogsDetailsQuery(id);
+  const { data } = useViewAuditLogsDetailsQuery(id, {
+    skip: !openLogsModal,
+    selectFromResult: ({ data }) => ({
+      data: data?.data,
+    }),
+  });
   console.log("dddddd", data);
   return (
     <Dialog open={openLogsModal} onOpenChange={setOpenLogsModal}>
       <DialogContent className="min-w-[600px] bg-secondary">
         <DialogHeader className="py-4 px-5 border-b border-card-border">
           <DialogTitle className="text-xl font-semibold text-black ">
-            Activity Log - Transmission
+            Activity Log - {`${data?.entityType}`}
           </DialogTitle>
 
           {/* <X className="cursor-pointer" onClick={onCancel} /> */}
         </DialogHeader>
-        <div className="p-5 space-y-5">
+        <div className="p-5 space-y-5 min-w-[600px]">
           <div className=" rounded-[10px] p-3.5 bg-white space-y-2.5">
             <div className="flex justify-between">
               <p className="text-sm text-[#63627F] font-medium">
                 Activity Type
               </p>
-              <p className="text-xs font-semibold">Transmission</p>
+              <p className="text-xs font-semibold">{data?.entityType}</p>
             </div>
             <div className="flex justify-between">
               <p className="text-sm text-[#63627F] font-medium">Performed By</p>
               <p className="text-xs font-semibold">
-                Provider - Dr. Sarah Thompson, #1234
+                {/* Provider - Dr. Sarah Thompson, #1234 */}
+                {`${data?.actor.role?.name} - ${data?.actor.firstName} ${data?.actor.lastName}`}
               </p>
             </div>
             <div className="flex justify-between">
               <p className="text-sm text-[#63627F] font-medium">Event</p>
-              <p className="text-xs font-semibold">Transmission Transmitted</p>
+              <p className="text-xs font-semibold">{`${data?.entityType} ${data?.action}`}</p>
             </div>
             <div className="flex justify-between">
               <p className="text-sm text-[#63627F] font-medium">
@@ -130,16 +137,20 @@ export default function ViewLogsDetail({
             </div>
             <div className="flex justify-between">
               <p className="text-sm text-[#63627F] font-medium">Created At</p>
-              <p className="text-xs font-semibold">Sep 3, 2025, 8:02:00 AM</p>
+              <p className="text-xs font-semibold">
+                {data?.createdAt
+                  ? `${convertExtendedDate(data.createdAt)}`
+                  : "-"}
+              </p>
             </div>
           </div>
           <div className="p-3.5 rounded-[10px] bg-white ">
             <div className="flex justify-end px-4">
               <CopyComponent />
             </div>
-            <pre className="max-h-72 overflow-y-scroll">
+            <pre className="max-h-72 max-w-[600px] overflow-x-scroll overflow-y-scroll">
               {" "}
-              {JSON.stringify(obj, null, 2)}
+              {JSON.stringify(data?.entity, null, 2)}
             </pre>
           </div>
         </div>
