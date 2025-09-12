@@ -73,6 +73,12 @@ export const pharmacyApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
+    getAvailableMedication: builder.query({
+      query: ({ page, perPage, q }) => ({
+        url: `/pharmacy/available-medication?page=${page}&limit=${perPage}&q=${q}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -84,4 +90,5 @@ export const {
   useBulkUpsertPharmacyCatalogueMutation,
   useSetActiveStatesMutation,
   useGetPharmacyCatalogueQuery,
+  useGetAvailableMedicationQuery,
 } = pharmacyApi;
