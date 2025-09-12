@@ -178,7 +178,7 @@ const MedicationDetails = () => {
           </div>
           <div
             id="medPharmacies"
-            className="bg-background border border-card-border rounded-[15px] shadow-[0px_2px_40px_0px_#00000014] pb-[12px]"
+            className="bg-white border border-card-border rounded-[15px] shadow-[0px_2px_40px_0px_#00000014] pb-[12px]"
           >
             <PharmacyResults data={pharmacyMedicines} />
           </div>

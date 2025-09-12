@@ -4,25 +4,15 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { useDataTable } from "@/hooks/use-data-table";
-import { useMemo } from "react";
-import { pharmacyVariantColumns } from "@/components/data-table/columns/pharmacy-columns";
-import { DataTable } from "@/components/data-table/data-table";
 import MedicationLibrary from "@/assets/icons/MedicationLibrary";
 import type { PharmacyResultsProps } from "@/types/responses/pharmacy";
+import { PharmacyVariantTable } from "../PharmacyVariantTable/PharmacyVariantTable";
 
 export default function PharmacyResults({ data }: PharmacyResultsProps) {
-  const variantColumns = useMemo(() => pharmacyVariantColumns(), []);
-
   return (
     <div>
       <Accordion className="mb-2" type="single" collapsible>
         {data?.data?.map((pharmacy) => {
-          const { table: variantTable } = useDataTable({
-            data: pharmacy.productvariants || [],
-            columns: variantColumns,
-            pageCount: -1,
-          });
           return (
             <AccordionItem
               value={`pharmacy-${pharmacy.id}`}
@@ -45,7 +35,10 @@ export default function PharmacyResults({ data }: PharmacyResultsProps) {
                   </div>
                   <div className="flex items-center space-x-2">
                     <span className="font-semibold text-[12px] leading-[16px] mt-1">
-                      {pharmacy.productvariants?.length} variants
+                      {pharmacy.productvariants?.length}{" "}
+                      {pharmacy.productvariants?.length === 1
+                        ? "variant"
+                        : "variants"}
                     </span>
                   </div>
                 </div>
@@ -53,7 +46,7 @@ export default function PharmacyResults({ data }: PharmacyResultsProps) {
               <AccordionContent className="px-6 pb-10">
                 {pharmacy.productvariants.length > 0 ? (
                   <div className="bg-gray-50 rounded-lg p-4">
-                    <DataTable table={variantTable} />
+                    <PharmacyVariantTable variants={pharmacy.productvariants} />
                   </div>
                 ) : (
                   <div className="text-center py-8 text-gray-500">
