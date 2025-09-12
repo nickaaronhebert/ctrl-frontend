@@ -6,9 +6,13 @@ import OrderOverviewCard from "@/components/common/Card/order-overview";
 import PatientCard from "@/components/common/Card/patient";
 import TransmissionCard from "@/components/common/Card/transmission";
 import { Button } from "@/components/ui/button";
-import { useViewOrderByIdQuery } from "@/redux/services/order";
+import {
+  useTransmitOrderMutation,
+  useViewOrderByIdQuery,
+} from "@/redux/services/order";
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { toast } from "sonner";
 
 const menuItems = [
   {
@@ -34,6 +38,8 @@ export default function ViewOrderDetails() {
   const [activeTab, setActiveTab] = useState<
     "patientInformation" | "transmissionDetails" | "orderOverview"
   >("orderOverview");
+
+  const [transmitOrder] = useTransmitOrderMutation();
 
   const {
     data,
@@ -64,21 +70,48 @@ export default function ViewOrderDetails() {
     }),
   });
 
+  const handleOrderTransmission = async () => {
+    await transmitOrder(id as string)
+      .unwrap()
+      .then((data) => {
+        toast.success(data?.message || "Order Transmitted Successfully", {
+          duration: 1500,
+        });
+      })
+      .catch((err) => {
+        console.log("error", err);
+        toast.error(err?.data?.message ?? "Something went wrong", {
+          duration: 3000,
+        });
+      });
+  };
+
   if (!patient || !transmissions) {
     return <div>Loading............</div>;
   }
 
   return (
     <div className="mb-5">
-      <div className="bg-lilac py-3 px-12">
-        <Link
-          to={"/org/orders"}
-          className="font-normal text-sm text text-muted-foreground"
-        >
-          {"<- Back to Orders"}
-        </Link>
+      <div className="bg-lilac py-3 px-12 flex justify-between items-center">
+        <div className="">
+          <Link
+            to={"/org/orders"}
+            className="font-normal text-sm text text-muted-foreground"
+          >
+            {"<- Back to Orders"}
+          </Link>
 
-        <h1 className="text-2xl font-bold mt-1">Order: {data?.orderId} </h1>
+          <h1 className="text-2xl font-bold mt-1">Order: {data?.orderId} </h1>
+        </div>
+        {data?.transmissionMethod === "manual" &&
+          data?.status === "Transmittable" && (
+            <Button
+              className="rounded-full cursor-pointer text-white p-5"
+              onClick={handleOrderTransmission}
+            >
+              Transmit Order
+            </Button>
+          )}
       </div>
 
       <div className="flex gap-8 px-14 mt-6">

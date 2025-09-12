@@ -6,6 +6,7 @@ import type {
 } from "@/types/responses/order";
 import type { ICreateOrderRequest } from "@/types/requests/order";
 import type { IViewAllOrderInterface } from "@/types/responses/IViewAllOrder";
+import type { ITransmitOrderResponse } from "@/types/responses/ITransmitOrderResponse";
 
 const orderApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -36,6 +37,7 @@ const orderApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
+      providesTags: (_result, _error, id) => [{ type: "Orders", id }],
     }),
 
     createOrder: builder.mutation<ICreateOrderResponse, ICreateOrderRequest>({
@@ -49,6 +51,18 @@ const orderApi = baseApi.injectEndpoints({
       invalidatesTags: (result) =>
         result ? [{ type: "Orders", id: "LIST" }] : [],
     }),
+
+    transmitOrder: builder.mutation<ITransmitOrderResponse, string>({
+      query: (id) => {
+        return {
+          url: `/order/transmit/${id}`,
+          method: "POST",
+        };
+      },
+      invalidatesTags: (result, _error, id) => {
+        return result ? [{ type: "Orders", id: id }] : [];
+      },
+    }),
   }),
 });
 
@@ -56,6 +70,7 @@ export const {
   useViewAllOrdersQuery,
   useViewOrderByIdQuery,
   useCreateOrderMutation,
+  useTransmitOrderMutation,
 } = orderApi;
 
 export default orderApi;
