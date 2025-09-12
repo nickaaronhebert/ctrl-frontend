@@ -44,6 +44,7 @@ export const ROUTES = {
   ORG_VIEW_PATIENT: "patients",
   ORG_PATIENT_SUCCESS: "patient-success",
   PHARMACY_TRANSMISSIONS: "transmissions",
+  ORG_PHARMACIES_TRANSMISSIONS: "/org/pharmacies",
   PHARMACY_INVOICES: "invoices",
   PHARMACY_INVOICES_DETAILS: "invoices/:id",
   PHARMACY_MEDICATIONS: "medications",

@@ -13,6 +13,12 @@ import CardSVG from "@/assets/icons/CardIcon";
 import Pharmacies from "@/assets/mainlayouticons/Pharmacies";
 import Invoices from "@/assets/icons/Invoices";
 import DocumentSVG from "@/assets/icons/Document";
+
+type ScrollID =
+  | "invoiceInformation"
+  | "pharmacyInformation"
+  | "medications"
+  | "paymentInformation";
 const menuItems = [
   {
     title: "Invoice Information",
@@ -145,7 +151,7 @@ export default function ViewInvoiceDetails() {
               }
               `}
                 onClick={() => {
-                  setActiveTab(item.scrollToId as any);
+                  setActiveTab(item.scrollToId as ScrollID);
                   document.getElementById(item.scrollToId)?.scrollIntoView({
                     behavior: "smooth",
                   });

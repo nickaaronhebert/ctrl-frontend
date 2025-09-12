@@ -6,6 +6,7 @@ import type {
   IViewTransmissionByIdResponse,
 } from "@/types/responses/transmission";
 import { baseApi } from ".";
+import type { ICommonSearchQuery } from "@/types/requests/search";
 
 const transmissionApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -53,6 +54,15 @@ const transmissionApi = baseApi.injectEndpoints({
         };
       },
     }),
+
+    viewOrgPharmaciesTransmissions: builder.query<any, ICommonSearchQuery>({
+      query: ({ page, perPage, q = "" }) => {
+        return {
+          url: `/organization/pharmacies-transmissions-insights?page=${page}&limit=${perPage}&q=${q}`,
+          method: "GET",
+        };
+      },
+    }),
   }),
 });
 
@@ -61,6 +71,7 @@ export const {
   useViewTransmissionByIdQuery,
   useViewAllPharmacyTransmissionsQuery,
   useViewPharmacyTransmissionByIdQuery,
+  useViewOrgPharmaciesTransmissionsQuery,
 } = transmissionApi;
 
 export default transmissionApi;
