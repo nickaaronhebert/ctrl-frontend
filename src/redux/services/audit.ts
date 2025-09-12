@@ -1,42 +1,31 @@
+import type { IViewAllActivityLogs } from "@/types/responses/IViewAllActivityLogs";
 import { baseApi } from ".";
+import type { ICommonSearchQuery } from "@/types/requests/search";
 
 const auditLogsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    viewAllAuditLogs: builder.query<any, any>({
+    viewAllAuditLogs: builder.query<IViewAllActivityLogs, ICommonSearchQuery>({
       query: ({ page, perPage, q }) => {
         return {
           url: `/audit-log?page=${page}&limit=${perPage}&q=${q}`,
-          //   url: `/order?page=${page}&limit=${perPage}&q=${q}&patient=${patient}`,
+
           method: "GET",
         };
       },
-      //   providesTags: (result) => {
-      //     return result
-      //       ? [
-      //           ...result?.data?.map(({ id }) => ({
-      //             type: "Orders" as const,
-      //             id,
-      //           })),
-      //           { type: "Orders", id: "LIST" },
-      //         ]
-      //       : [{ type: "Orders", id: "LIST" }];
-      //   },
     }),
 
-    // createOrder: builder.mutation<ICreateOrderResponse, ICreateOrderRequest>({
-    //   query: (body) => {
-    //     return {
-    //       url: `/order`,
-    //       method: "POST",
-    //       body,
-    //     };
-    //   },
-    //   invalidatesTags: (result) =>
-    //     result ? [{ type: "Orders", id: "LIST" }] : [],
-    // }),
+    viewAuditLogsDetails: builder.query<any, string>({
+      query: (id) => {
+        return {
+          url: `/audit-log/${id}`,
+          method: "GET",
+        };
+      },
+    }),
   }),
 });
 
-export const { useViewAllAuditLogsQuery } = auditLogsApi;
+export const { useViewAllAuditLogsQuery, useViewAuditLogsDetailsQuery } =
+  auditLogsApi;
 
 export default auditLogsApi;

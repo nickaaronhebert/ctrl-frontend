@@ -1,7 +1,8 @@
 import { organizationActivityColumns } from "@/components/data-table/columns/activity-logs";
 import { DataTable } from "@/components/data-table/data-table";
 import { DataTablePagination } from "@/components/data-table/data-table-pagination";
-import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
+// import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
+
 import {
   useDataTable,
   type DataTableFilterField,
@@ -13,6 +14,7 @@ import { useSearchParams } from "react-router-dom";
 
 export default function ActivityLogs() {
   const [searchParams] = useSearchParams();
+
   const page = parseInt(searchParams.get("page") || "1", 10);
   const perPage = parseInt(searchParams.get("per_page") ?? "10", 10);
   const { data: activityData, meta } = useViewAllAuditLogsQuery(
@@ -48,28 +50,30 @@ export default function ActivityLogs() {
     pageCount: meta?.pageCount ?? -1,
   });
   return (
-    <div className="p-5">
-      <div className="flex justify-between items-center w-full">
-        <div>
-          <h6 className="text-2xl font-semibold">Activity Log</h6>
-          <p className="text-sm font-normal text-[#3E4D61]">
-            Track retry attempts, errors, and delivery statuses
-          </p>
+    <>
+      <div className="p-5">
+        <div className="flex justify-between items-center w-full">
+          <div>
+            <h6 className="text-2xl font-semibold">Activity Log</h6>
+            <p className="text-sm font-normal text-[#3E4D61]">
+              Track retry attempts, errors, and delivery statuses
+            </p>
+          </div>
+
+          {/* <div className="flex gap-3.5 items-center">
+            <DataTableToolbar
+              table={table}
+              filterFields={filterFields}
+              className="mb-2"
+            />
+          </div> */}
         </div>
 
-        <div className="flex gap-3.5 items-center">
-          <DataTableToolbar
-            table={table}
-            filterFields={filterFields}
-            className="mb-2"
-          />
+        <div className="mt-3.5 bg-white shadow-[0px_2px_40px_0px_#00000014] pb-[12px]">
+          <DataTable table={table} />
+          <DataTablePagination table={table} />
         </div>
       </div>
-
-      <div className="mt-3.5 bg-white shadow-[0px_2px_40px_0px_#00000014] pb-[12px]">
-        <DataTable table={table} />
-        <DataTablePagination table={table} />
-      </div>
-    </div>
+    </>
   );
 }

@@ -1,12 +1,15 @@
 import Orders from "@/assets/icons/Orders";
 import ProductVariant from "@/assets/icons/Product";
 import Transmission from "@/assets/icons/Transmission";
+// import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+// import ViewLogsDetail from "@/pages/Organization/ActivityLogs/dialog";
 import type {
   Actor,
   IActivityLogData,
 } from "@/types/responses/IViewAllActivityLogs";
 import type { ColumnDef } from "@tanstack/react-table";
+// import { useState } from "react";
 
 export function organizationActivityColumns(): ColumnDef<IActivityLogData>[] {
   return [
@@ -100,13 +103,23 @@ export function organizationActivityColumns(): ColumnDef<IActivityLogData>[] {
     //   accessorKey: "id",
     //   header: "Action",
     //   cell: ({ row }) => {
+    //     const [openLogsModal, setOpenLogsModal] = useState(false);
     //     return (
-    //       <Link
-    //         to={`/org/order/${row.getValue("id")}`}
-    //         className="flex justify-center items-center py-1 px-5 w-[85px] h-[36px] rounded-[50px] border border-primary-foreground "
-    //       >
-    //         View
-    //       </Link>
+    //       <>
+    //         <Button
+    //           variant={"outline"}
+    //           onClick={() => setOpenLogsModal(!openLogsModal)}
+    //           className="rounded-[50px] bg-transparent cursor-pointer"
+    //         >
+    //           View
+    //         </Button>
+
+    //         <ViewLogsDetail
+    //           id={row.getValue("id")}
+    //           openLogsModal={openLogsModal}
+    //           setOpenLogsModal={setOpenLogsModal}
+    //         />
+    //       </>
     //     );
     //   },
     // },
