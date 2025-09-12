@@ -13,7 +13,6 @@ import {
   useDataTable,
   type DataTableFilterField,
 } from "@/hooks/use-data-table";
-// import { dummyMedicationData } from "@/constants";
 
 const Medications = () => {
   const columns = useMemo(() => medicationLibraryColumns(), []);

@@ -15,7 +15,6 @@ const ProfileTabs = ({
           {tabsConfig.map((tab, index) => {
             const IconComponent = tab.icon;
             const isActive = tab.id === activeTab;
-            console.log("isActive", isActive);
             return (
               <TabsTrigger
                 key={tab.id}

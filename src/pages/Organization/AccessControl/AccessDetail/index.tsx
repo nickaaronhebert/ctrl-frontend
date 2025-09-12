@@ -3,13 +3,13 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { VariantSelection } from "@/components/common/VariantSelection/VariantSelection";
 import MedicationLibrary from "@/assets/icons/MedicationLibrary";
-import { BulkAssignment } from "@/components/common/BulkAssignment/BulkAssignment";
 import DefaultPharmacy from "@/components/common/DefaultPharmacy/DefaultPharmacy";
 import { useGetSingleAccessControlQuery } from "@/redux/services/access-control";
 import { useParams } from "react-router-dom";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { useLazyGetAccessControlByProductVariantQuery } from "@/redux/services/access-control";
 import ProgressOverview from "@/components/common/ProgressOverview/ProgressOverview";
+import type { SingleAccessResponse } from "@/types/responses/access-control";
 
 export type Medication = {
   id: string;
@@ -30,7 +30,6 @@ const AccessDetail = () => {
     Record<string, string>
   >({});
   const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null);
-  const [selectedPharmacy, setSelectedPharmacy] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const { id } = useParams();
   const { data: singleAccessControl, isLoading } =
@@ -38,10 +37,13 @@ const AccessDetail = () => {
       skip: !id,
     });
 
-  console.log("singleAccessControlllll", singleAccessControl);
+  const [
+    triggerGetAccessControl,
+    { data: variantAccessControlData, isError, isFetching },
+  ] = useLazyGetAccessControlByProductVariantQuery();
 
-  const [triggerGetAccessControl, { data: variantAccessControlData }] =
-    useLazyGetAccessControlByProductVariantQuery();
+  const [accessControlVariantData, setAccessControlVariantData] =
+    useState<SingleAccessResponse | null>(null);
 
   useEffect(() => {
     if (id && singleAccessControl) {
@@ -58,12 +60,31 @@ const AccessDetail = () => {
   }, [id, singleAccessControl]);
 
   useEffect(() => {
-    console.log("**************");
-    if (!id && selectedVariant?.id) {
-      console.log("####################");
-      triggerGetAccessControl(selectedVariant?.id);
-    }
-  }, [selectedVariant, id, triggerGetAccessControl]);
+    if (!selectedVariant?.id) return;
+
+    // Immediately clear stale data on variant change
+    setAccessControlVariantData(null);
+
+    triggerGetAccessControl(selectedVariant?.id)
+      .unwrap()
+      .then((res) => {
+        setAccessControlVariantData(res);
+      })
+      .catch((err) => {
+        console.error("Access control fetching failed", err);
+        setAccessControlVariantData(null);
+      });
+  }, [selectedVariant?.id]);
+
+  // useEffect(() => {
+  //   if (selectedVariant?.id) {
+  //     triggerGetAccessControl(selectedVariant?.id)
+  //       .unwrap()
+  //       .catch((err) => {
+  //         console.error("Access control fetching failed", err);
+  //       });
+  //   }
+  // }, [selectedVariant?.id, triggerGetAccessControl]);
 
   const isEditing = Boolean(id && selectedMedication && selectedVariant);
 
@@ -74,11 +95,6 @@ const AccessDetail = () => {
       </div>
     );
   }
-
-  console.log("ddddddd", variantAccessControlData);
-  console.log("iiiiiiiiii", id);
-  console.log("selectedMedicationnnn", selectedMedication);
-  console.log("selectedVariantttt", selectedVariant);
 
   return (
     <div className="mb-5">
@@ -152,7 +168,13 @@ const AccessDetail = () => {
               setSearchQuery={setSearchQuery}
               configuredStates={configuredStates}
               setConfiguredStates={setConfiguredStates}
-              data={id ? singleAccessControl : variantAccessControlData}
+              data={
+                id
+                  ? singleAccessControl
+                  : isFetching || isError || !variantAccessControlData
+                  ? null
+                  : accessControlVariantData
+              }
             />
           </div>
         ) : (

@@ -11,56 +11,6 @@ import { useViewAuditLogsDetailsQuery } from "@/redux/services/audit";
 import { Files } from "lucide-react";
 import { useState } from "react";
 
-const obj = {
-  message: "string",
-  code: "string",
-  data: [
-    {
-      _id: "string",
-      metadata: {},
-      amount: 0,
-      keywords: ["string"],
-      createdBy: {
-        _id: "string",
-        firstName: "string",
-        lastName: "string",
-        email: "string",
-        phoneNumber: "string",
-        password: "string",
-        role: "string",
-        organization: {
-          _id: "string",
-          name: "string",
-          email: "string",
-          phoneNumber: "string",
-          status: "active",
-          allowedStates: ["string"],
-          stripeAccountId: "string",
-          stripeConnectOnboardingStatus: "string",
-          createdBy: {},
-        },
-        pharmacy: {
-          _id: "string",
-          name: "string",
-          email: "string",
-          phoneNumber: "string",
-          status: "active",
-          allowedStates: ["string"],
-          stripeAccountId: "string",
-          stripeConnectOnboardingStatus: "string",
-          createdBy: {},
-        },
-        organizations: {},
-        medicalLicense: ["string"],
-        deaNumber: ["string"],
-        otpSecret: "string",
-        emailOtpSecret: "string",
-        isEmailVerified: true,
-      },
-    },
-  ],
-};
-
 interface AddMedicalLicenseDialogProps {
   id: string;
   openLogsModal: boolean;
@@ -99,7 +49,7 @@ export default function ViewLogsDetail({
       data: data?.data,
     }),
   });
-  console.log("dddddd", data);
+
   return (
     <Dialog open={openLogsModal} onOpenChange={setOpenLogsModal}>
       <DialogContent className="min-w-[600px] bg-secondary">

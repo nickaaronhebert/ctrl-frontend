@@ -17,8 +17,8 @@ export default function PharmacyRedirect() {
       localStorage.setItem("pharmacy_token", token);
       verifyPharmacy({ token });
     } else {
-      console.log("token not found");
-      //   navigate("/");
+      // console.log("token not found");
+      navigate("/");
     }
   }, [searchParams, verifyPharmacy, navigate]);
 

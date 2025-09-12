@@ -1,5 +1,8 @@
 import type { PharmacyInvoiceResponse } from "@/types/responses/invoices";
-import { TAG_GET_USER_PROFILE } from "@/types/baseApiTags";
+import {
+  TAG_GET_PHARMACY_CATALOGUE,
+  TAG_GET_USER_PROFILE,
+} from "@/types/baseApiTags";
 import { baseApi } from ".";
 import type { IGetPharmacyInvoicesDetailsResponse } from "@/types/responses/IGetPharmacyInvoicesDetail";
 
@@ -47,6 +50,7 @@ export const pharmacyApi = baseApi.injectEndpoints({
         method: "POST",
         body,
       }),
+      invalidatesTags: [TAG_GET_PHARMACY_CATALOGUE],
     }),
 
     setActiveStates: builder.mutation<
@@ -63,8 +67,15 @@ export const pharmacyApi = baseApi.injectEndpoints({
       invalidatesTags: [TAG_GET_USER_PROFILE],
     }),
     getPharmacyCatalogue: builder.query({
+      providesTags: [TAG_GET_PHARMACY_CATALOGUE],
       query: ({ page, perPage }) => ({
         url: `/pharmacy-catalogue?page=${page}&limit=${perPage}`,
+        method: "GET",
+      }),
+    }),
+    getAvailableMedication: builder.query({
+      query: ({ page, perPage, q }) => ({
+        url: `/pharmacy/available-medication?page=${page}&limit=${perPage}&q=${q}`,
         method: "GET",
       }),
     }),
@@ -79,4 +90,5 @@ export const {
   useBulkUpsertPharmacyCatalogueMutation,
   useSetActiveStatesMutation,
   useGetPharmacyCatalogueQuery,
+  useGetAvailableMedicationQuery,
 } = pharmacyApi;

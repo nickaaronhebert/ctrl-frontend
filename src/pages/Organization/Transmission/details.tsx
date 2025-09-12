@@ -63,10 +63,6 @@ export default function TransmissionDetails() {
   const status = data?.status?.toLowerCase();
   const bgColor = statusColorMap[status as string];
 
-  console.log("status", data?.status);
-
-  console.log("prescriptions::: ", prescriptions);
-
   return (
     <div className="mb-5">
       <div className={` ${bgColor} py-3 px-12`}>

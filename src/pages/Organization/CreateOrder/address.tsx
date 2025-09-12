@@ -33,8 +33,6 @@ export default function SelectPatientAddress({
   });
 
   async function onSubmit(values: z.infer<typeof patientAddressSchema>) {
-    console.log(addressList?.addresses);
-
     const selectedAddress = addressList?.addresses?.filter(
       (address: any) => address._id === values.dispensingAddress
     )?.[0];

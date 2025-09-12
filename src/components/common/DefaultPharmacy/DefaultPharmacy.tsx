@@ -18,6 +18,7 @@ import { useCreateAccessControlMutation } from "@/redux/services/access-control"
 import type { Pharmacy } from "@/types/global/commonTypes";
 import type { SingleAccessResponse } from "@/types/responses/access-control";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 type MedicationVariantProps = {
   selectedMedication: Medication | null;
@@ -56,13 +57,6 @@ const DefaultPharmacy = ({
     setSearchQuery(e.target.value);
   };
 
-  console.log("defaultPharmacy", data?.data?.defaultPharmacy);
-
-  useEffect(() => {
-    setFullPharmacies({});
-    setConfiguredStates({});
-  }, [selectedVariant?.id]);
-
   useEffect(() => {
     if (data?.data?.defaultPharmacy) {
       const fullPharmacies = Object.fromEntries(
@@ -83,19 +77,13 @@ const DefaultPharmacy = ({
       setFullPharmacies({});
       setConfiguredStates({});
     }
-  }, [data, selectedVariant?.id]);
+  }, [data?.data?.defaultPharmacy, selectedVariant?.id]);
 
   const filteredStates = US_STATES.filter(
     (state) =>
       state.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       state.shortCode.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
-  // console.log("fullPharamcies", fullPharmacies);
-  // console.log("configuredStates", configuredStates);
-  // // console.log("pharmaciesByState", pharmaciesByState);
-  // console.log("selectedMedication", selectedMedication);
-  // console.log("selectedVariant", selectedVariant);
 
   const handleSelect = (
     state: { name: string; shortCode: string },
@@ -121,8 +109,10 @@ const DefaultPharmacy = ({
         defaultPharmacy: updated,
       })
         .unwrap()
-        .then((res) => {
-          console.log("Access control created", res);
+        .then(() => {
+          toast.success("Access Control Created Successfully", {
+            duration: 1500,
+          });
         })
         .catch((err) => {
           console.error("Error creating access control", err);
@@ -132,17 +122,11 @@ const DefaultPharmacy = ({
     });
   };
 
-  console.log("mmmm", selectedMedication);
-  console.log("sssss", selectedVariant);
-
   return (
     <div className="bg-white rounded-lg border border-gray-200 pt-4">
       <div className="flex justify-between items-start px-6">
         <div>
           <p className="font-semibold text-[18px] leading-[26px] text-black mb-3">
-            {/* {data?.data?.productVariant?.medicationCatalogue?.drugName
-              ? `${data.data.productVariant.medicationCatalogue.drugName} - ${data.data.productVariant.strength}`
-              : `${selectedMedication?.name} - ${selectedVariant?.strength}`} */}
             {`${selectedMedication?.name} - ${selectedVariant?.strength}`}
           </p>
           <p className="font-normal text-[14px] leading-[16px] text-slate">

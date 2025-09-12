@@ -53,7 +53,6 @@ const CreateOrderPage = () => {
   }, [isFetching]);
 
   const order = useAppSelector((state) => state.order);
-  console.log("orders", order);
 
   return (
     <>

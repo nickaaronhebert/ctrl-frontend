@@ -20,8 +20,6 @@ export default function Invoices() {
   const page = parseInt(searchParams.get("page") ?? "1", 10);
   const perPage = parseInt(searchParams.get("per_page") ?? "10", 10);
 
-  console.log("search Params per page", searchParams.get("page"));
-
   const { data: invoicesData, meta } = useGetOrganizationInvoicesQuery(
     { page, perPage, q: "" },
     {

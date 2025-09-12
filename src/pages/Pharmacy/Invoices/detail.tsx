@@ -32,7 +32,6 @@ const menuItems = [
 
 export default function ViewPharmacyInvoiceDetails() {
   const { id } = useParams();
-  console.log("id", id);
   const [activeTab, setActiveTab] = useState<
     "invoiceInformation" | "medications" | "paymentInformation"
   >("invoiceInformation");
@@ -82,7 +81,7 @@ export default function ViewPharmacyInvoiceDetails() {
     <div className="mb-5">
       <div className="bg-lilac py-3 px-12">
         <Link
-          to={"/org/transactions"}
+          to={"/pharmacy/invoices"}
           className="font-normal text-sm text text-muted-foreground"
         >
           {"<- Back to Invoices"}

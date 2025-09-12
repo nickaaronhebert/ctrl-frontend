@@ -130,8 +130,6 @@ const CustomCardForm = ({ clientSecret, hideCard }: Props) => {
         throw new Error("Failed to retrieve payment method ID");
       }
 
-      console.log("SetupIntent confirmed:", setupIntent);
-
       // Attach payment method to backend
       await triggerAttachPaymentMethod({
         payment_method_id: paymentMethodId,
@@ -139,7 +137,6 @@ const CustomCardForm = ({ clientSecret, hideCard }: Props) => {
       })
         .unwrap()
         .then((res) => {
-          console.log("res", res);
           toast.success(res?.data?.message || "Card Saved Successfully", {
             duration: 1500,
           });

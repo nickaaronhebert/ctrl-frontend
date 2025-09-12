@@ -17,7 +17,6 @@ export function pharmacyTransmissionColumns(): ColumnDef<PharmacyTransmissionRow
       accessorKey: "transmissionId",
       header: "Transmission ID",
       cell: ({ row }) => {
-        console.log("transmissionId", row.getValue("transmissionId"));
         return (
           <p className="text-xs font-medium">
             {row.getValue("transmissionId")}
@@ -31,8 +30,6 @@ export function pharmacyTransmissionColumns(): ColumnDef<PharmacyTransmissionRow
       header: "Status",
       cell: ({ row }) => {
         const orderStatus = row.getValue("status");
-        console.log("orderStatus", orderStatus);
-
         return (
           <>
             {orderStatus === "Queued" ? (
@@ -74,8 +71,6 @@ export function pharmacyTransmissionColumns(): ColumnDef<PharmacyTransmissionRow
       header: "Patients",
       cell: ({ row }) => {
         const patient: Patient = row.getValue("patient");
-        console.log("patient", patient);
-
         const defaultAddress = patient.addresses?.find(
           (address) => address.isDefault
         );
@@ -106,7 +101,6 @@ export function pharmacyTransmissionColumns(): ColumnDef<PharmacyTransmissionRow
       cell: ({ row }) => {
         const medication: ProductVariantDetails[] =
           row.getValue("productVariants");
-        console.log("medication", medication);
         if (!medication || medication.length === 0) {
           return (
             <p className="text-xs font-medium text-gray-500">No medications</p>
@@ -164,7 +158,6 @@ export function pharmacyTransmissionColumns(): ColumnDef<PharmacyTransmissionRow
 
       cell: ({ row }) => {
         const amount = Number(row.getValue("amount")) || 0;
-        console.log("amount", amount);
         return <p className="text-xs font-medium">${amount.toFixed(2)}</p>;
       },
     },
