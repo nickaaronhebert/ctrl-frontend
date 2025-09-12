@@ -190,6 +190,7 @@ export interface Order {
   transmissions: Transmission[];
   id: string;
   createdAt: string;
+  transmissionMethod: string;
 }
 
 export interface CardDetails {
