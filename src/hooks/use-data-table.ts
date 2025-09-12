@@ -71,12 +71,12 @@ export function useDataTable<TData, TValue>({
     [filterFields]
   );
 
-  console.log("searchableColumns", searchableColumns);
+  // console.log("searchableColumns", searchableColumns);
 
   const createQueryString = React.useCallback(
     (params: Record<string, string | number | null>) => {
       const newSearchParams = new URLSearchParams(location.search);
-      console.log("params", params);
+      // console.log("params", params);
       for (const [key, value] of Object.entries(params)) {
         if (value === null) {
           newSearchParams.delete(key);
@@ -85,7 +85,7 @@ export function useDataTable<TData, TValue>({
         }
       }
 
-      console.log("query string", newSearchParams.toString());
+      // console.log("query string", newSearchParams.toString());
       return newSearchParams.toString();
     },
     [location.search]
@@ -96,7 +96,7 @@ export function useDataTable<TData, TValue>({
       (filters, [key, value]) => {
         const faceted = filterableColumns.find((col) => col.value === key);
         const searchable = searchableColumns.find((col) => col.value === key);
-        console.log("****", faceted);
+        // console.log("****", faceted);
         if (faceted) {
           filters.push({ id: key, value: value.split(".") });
         } else if (searchable) {
@@ -111,7 +111,7 @@ export function useDataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] =
     React.useState<ColumnFiltersState>(initialColumnFilters);
 
-  console.log("columnFilters", columnFilters);
+  // console.log("columnFilters", columnFilters);
 
   const [{ pageIndex, pageSize }, setPagination] =
     React.useState<PaginationState>({
@@ -130,7 +130,7 @@ export function useDataTable<TData, TValue>({
       per_page: pageSize,
     });
 
-    console.log("page change query", query);
+    // console.log("page change query", query);
     navigate(`${location.pathname}?${query}`, { replace: true });
   }, [pageIndex, pageSize, createQueryString, location.pathname, navigate]);
 
@@ -144,13 +144,13 @@ export function useDataTable<TData, TValue>({
       500
     )
   ) as ColumnFiltersState;
-  console.log("****", debouncedSearchableFilters);
+  // console.log("****", debouncedSearchableFilters);
 
   const facetedFilters = columnFilters.filter((filter) =>
     filterableColumns.find((col) => col.value === filter.id)
   );
 
-  console.log("facetedFilters******", facetedFilters);
+  // console.log("facetedFilters******", facetedFilters);
 
   React.useEffect(() => {
     if (enableAdvancedFilter) return;
@@ -158,7 +158,7 @@ export function useDataTable<TData, TValue>({
     const newParams: Record<string, string | number | null> = { page: 1 };
 
     for (const filter of debouncedSearchableFilters) {
-      console.log("debounce", filter);
+      // console.log("debounce", filter);
       if (typeof filter.value === "string") {
         newParams[filter.id] = filter.value;
       } else {
@@ -176,8 +176,8 @@ export function useDataTable<TData, TValue>({
     // }
 
     for (const filter of facetedFilters) {
-      console.log("?????????", filter);
-      console.log("typeof", typeof filter.value);
+      // console.log("?????????", filter);
+      // console.log("typeof", typeof filter.value);
       if (typeof filter.value === "object" && Array.isArray(filter.value)) {
         Object.assign(newParams, { [filter.id]: filter.value.join(".") });
       }
@@ -201,7 +201,7 @@ export function useDataTable<TData, TValue>({
         newParams[key] = null;
       }
     }
-    console.log("filres", newParams);
+    // console.log("filres", newParams);
     navigate(`${location.pathname}?${createQueryString(newParams)}`, {
       replace: true,
     });

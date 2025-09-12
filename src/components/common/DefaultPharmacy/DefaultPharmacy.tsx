@@ -18,6 +18,7 @@ import { useCreateAccessControlMutation } from "@/redux/services/access-control"
 import type { Pharmacy } from "@/types/global/commonTypes";
 import type { SingleAccessResponse } from "@/types/responses/access-control";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 type MedicationVariantProps = {
   selectedMedication: Medication | null;
@@ -56,8 +57,6 @@ const DefaultPharmacy = ({
     setSearchQuery(e.target.value);
   };
 
-  console.log("defaultPharmacy", data?.data?.defaultPharmacy);
-
   useEffect(() => {
     if (data?.data?.defaultPharmacy) {
       const fullPharmacies = Object.fromEntries(
@@ -86,11 +85,6 @@ const DefaultPharmacy = ({
       state.shortCode.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  console.log("fullPharamcies", fullPharmacies);
-  console.log("configuredStates", configuredStates);
-  console.log("selectedMedication", selectedMedication);
-  console.log("selectedVariant", selectedVariant);
-
   const handleSelect = (
     state: { name: string; shortCode: string },
     id: string
@@ -115,8 +109,10 @@ const DefaultPharmacy = ({
         defaultPharmacy: updated,
       })
         .unwrap()
-        .then((res) => {
-          console.log("Access control created", res);
+        .then(() => {
+          toast.success("Access Control Created Successfully", {
+            duration: 1500,
+          });
         })
         .catch((err) => {
           console.error("Error creating access control", err);

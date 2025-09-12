@@ -24,7 +24,6 @@ export default function PharmacyProfileSettings() {
   });
 
   async function onSubmit(values: z.infer<typeof editProfileSchema>) {
-    console.log("values", values);
     const { email, ...payload } = values;
     await editProfile(payload)
       .unwrap()

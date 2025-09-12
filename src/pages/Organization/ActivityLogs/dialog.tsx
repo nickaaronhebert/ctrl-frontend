@@ -93,7 +93,7 @@ export default function ViewLogsDetail({
   id,
 }: AddMedicalLicenseDialogProps) {
   const { data } = useViewAuditLogsDetailsQuery(id);
-  console.log("dddddd", data);
+  console.log("data", data);
   return (
     <Dialog open={openLogsModal} onOpenChange={setOpenLogsModal}>
       <DialogContent className="min-w-[600px] bg-secondary">

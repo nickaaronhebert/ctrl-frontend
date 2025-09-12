@@ -43,8 +43,6 @@ export default function SelectProviderPharmacy({
   });
 
   async function onSubmit(values: z.infer<typeof providerPharmacySchema>) {
-    console.log("step 2 values", values);
-
     dispatch(updateStepTwo(values));
   }
 

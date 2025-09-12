@@ -84,13 +84,9 @@ function SwitchForm({ id, activeStates }: SwitchFormProps) {
     },
   });
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log("data", data);
-
     const activeStates = Object.entries(data.allowedStates)
       .filter(([_, isActive]) => isActive) // keep only true
       .map(([stateName]) => stateName);
-
-    console.log("activeStates", activeStates);
 
     await setServiceStates({ allowedStates: activeStates, id })
       .unwrap()

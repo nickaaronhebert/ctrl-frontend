@@ -50,8 +50,6 @@ export const ApplicationUserContextProvider = (props: any) => {
     );
   }
 
-  console.log("AppCOntextuserDataaaaaa", userData);
-
   return (
     <ApplicationUserContext.Provider
       value={{

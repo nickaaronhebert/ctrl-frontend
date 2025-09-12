@@ -18,8 +18,6 @@ const PharmacyDetailsPage = () => {
 
   const meta = data?.meta;
 
-  console.log("data", data);
-
   if (isLoading || isFetching) {
     return <div>Loading pharmacy catalogue...</div>;
   }

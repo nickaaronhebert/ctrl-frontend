@@ -37,8 +37,6 @@ const AccessDetail = () => {
       skip: !id,
     });
 
-  console.log("singleAccessControlllll", singleAccessControl);
-
   const [
     triggerGetAccessControl,
     { data: variantAccessControlData, isError, isFetching },
@@ -60,14 +58,6 @@ const AccessDetail = () => {
       });
     }
   }, [id, singleAccessControl]);
-
-  // useEffect(() => {
-  //   console.log("**************");
-  //   if (!id && selectedVariant?.id) {
-  //     console.log("####################");
-  //     triggerGetAccessControl(selectedVariant?.id);
-  //   }
-  // }, [selectedVariant, id, triggerGetAccessControl]);
 
   useEffect(() => {
     if (!selectedVariant?.id) return;

@@ -42,7 +42,6 @@ export default function OrgPharmaciesTransmission() {
 
     pageCount: meta?.pageCount ?? -1,
   });
-  console.log("data", data);
 
   //   const name = searchParams.get("firstName") ?? "";
   //   const { data: patientData, meta } = useGetPatientDetailsQuery(

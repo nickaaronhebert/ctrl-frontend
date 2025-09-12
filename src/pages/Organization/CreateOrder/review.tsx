@@ -49,7 +49,6 @@ export default function ReviewOrderDetails({ order }: { order: OrderState }) {
     await createOrder(orderPayload)
       .unwrap()
       .then((data) => {
-        console.log("data", data);
         dispatch(resetOrder());
         toast.success(data?.message || "Order Created Successfully", {
           duration: 3000,

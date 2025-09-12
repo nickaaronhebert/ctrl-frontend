@@ -20,7 +20,6 @@ export default function OrgAdminPasswordSettings() {
   });
 
   async function onSubmit(values: z.infer<typeof editPasswordSchema>) {
-    console.log("values", values);
     const { confirmNewPassword, ...payload } = values;
     await changePassword(payload)
       .unwrap()

@@ -52,7 +52,6 @@ export default function SelectProductVariant({
   });
 
   async function onSubmit(values: z.infer<typeof medicationsSchema>) {
-    console.log("values", values);
     dispatch(updateStepOne(values));
   }
 

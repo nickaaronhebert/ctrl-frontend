@@ -16,16 +16,10 @@ export default function SetDefaultPrices() {
   const [bulkUpsertPharmacyCatalogue] =
     useBulkUpsertPharmacyCatalogueMutation();
 
-  console.log("medications", medications);
-
-  console.log("prices", prices);
-
   // Group selected variants by medication
   const selectedMedications = medications.filter((med) =>
     selectedVariants.some((variant) => variant.medicationId === med.id)
   );
-
-  console.log("selectedMedications", selectedMedications);
 
   const filteredMedications = selectedMedications.filter((med) =>
     med.drugName.toLowerCase().includes(searchTerm.toLowerCase())
@@ -81,8 +75,6 @@ export default function SetDefaultPrices() {
       });
     }
   };
-
-  console.log("selectedVariants", selectedVariants);
 
   return (
     <div className="mb-5">
@@ -167,7 +159,6 @@ export default function SetDefaultPrices() {
                   </div>
 
                   {medicationVariants.map((variant) => {
-                    console.log("variant", variant);
                     return (
                       <div
                         key={variant.variantId}

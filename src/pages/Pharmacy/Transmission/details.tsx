@@ -50,8 +50,6 @@ const menuItems = [
 
 export default function PharmacyTransmissionDetails() {
   const { id } = useParams();
-  // console.log("singlePharmacyTransmission", singlePharmacyTransmission);
-
   // const statusColorMap: Record<string, string> = {
   //   created: "bg-background",
   //   pending: "bg-pending-secondary",
@@ -80,8 +78,6 @@ export default function PharmacyTransmissionDetails() {
   const [activeTab, setActiveTab] = useState<
     "transmissionOverview" | "pharmacyInformation" | "medicationInformation"
   >("transmissionOverview");
-
-  console.log("Single Pharmacy transmissionnn", data);
 
   return (
     <div className="mb-5">

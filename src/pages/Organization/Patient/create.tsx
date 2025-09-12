@@ -51,7 +51,6 @@ export default function CreatePatient() {
   const { reset } = form;
 
   async function onSubmit(values: z.infer<typeof createPatientFormSchema>) {
-    console.log("values", values);
     await createPatient({ ...values, gender: "Male" })
       .unwrap()
       .then((data) => {

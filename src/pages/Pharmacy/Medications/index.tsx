@@ -34,7 +34,6 @@ const PharmacyMedicationsContent = () => {
 
   const handleCreateCatalogueFromPopup = () => {
     navigate("/pharmacy/medications/selected-medications");
-    console.log("Hello");
   };
 
   if (isLoading) {

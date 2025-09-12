@@ -30,7 +30,6 @@ export default function PharmacyInvoices() {
       selectFromResult: (result) => ({
         data:
           result?.data?.data?.map((invoice) => {
-            console.log(">>", result.data);
             const { pharmacy, organization, ...rest } = invoice;
             return rest;
           }) ?? [],
@@ -39,8 +38,6 @@ export default function PharmacyInvoices() {
       }),
     }
   );
-
-  console.log("Invoices Data:", data);
 
   const { table } = useDataTable({
     data: data || [],

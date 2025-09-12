@@ -13,7 +13,6 @@ export default function Payout() {
     await configurePayout()
       .unwrap()
       .then((data) => {
-        console.log("data", data);
         const stripeUrl = data?.data?.url;
         if (stripeUrl) {
           window.location.href = stripeUrl;

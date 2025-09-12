@@ -32,7 +32,6 @@ const menuItems = [
 
 export default function ViewPharmacyInvoiceDetails() {
   const { id } = useParams();
-  console.log("id", id);
   const [activeTab, setActiveTab] = useState<
     "invoiceInformation" | "medications" | "paymentInformation"
   >("invoiceInformation");
