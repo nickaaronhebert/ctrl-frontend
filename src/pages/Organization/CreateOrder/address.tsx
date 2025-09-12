@@ -11,10 +11,15 @@ import {
   updateStepThree,
   type SELECT_DISPENSING,
 } from "@/redux/slices/create-order";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 interface SELECT_PATIENT_ADDRESS_PROPS {
   dispensingAddress: SELECT_DISPENSING;
   addressList: any;
+  selectedMethod: "manual" | "auto";
 }
 export const patientAddressSchema = z.object({
   dispensingAddress: z.string().min(1, "Provider selection is required"),
@@ -23,8 +28,13 @@ export const patientAddressSchema = z.object({
 export default function SelectPatientAddress({
   dispensingAddress,
   addressList,
+  selectedMethod,
 }: SELECT_PATIENT_ADDRESS_PROPS) {
   const dispatch = useAppDispatch();
+
+  const [transmissionMethod, setTransmissionMethod] = useState<
+    "manual" | "auto"
+  >(selectedMethod);
   const form = useForm<z.infer<typeof patientAddressSchema>>({
     resolver: zodResolver(patientAddressSchema),
     defaultValues: {
@@ -37,7 +47,7 @@ export default function SelectPatientAddress({
       (address: any) => address._id === values.dispensingAddress
     )?.[0];
 
-    dispatch(updateStepThree({ address: selectedAddress }));
+    dispatch(updateStepThree({ address: selectedAddress, transmissionMethod }));
   }
 
   const formattedAddresses = addressList?.addresses?.map((item: any) => ({
@@ -64,9 +74,51 @@ export default function SelectPatientAddress({
                     options={formattedAddresses || []}
                     label="Select Dispensing"
                     isRequired={true}
-                    className="w-[500px] min-h-[56px]"
+                    className="w-[525px] min-h-[56px]"
                     placeholder="Select the option"
                   />
+                </div>
+
+                <div className="space-y-4">
+                  <p className="text-xl font-semibold ">Select Transmission</p>
+                  <RadioGroup
+                    value={transmissionMethod}
+                    onValueChange={(value: "manual" | "auto") =>
+                      setTransmissionMethod(value)
+                    }
+                    className="flex"
+                  >
+                    <div
+                      className={cn(
+                        "flex py-4 px-5 justify-between w-3xs border  rounded-2xl",
+                        transmissionMethod === "manual" ? "border-primary" : ""
+                      )}
+                    >
+                      <div className="space-y-3">
+                        <Label htmlFor="manual">Manual</Label>
+                        <p className="text-xs font-normal">
+                          You control when to transmit
+                        </p>
+                      </div>
+                      <RadioGroupItem value="manual" id="manual" />
+                    </div>
+                    <div
+                      className={cn(
+                        "flex  justify-between py-4 px-5  w-3xs border  rounded-2xl",
+                        transmissionMethod === "auto" ? "border-primary" : ""
+                      )}
+                    >
+                      <div className="space-y-3">
+                        <Label htmlFor="auto-transmitted">
+                          Auto transmitted
+                        </Label>
+                        <p className="text-xs font-normal">
+                          Sends immediately after creation
+                        </p>
+                      </div>
+                      <RadioGroupItem value="auto" id="auto-transmitted" />
+                    </div>
+                  </RadioGroup>
                 </div>
               </div>
             </div>

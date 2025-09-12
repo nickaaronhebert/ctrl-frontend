@@ -36,11 +36,12 @@ export default function ReviewOrderDetails({ order }: { order: OrderState }) {
         productVariant: variantId,
         // pharmacy: pharmacyId,
         instructions: item.sigInstructions,
-        isManualTransmission: true,
+        // isManualTransmission: true,
       };
     });
 
     const orderPayload = {
+      transmissionMethod: order.stepThree.transmissionMethod,
       patient: order.initialStep.selectedPatient?.id,
       prescriptions,
       address,

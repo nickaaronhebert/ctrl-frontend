@@ -17,7 +17,7 @@ interface AddMedicalLicenseDialogProps {
   setOpenLogsModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function CopyComponent() {
+function CopyComponent({ obj }: { obj: object }) {
   const [copied, setCopied] = useState(false);
   const handleCopy = () => {
     navigator.clipboard.writeText(JSON.stringify(obj, null, 2));
@@ -96,7 +96,7 @@ export default function ViewLogsDetail({
           </div>
           <div className="p-3.5 rounded-[10px] bg-white ">
             <div className="flex justify-end px-4">
-              <CopyComponent />
+              <CopyComponent obj={data?.entity || {}} />
             </div>
             <pre className="max-h-72 max-w-[600px] overflow-x-scroll overflow-y-scroll">
               {" "}

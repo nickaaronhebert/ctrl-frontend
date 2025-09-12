@@ -33,6 +33,7 @@ export interface SELECT_PROVIDER_PHARMACY {
 
 export interface SELECT_DISPENSING {
   address: Address & { _id: string };
+  transmissionMethod: "manual" | "auto";
 }
 
 export interface OrderState {
@@ -86,6 +87,7 @@ const initialState: OrderState = {
       country: "",
       _id: "",
     },
+    transmissionMethod: "manual",
   },
 };
 
