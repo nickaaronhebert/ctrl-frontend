@@ -94,6 +94,7 @@ export default function SetDefaultPrices() {
             {pricedVariants} of {totalVariants} variants priced
           </span>
           <Button
+            disabled={pricedVariants === 0}
             onClick={handleSaveCatalogue}
             className="bg-primary min-w-[110px] cursor-pointer min-h-[40px] rounded-[50px] hover:bg-primary text-white px-[20px] py-[5px]"
           >

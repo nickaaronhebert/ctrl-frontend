@@ -5,15 +5,14 @@ import { Button } from "@/components/ui/button";
 import MedDetails from "@/components/common/MedDetails/MedDetails";
 import type { MedicationVariant } from "@/components/data-table/columns/medication-library";
 import { DataTable } from "@/components/data-table/data-table";
-import { DataTablePagination } from "@/components/data-table/data-table-pagination";
-import { pharmacyColumns } from "@/components/data-table/columns/medication-library-pharmacy";
 import { useDataTable } from "@/hooks/use-data-table";
-import { dummyPharmacies } from "@/constants";
 import Pharmacies from "@/assets/mainlayouticons/Pharmacies";
 import { useGetSingleMedicationCatalogueDetailsQuery } from "@/redux/services/medication";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { variantColumns } from "@/components/data-table/columns/variant-column";
 import Medications from "@/assets/mainlayouticons/Medications";
+import PharmacyResults from "@/components/common/PharmacyResults/PharmacyResults";
+import { useGetPharmacyMedicinesQuery } from "@/redux/services/pharmacy";
 
 type TabKey = "medicationDetails" | "medVariants" | "medPharmacies";
 
@@ -42,15 +41,18 @@ const MedicationDetails = () => {
     useGetSingleMedicationCatalogueDetailsQuery(id!, {
       skip: !id,
     });
-  const [activeTab, setActiveTab] = useState<TabKey>("medicationDetails");
-  const columns = useMemo(() => pharmacyColumns(), []);
-  const variantColumn = useMemo(() => variantColumns(), []);
 
-  const { table: pharmacyTable } = useDataTable({
-    data: dummyPharmacies || [],
-    columns,
-    pageCount: -1,
+  const { data: pharmacyMedicines } = useGetPharmacyMedicinesQuery({
+    id,
+    page: 1,
+    perPage: 10,
+    q: "",
   });
+
+  console.log("pharmacymedicines", pharmacyMedicines);
+
+  const [activeTab, setActiveTab] = useState<TabKey>("medicationDetails");
+  const variantColumn = useMemo(() => variantColumns(), []);
 
   const { table: variantTable } = useDataTable({
     data: singleMedDetail?.data?.productVariants || [],
@@ -140,7 +142,7 @@ const MedicationDetails = () => {
             );
           })}
         </div>
-        <div className="flex flex-col gap-5 w-full">
+        <div className="flex flex-col gap-3 w-full">
           <MedDetails
             drugName={singleMedDetail?.data?.drugName as string}
             isCompound={singleMedDetail?.data?.isCompound as boolean}
@@ -169,25 +171,16 @@ const MedicationDetails = () => {
             </div>
           </div>
 
-          <div className="bg-white rounded-[15px]">
-            <div className="flex items-center gap-2 p-3">
-              <Pharmacies color="black" />
-              <p className="font-semibold text-[16px] leading-[22px] text-black">
-                Pharmacies (5)
-              </p>
-            </div>
-
-            <hr className="mt-1 border-t-1 border-card-border" />
-
-            <div className="p-6">
-              <div
-                id="medPharmacies"
-                className="mt-3.5 bg-white shadow-[0px_2px_40px_0px_#00000014] pb-[12px]"
-              >
-                <DataTable table={pharmacyTable} />
-                <DataTablePagination table={pharmacyTable} />
-              </div>
-            </div>
+          <div className=" p-3">
+            <p className="font-semibold text-[16px] leading-[22px] text-black">
+              Pharmacy Availability
+            </p>
+          </div>
+          <div
+            id="medPharmacies"
+            className="bg-background border border-card-border rounded-[15px] shadow-[0px_2px_40px_0px_#00000014] pb-[12px]"
+          >
+            <PharmacyResults data={pharmacyMedicines} />
           </div>
         </div>
       </div>

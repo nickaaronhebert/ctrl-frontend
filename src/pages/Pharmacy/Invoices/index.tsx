@@ -57,13 +57,13 @@ export default function PharmacyInvoices() {
           </div>
           <div>
             <div className="flex gap-3 items-center ">
-              <Button
+              {/* <Button
                 onClick={() => setOpenAffiliateDialog(true)}
                 className="w-[132px] h-[44px] rounded-[6px] border border-card-border p-[15px] text-black cursor-pointer bg-white hover:bg-white flex items-center justify-between"
               >
                 <span>All Affiliates</span>
                 <ChevronDown className="w-4 h-4 ml-2" />
-              </Button>
+              </Button> */}
 
               <Button
                 onClick={() => setOpenDatePicker(true)}

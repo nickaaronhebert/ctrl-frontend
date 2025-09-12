@@ -55,21 +55,21 @@ export function medicationLibraryColumns(): ColumnDef<Medication>[] {
       cell: ({ row }) => {
         const variants: MedicationVariant[] = row.original.productVariants;
         return (
-          <>
-            <div className="flex  flex-wrap gap-2">
+          <div className="flex flex-col">
+            <div className="flex gap-2 items-center">
               {variants?.map((v) => (
                 <span
                   key={v.id}
-                  className="px-[8px] font-semibold text-[12px] leading-[16px] text-black py-[4px] text-xs rounded-[5px] bg-light-background"
+                  className="px-[8px] font-semibold text-[12px] leading-[16px] text-black py-[4px] text-xs rounded-[5px] bg-light-background "
                 >
                   {v?.strength}
                 </span>
               ))}
             </div>
-            <span className="font-medium text-[10px] leading-[12px] text-slate">
+            <span className="font-medium ml-[3px] mt-[2px] text-[10px] leading-[12px] text-slate">
               {row.original.dosageForm}
             </span>
-          </>
+          </div>
         );
       },
     },

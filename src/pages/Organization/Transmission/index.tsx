@@ -16,7 +16,7 @@ export default function OrganizationTransmission() {
   const perPage = parseInt(searchParams.get("per_page") ?? "10", 10);
 
   const [activeStatus, setActiveStatus] = useState<
-    "Created" | "Processing" | "Queued" | "Transmitted"
+    "Created" | "Failed" | "Queued" | "Transmitted"
   >("Created");
   const columns = useMemo(() => organizationTransmissionColumns(), []);
 
@@ -53,12 +53,12 @@ export default function OrganizationTransmission() {
     }
   );
 
-  // const { data: processingData } = useViewAllTransmissionsQuery(
-  //   { page: 1, perPage: 1, activeStatus: "Processing" },
-  //   {
-  //     selectFromResult: ({ data }) => ({ data: data?.meta }),
-  //   }
-  // );
+  const { data: failedData } = useViewAllTransmissionsQuery(
+    { page: 1, perPage: 1, activeStatus: "Failed" },
+    {
+      selectFromResult: ({ data }) => ({ data: data?.meta }),
+    }
+  );
 
   const { table } = useDataTable({
     data: data || [],
@@ -74,6 +74,8 @@ export default function OrganizationTransmission() {
         return queuedData?.itemCount || 0;
       case "Created":
         return createdData?.itemCount || 0;
+      case "Failed":
+        return failedData?.itemCount || 0;
       default:
         return 0;
     }
@@ -86,7 +88,7 @@ export default function OrganizationTransmission() {
         Recent transmission volume and statistics
       </h6>
       <div className="mt-3.5 ">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 mb-1">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 mb-1">
           <Button
             size={"xxl"}
             variant={"tabs"}
@@ -148,6 +150,22 @@ export default function OrganizationTransmission() {
             <span className=" font-medium text-base mx-2.5">Transmitted</span>
             <span className="min-h-4 min-w-8 p-1 rounded-[8px] bg-white mr-2.5 text-secondary-foreground">
               {getStatusCount("Transmitted")}
+            </span>
+          </Button>
+          <Button
+            size={"xxl"}
+            variant={"tabs"}
+            className={cn(
+              activeStatus === "Failed"
+                ? "bg-primary text-white"
+                : "bg-slate-background text-secondary-foreground hover:bg-slate-background",
+              "p-[30px]"
+            )}
+            onClick={() => setActiveStatus("Failed")}
+          >
+            <span className=" font-medium text-base mx-2.5">Failed</span>
+            <span className="min-h-4 min-w-8 p-1 rounded-[8px] bg-white mr-2.5 text-secondary-foreground">
+              {getStatusCount("Failed")}
             </span>
           </Button>
         </div>

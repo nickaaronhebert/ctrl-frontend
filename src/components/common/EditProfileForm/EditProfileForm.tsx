@@ -171,13 +171,13 @@ export default function EditProfileDialog({
                   type="button"
                   variant="outline"
                   onClick={onCancel}
-                  className="min-w-[150px] min-h-[52px] rounded-[50px] border border-black px-[30px] py-[10px] "
+                  className="min-w-[150px] min-h-[52px] cursor-pointer rounded-[50px] border border-black px-[30px] py-[10px] "
                 >
                   Cancel
                 </Button>
                 <Button
                   type="submit"
-                  className="min-w-[150px] min-h-[52px] rounded-[50px] border border-primary px-[30px] py-[10px] bg-primary text-white"
+                  className="min-w-[150px] cursor-pointer min-h-[52px] rounded-[50px] border border-primary px-[30px] py-[10px] bg-primary text-white"
                 >
                   Update
                 </Button>

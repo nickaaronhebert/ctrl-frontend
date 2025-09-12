@@ -38,7 +38,7 @@ export interface IViewAllTransmissionsRequest {
   page: number;
   perPage: number;
   q?: string;
-  activeStatus?: "Created" | "Processing" | "Queued" | "Transmitted";
+  activeStatus?: "Created" | "Failed" | "Queued" | "Transmitted";
 }
 
 export interface IViewTransmissionByIdResponse {

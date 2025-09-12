@@ -20,7 +20,7 @@ const pharmacyDisplayFields: {
   },
   {
     label: "Address",
-    getValue: (pharmacy) => `${pharmacy.address}`,
+    getValue: (pharmacy) => (pharmacy.address?.trim() ? pharmacy.address : "-"),
   },
 ];
 
