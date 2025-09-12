@@ -1,4 +1,7 @@
-import type { IViewAllActivityLogs } from "@/types/responses/IViewAllActivityLogs";
+import type {
+  IViewActivityLogDetails,
+  IViewAllActivityLogs,
+} from "@/types/responses/IViewAllActivityLogs";
 import { baseApi } from ".";
 import type { ICommonSearchQuery } from "@/types/requests/search";
 
@@ -14,7 +17,7 @@ const auditLogsApi = baseApi.injectEndpoints({
       },
     }),
 
-    viewAuditLogsDetails: builder.query<any, string>({
+    viewAuditLogsDetails: builder.query<IViewActivityLogDetails, string>({
       query: (id) => {
         return {
           url: `/audit-log/${id}`,

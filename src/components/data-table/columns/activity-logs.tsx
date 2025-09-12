@@ -1,15 +1,16 @@
 import Orders from "@/assets/icons/Orders";
 import ProductVariant from "@/assets/icons/Product";
-import Transmission from "@/assets/icons/Transmission";
-// import { Button } from "@/components/ui/button";
+
+import SecondaryOverview from "@/assets/mainlayouticons/SecondaryOverview";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-// import ViewLogsDetail from "@/pages/Organization/ActivityLogs/dialog";
+import ViewLogsDetail from "@/pages/Organization/ActivityLogs/dialog";
 import type {
   Actor,
   IActivityLogData,
 } from "@/types/responses/IViewAllActivityLogs";
 import type { ColumnDef } from "@tanstack/react-table";
-// import { useState } from "react";
+import { useState } from "react";
 
 export function organizationActivityColumns(): ColumnDef<IActivityLogData>[] {
   return [
@@ -34,7 +35,8 @@ export function organizationActivityColumns(): ColumnDef<IActivityLogData>[] {
                 <Orders height={20} width={20} color="#D56E01" />
               )}
               {entityType === "Transmission" && (
-                <Transmission height={20} width={20} color="#008CE3" />
+                <SecondaryOverview />
+                // <Transmission height={20} width={20} color="#008CE3" />
               )}
 
               {entityType === "Prescription" && (
@@ -99,29 +101,29 @@ export function organizationActivityColumns(): ColumnDef<IActivityLogData>[] {
       },
     },
 
-    // {
-    //   accessorKey: "id",
-    //   header: "Action",
-    //   cell: ({ row }) => {
-    //     const [openLogsModal, setOpenLogsModal] = useState(false);
-    //     return (
-    //       <>
-    //         <Button
-    //           variant={"outline"}
-    //           onClick={() => setOpenLogsModal(!openLogsModal)}
-    //           className="rounded-[50px] bg-transparent cursor-pointer"
-    //         >
-    //           View
-    //         </Button>
+    {
+      accessorKey: "id",
+      header: "Action",
+      cell: ({ row }) => {
+        const [openLogsModal, setOpenLogsModal] = useState(false);
+        return (
+          <>
+            <Button
+              variant={"outline"}
+              onClick={() => setOpenLogsModal(!openLogsModal)}
+              className="rounded-[50px] bg-transparent cursor-pointer"
+            >
+              View
+            </Button>
 
-    //         <ViewLogsDetail
-    //           id={row.getValue("id")}
-    //           openLogsModal={openLogsModal}
-    //           setOpenLogsModal={setOpenLogsModal}
-    //         />
-    //       </>
-    //     );
-    //   },
-    // },
+            <ViewLogsDetail
+              id={row.getValue("id")}
+              openLogsModal={openLogsModal}
+              setOpenLogsModal={setOpenLogsModal}
+            />
+          </>
+        );
+      },
+    },
   ];
 }

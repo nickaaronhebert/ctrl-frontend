@@ -127,6 +127,7 @@ const CreateOrderPage = () => {
           <SelectPatientAddress
             dispensingAddress={order.stepThree}
             addressList={order?.initialStep?.selectedPatient}
+            selectedMethod={order.stepThree.transmissionMethod}
           />
         )}
 

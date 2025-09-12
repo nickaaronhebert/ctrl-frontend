@@ -34,3 +34,9 @@ export interface IViewAllActivityLogs {
   data: IActivityLogData[];
   meta: MetaData;
 }
+
+export interface IViewActivityLogDetails {
+  data: IActivityLogData & {
+    entity: object;
+  };
+}
