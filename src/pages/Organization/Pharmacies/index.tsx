@@ -20,21 +20,20 @@ export default function OrgPharmaciesTransmission() {
   const [searchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1", 10);
   const perPage = parseInt(searchParams.get("per_page") ?? "10", 10);
-  const { data, meta, isLoading, isError } =
-    useViewOrgPharmaciesTransmissionsQuery(
-      {
-        page,
-        perPage,
-      },
-      {
-        selectFromResult: ({ data, isLoading, isError }) => ({
-          data: data?.data,
-          meta: data?.meta,
-          isLoading: isLoading,
-          isError: isError,
-        }),
-      }
-    );
+  const { data, meta } = useViewOrgPharmaciesTransmissionsQuery(
+    {
+      page,
+      perPage,
+    },
+    {
+      selectFromResult: ({ data, isLoading, isError }) => ({
+        data: data?.data,
+        meta: data?.meta,
+        isLoading: isLoading,
+        isError: isError,
+      }),
+    }
+  );
 
   const columns = useMemo(() => orgPharmaciesTransmissionColumns(), []);
   const { table } = useDataTable({
