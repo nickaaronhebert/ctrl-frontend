@@ -3,17 +3,20 @@ import { useGetPharmacyCatalogueQuery } from "@/redux/services/pharmacy";
 import { MedicationCatalogueCard } from "@/components/common/Card/medication-catalogue-card";
 import { useNavigate } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
+import { PaginationWithLinks } from "@/components/common/PaginationLink/PaginationLink";
 
 const PharmacyDetailsPage = () => {
   const [searchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1", 10);
-  const perPage = parseInt(searchParams.get("per_page") ?? "10", 10);
+  const perPage = parseInt(searchParams.get("per_page") ?? "2", 10);
   const navigate = useNavigate();
 
   const { data, error, isLoading, isFetching } = useGetPharmacyCatalogueQuery({
     page,
     perPage,
   });
+
+  const meta = data?.meta;
 
   console.log("data", data);
 
@@ -60,6 +63,11 @@ const PharmacyDetailsPage = () => {
           <MedicationCatalogueCard data={data} />
         </div>
       )}
+      <PaginationWithLinks
+        page={page}
+        pageSize={perPage}
+        totalCount={meta?.itemCount}
+      />
     </div>
   );
 };

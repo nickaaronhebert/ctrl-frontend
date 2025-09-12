@@ -53,7 +53,6 @@ import PharmacyMedicationsLayout from "./components/Layout/PharmacyMedicationLay
 import PharmacyMedicationsContent from "./pages/PharmacyMedications";
 import SetDefaultPrices from "./components/pharmacy/selectedMedications/SelectedMedications";
 import CatalogueCreationCard from "./components/common/CatalogueCreationCard/CatalogueCreationCard";
-// import ViewInvoiceDetails from "./pages/Organization/Invoices/details";
 import ViewInvoiceDetails from "./pages/Organization/Invoices/details";
 import CatalogueCreationSuccess from "./components/common/CatalogueCreationSuccess/CatalogueCreationSuccess";
 import PharmacySettings from "./pages/Pharmacy/Settings";
@@ -279,11 +278,11 @@ const router = createBrowserRouter([
         element: <OrganizationSettings />,
       },
       {
-        path: "/org/transmissions/:id",
+        path: ROUTES.VIEW_TRANSMISSION_DETAIL,
         element: <TransmissionDetails />,
       },
       {
-        path: "/org/transactions/:id",
+        path: ROUTES.VIEW_TRANSACTION_DETAIL,
         element: <ViewInvoiceDetails />,
       },
       {
@@ -365,7 +364,7 @@ const router = createBrowserRouter([
         element: <ViewPharmacyInvoiceDetails />,
       },
       {
-        path: "catalogue-creation",
+        path: ROUTES.CATALOGUE_CREATION,
         element: <CatalogueCreationCard />,
       },
       {
@@ -373,19 +372,19 @@ const router = createBrowserRouter([
         element: <PharmacyMedicationsLayout />,
         children: [
           {
-            path: "configure",
+            path: ROUTES.PHARMACY_CONFIGURE,
             element: <PharmacyMedicationsContent />,
           },
           {
-            path: "selected-medications",
+            path: ROUTES.PHARMACY_SELECTED_MEDICATIONS,
             element: <SetDefaultPrices />,
           },
           {
-            path: "success",
+            path: ROUTES.CATALOGUE_CREATION_SUCCESS,
             element: <CatalogueCreationSuccess />,
           },
           {
-            path: "view-catalogue",
+            path: ROUTES.VIEW_CATALOGUE,
             element: <PharmacyDetailsPage />,
           },
         ],

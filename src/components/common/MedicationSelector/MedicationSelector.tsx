@@ -3,12 +3,18 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { MedicationCard } from "../MedicationCard/MedicationCard";
 import { useMedication } from "@/context/ApplicationUser/MedicationContext";
+import type { useSearchParams } from "react-router-dom";
 
-function MedicationSelector() {
+function MedicationSelector({
+  searchParam,
+  setSearchParams,
+}: {
+  searchParam: string;
+  setSearchParams: ReturnType<typeof useSearchParams>[1];
+}) {
   const {
     selectedVariants,
     searchQuery,
-    setSearchQuery,
     selectAll,
     clearAll,
     getFilteredMedications,
@@ -33,8 +39,19 @@ function MedicationSelector() {
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             placeholder="Search medications by name"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            value={searchParam}
+            onChange={(e) => {
+              const query = e.target.value;
+              setSearchParams((prev) => {
+                const newParams = new URLSearchParams(prev);
+                if (query) {
+                  newParams.set("q", query);
+                } else {
+                  newParams.delete("q");
+                }
+                return newParams;
+              });
+            }}
             className="w-[380px] h-[44px] rounded-[6px] pl-10 pr-[15px] py-[12px] bg-white border-card-border "
           />
         </div>

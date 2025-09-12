@@ -47,8 +47,15 @@ export const ROUTES = {
   PHARMACY_INVOICES: "invoices",
   PHARMACY_INVOICES_DETAILS: "invoices/:id",
   PHARMACY_MEDICATIONS: "medications",
+  PHARMACY_CONFIGURE: "configure",
+  PHARMACY_SELECTED_MEDICATIONS: "selected-medications",
   PHARMACY_SETTINGS: "settings",
   PHARMACY_REDIRECT: "/pharmacy-redirect",
+  CATALOGUE_CREATION: "catalogue-creation",
+  CATALOGUE_CREATION_SUCCESS: "success",
+  VIEW_CATALOGUE: "view-catalogue",
+  VIEW_TRANSMISSION_DETAIL: "transmissions/:id",
+  VIEW_TRANSACTION_DETAIL: "transactions/:id",
 };
 
 export const STEPPER_FORM = {

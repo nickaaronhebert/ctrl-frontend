@@ -59,11 +59,6 @@ const DefaultPharmacy = ({
   console.log("defaultPharmacy", data?.data?.defaultPharmacy);
 
   useEffect(() => {
-    setFullPharmacies({});
-    setConfiguredStates({});
-  }, [selectedVariant?.id]);
-
-  useEffect(() => {
     if (data?.data?.defaultPharmacy) {
       const fullPharmacies = Object.fromEntries(
         Object.entries(data?.data?.defaultPharmacy).map(([state, pharmacy]) => [
@@ -83,7 +78,7 @@ const DefaultPharmacy = ({
       setFullPharmacies({});
       setConfiguredStates({});
     }
-  }, [data, selectedVariant?.id]);
+  }, [data?.data?.defaultPharmacy, selectedVariant?.id]);
 
   const filteredStates = US_STATES.filter(
     (state) =>
@@ -91,11 +86,10 @@ const DefaultPharmacy = ({
       state.shortCode.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // console.log("fullPharamcies", fullPharmacies);
-  // console.log("configuredStates", configuredStates);
-  // // console.log("pharmaciesByState", pharmaciesByState);
-  // console.log("selectedMedication", selectedMedication);
-  // console.log("selectedVariant", selectedVariant);
+  console.log("fullPharamcies", fullPharmacies);
+  console.log("configuredStates", configuredStates);
+  console.log("selectedMedication", selectedMedication);
+  console.log("selectedVariant", selectedVariant);
 
   const handleSelect = (
     state: { name: string; shortCode: string },
@@ -132,17 +126,11 @@ const DefaultPharmacy = ({
     });
   };
 
-  console.log("mmmm", selectedMedication);
-  console.log("sssss", selectedVariant);
-
   return (
     <div className="bg-white rounded-lg border border-gray-200 pt-4">
       <div className="flex justify-between items-start px-6">
         <div>
           <p className="font-semibold text-[18px] leading-[26px] text-black mb-3">
-            {/* {data?.data?.productVariant?.medicationCatalogue?.drugName
-              ? `${data.data.productVariant.medicationCatalogue.drugName} - ${data.data.productVariant.strength}`
-              : `${selectedMedication?.name} - ${selectedVariant?.strength}`} */}
             {`${selectedMedication?.name} - ${selectedVariant?.strength}`}
           </p>
           <p className="font-normal text-[14px] leading-[16px] text-slate">

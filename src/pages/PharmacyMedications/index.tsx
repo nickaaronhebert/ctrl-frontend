@@ -8,14 +8,15 @@ import BottomPopup from "@/components/common/BottomPopup/BottomPopup";
 import { useNavigate } from "react-router-dom";
 
 const PharmacyMedicationsContent = () => {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const page = parseInt(searchParams.get("page") || "1", 10);
-  const perPage = parseInt(searchParams.get("per_page") ?? "10", 10);
+  const perPage = parseInt(searchParams.get("per_page") ?? "10", 100);
+  const q = searchParams.get("q") || "";
   const { data, isLoading } = useGetMedicationCatalogueQuery({
     page,
     perPage,
-    q: "",
+    q: q,
   });
   const { setMedications } = useMedication();
 
@@ -55,7 +56,10 @@ const PharmacyMedicationsContent = () => {
       </div>
       {data?.data && (
         <div className="mt-5">
-          <MedicationSelector />
+          <MedicationSelector
+            searchParam={q}
+            setSearchParams={setSearchParams}
+          />
           <BottomPopup onCreateCatalogue={handleCreateCatalogueFromPopup} />
         </div>
       )}
