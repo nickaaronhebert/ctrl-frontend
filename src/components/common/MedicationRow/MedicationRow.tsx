@@ -10,7 +10,6 @@ interface MedicationProps {
 }
 
 export function MedicationRow({ medication }: MedicationProps) {
-  console.log("medication.............", medication);
   const variantCount = medication.productVariant.length;
 
   return (
@@ -39,7 +38,6 @@ export function MedicationRow({ medication }: MedicationProps) {
         </div>
 
         {medication.productVariant.map((variant: PharmacyProductVariant) => {
-          console.log("variant>>>>>>>", variant);
           return (
             <VariantRow
               key={variant._id}

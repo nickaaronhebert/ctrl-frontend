@@ -9,6 +9,10 @@ const CatalogueCreationCard = () => {
     navigate("/pharmacy/medications/configure");
   };
 
+  const handleViewCatalogue = () => {
+    navigate("/pharmacy/medications/view-catalogue");
+  };
+
   return (
     <div className="mb-5">
       <div className="bg-lilac py-3 px-12">
@@ -33,12 +37,20 @@ const CatalogueCreationCard = () => {
           You need to set up your default medication pricing that will serve as
           the foundation.
         </span>
-        <Button
-          onClick={handleCreateCatalogue}
-          className="bg-primary min-w-[142px] min-h-[40px] rounded-[50px] cursor-pointer px-[20px] py-[5px] gap-[10px] text-white"
-        >
-          Create Catalogue
-        </Button>
+        <div className="flex gap-2 items-center">
+          <Button
+            onClick={handleCreateCatalogue}
+            className="bg-primary min-w-[142px] min-h-[40px] rounded-[50px] cursor-pointer px-[20px] py-[5px] gap-[10px] text-white"
+          >
+            Create Catalogue
+          </Button>
+          <Button
+            onClick={handleViewCatalogue}
+            className="bg-black hover:bg-black min-w-[142px] min-h-[40px] rounded-[50px] cursor-pointer px-[20px] py-[5px] gap-[10px] text-white"
+          >
+            View Catalogue
+          </Button>
+        </div>
       </div>
     </div>
   );

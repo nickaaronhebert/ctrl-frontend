@@ -52,10 +52,6 @@ export function MedicationProvider({ children }: { children: ReactNode }) {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [prices, setPrices] = useState<Record<string, string>>({});
 
-  //   console.log("Medicationssss Selected>>>>>>>>", medications);
-  console.log("Variantsss Selectedddd>>>>>>>>", selectedVariants);
-  console.log("Search Query Selectedddd>>>>>>>>", searchQuery);
-
   const toggleVariant = (medication: Medication, variant: ProductVariant) => {
     setSelectedVariants((prev) => {
       const existingIndex = prev.findIndex(
