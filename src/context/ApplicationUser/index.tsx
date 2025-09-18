@@ -1,4 +1,4 @@
-import { LoadingSpinner } from "@/components/ui/loading-spinner";
+// import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { useCurrentUserDataQuery } from "@/redux/services/user";
 import { selectIsLoggedIn } from "@/redux/slices/auth";
 
@@ -31,24 +31,38 @@ export const useApplicationUserContext = () => {
 export const ApplicationUserContextProvider = (props: any) => {
   const isLoggedIn = useTypedSelector(selectIsLoggedIn);
 
-  const { data: userData, isLoading: isUserDataLoading } =
-    useCurrentUserDataQuery(undefined, {
-      skip: !isLoggedIn,
-      selectFromResult: ({ data, isLoading }) => {
-        return {
-          data: data?.data?.data,
-          isLoading: isLoading,
-        };
-      },
-    });
+  const {
+    data: userData,
+    isLoading: isUserDataLoading,
+    isError,
+    error,
+  } = useCurrentUserDataQuery(undefined, {
+    skip: !isLoggedIn,
+    selectFromResult: ({ data, isLoading, error, isError }) => {
+      return {
+        data: data?.data?.data,
+        isLoading: isLoading,
+        isError: isError,
+        error: error,
+      };
+    },
+  });
 
-  if ((isUserDataLoading || !userData) && isLoggedIn) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <LoadingSpinner />
-      </div>
-    );
+  if (isError && error && "status" in error) {
+    if (error.status === 401) {
+      localStorage.removeItem("auth_token");
+      sessionStorage.removeItem("auth_token");
+      window.location.href = "/";
+    }
   }
+
+  // if ((isUserDataLoading || !userData) && isLoggedIn) {
+  //   return (
+  //     <div className="flex justify-center items-center h-screen">
+  //       <LoadingSpinner />
+  //     </div>
+  //   );
+  // }
 
   return (
     <ApplicationUserContext.Provider

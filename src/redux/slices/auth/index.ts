@@ -31,7 +31,7 @@ interface AuthState {
 }
 
 const initialState: AuthState = {
-  token: persistedToken ? JSON.parse(persistedToken) : null,
+  token: persistedToken ? persistedToken : null,
   provider: providerToken ? JSON.parse(providerToken) : null,
   pharmacy: pharmacyToken ? JSON.parse(pharmacyToken) : null,
 };
@@ -75,10 +75,11 @@ const authSlice = createSlice({
       authApi.endpoints.verifyOtp.matchFulfilled,
       (state, { payload }) => {
         const token = payload?.data?.access_token;
+
         if (token) {
           state.token = token;
-          sessionStorage.setItem(AUTH_TOKEN, JSON.stringify(token));
-          localStorage.setItem(AUTH_TOKEN, JSON.stringify(token));
+          sessionStorage.setItem(AUTH_TOKEN, token);
+          localStorage.setItem(AUTH_TOKEN, token);
         } else {
           state.token = null;
           sessionStorage.removeItem(AUTH_TOKEN);
@@ -96,14 +97,8 @@ const authSlice = createSlice({
             localStorage.removeItem("provider_token");
             sessionStorage.removeItem("provider");
             localStorage.removeItem("provider");
-            sessionStorage.setItem(
-              "auth_token",
-              JSON.stringify(payload?.data.token)
-            );
-            localStorage.setItem(
-              "auth_token",
-              JSON.stringify(payload?.data.token)
-            );
+            sessionStorage.setItem("auth_token", payload?.data.token);
+            localStorage.setItem("auth_token", payload?.data.token);
           } else {
             localStorage.removeItem("auth_token");
             sessionStorage.removeItem("auth_token");
@@ -131,14 +126,8 @@ const authSlice = createSlice({
           localStorage.removeItem("pharmacy_token");
           sessionStorage.removeItem("pharmacy");
           localStorage.removeItem("pharmacy");
-          sessionStorage.setItem(
-            "auth_token",
-            JSON.stringify(payload?.data.token)
-          );
-          localStorage.setItem(
-            "auth_token",
-            JSON.stringify(payload?.data.token)
-          );
+          sessionStorage.setItem("auth_token", payload?.data.token);
+          localStorage.setItem("auth_token", payload?.data.token);
         } else {
           localStorage.removeItem("auth_token");
           sessionStorage.removeItem("auth_token");
@@ -216,7 +205,9 @@ const authSlice = createSlice({
   },
 });
 
-export const selectIsLoggedIn = (state: RootState) => !!state.auth.token;
+export const selectIsLoggedIn = (state: RootState) => {
+  return !!state.auth.token;
+};
 export const selectProvider = (state: RootState) => state.auth.provider;
 export const selectPharmacy = (state: RootState) => state.auth.pharmacy;
 

@@ -6,6 +6,7 @@ import OrderOverviewCard from "@/components/common/Card/order-overview";
 import PatientCard from "@/components/common/Card/patient";
 import TransmissionCard from "@/components/common/Card/transmission";
 import { Button } from "@/components/ui/button";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import {
   useTransmitOrderMutation,
   useViewOrderByIdQuery,
@@ -87,7 +88,11 @@ export default function ViewOrderDetails() {
   };
 
   if (!patient || !transmissions) {
-    return <div>Loading............</div>;
+    return (
+      <div className="h-[100vh] flex justify-center items-center">
+        <LoadingSpinner />
+      </div>
+    );
   }
 
   return (

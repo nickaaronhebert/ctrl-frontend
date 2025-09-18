@@ -44,7 +44,7 @@ function PatientOrdersList({ patientId }: { patientId: string }) {
 
   return (
     <div className="mt-3.5 bg-white border border-card-border rounded-2xl pb-[12px]  ">
-      <DataTable table={table} headerClass={true} />
+      <DataTable table={table} />
       <DataTablePagination table={table} />
     </div>
   );
@@ -58,7 +58,12 @@ function PatientDetails({ patientId }: { patientId: string }) {
     }),
   });
 
-  if (!data) return <LoadingSpinner />;
+  if (!data)
+    return (
+      <div className="h-[100vh] flex justify-center items-center">
+        <LoadingSpinner />
+      </div>
+    );
 
   const formattedDate = new Date(data?.dob).toLocaleDateString("en-US");
   const allergyList = data?.medicationAllergies
@@ -220,7 +225,11 @@ export default function ViewPatientDetails() {
   const { id } = useParams();
 
   if (!id) {
-    return <LoadingSpinner />;
+    return (
+      <div className="h-[100vh] flex justify-center items-center">
+        <LoadingSpinner />
+      </div>
+    );
   } else {
     return <PatientDetails patientId={id} />;
   }

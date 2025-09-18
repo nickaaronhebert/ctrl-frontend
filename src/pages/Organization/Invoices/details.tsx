@@ -13,6 +13,7 @@ import CardSVG from "@/assets/icons/CardIcon";
 import Pharmacies from "@/assets/mainlayouticons/Pharmacies";
 import Invoices from "@/assets/icons/Invoices";
 import DocumentSVG from "@/assets/icons/Document";
+import { formatDateMMDDYYYY } from "@/lib/utils";
 
 type ScrollID =
   | "invoiceInformation"
@@ -69,7 +70,7 @@ export default function ViewInvoiceDetails() {
           id: id ?? "",
           transmissionCode: transmissionCode ?? "",
           totalAmount: totalAmount ?? 0,
-          createdAt: createdAt ?? "",
+          createdAt: formatDateMMDDYYYY(createdAt ?? "") ?? "",
         },
 
         pharmacyDetails: {
@@ -96,7 +97,12 @@ export default function ViewInvoiceDetails() {
     },
   });
 
-  if (isFetching) return <LoadingSpinner />;
+  if (isFetching)
+    return (
+      <div className="h-[100vh] flex justify-center items-center">
+        <LoadingSpinner />
+      </div>
+    );
 
   return (
     <div className="mb-5">
@@ -128,7 +134,7 @@ export default function ViewInvoiceDetails() {
                   {data?.transmissionCode}
                 </h4>
                 <h6 className="text-xs font-normal text-[#3E4D61]">
-                  {data?.createdAt}
+                  {formatDateMMDDYYYY(data?.createdAt ?? "")}
                 </h6>
               </div>
             </div>

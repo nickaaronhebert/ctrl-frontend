@@ -23,7 +23,7 @@ const ModuleProtectedRoute: React.FC<ModuleProtectedRouteProps> = ({
   const { user, isLoadingUserDetails, isLoggedIn } = useAuthentication();
   const location = useLocation();
 
-  if (isLoadingUserDetails) {
+  if (isLoadingUserDetails || (isLoggedIn && !user)) {
     return (
       <div className="flex justify-center items-center h-screen">
         <LoadingSpinner />
@@ -31,7 +31,7 @@ const ModuleProtectedRoute: React.FC<ModuleProtectedRouteProps> = ({
     );
   }
 
-  if (!isLoggedIn || !user) {
+  if (!isLoggedIn) {
     return (
       <Navigate to={ROUTES.HOME} state={{ from: location.pathname }} replace />
     );

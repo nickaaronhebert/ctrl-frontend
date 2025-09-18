@@ -76,7 +76,12 @@ export default function ViewPharmacyInvoiceDetails() {
     },
   });
 
-  if (isFetching) return <LoadingSpinner />;
+  if (isFetching)
+    return (
+      <div className="h-[100vh] flex justify-center items-center">
+        <LoadingSpinner />
+      </div>
+    );
 
   return (
     <div className="mb-5">
