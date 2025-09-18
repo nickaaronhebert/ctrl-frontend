@@ -5,6 +5,7 @@ import {
 } from "@/types/baseApiTags";
 import { baseApi } from ".";
 import type { IGetPharmacyInvoicesDetailsResponse } from "@/types/responses/IGetPharmacyInvoicesDetail";
+import type { ICommonSearchQuery } from "@/types/requests/search";
 
 export const pharmacyApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -26,10 +27,11 @@ export const pharmacyApi = baseApi.injectEndpoints({
     // Pharmacy invoices get all //
     getPharmacyInvoices: builder.query<
       PharmacyInvoiceResponse,
-      { page: number; perPage: number }
+      ICommonSearchQuery
+      // { page: number; perPage: number }
     >({
-      query: ({ page, perPage }) => ({
-        url: `/transaction/pharmacy-transfers?page=${page}&limit=${perPage}`,
+      query: ({ page, perPage, startDate = "", endDate = "" }) => ({
+        url: `/transaction/pharmacy-transfers?page=${page}&limit=${perPage}&startDate=${startDate}&endDate=${endDate}`,
         method: "GET",
       }),
     }),

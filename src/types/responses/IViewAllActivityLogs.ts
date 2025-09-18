@@ -6,7 +6,9 @@ export type EntityType =
   | "Transmission"
   | "AccessControl"
   | "ProductVariant"
-  | "Invitation";
+  | "Invitation"
+  | "Payment"
+  | "Provider Group Invitation";
 
 export type Actor = {
   id: string;

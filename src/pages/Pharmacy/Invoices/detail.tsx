@@ -11,6 +11,7 @@ import Invoices from "@/assets/icons/Invoices";
 import DocumentSVG from "@/assets/icons/Document";
 import { useGetPharmacyInvoicesDetailsQuery } from "@/redux/services/pharmacy";
 import { useState } from "react";
+import { formatDateMMDDYYYY } from "@/lib/utils";
 const menuItems = [
   {
     title: "Invoice Information",
@@ -51,7 +52,7 @@ export default function ViewPharmacyInvoiceDetails() {
           id: data?.data?.id ?? "",
           transmissionCode: data?.data?.transaction?.transmissionCode ?? "",
           totalAmount: data?.data?.transaction?.totalAmount ?? 0,
-          createdAt: data?.data?.createdAt ?? "",
+          createdAt: formatDateMMDDYYYY(data?.data?.createdAt ?? "") ?? "",
         },
         //         medicationDetails: data?.data?.lineItems.map((item) => ({
         //           variantId: item.productVariant.id,
@@ -105,7 +106,7 @@ export default function ViewPharmacyInvoiceDetails() {
                   {invoiceData?.transaction?.transmissionCode}
                 </h4>
                 <h6 className="text-xs font-normal text-[#3E4D61]">
-                  {invoiceData?.createdAt}
+                  {formatDateMMDDYYYY(invoiceData?.createdAt ?? "")}
                 </h6>
               </div>
             </div>

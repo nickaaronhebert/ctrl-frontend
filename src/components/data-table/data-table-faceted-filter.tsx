@@ -9,7 +9,7 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator,
+  // CommandSeparator,
 } from "@/components/ui/command";
 import {
   Popover,
@@ -17,7 +17,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-import { Check, CirclePlus } from "lucide-react";
+import { Check, ChevronDown } from "lucide-react";
 import type { Option } from "@/hooks/use-data-table";
 
 interface DataTableFacetedFilterProps<TData, TValue> {
@@ -32,17 +32,19 @@ export function DataTableFacetedFilter<TData, TValue>({
   options,
 }: DataTableFacetedFilterProps<TData, TValue>) {
   const selectedValues = new Set(column?.getFilterValue() as string[]);
+  const selectedEntity = selectedValues.values().next().value;
 
   return (
     <Popover>
       <PopoverTrigger asChild>
         <Button
-          variant="outline"
-          size="sm"
-          className="h-8 border-dashed border-primary"
+          variant="transparent"
+          className="flex justify-between rounded-[6px] !p-3.5 h-11 min-w-[200px] !bg-white"
         >
-          <CirclePlus className="mr-2 size-4" />
-          {title}
+          {/* <CirclePlus className="mr-2 size-4" /> */}
+          {selectedEntity ?? "All Type"}
+
+          <ChevronDown />
           {/* {selectedValues?.size > 0 && (
             <>
               <Separator orientation="vertical" className="mx-2 h-4" />
@@ -106,11 +108,15 @@ export function DataTableFacetedFilter<TData, TValue>({
                       className={cn(
                         "mr-2 flex size-4 items-center justify-center rounded-sm border border-primary",
                         isSelected
-                          ? "bg-primary text-primary-foreground"
+                          ? "bg-primary text-white"
                           : "opacity-50 [&_svg]:invisible"
                       )}
                     >
-                      <Check className="size-4" aria-hidden="true" />
+                      <Check
+                        className="size-4"
+                        aria-hidden="true"
+                        stroke="white"
+                      />
                     </div>
                     {option.icon && (
                       <option.icon
@@ -129,7 +135,7 @@ export function DataTableFacetedFilter<TData, TValue>({
                 );
               })}
             </CommandGroup>
-            {selectedValues.size > 0 && (
+            {/* {selectedValues.size > 0 && (
               <>
                 <CommandSeparator />
                 <CommandGroup>
@@ -141,7 +147,7 @@ export function DataTableFacetedFilter<TData, TValue>({
                   </CommandItem>
                 </CommandGroup>
               </>
-            )}
+            )} */}
           </CommandList>
         </Command>
       </PopoverContent>

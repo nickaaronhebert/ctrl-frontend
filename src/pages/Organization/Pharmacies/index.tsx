@@ -9,21 +9,25 @@ import { useMemo } from "react";
 
 import {
   useDataTable,
-  //   type DataTableFilterField,
+  type DataTableFilterField,
 } from "@/hooks/use-data-table";
 // import { useGetPatientDetailsQuery } from "@/redux/services/patientApi";
 // import type { PatientDetails } from "@/types/responses/patient";
 // import { useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
+import type { TransmissionsStats } from "@/types/responses/IViewOrgPharmaciesTranmissions.";
+import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 
 export default function OrgPharmaciesTransmission() {
   const [searchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1", 10);
   const perPage = parseInt(searchParams.get("per_page") ?? "10", 10);
+  const name = searchParams.get("name") ?? "";
   const { data, meta } = useViewOrgPharmaciesTransmissionsQuery(
     {
       page,
       perPage,
+      q: name,
     },
     {
       selectFromResult: ({ data, isLoading, isError }) => ({
@@ -36,10 +40,17 @@ export default function OrgPharmaciesTransmission() {
   );
 
   const columns = useMemo(() => orgPharmaciesTransmissionColumns(), []);
+  const filterFields: DataTableFilterField<TransmissionsStats>[] = [
+    {
+      label: "Name",
+      value: "name",
+      placeholder: "Search By Pharmacy Name",
+    },
+  ];
   const { table } = useDataTable({
     data: data || [],
     columns,
-
+    filterFields,
     pageCount: meta?.pageCount ?? -1,
   });
 
@@ -80,21 +91,13 @@ export default function OrgPharmaciesTransmission() {
           </p>
         </div>
 
-        {/* <div className="flex gap-3.5 items-center">
+        <div className="flex gap-3.5 items-center">
           <DataTableToolbar
             table={table}
             filterFields={filterFields}
             className="mb-2"
           />
-
-          <Link
-            to={"/org/create-patient"}
-            className="flex items-center rounded-[50px] px-[20px] py-[5px] min-h-[40px]  text-white  font-semibold text-[12px] bg-primary-foreground  "
-            // onClick={() => navigate("/org/create-order")}
-          >
-            Create Patient
-          </Link>
-        </div> */}
+        </div>
       </div>
 
       <div className="mt-3.5 bg-white shadow-[0px_2px_40px_0px_#00000014] pb-[12px] rounded-2xl">

@@ -3,4 +3,15 @@ export interface ICommonSearchQuery {
   perPage: number;
   q?: string;
   patient?: string;
+  type?:
+    | "Prescription"
+    | "Order"
+    | "Transmission"
+    | "AccessControl"
+    | "ProductVariant"
+    | "Invitation"
+    | "Provider Group Invitation"
+    | "Payment";
+  startDate?: string;
+  endDate?: string;
 }

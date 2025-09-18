@@ -74,7 +74,7 @@ export default function Invoices() {
       </div>
 
       <div className="mt-3.5 bg-white shadow-[0px_2px_40px_0px_#00000014] pb-[12px] rounded-2xl">
-        <DataTable table={table} headerClass={true} />
+        <DataTable table={table} />
         <div className="">
           <DataTablePagination table={table} />
         </div>

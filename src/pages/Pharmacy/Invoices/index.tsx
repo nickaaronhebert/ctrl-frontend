@@ -24,7 +24,12 @@ export default function PharmacyInvoices() {
   const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
 
   const { data } = useGetPharmacyInvoicesQuery(
-    { page, perPage },
+    {
+      page,
+      perPage,
+      startDate: dateRange?.from?.toISOString(),
+      endDate: dateRange?.to?.toISOString(),
+    },
     {
       // Use the selectFromResult method to omit pharmacy and organization fields
       selectFromResult: (result) => ({

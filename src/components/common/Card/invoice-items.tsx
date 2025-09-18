@@ -35,7 +35,10 @@ export default function InvoiceItemsCard({
           <p className="text-sm font-semibold">Medications</p>
           {invoiceItems?.map((item) => {
             return (
-              <div className="flex justify-between space-y-1.5">
+              <div
+                className="flex justify-between space-y-1.5"
+                key={item.variantId}
+              >
                 <span className="text-sm font-normal">
                   {`${item.productName} ${item.strength} (${item.qty} unit)`}
                 </span>
