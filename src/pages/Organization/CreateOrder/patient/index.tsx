@@ -14,6 +14,7 @@ import {
 } from "@/redux/slices/create-order";
 import { formatDateMMDDYYYY } from "@/lib/utils";
 import type { Address } from "@/types/global/commonTypes";
+import { Link } from "react-router-dom";
 
 export default function SelectPatient({
   patient,
@@ -56,7 +57,12 @@ export default function SelectPatient({
           </h2>
           <p className="text-sm text-gray-600 mb-4">
             If patient is not listed,{" "}
-            <span className="text-blue-600 cursor-pointer">Create Patient</span>
+            <Link
+              to={"/org/create-patient"}
+              className="text-[#008CE3]  cursor-pointer underline underline-offset-2"
+            >
+              Create Patient
+            </Link>
           </p>
         </div>
         <Form {...form}>

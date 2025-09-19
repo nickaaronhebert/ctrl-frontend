@@ -64,7 +64,7 @@ const PhoneInputElement: React.FC<PhoneInputElementProps> = ({
         return (
           <FormItem className={cn("", props.className)}>
             {label && (
-              <FormLabel className={cn("", labelClassName)}>
+              <FormLabel className={cn("", labelClassName)} htmlFor={name}>
                 {label}
                 {isOptional && (
                   <span className="text-neutral-400"> (optional)</span>
@@ -82,12 +82,13 @@ const PhoneInputElement: React.FC<PhoneInputElementProps> = ({
 
                 <Input
                   {...field}
+                  id={name}
                   onChange={handleChange}
                   placeholder={placeholder}
                   className={cn("!border-none", inputClassName)}
                   type={props.type || "text"}
                   disabled={props.disabled}
-                  autoComplete={props.autoComplete}
+                  // autoComplete={props.autoComplete}
                   readOnly={props.readOnly}
                 />
               </div>

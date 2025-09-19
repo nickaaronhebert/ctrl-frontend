@@ -66,8 +66,8 @@ export function organizationPatientColumns(): ColumnDef<PatientDetails>[] {
 
         return (
           <>
-            <p className="text-xs font-medium">Height: {height}</p>
-            <p className="text-xs font-medium py-0.5">Weight: {weight}</p>
+            <p className="text-xs font-medium">{`Height: ${height} (inches)`}</p>
+            <p className="text-xs font-medium py-0.5">{`Weight: ${weight} (pounds)`}</p>
           </>
         );
       },

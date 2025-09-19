@@ -135,6 +135,7 @@ function UpdatePatientDetails({
                 messageClassName="text-right"
                 placeholder="Eg john@example.com"
                 inputClassName="border-border"
+                autoComplete="email"
               />
 
               <CenteredRow>
@@ -202,6 +203,7 @@ function UpdatePatientDetails({
                         {!isDefault && (
                           <label className="flex items-center gap-2 cursor-pointer">
                             <input
+                              name={`addresses.${index}.isDefault`}
                               type="checkbox"
                               checked={isDefault}
                               onChange={() => setDefaultAddress(index)}
@@ -345,12 +347,14 @@ function UpdatePatientDetails({
               </div>
 
               <div className="flex items-center justify-end gap-2.5 mt-10">
-                <Link
-                  to={"#"}
+                <Button
+                  type="button"
+                  onClick={() => form.reset()}
+                  variant={"transparent"}
                   className="rounded-full border border-[#3E4D61] text-center py-2.5 px-6 min-h-12 min-w-32"
                 >
                   Cancel
-                </Link>
+                </Button>
                 <Button
                   type="submit"
                   className="rounded-full text-white cursor-pointer py-2.5 px-6 min-h-12 min-w-32"
