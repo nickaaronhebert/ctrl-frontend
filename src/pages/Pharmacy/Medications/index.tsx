@@ -14,11 +14,6 @@ const PharmacyMedicationsContent = () => {
   const page = parseInt(searchParams.get("page") || "1", 10);
   const perPage = parseInt(searchParams.get("per_page") ?? "10", 10);
   const q = searchParams.get("q") || "";
-  // const { data, isLoading } = useGetMedicationCatalogueQuery({
-  //   page,
-  //   perPage,
-  //   q: q,
-  // });
   const { data, isLoading } = useGetAvailableMedicationQuery({
     page,
     perPage,

@@ -135,6 +135,7 @@ export const MultiSelect = React.forwardRef<
   ) => {
     const [selectedValues, setSelectedValues] =
       React.useState<string[]>(defaultValue);
+    console.log("🚀 ~ selectedValues:", selectedValues);
     const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
     const [isAnimating] = React.useState(false);
 
@@ -152,6 +153,8 @@ export const MultiSelect = React.forwardRef<
     };
 
     const toggleOption = (option: string) => {
+      console.log(option, "option");
+
       const newSelectedValues = selectedValues.includes(option)
         ? selectedValues.filter((value) => value !== option)
         : [...selectedValues, option];
@@ -165,14 +168,16 @@ export const MultiSelect = React.forwardRef<
     };
 
     const handleTogglePopover = () => {
+      // console.log("here");
+
       setIsPopoverOpen((prev) => !prev);
     };
 
-    const clearExtraOptions = () => {
-      const newSelectedValues = selectedValues.slice(0, maxCount);
-      setSelectedValues(newSelectedValues);
-      onValueChange(newSelectedValues);
-    };
+    // const clearExtraOptions = () => {
+    //   const newSelectedValues = selectedValues.slice(0, maxCount);
+    //   setSelectedValues(newSelectedValues);
+    //   onValueChange(newSelectedValues);
+    // };
 
     const toggleAll = () => {
       if (selectedValues.length === options.length) {
@@ -196,13 +201,13 @@ export const MultiSelect = React.forwardRef<
             {...props}
             onClick={handleTogglePopover}
             className={cn(
-              "flex w-full p-1 rounded-md border min-h-14 h-auto items-center justify-between bg-inherit hover:bg-inherit [&_svg]:pointer-events-auto",
+              "flex w-full p-1 rounded-md border border-input  min-h-10 max-h-16  h-auto items-center  justify-between bg-inherit hover:bg-inherit [&_svg]:pointer-events-auto",
               className
             )}
           >
             {selectedValues.length > 0 ? (
               <div className="flex justify-between items-center w-full">
-                <div className="flex flex-wrap items-center">
+                <div className="flex items-center gap-1 overflow-hidden">
                   {selectedValues.slice(0, maxCount).map((value) => {
                     const option = options.find((o) => o.value === value);
                     const IconComponent = option?.icon;
@@ -220,33 +225,21 @@ export const MultiSelect = React.forwardRef<
                           <IconComponent className="h-4 w-4 mr-2" />
                         )}
                         {option?.label}
-                        <XCircle
-                          className="ml-2 h-4 w-4 cursor-pointer"
+                        <button
                           onClick={(event) => {
                             event.stopPropagation();
                             toggleOption(value);
                           }}
-                        />
+                        >
+                          <XCircle className="ml-2 h-4 w-4 cursor-pointer" />
+                        </button>
                       </Badge>
                     );
                   })}
+
                   {selectedValues.length > maxCount && (
-                    <Badge
-                      className={cn(
-                        "bg-transparent text-foreground border-foreground/1 hover:bg-transparent",
-                        isAnimating ? "animate-bounce" : "",
-                        multiSelectVariants({ variant })
-                      )}
-                      style={{ animationDuration: `${animation}s` }}
-                    >
-                      {`+ ${selectedValues.length - maxCount} more`}
-                      <XCircle
-                        className="ml-2 h-4 w-4 cursor-pointer"
-                        onClick={(event) => {
-                          event.stopPropagation();
-                          clearExtraOptions();
-                        }}
-                      />
+                    <Badge className="rounded-[4px] px-2 py-1 text-xs font-medium bg-muted text-foreground">
+                      +{selectedValues.length - maxCount} more
                     </Badge>
                   )}
                 </div>

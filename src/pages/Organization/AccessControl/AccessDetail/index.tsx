@@ -10,6 +10,7 @@ import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { useLazyGetAccessControlByProductVariantQuery } from "@/redux/services/access-control";
 import ProgressOverview from "@/components/common/ProgressOverview/ProgressOverview";
 import type { SingleAccessResponse } from "@/types/responses/access-control";
+import { BulkAssignment } from "@/components/common/BulkAssignment/BulkAssignment";
 
 export type Medication = {
   id: string;
@@ -30,6 +31,7 @@ const AccessDetail = () => {
     Record<string, string>
   >({});
   const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null);
+  const [selectedPharmacy, setSelectedPharmacy] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const { id } = useParams();
   const { data: singleAccessControl, isLoading } =
@@ -75,16 +77,6 @@ const AccessDetail = () => {
         setAccessControlVariantData(null);
       });
   }, [selectedVariant?.id]);
-
-  // useEffect(() => {
-  //   if (selectedVariant?.id) {
-  //     triggerGetAccessControl(selectedVariant?.id)
-  //       .unwrap()
-  //       .catch((err) => {
-  //         console.error("Access control fetching failed", err);
-  //       });
-  //   }
-  // }, [selectedVariant?.id, triggerGetAccessControl]);
 
   const isEditing = Boolean(id && selectedMedication && selectedVariant);
 
@@ -157,10 +149,11 @@ const AccessDetail = () => {
         </div>
         {selectedMedication && selectedVariant ? (
           <div className="w-full flex flex-col gap-5">
-            {/* <BulkAssignment
+            <BulkAssignment
               selectedPharmacy={selectedPharmacy}
               setSelectedPharmacy={setSelectedPharmacy}
-            /> */}
+              selectedVariant={selectedVariant}
+            />
             <DefaultPharmacy
               selectedMedication={selectedMedication}
               selectedVariant={selectedVariant}

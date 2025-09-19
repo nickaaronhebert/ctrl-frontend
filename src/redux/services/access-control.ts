@@ -54,6 +54,14 @@ const accessControlApi = baseApi.injectEndpoints({
     >({
       query: (id) => `/access-control/product-variant/${id}`,
     }),
+
+    // Bulk pharmacy assignment API //
+    getBulkPharmacies: builder.query({
+      query: (productVariantId: string) => ({
+        method: "GET",
+        url: `/pharmacy/variants/${productVariantId}`,
+      }),
+    }),
   }),
 });
 
@@ -63,6 +71,7 @@ export const {
   useGetAccessControlQuery,
   useGetSingleAccessControlQuery,
   useLazyGetAccessControlByProductVariantQuery,
+  useLazyGetBulkPharmaciesQuery,
 } = accessControlApi;
 
 export default accessControlApi;
