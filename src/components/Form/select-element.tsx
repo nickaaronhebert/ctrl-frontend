@@ -91,6 +91,7 @@ const SelectElement: React.FC<SelectElementProps> = ({
             </FormLabel>
           )}
           <Select
+            name={name}
             onValueChange={(value) => {
               field.onChange(value); // Always update the form field
               onChange?.(value); // Call custom onChange if provided

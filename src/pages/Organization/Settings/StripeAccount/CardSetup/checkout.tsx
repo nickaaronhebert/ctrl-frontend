@@ -174,10 +174,14 @@ const CustomCardForm = ({ clientSecret, hideCard }: Props) => {
 
       {/* Cardholder Name */}
       <div>
-        <label className="block text-sm font-semibold mb-1">
+        <label
+          className="block text-sm font-semibold mb-1"
+          htmlFor="card-holder-name"
+        >
           Cardholder Name <span className="text-red-500">*</span>
         </label>
         <input
+          id="card-holder-name"
           type="text"
           value={cardholderName}
           onChange={(e) => setCardholderName(e.target.value)}
@@ -191,33 +195,42 @@ const CustomCardForm = ({ clientSecret, hideCard }: Props) => {
 
       <div className="">
         <label className="block text-sm font-semibold mb-1 border-none">
-          Credit Card Number <span className="text-red-500">*</span>
+          <span className="mb-1">
+            Credit Card Number <span className="text-red-500">*</span>
+          </span>
+          <StripeCardField elementType="number" placeholder="Card Number" />
         </label>
-        <StripeCardField elementType="number" placeholder="Card Number" />
       </div>
 
       {/* Expiration Date + CVC */}
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label className="block text-sm  font-semibold mb-1">
-            Expiration Date (MM/YY) <span className="text-red-500">*</span>
+            <span className="mb-1">
+              Expiration Date (MM/YY) <span className="text-red-500">*</span>
+            </span>
+
+            <StripeCardField elementType="expiry" placeholder="MM/YY" />
           </label>
-          <StripeCardField elementType="expiry" placeholder="MM/YY" />
         </div>
         <div>
           <label className="block text-sm font-semibold mb-1">
-            CVC / CVV <span className="text-red-500">*</span>
+            <span className="mb-1">
+              CVC / CVV <span className="text-red-500">*</span>
+            </span>
+
+            <StripeCardField elementType="cvc" placeholder="CVC" />
           </label>
-          <StripeCardField elementType="cvc" placeholder="CVC" />
         </div>
       </div>
 
       {/* Billing Zip Code */}
       <div>
-        <label className="block text-sm font-semibold mb-1">
+        <label className="block text-sm font-semibold mb-1" htmlFor="zip-code">
           Billing Zip Code <span className="text-red-500">*</span>
         </label>
         <input
+          id="zip-code"
           type="text"
           value={zip}
           onChange={(e) => setZip(e.target.value)}
@@ -228,12 +241,14 @@ const CustomCardForm = ({ clientSecret, hideCard }: Props) => {
       </div>
 
       <div className="flex items-center gap-3">
-        <Checkbox
-          id="default-card"
-          checked={defaultCardChecked}
-          onCheckedChange={(value) => setDefaultCardChecked(value === true)}
-        />
-        <Label htmlFor="default-card">Use as a Default Card</Label>
+        <Label htmlFor="default-card">
+          <Checkbox
+            id="default-card"
+            checked={defaultCardChecked}
+            onCheckedChange={(value) => setDefaultCardChecked(value === true)}
+          />
+          <span> Use as a Default Card</span>
+        </Label>
       </div>
 
       {/* Submit Button */}
