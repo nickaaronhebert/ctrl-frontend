@@ -391,6 +391,19 @@ export const dummyPharmacies: Pharmacy[] = [
   },
 ];
 
+export const pharmacies = [
+  { id: 1, name: "HealthPlus Pharmacy" },
+  { id: 2, name: "WellCare Pharmacy" },
+  { id: 3, name: "MediCare Drugstore" },
+  { id: 4, name: "PharmaMax" },
+  { id: 5, name: "Greenleaf Pharmacy" },
+  { id: 6, name: "Pharma Central" },
+  { id: 7, name: "City Health Pharmacy" },
+  { id: 8, name: "Nature’s Pharmacy" },
+  { id: 9, name: "QuickRx Pharmacy" },
+  { id: 10, name: "Total Health Pharmacy" },
+];
+
 export const US_STATES = [
   { name: "Alabama", shortCode: "AL" },
   { name: "Alaska", shortCode: "AK" },
