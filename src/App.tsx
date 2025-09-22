@@ -59,6 +59,7 @@ import PharmacySettings from "./pages/Pharmacy/Settings";
 import PharmacyDetailsPage from "./pages/Pharmacy/Medications/details";
 import ViewPharmacyInvoiceDetails from "./pages/Pharmacy/Invoices/detail";
 import OrgPharmaciesTransmission from "./pages/Organization/Pharmacies";
+import Prescriptions from "./pages/Provider/Approve/prescription";
 
 const router = createBrowserRouter([
   {
@@ -118,6 +119,10 @@ const router = createBrowserRouter([
       {
         path: ROUTES.SUPPORT,
         element: <Support />,
+      },
+      {
+        path: ROUTES.APPROVE_PRESCRIPTION,
+        element: <Prescriptions />,
       },
     ],
   },

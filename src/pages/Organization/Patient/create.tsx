@@ -132,6 +132,8 @@ export default function CreatePatient() {
                 messageClassName="text-right"
                 placeholder="Eg john@example.com"
                 inputClassName="border-border"
+                type="email"
+                autoComplete="email"
               />
 
               <CenteredRow>
@@ -207,6 +209,7 @@ export default function CreatePatient() {
                         {!isDefault && (
                           <label className="flex items-center gap-2 cursor-pointer">
                             <input
+                              name={`addresses.${index}.isDefault`}
                               type="checkbox"
                               checked={isDefault}
                               onChange={() => setDefaultAddress(index)}
@@ -341,12 +344,15 @@ export default function CreatePatient() {
               </div>
 
               <div className="flex items-center justify-end gap-2.5 mt-10">
-                <Link
-                  to={"#"}
+                <Button
+                  onClick={() => form.reset()}
+                  variant={"transparent"}
+                  type="button"
+                  // to={"#"}
                   className="rounded-full border border-[#3E4D61] text-center py-2.5 px-6 min-h-12 min-w-32"
                 >
                   Cancel
-                </Link>
+                </Button>
                 <Button
                   type="submit"
                   className="rounded-full text-white cursor-pointer py-2.5 px-6 min-h-12 min-w-32"

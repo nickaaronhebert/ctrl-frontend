@@ -69,6 +69,11 @@ export function AppSidebar() {
       url: "/provider/support",
       icon: SupportSVG,
     },
+    {
+      title: "Prescription",
+      url: "/provider/prescriptions",
+      icon: PrescriptionSVG,
+    },
   ];
 
   const menuItems = isOrganisationAdmin

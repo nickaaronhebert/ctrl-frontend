@@ -46,7 +46,7 @@ const PasswordInputElement: React.FC<PasswordInputElementProps> = ({
       render={({ field }) => (
         <FormItem className={cn("", props.className)}>
           {label && (
-            <FormLabel className={cn("", labelClassName)}>
+            <FormLabel className={cn("", labelClassName)} htmlFor={field.name}>
               {label}
               {isOptional && (
                 <span className="text-neutral-400"> (optional)</span>
@@ -60,6 +60,7 @@ const PasswordInputElement: React.FC<PasswordInputElementProps> = ({
             <div className="relative">
               <Input
                 {...field}
+                id={field.name}
                 placeholder={placeholder}
                 className={cn("", inputClassName)}
                 type={showPassword ? "text" : "password"}

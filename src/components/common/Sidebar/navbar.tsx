@@ -38,8 +38,10 @@ export default function Navbar() {
             JS
           </span>
           <div>
-            <h4 className="font-semibold text-base">{user?.firstName}</h4>
-            <h6 className="font-normal text-xs">{user?.lastName}</h6>
+            <h4 className="font-semibold text-base">
+              {user?.firstName} {user?.lastName}
+            </h4>
+            <h6 className="font-normal text-xs">{user?.role?.name}</h6>
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger>

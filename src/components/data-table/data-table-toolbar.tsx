@@ -47,6 +47,8 @@ export function DataTableToolbar<TData>({
               table.getColumn(column.value ? String(column.value) : "") && (
                 <div key={String(column.value)} className="relative">
                   <Input
+                    autoComplete={String(column.value)}
+                    name={String(column.value)}
                     key={String(column.value)}
                     placeholder={column.placeholder}
                     value={
