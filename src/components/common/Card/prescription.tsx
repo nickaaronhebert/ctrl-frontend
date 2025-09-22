@@ -32,7 +32,7 @@ const prescriptionDisplayFields: {
     getValue: (prescription) =>
       prescription.status === "Approved" && prescription.statusUpdatedAt
         ? format(new Date(prescription.statusUpdatedAt), "MM/dd/yyyy HH:mm")
-        : "",
+        : "-",
   },
 ];
 
