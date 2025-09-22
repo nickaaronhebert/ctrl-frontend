@@ -13,6 +13,7 @@ import { Switch } from "@/components/ui/switch";
 import { useSetActiveStatesMutation } from "@/redux/services/pharmacy";
 import { toast } from "sonner";
 import useAuthentication from "@/hooks/use-authentication";
+import { useState, useEffect } from "react";
 
 interface SwitchFormProps {
   id: string;
@@ -77,12 +78,24 @@ const FormSchema = z.object({
 });
 function SwitchForm({ id, activeStates }: SwitchFormProps) {
   const [setServiceStates] = useSetActiveStatesMutation();
+  const [selectAll, setSelectAll] = useState<boolean>(false);
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       allowedStates: activeStates,
     },
   });
+
+  const watchedStates = form.watch("allowedStates");
+  console.log("watchedStates", watchedStates);
+
+  useEffect(() => {
+    const allStatesSelected = Object.values(watchedStates || {}).every(
+      (isSelected) => isSelected === true
+    );
+    setSelectAll(allStatesSelected);
+  }, [watchedStates]);
+
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     const activeStates = Object.entries(data.allowedStates)
       .filter(([_, isActive]) => isActive) // keep only true
@@ -103,6 +116,16 @@ function SwitchForm({ id, activeStates }: SwitchFormProps) {
       });
   }
 
+  const handleSelectAll = (value: boolean) => {
+    setSelectAll(value); // update switch UI
+    const updatedStates = Object.fromEntries(
+      Object.keys(activeStates).map((state) => [state, value])
+    );
+    form.setValue("allowedStates", updatedStates);
+  };
+
+  console.log("selectAll", selectAll);
+
   return (
     <Form {...form}>
       <form
@@ -110,27 +133,13 @@ function SwitchForm({ id, activeStates }: SwitchFormProps) {
         className="w-full p-6 space-y-6"
       >
         <div>
-          {/* <p className="text-[14px] font-medium">Selected Service Areas</p> */}
-          {/* <h3 className="mb-4 text-lg font-medium">Email Notifications</h3> */}
+          <div className="flex items-center gap-3 mb-4">
+            <FormLabel className="text-base font-medium">
+              {selectAll ? "Deselect All States" : "Select All States"}
+            </FormLabel>
+            <Switch checked={selectAll} onCheckedChange={handleSelectAll} />
+          </div>
           <div className="grid grid-cols-2  lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3">
-            {/* {allowedStates.map((state, index) => (
-              <FormField
-                key={state.name}
-                control={form.control}
-                name={`allowedStates.${index}.active`}
-                render={({ field }) => (
-                  <FormItem className="flex flex-row items-center justify-between rounded-[5px] border border-card-border py-3 px-3.5 shadow-sm w-[240px]">
-                    <FormLabel>{state.name}</FormLabel>
-                    <FormControl>
-                      <Switch
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-            ))} */}
             {Object.entries(activeStates).map(([stateName, _isActive]) => (
               <FormField
                 key={stateName}

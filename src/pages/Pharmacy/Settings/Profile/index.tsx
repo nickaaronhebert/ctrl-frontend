@@ -10,16 +10,18 @@ import PhoneInputElement from "@/components/Form/phone-input-element";
 import useAuthentication from "@/hooks/use-authentication";
 import { useEditProfileMutation } from "@/redux/services/authApi";
 import { toast } from "sonner";
+import { pharmacyProfile } from "@/schemas/pharmacyProfileSchema";
 export default function PharmacyProfileSettings() {
   const { user } = useAuthentication();
   const [editProfile] = useEditProfileMutation();
-  const form = useForm<z.infer<typeof editProfileSchema>>({
-    resolver: zodResolver(editProfileSchema),
+  const form = useForm<z.infer<typeof pharmacyProfile>>({
+    resolver: zodResolver(pharmacyProfile),
     defaultValues: {
       firstName: user?.firstName || "",
       lastName: user?.lastName || "",
       phoneNumber: user?.phoneNumber || "",
       email: user?.email || "",
+      pharmacyname: user?.pharmacy?.name,
     },
   });
 
@@ -81,6 +83,14 @@ export default function PharmacyProfileSettings() {
                     inputClassName="!border-border shadow-none focus-visible:ring-0 focus-visible:border-none"
                   />
                 </CenteredRow>
+
+                <InputElement
+                  name={`pharmacyname`}
+                  label="Pharmacy Name"
+                  isRequired={true}
+                  disabled={true}
+                  inputClassName="w-[260px] disabled:cursor-not-allowed border border-border bg-muted"
+                />
 
                 <div className="flex justify-end   pt-3">
                   <Button type="submit" variant={"ctrl"} size={"xl"}>

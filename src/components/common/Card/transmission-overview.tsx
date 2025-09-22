@@ -1,4 +1,4 @@
-import { formatDateMMDDYYYY } from "@/lib/utils";
+// import { formatDateMMDDYYYY } from "@/lib/utils";
 import type { Transmission } from "@/types/global/commonTypes";
 import { Activity } from "lucide-react";
 import { StatusBadge } from "../StatusBadge/StatusBadge";
@@ -19,11 +19,25 @@ const orderDisplayFields: {
 
   {
     label: "Total Amount",
-    getValue: (transmission) => Number(transmission.amount).toFixed(2),
+    getValue: (transmission) =>
+      new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+      }).format(Number(transmission.amount)),
   },
   {
     label: "Submitted",
-    getValue: (transmission) => `${formatDateMMDDYYYY(transmission.createdAt)}`,
+    getValue: (transmission) => {
+      const date = new Date(transmission.createdAt);
+      return date.toLocaleString("en-US", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      });
+    },
   },
 ];
 

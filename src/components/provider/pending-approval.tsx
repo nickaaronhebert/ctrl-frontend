@@ -15,18 +15,41 @@ export default function ApprovalPending() {
       </p>
       <div className="mt-6 bg-light-background px-6 py-5 rounded-[6px]">
         <h6 className="font-medium text-black text-base">What Happens Next?</h6>
-        <div className="p-2">
-          <ul className="list-disc">
-            <li className="text-light-black text-sm font-normal ml-6">
-              National Provider Identifier (NPI) - 10 digits
-            </li>
-            <li className="text-light-black text-sm font-normal ml-6">
-              Medical licenses for all states where you practice
-            </li>
-            <li className="text-light-black text-sm font-normal ml-6">
-              DEA registration number (if applicable)
-            </li>
-          </ul>
+        <div className="flex items-start gap-2 mt-4">
+          <div className="w-[22px] h-[22px]  border-1 border-primary rounded-full bg-secondary">
+            <span className="font-semibold flex items-center mt-0.5 justify-center text-[12px] leading-[16px] text-primary">
+              1
+            </span>
+          </div>
+          <div>
+            <div className="flex flex-col">
+              <span className="font-semibold text-[14px] leading-[18px] text-slate">
+                Verification Complete
+              </span>
+              <span className="font-normal text-[12px] leading-[16px] text-muted-foreground">
+                You'll receive an email confirmation when verification is
+                approved
+              </span>
+            </div>
+          </div>
+        </div>
+        {/* second div */}
+        <div className="flex items-start gap-2 mt-4">
+          <div className="w-[22px] h-[22px]  border-1 border-primary rounded-full bg-secondary">
+            <span className="font-semibold mt-0.5 flex justify-center items-center text-[12px] leading-[16px] text-primary">
+              2
+            </span>
+          </div>
+          <div>
+            <div className="flex flex-col">
+              <span className="font-semibold text-[14px] leading-[18px] text-slate">
+                Full Platform Access
+              </span>
+              <span className="font-normal text-[12px] leading-[16px] text-muted-foreground">
+                Access to prescription management and all platform features
+              </span>
+            </div>
+          </div>
         </div>
       </div>
 
