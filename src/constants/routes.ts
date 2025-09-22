@@ -19,6 +19,7 @@ export const ROUTES = {
   CREDENTIAL_VERIFICATION: "/verification",
   PROVIDER_DASHBOARD: "/provider-dashboard",
   SUPPORT: "/provider/support",
+  APPROVE_PRESCRIPTION: "/provider/prescriptions",
   POST_LOGIN_REDIRECT: "/post-login-redirect",
   WARNING: "warning",
   PENDING_APPROVAL: "pending-approval",

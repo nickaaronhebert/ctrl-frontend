@@ -4,6 +4,7 @@ import type { IGetAllAffiliatedProvidersResponse } from "@/types/responses/provi
 import type { ICommonSearchQuery } from "@/types/requests/search";
 import type { IVerifyProviderInvitationResponse } from "@/types/responses/IVerifyProviderInvitation";
 import type { IVerifyProviderInvitationRequest } from "@/types/requests/IVerifyProviderInvitationRequest";
+import type { IViewAllPrescriptions } from "@/types/responses/IViewAllPrescriptions";
 
 export const providerApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -44,6 +45,16 @@ export const providerApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
+
+    viewAllPrescriptions: builder.query<
+      IViewAllPrescriptions,
+      ICommonSearchQuery
+    >({
+      query: ({ page, perPage, q = "" }) => ({
+        url: `/prescription?page=${page}&limit=${perPage}&q=${q}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -52,4 +63,5 @@ export const {
   useAcceptProviderInvitationMutation,
   useAcceptProviderMedicalCredentialsMutation,
   useViewAffiliateProvidersQuery,
+  useViewAllPrescriptionsQuery,
 } = providerApi;
