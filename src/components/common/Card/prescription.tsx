@@ -1,5 +1,6 @@
 import Medications from "@/assets/mainlayouticons/Medications";
 import type { Prescription } from "@/types/global/commonTypes";
+import { format } from "date-fns";
 
 const prescriptionDisplayFields: {
   label: string;
@@ -26,6 +27,13 @@ const prescriptionDisplayFields: {
     label: "Price",
     getValue: (prescription) => prescription.amount,
   },
+  {
+    label: "Approved At",
+    getValue: (prescription) =>
+      prescription.status === "Approved" && prescription.statusUpdatedAt
+        ? format(new Date(prescription.statusUpdatedAt), "MM/dd/yyyy HH:mm")
+        : "",
+  },
 ];
 
 export default function PrescriptionCard({
@@ -33,6 +41,7 @@ export default function PrescriptionCard({
 }: {
   prescriptions: Prescription[];
 }) {
+  console.log("prescription", prescriptions);
   return (
     <div className=" p-5 border border-card-border rounded-bl-[10px] rounded-br-[10px] ">
       {prescriptions.map((prescription: Prescription) => {

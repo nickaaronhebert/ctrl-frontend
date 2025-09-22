@@ -147,6 +147,7 @@ export interface Prescription {
   id: string;
   prescriptionId: string;
   amount: number;
+  statusUpdatedAt?: string;
 }
 
 export interface Transmission {
