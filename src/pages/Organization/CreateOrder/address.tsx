@@ -97,7 +97,8 @@ export default function SelectPatientAddress({
                       <div className="space-y-3">
                         <Label htmlFor="manual">Manual</Label>
                         <p className="text-xs font-normal">
-                          You control when to transmit
+                          After approval, you control when to remit to the
+                          pharmacy
                         </p>
                       </div>
                       <RadioGroupItem value="manual" id="manual" />
@@ -113,7 +114,8 @@ export default function SelectPatientAddress({
                           Auto transmitted
                         </Label>
                         <p className="text-xs font-normal">
-                          Sends immediately after creation
+                          After approval, the medications will be sent to the
+                          pharmacy
                         </p>
                       </div>
                       <RadioGroupItem value="auto" id="auto-transmitted" />
