@@ -52,7 +52,7 @@ import Invoices from "./pages/Organization/Invoices";
 import PharmacyMedicationsLayout from "./components/Layout/PharmacyMedicationLayout";
 import PharmacyMedicationsContent from "./pages/Pharmacy/Medications";
 import SetDefaultPrices from "./components/pharmacy/selectedMedications/SelectedMedications";
-import CatalogueCreationCard from "./components/common/CatalogueCreationCard/CatalogueCreationCard";
+// import CatalogueCreationCard from "./components/common/CatalogueCreationCard/CatalogueCreationCard";
 import ViewInvoiceDetails from "./pages/Organization/Invoices/details";
 import CatalogueCreationSuccess from "./components/common/CatalogueCreationSuccess/CatalogueCreationSuccess";
 import PharmacySettings from "./pages/Pharmacy/Settings";
@@ -60,6 +60,7 @@ import PharmacyDetailsPage from "./pages/Pharmacy/Medications/details";
 import ViewPharmacyInvoiceDetails from "./pages/Pharmacy/Invoices/detail";
 import OrgPharmaciesTransmission from "./pages/Organization/Pharmacies";
 import Prescriptions from "./pages/Provider/Approve/prescription";
+import ModifyPrices from "./components/pharmacy/modifyPrices/ModifyPrices";
 
 const router = createBrowserRouter([
   {
@@ -373,10 +374,10 @@ const router = createBrowserRouter([
         path: ROUTES.PHARMACY_INVOICES_DETAILS,
         element: <ViewPharmacyInvoiceDetails />,
       },
-      {
-        path: ROUTES.CATALOGUE_CREATION,
-        element: <CatalogueCreationCard />,
-      },
+      // {
+      //   path: ROUTES.CATALOGUE_CREATION,
+      //   element: <CatalogueCreationCard />,
+      // },
       {
         path: ROUTES.PHARMACY_MEDICATIONS,
         element: <PharmacyMedicationsLayout />,
@@ -388,6 +389,10 @@ const router = createBrowserRouter([
           {
             path: ROUTES.PHARMACY_SELECTED_MEDICATIONS,
             element: <SetDefaultPrices />,
+          },
+          {
+            path: ROUTES.PHARMACY_MODIFY_PRICES,
+            element: <ModifyPrices />,
           },
           {
             path: ROUTES.CATALOGUE_CREATION_SUCCESS,

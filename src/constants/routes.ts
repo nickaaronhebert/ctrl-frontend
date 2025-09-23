@@ -51,6 +51,7 @@ export const ROUTES = {
   PHARMACY_MEDICATIONS: "medications",
   PHARMACY_CONFIGURE: "configure",
   PHARMACY_SELECTED_MEDICATIONS: "selected-medications",
+  PHARMACY_MODIFY_PRICES: "modify-prices",
   PHARMACY_SETTINGS: "settings",
   PHARMACY_REDIRECT: "/pharmacy-redirect",
   CATALOGUE_CREATION: "catalogue-creation",

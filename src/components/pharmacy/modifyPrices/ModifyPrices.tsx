@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
@@ -6,37 +6,98 @@ import { useMedication } from "@/context/ApplicationUser/MedicationContext";
 import MedicationLibrary from "@/assets/icons/MedicationLibrary";
 import { useBulkUpsertPharmacyCatalogueMutation } from "@/redux/services/pharmacy";
 import { toast } from "sonner";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import type { ApiError } from "@/types/global/commonTypes";
+import { useGetPharmacyCatalogueQuery } from "@/redux/services/pharmacy";
+import { PaginationWithLinks } from "@/components/common/PaginationLink/PaginationLink";
+import type {
+  PharmacyCatalogue,
+  PharmacyProductVariant,
+} from "@/types/responses/medication";
 
-export default function SetDefaultPrices() {
-  const { selectedVariants, medications } = useMedication();
-  const [prices, setPrices] = useState<Record<string, string>>({});
+export default function ModifyPrices() {
+  const { prices, setPrices } = useMedication();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const page = parseInt(searchParams.get("page") || "1", 10);
+  const perPage = parseInt(searchParams.get("per_page") ?? "10", 10);
   const [searchTerm, setSearchTerm] = useState("");
+
+  const {
+    data: allMedications,
+    error,
+    isLoading,
+    isFetching,
+  } = useGetPharmacyCatalogueQuery({
+    page,
+    perPage,
+  });
   const [bulkUpsertPharmacyCatalogue] =
     useBulkUpsertPharmacyCatalogueMutation();
 
-  // Group selected variants by medication
-  const selectedMedications = medications.filter((med) =>
-    selectedVariants.some((variant) => variant.medicationId === med.id)
+  // // Group selected variants by medication
+  // const selectedMedications = medications.filter((med) =>
+  //   selectedVariants.some((variant) => variant.medicationId === med.id)
+  // );
+
+  // const filteredMedications = selectedMedications.filter((med) =>
+  //   med.drugName.toLowerCase().includes(searchTerm.toLowerCase())
+  // );
+
+  // const totalVariants = selectedVariants.length;
+
+  const allMedicationVariants = allMedications?.data ?? [];
+
+  const totalVariants = allMedicationVariants.reduce(
+    (acc: number, med: PharmacyCatalogue) => acc + med.productVariant.length,
+    0
   );
 
-  const filteredMedications = selectedMedications.filter((med) =>
-    med.drugName.toLowerCase().includes(searchTerm.toLowerCase())
+  console.log("totalVariants", totalVariants);
+
+  // const pricedVariants = Object.keys(prices).filter(
+  //   (key) => prices[key] && prices[key] !== "0.00"
+  // ).length;
+
+  const pricedVariants = allMedicationVariants.reduce(
+    (acc: number, med: PharmacyCatalogue) => {
+      return (
+        acc +
+        med.productVariant.filter(
+          (variant: PharmacyProductVariant) =>
+            prices[variant.productVariant._id] &&
+            prices[variant.productVariant._id] !== "0.00"
+        ).length
+      );
+    },
+    0
   );
-
-  const totalVariants = selectedVariants.length;
-
-  const pricedVariants = Object.keys(prices).filter(
-    (key) => prices[key] && prices[key] !== "0.00"
-  ).length;
 
   console.log("pricedVariants", pricedVariants);
 
   const handlePriceChange = (variantId: string, value: string) => {
     setPrices((prev) => ({ ...prev, [variantId]: value }));
   };
+
+  useEffect(() => {
+    if (allMedications?.data) {
+      const initialPrices: Record<string, string> = {};
+      allMedications.data.forEach((medication: PharmacyCatalogue) => {
+        medication.productVariant.forEach((variant: PharmacyProductVariant) => {
+          if (!(variant.productVariant._id in prices)) {
+            initialPrices[variant.productVariant._id] =
+              variant.price.toString();
+          }
+        });
+      });
+      if (Object.keys(initialPrices).length > 0) {
+        setPrices((prevPrices) => ({ ...prevPrices, ...initialPrices }));
+      }
+    }
+  }, [allMedications, page]);
+
+  console.log("prices", prices);
+  console.log("pricedVariants", pricedVariants);
 
   const handleSaveCatalogue = async () => {
     const items = Object.entries(prices)
@@ -58,7 +119,7 @@ export default function SetDefaultPrices() {
           pricedVariants: items.length,
         },
       });
-      toast.success("Medication added successfully", {
+      toast.success("Prices updated successfully", {
         duration: 1500,
       });
     } catch (error: unknown) {
@@ -82,6 +143,21 @@ export default function SetDefaultPrices() {
     }
   };
 
+  const filteredMedications = allMedicationVariants.filter(
+    (med: PharmacyCatalogue) =>
+      med.medicationCatalogue?.drugName
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
+  );
+
+  if (isLoading || isFetching) {
+    return <div>Loading pharmacy catalogue...</div>;
+  }
+
+  if (error) {
+    return <div>Error loading pharmacy catalogue.</div>;
+  }
+
   return (
     <div className="mb-5">
       <div className="bg-lilac py-3 px-12 flex justify-between mb-4">
@@ -93,7 +169,7 @@ export default function SetDefaultPrices() {
             {"<- Back to Medications"}
           </Link>
 
-          <h1 className="text-2xl font-bold mt-1">Set Default Prices</h1>
+          <h1 className="text-2xl font-bold mt-1">Modify Prices</h1>
         </div>
         <div className="flex items-center gap-4">
           <span className="font-normal text-[14px] leading-[18px] text-black">
@@ -127,36 +203,31 @@ export default function SetDefaultPrices() {
           <div className="text-right ">
             <span className="font-normal  text-[14px] leading-[18px] text-gray-400">
               Showing {filteredMedications.length} of{" "}
-              {selectedMedications.length} medications
+              {filteredMedications.length} medications
             </span>
           </div>
         </div>
 
         {/* Medications */}
         <div className="space-y-4">
-          {filteredMedications.map((medication) => {
-            const medicationVariants = selectedVariants.filter(
-              (v) => v.medicationId === medication.id
-            );
-            const medicationPricedCount = medicationVariants.filter(
-              (v) => prices[v.variantId] && prices[v.variantId] !== "0.00"
-            ).length;
-
+          {filteredMedications.map((medication: PharmacyCatalogue) => {
+            console.log("medication", medication);
+            const medicationVariants = medication.productVariant ?? [];
             return (
               <div
-                key={medication.id}
+                key={medication._id}
                 className="bg-white rounded-lg border border-gray-200 p-6"
               >
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-3">
                     <MedicationLibrary color="#5354ac" />
                     <h3 className="text-lg font-medium text-gray-900">
-                      {medication.drugName}
+                      {medication.medicationCatalogue?.drugName}
                     </h3>
                   </div>
                   <span className="text-sm text-gray-500">
-                    {medicationPricedCount} / {medicationVariants.length}{" "}
-                    variants
+                    {medication?.productVariant?.length} /{" "}
+                    {medicationVariants.length} variants
                   </span>
                 </div>
 
@@ -170,15 +241,17 @@ export default function SetDefaultPrices() {
                     </div>
                   </div>
 
-                  {medicationVariants.map((variant) => {
+                  {medicationVariants.map((variant: PharmacyProductVariant) => {
+                    console.log("variant", variant);
                     return (
                       <div
-                        key={variant.variantId}
+                        key={variant._id}
                         className="flex justify-between items-center py-3 px-4 bg-light-background border-b border-gray-200 last:border-b-0"
                       >
                         <div className="text-gray-900 w-1/2">
                           <span className="mt-[100px]">
-                            {medication.drugName} {variant.variant.strength}
+                            {medication?.medicationCatalogue?.drugName}{" "}
+                            {variant?.productVariant?.strength}
                           </span>
                         </div>
                         <div className="relative">
@@ -190,13 +263,26 @@ export default function SetDefaultPrices() {
                             step="0.01"
                             min="0"
                             placeholder="0"
-                            value={prices[variant.variantId] || ""}
-                            onChange={(e) =>
+                            value={prices[variant.productVariant?._id] || ""}
+                            onChange={(e) => {
+                              //   const value = parseFloat(e.target.value);
+                              //   if (e.target.value === "") {
+                              //     handlePriceChange(
+                              //       variant.productVariant?._id,
+                              //       "1"
+                              //     );
+                              //   } else if (value >= 1) {
+                              //     handlePriceChange(
+                              //       variant.productVariant?._id,
+                              //       e.target.value
+                              //     );
+                              //   }
+
                               handlePriceChange(
-                                variant.variantId,
+                                variant.productVariant?._id,
                                 e.target.value
-                              )
-                            }
+                              );
+                            }}
                             className="w-[115px] h-[38px] rounded-[6px] px-[12px] py-[10px] border-card-border bg-white text-right"
                           />
                         </div>
@@ -207,6 +293,13 @@ export default function SetDefaultPrices() {
               </div>
             );
           })}
+        </div>
+        <div className="mt-3">
+          <PaginationWithLinks
+            page={page}
+            pageSize={perPage}
+            totalCount={allMedications?.meta?.itemCount}
+          />
         </div>
       </div>
     </div>

@@ -8,15 +8,13 @@ import { PaginationWithLinks } from "@/components/common/PaginationLink/Paginati
 const PharmacyDetailsPage = () => {
   const [searchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1", 10);
-  const perPage = parseInt(searchParams.get("per_page") ?? "2", 10);
+  const perPage = parseInt(searchParams.get("per_page") ?? "10", 10);
   const navigate = useNavigate();
 
   const { data, error, isLoading, isFetching } = useGetPharmacyCatalogueQuery({
     page,
     perPage,
   });
-
-  const meta = data?.meta;
 
   if (isLoading || isFetching) {
     return <div>Loading pharmacy catalogue...</div>;
@@ -40,23 +38,28 @@ const PharmacyDetailsPage = () => {
           </div>
           <div className="flex gap-2 items-center">
             <Button
-              onClick={() =>
-                navigate("/pharmacy/medications/selected-medications")
-              }
+              onClick={() => navigate("/pharmacy/medications/modify-prices")}
               className="w-[143px] min-w-[110px] min-h-[40px] rouned-[50px] bg-black px-[20px] py-[5px] text-white hover:bg-black cursor-pointer"
             >
-              Modify Catalogue
+              Modify Pricing
             </Button>
             <Button
-              onClick={() => navigate("/pharmacy/catalogue-creation")}
+              onClick={() => navigate("/pharmacy/medications/configure")}
               className="w-[143px] min-w-[110px] min-h-[40px] rouned-[50px] bg-primary px-[20px] py-[5px] text-white hover:bg-primary cursor-pointer"
             >
-              Add Catalogue
+              Add Medications
             </Button>
           </div>
         </div>
       </div>
-      {data?.data && (
+      {data?.data?.length === 0 ? (
+        <div className="flex justify-center items-center mt-10">
+          <p className="text-center text-gray-500 text-lg">
+            No medications available in the pharmacy catalogue at the moment.
+            Please add medications or check back later.
+          </p>
+        </div>
+      ) : (
         <div className="mt-5">
           <MedicationCatalogueCard data={data} />
         </div>
@@ -64,7 +67,7 @@ const PharmacyDetailsPage = () => {
       <PaginationWithLinks
         page={page}
         pageSize={perPage}
-        totalCount={meta?.itemCount}
+        totalCount={data?.meta?.itemCount}
       />
     </div>
   );

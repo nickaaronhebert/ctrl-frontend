@@ -100,7 +100,7 @@ export const nestedOrgItems = [
 export const nestedPharmacyItems = [
   {
     title: "Medication Library",
-    url: "/pharmacy/catalogue-creation",
+    url: "/pharmacy/medications/view-catalogue",
   },
   { title: "Settings", url: "/pharmacy/settings" },
 ];
