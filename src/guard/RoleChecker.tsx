@@ -33,4 +33,6 @@ export default function RoleChecker({
     return element;
 
   if (user.role.name === "Pharmacy Admin") return element;
+
+  if (user.role.name === "Organization Admin") return element;
 }

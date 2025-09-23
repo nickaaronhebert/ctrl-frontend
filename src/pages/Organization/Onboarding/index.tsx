@@ -1,0 +1,152 @@
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { selectOrgAdmin } from "@/redux/slices/auth";
+import { Form } from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
+import { CenteredRow } from "@/components/ui/centered-row";
+import InputElement from "@/components/Form/input-element";
+import PasswordInputElement from "@/components/Form/password-element";
+import PhoneInputElement from "@/components/Form/phone-input-element";
+import { onboardingFormSchema } from "@/schemas/onboardingSchema";
+import { useTypedSelector } from "@/redux/store";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
+import { useAcceptOrgAdminInvitationMutation } from "@/redux/services/user";
+import { ROUTES } from "@/constants/routes";
+
+export default function RegisterOrgAdmin() {
+  const navigate = useNavigate();
+  const orgAdmin = useTypedSelector(selectOrgAdmin);
+  const org_admin_token = localStorage.getItem("org_admin_token");
+  const [acceptInvitation] = useAcceptOrgAdminInvitationMutation();
+
+  const form = useForm<z.infer<typeof onboardingFormSchema>>({
+    mode: "onChange",
+    resolver: zodResolver(onboardingFormSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: orgAdmin?.email || "",
+      phoneNumber: "",
+      password: "",
+      confirmPassword: "",
+    },
+  });
+
+  async function onSubmit(data: z.infer<typeof onboardingFormSchema>) {
+    const { firstName, lastName, phoneNumber, password } = data;
+    const payload = {
+      firstName,
+      lastName,
+      phoneNumber,
+      password,
+      token: org_admin_token as string,
+    };
+    await acceptInvitation(payload)
+      .unwrap()
+      .then(() => {
+        toast.success("Invitation accepted successfully", {
+          duration: 1500,
+        });
+        navigate(ROUTES.WELCOME_ORGANIZATION_ADMIN);
+      })
+      .catch((err) => {
+        console.log("error", err);
+        toast.error(err?.data?.message ?? "Something went wrong", {
+          duration: 1500,
+        });
+      });
+  }
+
+  return (
+    <>
+      <div className="mb-10 space-y-2.5">
+        <h2 className="font-semibold text-[26px] text-center">
+          Personalize your organization profile
+        </h2>
+        <h4 className="text-muted-foreground text-center font-normal text-base">
+          Registration in less than a minute
+        </h4>
+      </div>
+
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-col gap-6 mt-6 "
+        >
+          <CenteredRow>
+            <InputElement
+              name="firstName"
+              className="w-80"
+              label="First Name"
+              isRequired={true}
+              messageClassName="text-right"
+              inputClassName="border border-[#9EA5AB]"
+            />
+
+            <InputElement
+              name="lastName"
+              className="w-80"
+              label="Last Name"
+              isRequired={true}
+              messageClassName="text-right"
+              inputClassName="border border-[#9EA5AB]"
+            />
+          </CenteredRow>
+
+          <CenteredRow>
+            <InputElement
+              name="email"
+              className="w-80"
+              label="Email"
+              isLoginLabel={true}
+              messageClassName="text-right"
+              disabled={true}
+              inputClassName="bg-disabled  border border-[#9EA5AB]"
+            />
+
+            <PhoneInputElement
+              name="phoneNumber"
+              className="w-80"
+              label="Phone Number"
+              isRequired={true}
+              messageClassName="text-right"
+              inputClassName=" shadow-none focus-visible:ring-0 focus-visible:border-none"
+            />
+          </CenteredRow>
+
+          <CenteredRow>
+            <PasswordInputElement
+              name="password"
+              className="w-80"
+              label="Create Password"
+              isRequired={true}
+              messageClassName="text-right"
+              inputClassName="border border-[#9EA5AB]"
+            />
+
+            <PasswordInputElement
+              name="confirmPassword"
+              className="w-80"
+              label="Confirm Password"
+              isRequired={true}
+              messageClassName="text-right"
+              inputClassName="border border-[#9EA5AB]"
+            />
+          </CenteredRow>
+
+          <div className="flex justify-center mt-6">
+            <Button
+              disabled={!form.formState.isValid}
+              type="submit"
+              className="text-white rounded-full py-2.5 px-7 min-h-14 text-base font-semibold"
+            >
+              Review & Create Profile
+            </Button>
+          </div>
+        </form>
+      </Form>
+    </>
+  );
+}

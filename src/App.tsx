@@ -61,6 +61,9 @@ import ViewPharmacyInvoiceDetails from "./pages/Pharmacy/Invoices/detail";
 import OrgPharmaciesTransmission from "./pages/Organization/Pharmacies";
 import Prescriptions from "./pages/Provider/Approve/prescription";
 import ModifyPrices from "./components/pharmacy/modifyPrices/ModifyPrices";
+import OrganizationRedirect from "./pages/Organization/Onboarding/redirect";
+import RegisterOrgAdmin from "./pages/Organization/Onboarding";
+import WelcomeOrgAdmin from "./pages/Organization/Onboarding/welcome";
 
 const router = createBrowserRouter([
   {
@@ -432,6 +435,10 @@ const router = createBrowserRouter([
         element: <WelcomePharmacy />,
       },
       {
+        path: ROUTES.WELCOME_ORGANIZATION_ADMIN,
+        element: <WelcomeOrgAdmin />,
+      },
+      {
         path: ROUTES.CREDENTIAL_VERIFICATION,
         element: <ProviderSteppedForm slug="onboarding" />,
       },
@@ -469,12 +476,21 @@ const router = createBrowserRouter([
       },
 
       {
+        path: ROUTES.ORGANIZATION_ADMIN_ONBOARDING,
+        element: <RegisterOrgAdmin />,
+      },
+
+      {
         path: ROUTES.REDIRECT,
         element: <Redirect />,
       },
       {
         path: ROUTES.PHARMACY_REDIRECT,
         element: <PharmacyRedirect />,
+      },
+      {
+        path: ROUTES.ORGANIZATION_REDIRECT,
+        element: <OrganizationRedirect />,
       },
     ],
   },
