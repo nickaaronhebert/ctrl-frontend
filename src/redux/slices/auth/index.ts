@@ -5,9 +5,11 @@ import type { RootState } from "@/redux/reducers";
 import { providerApi } from "@/redux/services/provider";
 import type { Provider } from "@/types/global/commonTypes";
 import { pharmacyApi } from "@/redux/services/pharmacy";
+import userProfileApi from "@/redux/services/user";
 export const AUTH_TOKEN = "auth_token";
 export const PROVIDER_KEY = "provider";
 export const PHARMACY_KEY = "pharmacy";
+export const ORGANIZATION_ADMIN_KEY = "org_admin";
 
 interface Pharmacy {
   email: string;
@@ -15,6 +17,13 @@ interface Pharmacy {
   firstName: string;
   lastName: string;
 }
+
+interface OrgAdmin {
+  email: string;
+  id: string;
+  organization: string;
+}
+
 const persistedToken =
   localStorage.getItem(AUTH_TOKEN) || sessionStorage.getItem(AUTH_TOKEN);
 
@@ -24,16 +33,22 @@ const providerToken =
 const pharmacyToken =
   localStorage.getItem(PHARMACY_KEY) || sessionStorage.getItem(PHARMACY_KEY);
 
+const organizationToken =
+  localStorage.getItem(ORGANIZATION_ADMIN_KEY) ||
+  sessionStorage.getItem(ORGANIZATION_ADMIN_KEY);
+
 interface AuthState {
   token: string | null;
   provider: Provider | null;
   pharmacy: Pharmacy | null;
+  organization: OrgAdmin | null;
 }
 
 const initialState: AuthState = {
   token: persistedToken ? persistedToken : null,
   provider: providerToken ? JSON.parse(providerToken) : null,
   pharmacy: pharmacyToken ? JSON.parse(pharmacyToken) : null,
+  organization: organizationToken ? JSON.parse(organizationToken) : null,
 };
 
 const authSlice = createSlice({
@@ -148,6 +163,38 @@ const authSlice = createSlice({
     );
 
     builder.addMatcher(
+      userProfileApi.endpoints.acceptOrgAdminInvitation.matchFulfilled,
+      (state, { payload }) => {
+        if (payload?.data.token) {
+          state.token = payload?.data.token;
+
+          sessionStorage.removeItem("org_admin_token");
+          localStorage.removeItem("org_admin_token");
+          sessionStorage.removeItem("org_admin");
+          localStorage.removeItem("org_admin");
+          sessionStorage.setItem("auth_token", payload?.data.token);
+          localStorage.setItem("auth_token", payload?.data.token);
+        } else {
+          localStorage.removeItem("auth_token");
+          sessionStorage.removeItem("auth_token");
+        }
+      }
+    );
+
+    builder.addMatcher(
+      userProfileApi.endpoints.acceptOrgAdminInvitation.matchRejected,
+      (_, { payload }) => {
+        if (payload?.data) {
+        } else {
+          console.error(
+            `something went wrong while accepting organization invitation`
+          );
+        }
+        console.error(payload, "error");
+      }
+    );
+
+    builder.addMatcher(
       providerApi.endpoints.verifyProviderInvitation.matchFulfilled,
       (state, { payload }) => {
         if (payload?.data) {
@@ -202,6 +249,40 @@ const authSlice = createSlice({
         console.error(payload, "error");
       }
     );
+
+    builder.addMatcher(
+      userProfileApi.endpoints.verifyOrganizationInvitation.matchFulfilled,
+      (state, { payload }) => {
+        if (payload?.data) {
+          state.organization = payload?.data;
+
+          sessionStorage.setItem(
+            ORGANIZATION_ADMIN_KEY,
+            JSON.stringify(payload?.data)
+          );
+          localStorage.setItem(
+            ORGANIZATION_ADMIN_KEY,
+            JSON.stringify(payload?.data)
+          );
+        } else {
+          state.organization = null;
+
+          sessionStorage.removeItem(ORGANIZATION_ADMIN_KEY);
+          localStorage.removeItem(ORGANIZATION_ADMIN_KEY);
+        }
+      }
+    );
+
+    builder.addMatcher(
+      userProfileApi.endpoints.verifyOrganizationInvitation.matchRejected,
+      (_, { payload }) => {
+        if (payload?.data) {
+        } else {
+          console.error(`something went wrong`);
+        }
+        console.error(payload, "error");
+      }
+    );
   },
 });
 
@@ -210,6 +291,6 @@ export const selectIsLoggedIn = (state: RootState) => {
 };
 export const selectProvider = (state: RootState) => state.auth.provider;
 export const selectPharmacy = (state: RootState) => state.auth.pharmacy;
-
+export const selectOrgAdmin = (state: RootState) => state.auth.organization;
 export const { logout } = authSlice.actions;
 export default authSlice.reducer;
