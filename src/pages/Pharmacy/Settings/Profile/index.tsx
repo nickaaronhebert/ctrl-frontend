@@ -1,6 +1,6 @@
 import InputElement from "@/components/Form/input-element";
 import { Form } from "@/components/ui/form";
-import { editProfileSchema } from "@/schemas/editProfileSchema";
+
 import type z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,11 +21,11 @@ export default function PharmacyProfileSettings() {
       lastName: user?.lastName || "",
       phoneNumber: user?.phoneNumber || "",
       email: user?.email || "",
-      pharmacyname: user?.pharmacy?.name,
+      pharmacyName: user?.pharmacy?.name || "",
     },
   });
 
-  async function onSubmit(values: z.infer<typeof editProfileSchema>) {
+  async function onSubmit(values: z.infer<typeof pharmacyProfile>) {
     const { email, ...payload } = values;
     await editProfile(payload)
       .unwrap()
@@ -85,11 +85,10 @@ export default function PharmacyProfileSettings() {
                 </CenteredRow>
 
                 <InputElement
-                  name={`pharmacyname`}
+                  name={`pharmacyName`}
                   label="Pharmacy Name"
                   isRequired={true}
-                  disabled={true}
-                  inputClassName="w-[260px] disabled:cursor-not-allowed border border-border bg-muted"
+                  inputClassName="w-[540px]  border border-border "
                 />
 
                 <div className="flex justify-end   pt-3">

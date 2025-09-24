@@ -27,7 +27,7 @@ export const pharmacyProfile = z.object({
     .email({
       message: "Please enter a valid email address.",
     }),
-  pharmacyname: z.string().min(1, {
+  pharmacyName: z.string().min(1, {
     message: "Pharmacy name is required",
   }),
 });

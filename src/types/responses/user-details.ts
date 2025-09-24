@@ -9,6 +9,9 @@ export interface UserDetails {
   npi?: string;
   role: Role;
   isEmailVerified: string;
+  organization: {
+    name: string;
+  };
   organisations: string[];
   providerStatus?: string;
   medicalLicense?: MedicalLicense[];
