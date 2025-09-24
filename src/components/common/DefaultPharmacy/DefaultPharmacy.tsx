@@ -58,7 +58,9 @@ const DefaultPharmacy = ({
   };
 
   useEffect(() => {
+    console.log(">>>>>>>>>>>1234");
     if (data?.data?.defaultPharmacy) {
+      console.log(">>>>>>>>>>>>7890");
       const fullPharmacies = Object.fromEntries(
         Object.entries(data?.data?.defaultPharmacy).map(([state, pharmacy]) => [
           state,
@@ -74,6 +76,7 @@ const DefaultPharmacy = ({
       );
       setConfiguredStates(pharmaciesWithIdsOnly);
     } else {
+      console.log("||||||||||||||");
       setFullPharmacies({});
       setConfiguredStates({});
     }

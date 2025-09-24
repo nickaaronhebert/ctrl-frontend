@@ -4,6 +4,8 @@ import type {
 } from "@/types/responses/medication";
 import VariantRow from "../VariantRow/VariantRow";
 import MedicationLibrary from "@/assets/icons/MedicationLibrary";
+import { useDeletePharmacyCatalogueMutation } from "@/redux/services/pharmacy";
+import { toast } from "sonner";
 
 interface MedicationProps {
   medication: PharmacyCatalogue;
@@ -11,6 +13,22 @@ interface MedicationProps {
 
 export function MedicationRow({ medication }: MedicationProps) {
   const variantCount = medication.productVariant.length;
+  const [deletePharmacyCatalogue] = useDeletePharmacyCatalogueMutation();
+
+  const handleDeleteVariant = async (variant: PharmacyProductVariant) => {
+    try {
+      await deletePharmacyCatalogue({ id: variant._id }).unwrap();
+      // console.log("Deleted variant:", variant._id);
+      toast.success("Catalogue deleted successfully", {
+        duration: 1500,
+      });
+    } catch (error) {
+      console.error("Failed to delete variant:", error);
+      toast.success("Failed to delete catalogue", {
+        duration: 1500,
+      });
+    }
+  };
 
   return (
     <div className="p-[10px] rounded-[15px] border border-card-border bg-white">
@@ -32,17 +50,19 @@ export function MedicationRow({ medication }: MedicationProps) {
           <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">
             VARIANTS
           </div>
-          <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">
+          <div className="text-xs font-medium text-gray-500 uppercase tracking-wide px-5">
             DEFAULT PRICE
           </div>
         </div>
 
         {medication.productVariant.map((variant: PharmacyProductVariant) => {
+          console.log("variant", variant);
           return (
             <VariantRow
               key={variant._id}
               variant={variant}
               drugName={medication.medicationCatalogue.drugName}
+              onDelete={handleDeleteVariant}
             />
           );
         })}

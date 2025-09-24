@@ -88,6 +88,13 @@ export const pharmacyApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
+    deletePharmacyCatalogue: builder.mutation({
+      query: ({ id }) => ({
+        url: `/pharmacy-catalogue/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: [TAG_GET_PHARMACY_CATALOGUE],
+    }),
   }),
 });
 
@@ -101,4 +108,5 @@ export const {
   useGetPharmacyCatalogueQuery,
   useGetAvailableMedicationQuery,
   useGetPharmacyMedicinesQuery,
+  useDeletePharmacyCatalogueMutation,
 } = pharmacyApi;

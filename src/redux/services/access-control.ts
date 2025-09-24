@@ -31,7 +31,7 @@ const accessControlApi = baseApi.injectEndpoints({
         method: "POST",
         body,
       }),
-      invalidatesTags: [TAG_GET_ACCESS_CONTROL],
+      invalidatesTags: [TAG_GET_ACCESS_CONTROL, "test"],
     }),
     getAccessControl: builder.query<AccessResponse, ICommonSearchQuery>({
       query: ({ page, perPage, q }) => ({
@@ -46,13 +46,14 @@ const accessControlApi = baseApi.injectEndpoints({
         method: "GET",
         url: `/access-control/${id}`,
       }),
-      providesTags: [TAG_GET_ACCESS_CONTROL],
+      providesTags: ["test"],
     }),
     getAccessControlByProductVariant: builder.query<
       SingleAccessResponse,
       string
     >({
       query: (id) => `/access-control/product-variant/${id}`,
+      providesTags: ["test"],
     }),
 
     // Bulk pharmacy assignment API //

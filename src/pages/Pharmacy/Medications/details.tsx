@@ -53,22 +53,24 @@ const PharmacyDetailsPage = () => {
         </div>
       </div>
       {data?.data?.length === 0 ? (
-        <div className="flex justify-center items-center mt-10">
+        <div className="flex justify-center items-center h-[50vh] mt-10 max-w-[500px] mx-auto">
           <p className="text-center text-gray-500 text-lg">
             No medications available in the pharmacy catalogue at the moment.
             Please add medications or check back later.
           </p>
         </div>
       ) : (
-        <div className="mt-5">
-          <MedicationCatalogueCard data={data} />
-        </div>
+        <>
+          <div className="mt-5">
+            <MedicationCatalogueCard data={data} />
+          </div>
+          <PaginationWithLinks
+            page={page}
+            pageSize={perPage}
+            totalCount={data?.meta?.itemCount}
+          />
+        </>
       )}
-      <PaginationWithLinks
-        page={page}
-        pageSize={perPage}
-        totalCount={data?.meta?.itemCount}
-      />
     </div>
   );
 };

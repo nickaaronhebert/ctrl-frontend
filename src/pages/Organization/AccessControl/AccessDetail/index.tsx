@@ -44,8 +44,9 @@ const AccessDetail = () => {
     { data: variantAccessControlData, isError, isFetching },
   ] = useLazyGetAccessControlByProductVariantQuery();
 
-  const [accessControlVariantData, setAccessControlVariantData] =
-    useState<SingleAccessResponse | null>(null);
+  const [, setAccessControlVariantData] = useState<SingleAccessResponse | null>(
+    null
+  );
 
   useEffect(() => {
     if (id && singleAccessControl) {
@@ -166,7 +167,7 @@ const AccessDetail = () => {
                   ? singleAccessControl
                   : isFetching || isError || !variantAccessControlData
                   ? null
-                  : accessControlVariantData
+                  : variantAccessControlData
               }
             />
           </div>

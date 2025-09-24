@@ -18,6 +18,7 @@ export const baseApi = createApi({
     TAG_GET_ORDERS,
     TAG_GET_CARDS,
     TAG_GET_PHARMACY_CATALOGUE,
+    "test",
   ],
   baseQuery: fetchBaseQuery({
     baseUrl:
