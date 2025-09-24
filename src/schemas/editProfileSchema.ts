@@ -27,6 +27,9 @@ export const editProfileSchema = z.object({
     .email({
       message: "Please enter a valid email address.",
     }),
+  organizationName: z.string().min(1, {
+    message: "Organization name is required.",
+  }),
 });
 
 export type EditProfile = z.infer<typeof editProfileSchema>;

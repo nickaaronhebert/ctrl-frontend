@@ -20,6 +20,7 @@ export default function OrgAdminProfileSettings() {
       lastName: user?.lastName || "",
       phoneNumber: user?.phoneNumber || "",
       email: user?.email || "",
+      organizationName: user?.organization?.name || "",
     },
   });
 
@@ -81,6 +82,13 @@ export default function OrgAdminProfileSettings() {
                     inputClassName="!border-border shadow-none focus-visible:ring-0 focus-visible:border-none"
                   />
                 </CenteredRow>
+
+                <InputElement
+                  name={`organizationName`}
+                  label="Organization Name"
+                  isRequired={true}
+                  inputClassName="w-[540px] border border-border"
+                />
 
                 <div className="flex justify-end   pt-3">
                   <Button

@@ -17,6 +17,8 @@ export interface EditProfileRequest {
   lastName: string;
   phoneNumber: string;
   email?: string;
+  organizationName?: string;
+  pharmacyName?: string;
 }
 
 export interface ResendOtpRequest {
