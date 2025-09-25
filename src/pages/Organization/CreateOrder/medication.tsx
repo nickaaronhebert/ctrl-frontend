@@ -84,7 +84,7 @@ export default function SelectProductVariant({
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="">
           <div className="flex flex-col items-center">
-            <div className=" min-w-[550px] max-w-[550px]">
+            <div className=" min-w-[650px] max-w-[650px]">
               <div className=" flex justify-between mb-3">
                 <p className="text-[20px] font-semibold">Select Medication</p>
                 <Button
@@ -96,6 +96,7 @@ export default function SelectProductVariant({
                       quantity: 1,
                       sigInstructions: "",
                       unit: "",
+                      daysSupply: 0,
                     })
                   }
                 >
@@ -139,6 +140,15 @@ export default function SelectProductVariant({
                         placeholder="Tablet"
                         inputClassName="max-w-[125px]"
                         disabled={true}
+                      />
+
+                      <InputElement
+                        name={`medications.${index}.daysSupply`}
+                        type="number"
+                        label="Days Supply"
+                        isRequired={true}
+                        inputClassName="max-w-[100px]"
+                        placeholder="30"
                       />
                     </div>
                     <div className="mt-2">

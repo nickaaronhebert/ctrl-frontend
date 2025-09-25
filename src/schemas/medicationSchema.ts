@@ -10,6 +10,13 @@ const medicationSchema = z.object({
     .int("Invalid Number")
     .positive("Invalid Number"),
 
+  daysSupply: z.coerce
+    .number({
+      invalid_type_error: "Invalid Number",
+    })
+    .int("Invalid Number")
+    .min(0, "Invalid Number"),
+
   unit: z.string().min(1, "Unit is required"),
   sigInstructions: z
     .string()
