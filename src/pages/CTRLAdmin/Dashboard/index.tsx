@@ -13,21 +13,13 @@ import {
   Clock,
   Users,
   CheckCircle,
-  Plus,
-  Sparkles,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 import { mockStats, quickActions, recentInvites } from "@/constants";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import PreInvitationDialog from "@/components/common/PreInvitationDialog/PreInvitationDialog";
+import { StatCard } from "@/components/common/StatCard/StatCard";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -63,76 +55,40 @@ const AdminDashboard = () => {
 
         {/* Key Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <Card className="border border-none outline-none shadow-lg">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Total Organizations
-              </CardTitle>
-              <Building2 className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">
-                {mockStats.totalOrganizations}
-              </div>
-              <p className="text-xs text-muted-foreground">
-                <TrendingUp className="inline w-3 h-3 mr-1 text-success" />
-                +12% from last month
-              </p>
-            </CardContent>
-          </Card>
+          <StatCard
+            title="Total Organizations"
+            icon={<Building2 className="w-4 h-4" />}
+            value={mockStats.totalOrganizations}
+            description="+12% from last month"
+            descriptionIcon={
+              <TrendingUp className="inline w-3 h-3 text-success" />
+            }
+          />
+          <StatCard
+            title="Total Pharmacies"
+            icon={<Pill className="w-4 h-4" />}
+            value={mockStats.totalPharmacies}
+            description="+8% from last month"
+            descriptionIcon={
+              <TrendingUp className="inline w-3 h-3 text-success" />
+            }
+          />
+          <StatCard
+            title="Pending Invites"
+            icon={<Clock className="w-4 h-4" />}
+            value={mockStats.pendingInvites}
+            description="Awaiting completion"
+          />
 
-          <Card className="border border-none outline-none shadow-lg">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Total Pharmacies
-              </CardTitle>
-              <Pill className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">
-                {mockStats.totalPharmacies}
-              </div>
-              <p className="text-xs text-muted-foreground">
-                <TrendingUp className="inline w-3 h-3 mr-1 text-success" />
-                +8% from last month
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="border border-none outline-none shadow-lg">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Pending Invites
-              </CardTitle>
-              <Clock className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">
-                {mockStats.pendingInvites}
-              </div>
-              <p className="text-xs text-muted-foreground">
-                Awaiting completion
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="border border-none outline-none shadow-lg">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Active Users
-              </CardTitle>
-              <Users className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">
-                {mockStats.activeUsers.toLocaleString()}
-              </div>
-              <p className="text-xs text-muted-foreground">
-                <TrendingUp className="inline w-3 h-3 mr-1 text-success" />+
-                {mockStats.monthlyGrowth}% growth
-              </p>
-            </CardContent>
-          </Card>
+          <StatCard
+            title="Active Users"
+            icon={<Users className="w-4 h-4" />}
+            value={mockStats.activeUsers.toLocaleString()}
+            description={`+${mockStats.monthlyGrowth}% growth`}
+            descriptionIcon={
+              <TrendingUp className="inline w-3 h-3 text-success" />
+            }
+          />
         </div>
 
         {/* Recent Activity & System Status */}
@@ -227,49 +183,14 @@ const AdminDashboard = () => {
           </Card>
         </div>
       </div>
-      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="sm:max-w-lg h-[230px] border-0 shadow-2xl bg-gradient-to-br from-white to-slate-50/50 backdrop-blur-sm">
-          <DialogHeader className="text-center space-y-2 pt-6">
-            <div className="mx-auto relative">
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/25 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent"></div>
-                {modalType === "organization" ? (
-                  <Building2 className="w-8 h-8 text-white relative z-10" />
-                ) : (
-                  <Pill className="w-8 h-8 text-white relative z-10" />
-                )}
-                <Sparkles className="w-3 h-3 text-blue-200 absolute top-2 right-2 z-10" />
-              </div>
-            </div>
-            <div className="space-y-3">
-              <DialogTitle className="text-2xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
-                Invite a New{" "}
-                <span className="bg-gradient-to-r from-blue-600 to-blue-500 bg-clip-text text-transparent">
-                  {modalType === "organization" ? "Organization" : "Pharmacy"}
-                </span>
-              </DialogTitle>
-              <DialogDescription className="text-slate-600 text-base leading-relaxed max-w-sm mx-auto">
-                To invite an admin, you must first create the {modalType}{" "}
-                profile to get started.
-              </DialogDescription>
-            </div>
-          </DialogHeader>
-          <div className="flex justify-center pt-3 pb-6">
-            <Button
-              onClick={handleContinue}
-              className="bg-gradient-to-r cursor-pointer from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white px-8 py-3 rounded-xl flex items-center gap-3 font-semibold text-base shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 transition-all duration-200 hover:scale-105 border-0"
-            >
-              <div className="w-5 h-5 bg-white/20 rounded-full flex items-center justify-center">
-                <Plus className="w-3 h-3" />
-              </div>
-              Continue to Create{" "}
-              {modalType === "organization" ? "Organization" : "Pharmacy"}
-            </Button>
-          </div>
-          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/5 to-transparent rounded-full -translate-y-16 translate-x-16"></div>
-          <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-slate-500/5 to-transparent rounded-full translate-y-12 -translate-x-12"></div>
-        </DialogContent>
-      </Dialog>
+      {isModalOpen && (
+        <PreInvitationDialog
+          isModalOpen={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
+          modalType={modalType}
+          handleContinue={handleContinue}
+        />
+      )}
     </>
   );
 };

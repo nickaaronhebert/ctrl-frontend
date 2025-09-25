@@ -27,6 +27,7 @@ type MedicationVariantProps = {
   setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
   data: SingleAccessResponse;
   configuredStates: Record<string, string>;
+  // setSelectedVariant: any;
   setConfiguredStates: React.Dispatch<
     React.SetStateAction<Record<string, string>>
   >;
@@ -41,14 +42,12 @@ const DefaultPharmacy = ({
   configuredStates,
   setConfiguredStates,
 }: MedicationVariantProps) => {
-  const [fullPharmacies, setFullPharmacies] = useState<{
-    [stateName: string]: Pharmacy | undefined;
-  }>({});
-
   const [pharmaciesByState, setPharmaciesByState] = useState<
     Record<string, Pharmacy[]>
   >({});
-
+  const [fullPharmacies, setFullPharmacies] = useState<{
+    [stateName: string]: Pharmacy | undefined;
+  }>({});
   const [openState, setOpenState] = useState<string | null>(null);
   const [createAccessControl] = useCreateAccessControlMutation();
   const [trigger, { isLoading }] = useLazyGetPharmacyByStateQuery();
@@ -58,6 +57,12 @@ const DefaultPharmacy = ({
   };
 
   useEffect(() => {
+    if (!selectedVariant?.id || !data?.data?.defaultPharmacy) {
+      setFullPharmacies({});
+      setConfiguredStates({});
+      return;
+    }
+
     if (data?.data?.defaultPharmacy) {
       const fullPharmacies = Object.fromEntries(
         Object.entries(data?.data?.defaultPharmacy).map(([state, pharmacy]) => [
@@ -97,7 +102,7 @@ const DefaultPharmacy = ({
         [state.name]: id,
       };
 
-      setFullPharmacies((prevFullPharmacies) => ({
+      setFullPharmacies((prevFullPharmacies: any) => ({
         ...prevFullPharmacies,
         [state.name]: pharmaciesByState[state.shortCode].find(
           (pharmacy: Pharmacy) => pharmacy.id === id
@@ -126,9 +131,15 @@ const DefaultPharmacy = ({
     <div className="bg-white rounded-lg border border-gray-200 pt-4">
       <div className="flex justify-between items-start px-6">
         <div>
-          <p className="font-semibold text-[18px] leading-[26px] text-black mb-3">
-            {`${selectedMedication?.name} - ${selectedVariant?.strength}`}
-          </p>
+          {selectedMedication && selectedVariant ? (
+            <p className="font-semibold text-[18px] leading-[26px] text-black mb-3">
+              {`${selectedMedication.name} - ${selectedVariant.strength}`}
+            </p>
+          ) : selectedMedication ? (
+            <p className="font-semibold text-[18px] leading-[26px] text-black mb-3">
+              {selectedMedication.name}
+            </p>
+          ) : null}
           <p className="font-normal text-[14px] leading-[16px] text-slate">
             Individual state assignments
           </p>

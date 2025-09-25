@@ -12,6 +12,8 @@ import type { InvoiceRow } from "@/types/global/commonTypes";
 import type { Pharmacy } from "@/components/data-table/columns/medication-library";
 import InvoicesMain from "@/assets/icons/InvoicesMain";
 import PatientIcon from "@/assets/icons/PatientIcon";
+import { Settings } from "lucide-react";
+import AdminSettings from "@/assets/icons/AdminSettings";
 
 export interface TabConfig {
   id: string;
@@ -27,8 +29,8 @@ export const tabsConfig: TabConfig[] = [
 
 export const platformAdminItems = [
   { title: "Dashboard", url: "/admin/dashboard", icon: Dashboard },
-  { title: "Organization", url: "/admin/organizations", icon: Dashboard },
-  { title: "Pharmacy", url: "/admin/pharmacy", icon: Orders },
+  { title: "Registration", url: "/admin/organizations", icon: Dashboard },
+  { title: "My Settings ", url: "/admin/pharmacy", icon: AdminSettings },
 ];
 export const organisationAdminItems = [
   { title: "Dashboard", url: "/org/dashboard", icon: Dashboard },
@@ -37,7 +39,7 @@ export const organisationAdminItems = [
   { title: "Transactions", url: "/org/transactions", icon: Transactions },
   { title: "Patients", url: "/org/patients", icon: PatientIcon },
   // { title: "Providers", url: "/org/providers", icon: Provider },
-  { title: "Settings", url: "/org/settings", icon: SettingsMain },
+  { title: "Settings", url: "/org/settings", icon: Settings },
   // {
   //   title: "Medication Library",
   //   url: "/org/medications",

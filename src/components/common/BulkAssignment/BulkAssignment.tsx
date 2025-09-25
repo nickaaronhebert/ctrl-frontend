@@ -142,7 +142,7 @@ export function BulkAssignment({
         </div>
         <div className="w-1/2">
           <MultiSelect
-            className="w-full"
+            className="w-full min-h-[40px] border-input"
             options={allowedStates.map((state: any) => ({
               value: state,
               label: state,

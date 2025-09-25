@@ -7,18 +7,27 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { type Medication } from "@/pages/Organization/AccessControl/AccessDetail";
+import {
+  type Medication,
+  type Variant,
+} from "@/pages/Organization/AccessControl/AccessDetail";
 import { useGetMedicationCatalogueQuery } from "@/redux/services/medication";
 import { useState } from "react";
 type MedicationSelectionProps = {
   selectedMedication: Medication | null;
   setSelectedMedication: (med: Medication) => void;
+  setSelectedVariant: (variant: Variant | null) => void;
   disabled: boolean;
+  configuredStates: Record<string, string>;
+  setConfiguredStates: React.Dispatch<
+    React.SetStateAction<Record<string, string>>
+  >;
 };
 
 export function MedicationSelection({
   selectedMedication,
   setSelectedMedication,
+  setSelectedVariant,
   disabled,
 }: MedicationSelectionProps) {
   const [open, setOpen] = useState<boolean>(false);
@@ -50,6 +59,7 @@ export function MedicationSelection({
             id: selected?.id.toString(),
             name: selected?.drugName,
           });
+          setSelectedVariant(null);
         }
       }}
       value={selectedMedication?.id ?? ""}
