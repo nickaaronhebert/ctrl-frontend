@@ -27,6 +27,8 @@ export const ROUTES = {
   PENDING_APPROVAL: "pending-approval",
   SETTINGS: "settings",
   PROVIDER_SETTINGS: "provider/settings",
+  ADMIN_DASHBOARD: "dashboard",
+  CREATE_PHARMACY: "pharmacy",
   ORG_DASHBOARD: "dashboard",
   ORG_TRANSMISSIONS: "transmissions",
   ORG_ORDERS: "orders",

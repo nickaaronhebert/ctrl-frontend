@@ -15,6 +15,7 @@ import {
   nestedPharmacyItems,
   organisationAdminItems,
   pharmacyAdminItems,
+  platformAdminItems,
 } from "@/constants";
 import CTRLSVG from "@/assets/images/CTRL.svg";
 import CollapsedCTRLSVG from "@/assets/icons/CollapsedCTRL";
@@ -49,6 +50,7 @@ export function AppSidebar() {
   const isOrganisationAdmin = user?.role?.name === "Organization Admin";
   const isProvider = user?.role?.name === "Provider";
   const isPharmacyAdmin = user?.role?.name === "Pharmacy Admin";
+  const isPlatformAdmin = user?.role?.name === "Platform Admin";
 
   const nestedItems = isOrganisationAdmin
     ? nestedOrgItems
@@ -80,6 +82,8 @@ export function AppSidebar() {
     ? organisationAdminItems
     : isPharmacyAdmin
     ? pharmacyAdminItems
+    : isPlatformAdmin
+    ? platformAdminItems
     : providerItems;
 
   const isActive = (item: MenuItem) => {

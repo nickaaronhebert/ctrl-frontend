@@ -6,6 +6,7 @@ export const PERMISSIONS = {
 } as const;
 
 export const MODULE = {
+  PATIENT: "patient",
   DASHBOARD: "business",
   PROFILE: "profile",
   PROVIDER: "me",
@@ -18,6 +19,7 @@ export const MODULE = {
   BUSINESS: "business",
   PROVIDER_GROUP_INVITATION: "provider-group-invitation",
   TRANSMISSION: "transmission",
+  ORGANIZATION_ADMIN_INVITATION: "organization-admin-invitation",
 };
 
 export type AvailableModules = keyof typeof MODULE;

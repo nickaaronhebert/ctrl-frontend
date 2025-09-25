@@ -25,6 +25,10 @@ export const tabsConfig: TabConfig[] = [
   { id: "affiliation", label: "Affiliation Status", icon: Affiliation },
 ] as const;
 
+export const platformAdminItems = [
+  { title: "Organization", url: "/admin/dashboard", icon: Dashboard },
+  { title: "Pharmacy", url: "/admin/pharmacy", icon: Orders },
+];
 export const organisationAdminItems = [
   { title: "Dashboard", url: "/org/dashboard", icon: Dashboard },
   { title: "Orders", url: "/org/orders", icon: Orders },

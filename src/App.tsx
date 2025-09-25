@@ -64,8 +64,15 @@ import ModifyPrices from "./components/pharmacy/modifyPrices/ModifyPrices";
 import OrganizationRedirect from "./pages/Organization/Onboarding/redirect";
 import RegisterOrgAdmin from "./pages/Organization/Onboarding";
 import WelcomeOrgAdmin from "./pages/Organization/Onboarding/welcome";
+// import AdminDashboard from "./pages/CTRLAdmin/Create";
+// import CreatePharmacy from "./pages/CTRLAdmin/Create/Pharmacy";
+import CreateOrgPharmacyForm from "./pages/CTRLAdmin/Create";
 
 const router = createBrowserRouter([
+  {
+    path: "/test",
+    element: <CreateOrgPharmacyForm />,
+  },
   {
     path: "/provider",
     element: (
@@ -415,6 +422,100 @@ const router = createBrowserRouter([
         path: `${ROUTES.PHARMACY_TRANSMISSIONS}/:id`,
         element: <PharmacyTransmissionDetails />,
       },
+    ],
+  },
+
+  {
+    path: "/admin",
+    element: (
+      <ModuleProtectedRoute
+        element={<SidebarLayout />}
+        permissions={[
+          {
+            resource: MODULE.PRESCRIPTION,
+            permission: PERMISSIONS.READ,
+          },
+          {
+            resource: MODULE.MEDICATION_CATALOGUE,
+            permission: PERMISSIONS.DELETE,
+          },
+          {
+            resource: MODULE.MEDICATION_CATALOGUE,
+            permission: PERMISSIONS.UPDATE,
+          },
+          {
+            resource: MODULE.MEDICATION_CATALOGUE,
+            permission: PERMISSIONS.READ,
+          },
+          {
+            resource: MODULE.MEDICATION_CATALOGUE,
+            permission: PERMISSIONS.WRITE,
+          },
+          {
+            resource: MODULE.BUSINESS,
+            permission: PERMISSIONS.READ,
+          },
+          {
+            resource: MODULE.BUSINESS,
+            permission: PERMISSIONS.DELETE,
+          },
+          {
+            resource: MODULE.BUSINESS,
+            permission: PERMISSIONS.WRITE,
+          },
+          {
+            resource: MODULE.BUSINESS,
+            permission: PERMISSIONS.UPDATE,
+          },
+          {
+            resource: MODULE.PHARMACY_CATALOGUE,
+            permission: PERMISSIONS.WRITE,
+          },
+
+          {
+            resource: MODULE.PHARMACY_CATALOGUE,
+            permission: PERMISSIONS.READ,
+          },
+          {
+            resource: MODULE.ME,
+            permission: PERMISSIONS.WRITE,
+          },
+          {
+            resource: MODULE.ME,
+            permission: PERMISSIONS.READ,
+          },
+          {
+            resource: MODULE.ME,
+            permission: PERMISSIONS.DELETE,
+          },
+          {
+            resource: MODULE.ME,
+            permission: PERMISSIONS.UPDATE,
+          },
+          {
+            resource: MODULE.ORGANIZATION_ADMIN_INVITATION,
+            permission: PERMISSIONS.WRITE,
+          },
+          {
+            resource: MODULE.TRANSMISSION,
+            permission: PERMISSIONS.READ,
+          },
+          {
+            resource: MODULE.PATIENT,
+            permission: PERMISSIONS.READ,
+          },
+        ]}
+      />
+    ),
+    children: [
+      {
+        path: ROUTES.ADMIN_DASHBOARD,
+        element: <CreateOrgPharmacyForm />,
+      },
+      // {
+      //   path: ROUTES.CREATE_PHARMACY,
+      //   element: <CreatePharmacy />,
+      // },
     ],
   },
 
