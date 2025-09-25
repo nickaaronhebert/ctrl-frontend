@@ -8,6 +8,7 @@ export interface SELECT_MEDICATION {
     quantity: number;
     unit: string;
     sigInstructions: string;
+    daysSupply: number;
   }[];
 }
 
@@ -69,7 +70,13 @@ const initialState: OrderState = {
   },
   stepOne: {
     medications: [
-      { selectMedication: "", quantity: 0, unit: "", sigInstructions: "" },
+      {
+        selectMedication: "",
+        quantity: 0,
+        unit: "",
+        sigInstructions: "",
+        daysSupply: 0,
+      },
     ],
   },
   stepTwo: {

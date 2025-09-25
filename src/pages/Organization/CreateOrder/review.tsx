@@ -34,6 +34,7 @@ export default function ReviewOrderDetails({ order }: { order: OrderState }) {
         quantity: item.quantity,
         provider: providerId,
         productVariant: variantId,
+        daysSupply: item.daysSupply,
         // pharmacy: pharmacyId,
         instructions: item.sigInstructions,
         // isManualTransmission: true,
