@@ -26,7 +26,8 @@ export const tabsConfig: TabConfig[] = [
 ] as const;
 
 export const platformAdminItems = [
-  { title: "Organization", url: "/admin/dashboard", icon: Dashboard },
+  { title: "Dashboard", url: "/admin/dashboard", icon: Dashboard },
+  { title: "Organization", url: "/admin/organizations", icon: Dashboard },
   { title: "Pharmacy", url: "/admin/pharmacy", icon: Orders },
 ];
 export const organisationAdminItems = [
@@ -120,6 +121,67 @@ export const pharmacyAdminItems = [
 ];
 
 // static/sidebar.ts
+
+export const mockStats = {
+  totalOrganizations: 247,
+  totalPharmacies: 189,
+  pendingInvites: 23,
+  activeUsers: 1456,
+  monthlyGrowth: 12.5,
+  systemUptime: 99.9,
+};
+
+export const recentInvites = [
+  {
+    id: 1,
+    email: "admin@healthcorp.com",
+    type: "Organization",
+    status: "Pending",
+    date: "2024-01-15",
+  },
+  {
+    id: 2,
+    email: "manager@rxpharm.com",
+    type: "Pharmacy",
+    status: "Completed",
+    date: "2024-01-14",
+  },
+  {
+    id: 3,
+    email: "director@medplus.com",
+    type: "Organization",
+    status: "Pending",
+    date: "2024-01-14",
+  },
+  {
+    id: 4,
+    email: "admin@quickrx.com",
+    type: "Pharmacy",
+    status: "Completed",
+    date: "2024-01-13",
+  },
+];
+
+export const quickActions = [
+  {
+    title: "Invite Organization",
+    description: "Send invitation to new healthcare organization",
+    action: "Send Invite",
+    variant: "default" as const,
+  },
+  {
+    title: "Invite Pharmacy",
+    description: "Onboard new pharmacy partner",
+    action: "Send Invite",
+    variant: "outline" as const,
+  },
+  {
+    title: "Generate Report",
+    description: "Create system usage and analytics report",
+    action: "Generate",
+    variant: "outline" as const,
+  },
+];
 
 export const transmissionData: {
   "24h": MyTransmission[];
