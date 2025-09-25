@@ -90,6 +90,10 @@ const AccessDetail = () => {
     );
   }
 
+  console.log("selectedMedication>>..", selectedMedication);
+  console.log("selectedVariant>>..", selectedVariant);
+  console.log("configuredStates", configuredStates);
+
   return (
     <div className="mb-5">
       <div className="bg-lilac py-3 px-12">
@@ -128,6 +132,7 @@ const AccessDetail = () => {
                 selectedMedication={selectedMedication}
                 setSelectedMedication={setSelectedMedication}
                 disabled={isEditing}
+                setSelectedVariant={setSelectedVariant}
               />
             </div>
             {selectedMedication && (
@@ -149,7 +154,7 @@ const AccessDetail = () => {
             <ProgressOverview configuredStates={configuredStates} />
           )}
         </div>
-        {selectedMedication && selectedVariant ? (
+        {selectedMedication ? (
           <div className="w-full flex flex-col gap-5">
             <BulkAssignment
               selectedPharmacy={selectedPharmacy}
