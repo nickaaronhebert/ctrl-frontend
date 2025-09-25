@@ -39,12 +39,19 @@ const orderDisplayFields: {
       });
     },
   },
+
+  // {
+  //   label: "Unique Id",
+  //   getValue: (transmission) => <p>{transmission.uniqueId}</p>,
+  // },
 ];
 
 export default function TransmissionOverviewCard({
   transmission,
+  uniqueId,
 }: {
   transmission: TransmissionDetails;
+  uniqueId: string;
 }) {
   return (
     <div
@@ -66,6 +73,15 @@ export default function TransmissionOverviewCard({
             </span>
           </div>
         ))}
+
+        <div>
+          <h4 className="text-sm font-normal text-muted-foreground ">
+            {"Pharmacy Order Id"}
+          </h4>
+          <span className="capitalize font-medium text-primary-foreground text-sm mt-2">
+            {uniqueId}
+          </span>
+        </div>
       </div>
     </div>
   );

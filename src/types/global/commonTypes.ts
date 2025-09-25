@@ -151,6 +151,7 @@ export interface Prescription {
 }
 
 export interface Transmission {
+  fullfillmentResponse?: string;
   pharmacy: Pharmacy;
   prescriptions: Prescription[];
   status: string;

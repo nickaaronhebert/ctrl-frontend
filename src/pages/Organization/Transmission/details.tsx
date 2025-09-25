@@ -62,6 +62,16 @@ export default function TransmissionDetails() {
 
   const status = data?.status?.toLowerCase();
   const bgColor = statusColorMap[status as string];
+  const parsedObj = data?.fullfillmentResponse
+    ? JSON.parse(data.fullfillmentResponse)
+    : null;
+
+  const uniqueId =
+    parsedObj !== null && parsedObj?.response?.data?.orderId
+      ? parsedObj.response.data.orderId
+      : "-";
+  // const uniqueId = parsedObj ? parsedObj.status ===1 ?
+  // console.log("sssssssss", parsedObj);
 
   return (
     <div className="mb-5">
@@ -134,7 +144,10 @@ export default function TransmissionDetails() {
 
         <div className="flex flex-col gap-5 w-full">
           {transmissionDetails && (
-            <TransmissionOverviewCard transmission={transmissionDetails} />
+            <TransmissionOverviewCard
+              transmission={transmissionDetails}
+              uniqueId={uniqueId}
+            />
           )}
 
           {pharmacy && <PharmacyCard pharmacy={pharmacy} />}
