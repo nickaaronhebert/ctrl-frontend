@@ -9,7 +9,7 @@ import { useParams } from "react-router-dom";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { useLazyGetAccessControlByProductVariantQuery } from "@/redux/services/access-control";
 import ProgressOverview from "@/components/common/ProgressOverview/ProgressOverview";
-import type { SingleAccessResponse } from "@/types/responses/access-control";
+// import type { SingleAccessResponse } from "@/types/responses/access-control";
 import { BulkAssignment } from "@/components/common/BulkAssignment/BulkAssignment";
 
 export type Medication = {
@@ -44,9 +44,9 @@ const AccessDetail = () => {
     { data: variantAccessControlData, isError, isFetching },
   ] = useLazyGetAccessControlByProductVariantQuery();
 
-  const [, setAccessControlVariantData] = useState<SingleAccessResponse | null>(
-    null
-  );
+  // const [, setAccessControlVariantData] = useState<SingleAccessResponse | null>(
+  //   null
+  // );
 
   useEffect(() => {
     if (id && singleAccessControl) {
@@ -65,17 +65,18 @@ const AccessDetail = () => {
   useEffect(() => {
     if (!selectedVariant?.id) return;
 
-    // Immediately clear stale data on variant change
-    setAccessControlVariantData(null);
+    // // Immediately clear stale data on variant change
+    // setAccessControlVariantData(null);
 
     triggerGetAccessControl(selectedVariant?.id)
       .unwrap()
       .then((res) => {
-        setAccessControlVariantData(res);
+        // setAccessControlVariantData(res);
+        console.log("res", res);
       })
       .catch((err) => {
         console.error("Access control fetching failed", err);
-        setAccessControlVariantData(null);
+        // setAccessControlVariantData(null);
       });
   }, [selectedVariant?.id]);
 

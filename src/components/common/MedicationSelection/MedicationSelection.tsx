@@ -22,16 +22,6 @@ export function MedicationSelection({
   disabled,
 }: MedicationSelectionProps) {
   const [open, setOpen] = useState<boolean>(false);
-  // const { data, isError, isLoading } = useGetMedicationCatalogueQuery(
-  //   {
-  //     page: 1,
-  //     perPage: 100,
-  //     q: "",
-  //   },
-  //   {
-  //     skip: !open,
-  //   }
-  // );
 
   const { data, isError, isLoading } = useGetMedicationCatalogueQuery(
     {
