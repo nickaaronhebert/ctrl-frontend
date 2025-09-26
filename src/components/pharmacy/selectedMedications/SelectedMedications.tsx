@@ -82,6 +82,8 @@ export default function SetDefaultPrices() {
     }
   };
 
+  console.log("selectedMedications", selectedMedications.length);
+
   return (
     <div className="mb-5">
       <div className="bg-lilac py-3 px-12 flex justify-between mb-4">
@@ -114,24 +116,31 @@ export default function SetDefaultPrices() {
         </div>
       </div>
       <div className="max-w-4xl mx-auto">
-        <div className="flex items-center justify-between gap-4 mb-4">
-          <div className="relative flex-1 max-w-md">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Search medications by name"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-[380px] h-[44px] rounded-[6px] pl-10 pr-[15px] py-[12px] bg-white border-card-border "
-            />
+        {selectedMedications?.length > 0 ? (
+          <div className="flex items-center justify-between gap-4 mb-4">
+            <div className="relative flex-1 max-w-md">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search medications by name"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-[380px] h-[44px] rounded-[6px] pl-10 pr-[15px] py-[12px] bg-white border-card-border "
+              />
+            </div>
+            <div className="text-right">
+              <span className="font-normal text-[14px] leading-[18px] text-gray-400">
+                Showing {filteredMedications.length} of{" "}
+                {selectedMedications.length} medications
+              </span>
+            </div>
           </div>
-          <div className="text-right ">
-            <span className="font-normal  text-[14px] leading-[18px] text-gray-400">
-              Showing {filteredMedications.length} of{" "}
-              {selectedMedications.length} medications
-            </span>
+        ) : (
+          <div className="flex justify-center items-center h-[80vh] text-center">
+            <p className="text-lg font-semibold text-gray-500">
+              No medications selected yet. Please select some to get started.
+            </p>
           </div>
-        </div>
-
+        )}
         {/* Medications */}
         <div className="space-y-4">
           {filteredMedications.map((medication) => {

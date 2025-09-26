@@ -14,6 +14,7 @@ import type {
   PharmacyCatalogue,
   PharmacyProductVariant,
 } from "@/types/responses/medication";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 export default function ModifyPrices() {
   const { prices, setPrices } = useMedication();
@@ -151,7 +152,11 @@ export default function ModifyPrices() {
   );
 
   if (isLoading || isFetching) {
-    return <div>Loading pharmacy catalogue...</div>;
+    return (
+      <div className="flex justify-center items-center h-[80vh]">
+        <LoadingSpinner />
+      </div>
+    );
   }
 
   if (error) {

@@ -4,6 +4,7 @@ import { MedicationCatalogueCard } from "@/components/common/Card/medication-cat
 import { useNavigate } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 import { PaginationWithLinks } from "@/components/common/PaginationLink/PaginationLink";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 const PharmacyDetailsPage = () => {
   const [searchParams] = useSearchParams();
@@ -17,7 +18,11 @@ const PharmacyDetailsPage = () => {
   });
 
   if (isLoading || isFetching) {
-    return <div>Loading pharmacy catalogue...</div>;
+    return (
+      <div className="flex justify-center items-center h-[80vh]">
+        <LoadingSpinner />
+      </div>
+    );
   }
 
   if (error) {

@@ -10,6 +10,7 @@ import {
 import { DataTablePagination } from "@/components/data-table/data-table-pagination";
 import type { AffiliatedProviders } from "@/types/responses/provider";
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 export default function OrganizationAffiliatedProvider() {
   const [searchParams] = useSearchParams();
@@ -51,8 +52,8 @@ export default function OrganizationAffiliatedProvider() {
 
       <div className="mt-3.5 bg-white shadow-[0px_2px_40px_0px_#00000014] rounded-2xl ">
         {isLoading && (
-          <div className="py-6 text-center text-slate-500">
-            Loading providers...
+          <div className="flex justify-center items-center h-[30vh]">
+            <LoadingSpinner />
           </div>
         )}
 

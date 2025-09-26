@@ -21,6 +21,7 @@ export default function Navbar() {
   const handleLogout = () => {
     dispatch(logout());
     navigate("/", { replace: true });
+    window.location.reload();
   };
 
   return (

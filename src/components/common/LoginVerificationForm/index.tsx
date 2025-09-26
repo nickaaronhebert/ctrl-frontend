@@ -15,8 +15,8 @@ import { useVerifyOtpMutation } from "@/redux/services/authApi";
 import { useEffect, useState } from "react";
 import { useResendOtpMutation } from "@/redux/services/authApi";
 import { ROUTES } from "@/constants/routes";
-import { useDispatch } from "react-redux";
-import { baseApi } from "@/redux/services";
+// import { useDispatch } from "react-redux";
+// import { baseApi } from "@/redux/services";
 
 interface LoginVerificationFormProps {
   username: string;
@@ -28,7 +28,7 @@ const LoginVerificationForm = ({
   password,
 }: LoginVerificationFormProps) => {
   const [resendOtp] = useResendOtpMutation();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const navigate = useNavigate();
   const [verifyOtpMutation] = useVerifyOtpMutation();
   const [secondsLeft, setSecondsLeft] = useState<number>(0);
@@ -87,7 +87,7 @@ const LoginVerificationForm = ({
         otpCode: values.otp,
       }).unwrap();
 
-      dispatch(baseApi.util.resetApiState());
+      // dispatch(baseApi.util.resetApiState());
 
       toast.success("Verification successful", {
         duration: 1500,
