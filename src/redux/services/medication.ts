@@ -2,9 +2,22 @@ import type { ICommonSearchQuery } from "@/types/requests/search";
 import { baseApi } from ".";
 import type { MedicationCatalogueResponse } from "@/types/responses/medication";
 import type { IGetAllProductVariantsResponse } from "@/types/responses/productVariant";
+import type { ICreateMedicationCatalogue } from "@/types/requests/ICreateMedication";
+import type { ICreateMedicationCatalogueResponse } from "@/types/responses/ICreateMedication";
 
 const medicationApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    createMedication: builder.mutation<
+      ICreateMedicationCatalogueResponse,
+      ICreateMedicationCatalogue
+    >({
+      query: (body) => ({
+        url: `/medication-catalogue`,
+        method: "POST",
+        body,
+      }),
+    }),
+
     getMedicationCatalogue: builder.query<
       MedicationCatalogueResponse,
       ICommonSearchQuery
@@ -41,6 +54,7 @@ export const {
   useGetMedicationCatalogueQuery,
   useGetSingleMedicationCatalogueDetailsQuery,
   useGetAllProductVariantsQuery,
+  useCreateMedicationMutation,
 } = medicationApi;
 
 export default medicationApi;

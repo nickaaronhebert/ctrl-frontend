@@ -13,7 +13,9 @@ export default function SidebarLayout() {
   const isViewPatientPatientDetailsRoute = /^\/org\/patient\/[^/]+$/.test(
     location.pathname
   );
-  const isCreatePatientRoute = location.pathname === "/org/create-patient";
+  const isCreatePatientRoute =
+    location.pathname === "/org/create-patient" ||
+    location.pathname === "/admin/create-medication";
   const isCreateOrderRoute = location.pathname === "/org/create-order";
 
   return (
