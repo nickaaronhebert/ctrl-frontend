@@ -5,6 +5,8 @@ export function CenteredRow({
   className,
 }: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={cn("flex gap-5 justify-center", className)}>{children}</div>
+    <div className={cn("flex gap-5 justify-center items-center", className)}>
+      {children}
+    </div>
   );
 }
