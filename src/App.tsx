@@ -68,6 +68,7 @@ import WelcomeOrgAdmin from "./pages/Organization/Onboarding/welcome";
 // import CreatePharmacy from "./pages/CTRLAdmin/Create/Pharmacy";
 import CreateOrgPharmacyForm from "./pages/CTRLAdmin/Create";
 import MedicationCatalogue from "./pages/CTRLAdmin/MedicationCatalogue";
+import AdminDashboard from "./pages/CTRLAdmin/Dashboard";
 
 const router = createBrowserRouter([
   {
@@ -511,6 +512,10 @@ const router = createBrowserRouter([
     children: [
       {
         path: ROUTES.ADMIN_DASHBOARD,
+        element: <AdminDashboard />,
+      },
+      {
+        path: ROUTES.ADMIN_ORGANIZATION,
         element: <CreateOrgPharmacyForm />,
       },
       {

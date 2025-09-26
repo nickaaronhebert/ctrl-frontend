@@ -12,6 +12,8 @@ import type { InvoiceRow } from "@/types/global/commonTypes";
 import type { Pharmacy } from "@/components/data-table/columns/medication-library";
 import InvoicesMain from "@/assets/icons/InvoicesMain";
 import PatientIcon from "@/assets/icons/PatientIcon";
+import { Settings } from "lucide-react";
+import AdminSettings from "@/assets/icons/AdminSettings";
 
 export interface TabConfig {
   id: string;
@@ -26,8 +28,9 @@ export const tabsConfig: TabConfig[] = [
 ] as const;
 
 export const platformAdminItems = [
-  { title: "Organization", url: "/admin/dashboard", icon: Dashboard },
-  { title: "Pharmacy", url: "/admin/pharmacy", icon: Orders },
+  { title: "Dashboard", url: "/admin/dashboard", icon: Dashboard },
+  { title: "Registration", url: "/admin/organizations", icon: Dashboard },
+  { title: "My Settings ", url: "/admin/pharmacy", icon: AdminSettings },
 ];
 export const organisationAdminItems = [
   { title: "Dashboard", url: "/org/dashboard", icon: Dashboard },
@@ -36,7 +39,7 @@ export const organisationAdminItems = [
   { title: "Transactions", url: "/org/transactions", icon: Transactions },
   { title: "Patients", url: "/org/patients", icon: PatientIcon },
   // { title: "Providers", url: "/org/providers", icon: Provider },
-  { title: "Settings", url: "/org/settings", icon: SettingsMain },
+  { title: "Settings", url: "/org/settings", icon: Settings },
   // {
   //   title: "Medication Library",
   //   url: "/org/medications",
@@ -120,6 +123,67 @@ export const pharmacyAdminItems = [
 ];
 
 // static/sidebar.ts
+
+export const mockStats = {
+  totalOrganizations: 247,
+  totalPharmacies: 189,
+  pendingInvites: 23,
+  activeUsers: 1456,
+  monthlyGrowth: 12.5,
+  systemUptime: 99.9,
+};
+
+export const recentInvites = [
+  {
+    id: 1,
+    email: "admin@healthcorp.com",
+    type: "Organization",
+    status: "Pending",
+    date: "2024-01-15",
+  },
+  {
+    id: 2,
+    email: "manager@rxpharm.com",
+    type: "Pharmacy",
+    status: "Completed",
+    date: "2024-01-14",
+  },
+  {
+    id: 3,
+    email: "director@medplus.com",
+    type: "Organization",
+    status: "Pending",
+    date: "2024-01-14",
+  },
+  {
+    id: 4,
+    email: "admin@quickrx.com",
+    type: "Pharmacy",
+    status: "Completed",
+    date: "2024-01-13",
+  },
+];
+
+export const quickActions = [
+  {
+    title: "Invite Organization",
+    description: "Send invitation to new healthcare organization",
+    action: "Send Invite",
+    variant: "default" as const,
+  },
+  {
+    title: "Invite Pharmacy",
+    description: "Onboard new pharmacy partner",
+    action: "Send Invite",
+    variant: "outline" as const,
+  },
+  {
+    title: "Generate Report",
+    description: "Create system usage and analytics report",
+    action: "Generate",
+    variant: "outline" as const,
+  },
+];
 
 export const transmissionData: {
   "24h": MyTransmission[];

@@ -28,6 +28,7 @@ export const ROUTES = {
   SETTINGS: "settings",
   PROVIDER_SETTINGS: "provider/settings",
   ADMIN_DASHBOARD: "dashboard",
+  ADMIN_ORGANIZATION: "organizations",
   CREATE_PHARMACY: "pharmacy",
   CREATE_MEDICATION: "create-medication",
   ORG_DASHBOARD: "dashboard",
