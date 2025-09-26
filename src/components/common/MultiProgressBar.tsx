@@ -24,6 +24,7 @@ export const MultiProgressBar: React.FC<MultiProgressBarProps> = ({
   total,
   height = "h-5",
 }) => {
+  console.log("segments", segments);
   return (
     <div
       className={`w-full ${height} bg-progress-bg rounded-lg overflow-hidden flex`}

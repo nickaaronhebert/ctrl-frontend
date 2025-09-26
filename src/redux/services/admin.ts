@@ -26,10 +26,21 @@ const adminApi = baseApi.injectEndpoints({
         body,
       }),
     }),
+
+    // Stats API organziation //
+    organizationStats: builder.query({
+      query: () => ({
+        url: "/organization/stats",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useCreateOrganizationMutation, useCreatePharmacyMutation } =
-  adminApi;
+export const {
+  useCreateOrganizationMutation,
+  useCreatePharmacyMutation,
+  useOrganizationStatsQuery,
+} = adminApi;
 
 export default adminApi;

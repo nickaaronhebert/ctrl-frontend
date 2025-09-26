@@ -11,6 +11,7 @@ import {
   recentTransmissionColumns,
   type Transmission,
 } from "@/components/data-table/columns/recentTransmissions";
+import { useOrganizationStatsQuery } from "@/redux/services/admin";
 import { DataTable } from "@/components/data-table/data-table";
 import { transmissionData } from "@/constants";
 import {
@@ -21,6 +22,28 @@ import {
 import { statusCardData } from "@/constants";
 
 const OrganisationDashboard = () => {
+  const {
+    data: orgStats,
+    isLoading,
+    error,
+    isError,
+  } = useOrganizationStatsQuery({});
+
+  const transmissionStats = orgStats?.data?.transmissionsStats || [];
+
+  console.log("Org stats", orgStats);
+
+  const statusCounts = {
+    transmitted: transmissionStats?.find((s: any) => s.status === "Transmitted")
+      ?.count,
+    queued:
+      transmissionStats.find((s: any) => s.status === "Queued")?.count || 0,
+    created:
+      transmissionStats.find((s: any) => s.status === "Created")?.count || 0,
+    failed:
+      transmissionStats.find((s: any) => s.status === "Failed")?.count || 0,
+  };
+
   const { user } = useAuthentication();
   const labels = {
     left: {
@@ -63,7 +86,33 @@ const OrganisationDashboard = () => {
     getPaginationRowModel: getPaginationRowModel(),
   });
 
-  const currentStatus = statusCardData[selectedPeriod];
+  const pharmaciesData =
+    orgStats?.data?.performantPharmacies?.map((p: any) => {
+      const segments = p.statusCounts.map((s: any) => ({
+        value: s.count,
+        color:
+          s.status === "Transmitted"
+            ? "transmitted"
+            : s.status === "Queued"
+            ? "queued"
+            : s.status === "Created"
+            ? "pending"
+            : "failed",
+        label: s.status,
+      }));
+      const values = p.statusCounts.map((s: any) => `${s.status}: ${s.count}`);
+
+      return {
+        id: p.pharmacy.id,
+        name: p.pharmacy.name,
+        icon: "🏥",
+        stats: {
+          total: p.totalCount,
+          segments,
+          values,
+        },
+      };
+    }) || [];
 
   return (
     <>
@@ -80,20 +129,20 @@ const OrganisationDashboard = () => {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-10">
           <StatusCard
-            title="Transmitted"
-            value={currentStatus.transmitted}
+            title="Created"
+            value={statusCounts?.created}
             description={
               <>
-                <span className="text-green-600">Successfully</span>{" "}
-                <span className="text-gray-500">delivered</span>
+                <span className="text-shadow-amber-500">Created</span>{" "}
+                {/* <span className="text-gray-500">Attention</span> */}
               </>
             }
-            icon={Transmitted}
+            icon={Failed}
           />
 
           <StatusCard
             title="Queued"
-            value={currentStatus.queued}
+            value={statusCounts.queued}
             description={
               <>
                 <span className="text-queued">Waiting</span>{" "}
@@ -104,26 +153,26 @@ const OrganisationDashboard = () => {
           />
 
           <StatusCard
-            title="Pending"
-            value={currentStatus.pending}
+            title="Transmitted"
+            value={statusCounts?.transmitted}
             description={
               <>
-                <span className="text-pending">Awaiting</span>{" "}
-                <span className="text-gray-500">Manual Review</span>
+                <span className="text-green-600">Successfully</span>{" "}
+                <span className="text-gray-500">delivered</span>
               </>
             }
-            icon={Pending}
+            icon={Transmitted}
           />
+
           <StatusCard
             title="Failed"
-            value={currentStatus.failed}
+            value={statusCounts?.failed}
             description={
               <>
-                <span className="text-failed">Requires</span>{" "}
-                <span className="text-gray-500">Attention</span>
+                <span className="text-red-600">Failed</span>{" "}
               </>
             }
-            icon={Failed}
+            icon={Transmitted}
           />
         </div>
 
@@ -141,7 +190,7 @@ const OrganisationDashboard = () => {
             <h2 className="text-xl font-semibold text-dashboard-title mb-6">
               Pharmacy Performance
             </h2>
-            <PharmacyPerformance selectedPeriod={selectedPeriod} />
+            <PharmacyPerformance data={pharmaciesData} />
           </div>
         </div>
       </div>
