@@ -20,7 +20,26 @@ const pharmacyDisplayFields: {
   },
   {
     label: "Address",
-    getValue: (pharmacy) => (pharmacy.address?.trim() ? pharmacy.address : "-"),
+    getValue: (pharmacy) =>
+      pharmacy.address ? pharmacy?.address?.address1 : "-",
+  },
+  {
+    label: "Address",
+    getValue: (pharmacy) =>
+      pharmacy.address ? pharmacy?.address?.address1 : "-",
+  },
+  {
+    label: "City",
+    getValue: (pharmacy) => (pharmacy.address ? pharmacy?.address?.city : "-"),
+  },
+  {
+    label: "State",
+    getValue: (pharmacy) => (pharmacy.address ? pharmacy?.address?.state : "-"),
+  },
+  {
+    label: "Zip Code",
+    getValue: (pharmacy) =>
+      pharmacy.address ? pharmacy?.address?.zipcode : "-",
   },
 ];
 

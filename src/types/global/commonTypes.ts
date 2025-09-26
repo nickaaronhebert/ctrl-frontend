@@ -67,7 +67,7 @@ export interface Pharmacy {
   name: string;
   email: string;
   phoneNumber: string;
-  address?: string;
+  address?: Omit<Address, "isDefault">;
   id: string;
 }
 
@@ -220,7 +220,7 @@ export interface Invoices {
     phoneNumber: string;
     email: string;
     id: string;
-    address: string;
+    address: Omit<Address, "isDefault">;
   };
   medicationFee: string;
   applicationFee: string;

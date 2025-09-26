@@ -76,7 +76,7 @@ export default function ViewInvoiceDetails() {
         pharmacyDetails: {
           name: pharmacy?.name ?? "",
           email: pharmacy?.email ?? "",
-          address: pharmacy?.address ?? "",
+          address: pharmacy?.address,
           phoneNumber: pharmacy?.phoneNumber ?? "",
           id: pharmacy?.id ?? "",
         },
