@@ -56,8 +56,6 @@ export const ApplicationUserContextProvider = (props: any) => {
     }
   }
 
-  console.log("userData", userData);
-
   // if ((isUserDataLoading || !userData) && isLoggedIn) {
   //   return (
   //     <div className="flex justify-center items-center h-screen">

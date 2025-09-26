@@ -459,9 +459,6 @@ export const US_STATES = [
   { name: "West Virginia", shortCode: "WV" },
   { name: "Wisconsin", shortCode: "WI" },
   { name: "Wyoming", shortCode: "WY" },
-
-  // Optional: Include District of Columbia
-  { name: "District of Columbia", shortCode: "DC" },
 ];
 
 export const USA_STATES = [
