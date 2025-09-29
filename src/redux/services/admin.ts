@@ -29,9 +29,12 @@ const adminApi = baseApi.injectEndpoints({
 
     // Stats API organziation //
     organizationStats: builder.query({
-      query: () => ({
+      query: ({ startDate }) => ({
         url: "/organization/stats",
         method: "GET",
+        params: {
+          startDate,
+        },
       }),
     }),
   }),

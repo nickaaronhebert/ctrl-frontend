@@ -14,7 +14,7 @@ export const PharmacyPerformance: React.FC<{
   }[];
 }> = ({ data = [] }) => {
   return (
-    <div className="w-full max-w-2xl bg-white rounded-[15px] shadow-sm p-6">
+    <div className="w-full  bg-white rounded-[15px] shadow-sm p-6">
       <div className="space-y-6">
         {data.map((pharmacy) => (
           <div

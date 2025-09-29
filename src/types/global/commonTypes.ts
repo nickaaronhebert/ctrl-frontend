@@ -1,5 +1,7 @@
 import { type Permission } from "@/components/Permissions/permissions";
 
+export type Period = "day" | "week" | "month";
+
 export interface UserPermission {
   action: Permission;
   resource: string;
@@ -300,4 +302,15 @@ export interface ApiError {
   data?: {
     message?: string | string[];
   };
+}
+
+export interface TransmissionStats {
+  count: number;
+  status: string;
+}
+
+export interface PerformantPharmacies {
+  pharmacy: Pharmacy;
+  totalCount: number;
+  statusCounts: TransmissionStats[];
 }

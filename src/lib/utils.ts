@@ -1,6 +1,8 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { z } from "zod";
+import { subDays, subWeeks, subMonths, format } from "date-fns";
+import type { Period } from "@/types/global/commonTypes";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -46,3 +48,47 @@ export function convertExtendedDate(
   const date = new Date(value);
   return date.toLocaleString(locale, options);
 }
+
+export const getStartDate = (period: Period) => {
+  const now = new Date();
+  if (period === "day") return format(subDays(now, 1), "yyyy-MM-dd");
+  if (period === "week") return format(subWeeks(now, 1), "yyyy-MM-dd");
+  if (period === "month") return format(subMonths(now, 1), "yyyy-MM-dd");
+};
+
+export const labels = {
+  left: {
+    title: "Day",
+    value: "day",
+  },
+  right: {
+    title: "Month",
+    value: "month",
+  },
+  center: {
+    title: "Week",
+    value: "week",
+  },
+};
+
+interface TransmissionStats {
+  status: "Created" | "Queued" | "Transmitted" | "Failed";
+  count: number;
+}
+
+export const getStatusCounts = (
+  stats: TransmissionStats[] = []
+): Record<"created" | "queued" | "transmitted" | "failed", number> => {
+  console.log("MY Stats>>>>>>>>>>>>>>>>>>>>>", stats);
+  const lookup = stats.reduce((acc, item) => {
+    acc[item.status] = item.count;
+    return acc;
+  }, {} as Record<string, number>);
+
+  return {
+    created: lookup["Created"] || 0,
+    queued: lookup["Queued"] || 0,
+    transmitted: lookup["Transmitted"] || 0,
+    failed: lookup["Failed"] || 0,
+  };
+};

@@ -12,46 +12,19 @@ import { useOrganizationStatsQuery } from "@/redux/services/admin";
 import { DataTable } from "@/components/data-table/data-table";
 import { useDataTable } from "@/hooks/use-data-table";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import {
+  type PerformantPharmacies,
+  type Period,
+} from "@/types/global/commonTypes";
+import { getStartDate, getStatusCounts } from "@/lib/utils";
+import { labels } from "@/lib/utils";
 
 const OrganisationDashboard = () => {
-  const { data: orgStats, isLoading } = useOrganizationStatsQuery({});
   const { user } = useAuthentication();
-
-  const transmissionStats = orgStats?.data?.transmissionsStats || [];
-
-  console.log("Org stats", orgStats);
-
-  const statusCounts = {
-    transmitted: transmissionStats?.find((s: any) => s.status === "Transmitted")
-      ?.count,
-    queued:
-      transmissionStats.find((s: any) => s.status === "Queued")?.count || 0,
-    created:
-      transmissionStats.find((s: any) => s.status === "Created")?.count || 0,
-    failed:
-      transmissionStats.find((s: any) => s.status === "Failed")?.count || 0,
-  };
-
-  const labels = {
-    left: {
-      title: "Day",
-      value: "day",
-    },
-    right: {
-      title: "Month",
-      value: "month",
-    },
-    center: {
-      title: "Week",
-      value: "week",
-    },
-  };
-
-  type Period = "day" | "week" | "month";
-
   const [selectedPeriod, setSelectedPeriod] = useState<Period>(
-    labels.left.value as Period
+    labels.left.value! as Period
   );
+  const columns = useMemo(() => recentTransmissionColumns(), []);
 
   const onChange = useCallback((position: string) => {
     let selectedValue: Period = labels.left.value as Period;
@@ -65,41 +38,53 @@ const OrganisationDashboard = () => {
     setSelectedPeriod(selectedValue);
   }, []);
 
-  const columns = useMemo(() => recentTransmissionColumns(), []);
+  const { data: orgStats, isLoading } = useOrganizationStatsQuery({
+    startDate: getStartDate(selectedPeriod),
+  });
+
+  const statusCounts = useMemo(
+    () => getStatusCounts(orgStats?.data?.transmissionsStats || []),
+    [orgStats?.data?.transmissionsStats]
+  );
+
+  const pharmaciesData = useMemo(() => {
+    return (
+      orgStats?.data?.performantPharmacies?.map((p: PerformantPharmacies) => {
+        console.log("performant Pharmacies>>>>>>>>>>>>>>>>", p);
+        const segments = p.statusCounts.map((s) => ({
+          value: s.count,
+          color:
+            s.status === "Transmitted"
+              ? "transmitted"
+              : s.status === "Queued"
+              ? "queued"
+              : s.status === "Created"
+              ? "pending"
+              : "failed",
+          label: s.status,
+        }));
+
+        const values = p.statusCounts.map((s) => `${s.status}: ${s.count}`);
+
+        return {
+          id: p.pharmacy.id,
+          name: p.pharmacy.name,
+          icon: "🏥",
+          stats: {
+            total: p.totalCount,
+            segments,
+            values,
+          },
+        };
+      }) || []
+    );
+  }, [orgStats]);
 
   const { table } = useDataTable({
     data: orgStats?.data?.last5transmissions || [],
     columns,
     pageCount: -1,
   });
-
-  const pharmaciesData =
-    orgStats?.data?.performantPharmacies?.map((p: any) => {
-      const segments = p.statusCounts.map((s: any) => ({
-        value: s.count,
-        color:
-          s.status === "Transmitted"
-            ? "transmitted"
-            : s.status === "Queued"
-            ? "queued"
-            : s.status === "Created"
-            ? "pending"
-            : "failed",
-        label: s.status,
-      }));
-      const values = p.statusCounts.map((s: any) => `${s.status}: ${s.count}`);
-
-      return {
-        id: p.pharmacy.id,
-        name: p.pharmacy.name,
-        icon: "🏥",
-        stats: {
-          total: p.totalCount,
-          segments,
-          values,
-        },
-      };
-    }) || [];
 
   if (isLoading) {
     return (
@@ -131,7 +116,6 @@ const OrganisationDashboard = () => {
             description={
               <>
                 <span className="text-pending">Created</span>{" "}
-                {/* <span className="text-gray-500">Attention</span> */}
               </>
             }
             icon={Pending}
@@ -179,11 +163,11 @@ const OrganisationDashboard = () => {
             <h2 className="text-xl font-semibold text-dashboard-title mb-6">
               Recent Transmissions
             </h2>
-            <div className="w-full bg-white p-5 rounded-lg shadow-sm">
+            <div className="w-full bg-white p-5 rounded-lg shadow-sm max-h-[500px]">
               <DataTable table={table} className="p-5 bg-white" />
             </div>
           </div>
-          <div className="w-1/2">
+          <div className="w-1/2 flex-1">
             <h2 className="text-xl font-semibold text-dashboard-title mb-6">
               Pharmacy Performance
             </h2>
