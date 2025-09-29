@@ -14,7 +14,7 @@ export default function CreateOrgPharmacyForm() {
             <TabsTrigger value="Organization">Organization</TabsTrigger>
             <TabsTrigger value="Pharmacy">Pharmacy</TabsTrigger>
           </TabsList>
-          <div className="mt-2  min-w-[600px] p-10 bg-white shadow-[0px_8px_10px_0px_#00000014] rounded-[16px]">
+          <div className="mt-2  min-w-[750px] p-10 bg-white shadow-[0px_8px_10px_0px_#00000014] rounded-[16px]">
             <TabsContent value="Organization">
               <CreateOrganization />
             </TabsContent>

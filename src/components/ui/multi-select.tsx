@@ -135,7 +135,7 @@ export const MultiSelect = React.forwardRef<
   ) => {
     const [selectedValues, setSelectedValues] =
       React.useState<string[]>(defaultValue);
-    console.log("🚀 ~ selectedValues:", selectedValues);
+
     const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
     const [isAnimating] = React.useState(false);
 
@@ -225,14 +225,14 @@ export const MultiSelect = React.forwardRef<
                           <IconComponent className="h-4 w-4 mr-2" />
                         )}
                         {option?.label}
-                        <button
+                        <span
                           onClick={(event) => {
                             event.stopPropagation();
                             toggleOption(value);
                           }}
                         >
                           <XCircle className="ml-2 h-4 w-4 cursor-pointer" />
-                        </button>
+                        </span>
                       </Badge>
                     );
                   })}

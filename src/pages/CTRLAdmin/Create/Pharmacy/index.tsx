@@ -17,6 +17,7 @@ import { createPharmacySchema } from "@/schemas/createOrganizationSchema";
 import { USA_STATES } from "@/constants";
 import { useCreatePharmacyMutation } from "@/redux/services/admin";
 import MultiSelectElement from "@/components/Form/multi-select-element";
+import SelectElement from "@/components/Form/select-element";
 
 export const statusOptions = [
   { value: "active", label: "Active" },
@@ -33,6 +34,15 @@ export default function CreatePharmacy() {
       email: "",
       phoneNumber: "",
       allowedStates: [],
+      address: {
+        address1: "",
+        address2: "",
+        city: "",
+        state: "",
+        zipcode: "",
+        country: "United States",
+        isDefault: true,
+      },
     },
   });
 
@@ -120,13 +130,74 @@ export default function CreatePharmacy() {
 
             <MultiSelectElement
               name="allowedStates"
-              label="Select States"
+              label="Select Allowed States"
               options={USA_STATES}
               className="w-[600px] "
               placeholder="Select states  "
               messageClassName="text-right"
               isRequired={true}
             />
+
+            <CenteredRow>
+              <InputElement
+                name={`address.address1`}
+                className="w-[290px]"
+                label="Address Line 1"
+                isRequired={true}
+                messageClassName="text-right"
+                placeholder="1247 Broadway Street"
+                inputClassName="border-border"
+              />
+
+              <InputElement
+                name={`address.address2`}
+                className="w-[290px]"
+                label="Address Line 2"
+                // isRequired={true}
+                messageClassName="text-right"
+                inputClassName="border-border"
+              />
+            </CenteredRow>
+            <CenteredRow>
+              <InputElement
+                name={`address.city`}
+                className="w-[290px]"
+                label="City"
+                isRequired={true}
+                messageClassName="text-right"
+                inputClassName="border-border"
+              />
+              <SelectElement
+                name={`address.state`}
+                options={USA_STATES}
+                label="State"
+                isRequired={true}
+                placeholder="Select a State"
+                className="w-[290px] min-h-[56px] border-border"
+                errorClassName="text-right"
+              />
+            </CenteredRow>
+            <CenteredRow>
+              <InputElement
+                name={`address.zipcode`}
+                className="w-[290px]"
+                label="Zip Code"
+                isRequired={true}
+                messageClassName="text-right"
+                inputClassName="border-border"
+                // placeholder="1247 Broadway Street"
+              />
+
+              <InputElement
+                name={`address.country`}
+                className="w-[290px]"
+                label="Country"
+                isRequired={true}
+                messageClassName="text-right"
+                inputClassName="bg-[#C3C1C6] border border-[#9EA5AB]"
+                disabled={true}
+              />
+            </CenteredRow>
 
             <div className="flex justify-center mt-6">
               <Button

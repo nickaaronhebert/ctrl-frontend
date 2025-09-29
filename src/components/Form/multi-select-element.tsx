@@ -63,7 +63,7 @@ const MultiSelectElement = ({
                 placeholder={placeholder}
                 variant="inverted"
                 animation={2}
-                maxCount={5}
+                maxCount={4}
               />
             </FormControl>
             {description && <FormDescription>{description}</FormDescription>}
