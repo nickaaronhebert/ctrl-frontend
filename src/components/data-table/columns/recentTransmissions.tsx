@@ -17,10 +17,10 @@ export type Pharmacy = {
   id: string;
 };
 export type Transmission = {
-  id: string;
+  transmissionId: string;
   pharmacy: Pharmacy;
-  status: "queued" | "transmitted" | "pending" | "failed";
-  medication: Medication[];
+  status: "Created" | "Queued" | "Transmitted" | "Failed";
+  prescriptions: Medication[];
 };
 
 export function recentTransmissionColumns(): ColumnDef<Transmission>[] {
@@ -29,7 +29,10 @@ export function recentTransmissionColumns(): ColumnDef<Transmission>[] {
       accessorKey: "id",
       header: "Transmission ID",
       cell: ({ row }) => {
-        return <p className="text-xs font-medium">{row.getValue("id")}</p>;
+        console.log("row transmission id", row);
+        return (
+          <p className="text-xs font-medium">{row.original.transmissionId}</p>
+        );
       },
       enableSorting: false,
       enableHiding: false,
@@ -40,16 +43,17 @@ export function recentTransmissionColumns(): ColumnDef<Transmission>[] {
       header: "Status",
       cell: ({ row }) => {
         const orderStatus = row.getValue("status");
+        console.log("orderStatus row", orderStatus);
 
         return (
           <>
-            {orderStatus === "queued" ? (
+            {orderStatus === "Queued" ? (
               <QueuedBadge />
-            ) : orderStatus === "transmitted" ? (
+            ) : orderStatus === "Transmitted" ? (
               <SuccessBadge />
-            ) : orderStatus === "pending" ? (
+            ) : orderStatus === "Created" ? (
               <PendingBadge />
-            ) : orderStatus === "failed" ? (
+            ) : orderStatus === "Failed" ? (
               <FailedBadge />
             ) : null}
           </>
@@ -61,6 +65,7 @@ export function recentTransmissionColumns(): ColumnDef<Transmission>[] {
       header: "Pharmacy",
       cell: ({ row }) => {
         const pharmacy: Pharmacy = row.getValue("pharmacy");
+        console.log("pharmacy row", pharmacy);
         return (
           <>
             <p className="text-xs font-medium">{pharmacy.name}</p>
@@ -71,10 +76,11 @@ export function recentTransmissionColumns(): ColumnDef<Transmission>[] {
     },
 
     {
-      accessorKey: "medication",
+      accessorKey: "prescriptions",
       header: "Medication",
       cell: ({ row }) => {
-        const medication: Medication[] = row.getValue("medication");
+        const medication: Medication[] = row.getValue("prescriptions");
+        console.log("medication row", medication);
 
         const displayedMedications = medication.slice(0, 2);
         const remainingCount = medication.length - 2;
@@ -83,16 +89,19 @@ export function recentTransmissionColumns(): ColumnDef<Transmission>[] {
           return type === "oral" ? "text-green-600" : "text-pink-600";
         };
 
+        console.log("displayedMedications", displayedMedications);
+
         return (
           <div className=" max-w-sm ">
             {displayedMedications.map((medication, index) => (
               <div key={index} className="mb-3 last:mb-0">
                 <div className="font-medium text-gray-900 text-sm mb-1">
-                  {medication.name}
+                  {medication.productVariant?.medicationCatalogue?.drugName}
                 </div>
                 <div className="flex items-center text-xs text-gray-600 mb-1">
                   <span>
-                    {medication.quantity} {medication.quantityType}
+                    {medication.productVariant?.containerQuantity}
+                    {medication.productVariant?.quantityType}
                   </span>
                   <div
                     className={`w-1.5 h-1.5 rounded-full mx-2 bg-[#63627F] `}
@@ -102,7 +111,7 @@ export function recentTransmissionColumns(): ColumnDef<Transmission>[] {
                       medication.injectible
                     )}`}
                   >
-                    {medication.injectible}
+                    {medication.productVariant?.medicationCatalogue?.dosageForm}
                   </span>
                 </div>
               </div>
@@ -122,10 +131,10 @@ export function recentTransmissionColumns(): ColumnDef<Transmission>[] {
     {
       id: "actions",
       header: "Actions",
-      cell: () => {
+      cell: ({ row }) => {
         return (
           <Link
-            to={"#"}
+            to={`/org/transmissions/${row.getValue("id")}`}
             className="flex justify-center items-center py-1 px-5 w-[85px] h-[36px] rounded-[50px] border border-primary-foreground "
           >
             View

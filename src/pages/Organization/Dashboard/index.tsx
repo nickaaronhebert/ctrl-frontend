@@ -13,21 +13,12 @@ import {
 } from "@/components/data-table/columns/recentTransmissions";
 import { useOrganizationStatsQuery } from "@/redux/services/admin";
 import { DataTable } from "@/components/data-table/data-table";
-import { transmissionData } from "@/constants";
-import {
-  getCoreRowModel,
-  getPaginationRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
-import { statusCardData } from "@/constants";
+import { useDataTable } from "@/hooks/use-data-table";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 const OrganisationDashboard = () => {
-  const {
-    data: orgStats,
-    isLoading,
-    error,
-    isError,
-  } = useOrganizationStatsQuery({});
+  const { data: orgStats, isLoading } = useOrganizationStatsQuery({});
+  const { user } = useAuthentication();
 
   const transmissionStats = orgStats?.data?.transmissionsStats || [];
 
@@ -44,7 +35,6 @@ const OrganisationDashboard = () => {
       transmissionStats.find((s: any) => s.status === "Failed")?.count || 0,
   };
 
-  const { user } = useAuthentication();
   const labels = {
     left: {
       title: "24h",
@@ -79,11 +69,10 @@ const OrganisationDashboard = () => {
 
   const columns = useMemo(() => recentTransmissionColumns(), []);
 
-  const table = useReactTable<Transmission>({
-    data: transmissionData[selectedPeriod],
+  const { table } = useDataTable({
+    data: orgStats?.data?.last5transmissions || [],
     columns,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
+    pageCount: -1,
   });
 
   const pharmaciesData =
@@ -113,6 +102,14 @@ const OrganisationDashboard = () => {
         },
       };
     }) || [];
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
   return (
     <>
