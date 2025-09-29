@@ -163,7 +163,7 @@ const OrganisationDashboard = () => {
             <h2 className="text-xl font-semibold text-dashboard-title mb-6">
               Recent Transmissions
             </h2>
-            <div className="w-full bg-white p-5 rounded-lg shadow-sm max-h-[500px]">
+            <div className="w-full bg-white p-5 rounded-lg shadow-sm max-h-[700px]">
               <DataTable table={table} className="p-5 bg-white" />
             </div>
           </div>
