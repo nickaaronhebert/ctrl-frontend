@@ -23,18 +23,20 @@ export default function WelcomePharmacy() {
 
         <div className="flex justify-center  gap-2.5">
           <Link
-            to="#"
+            to="/pharmacy/settings"
             className="text-white rounded-full py-4 px-7  text-base font-semibold bg-primary"
           >
             Choose Service States
           </Link>
 
-          <Link
-            to="#"
-            className="text-white rounded-full py-4 px-7  text-base font-semibold bg-primary"
-          >
-            Configure Payouts
-          </Link>
+          {!user?.pharmacy?.stripeAccountId && (
+            <Link
+              to="/pharmacy/settings"
+              className="text-white rounded-full py-4 px-7  text-base font-semibold bg-primary"
+            >
+              Configure Payouts
+            </Link>
+          )}
           <Link
             to="/pharmacy/transmissions"
             className=" rounded-full py-4 px-7  text-[#3E4D61]  font-semibold bg-transparent border border-[#3E4D61]"

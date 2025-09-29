@@ -175,10 +175,10 @@ const OrganisationDashboard = () => {
           </div>
         </div>
       </div>
-      <p className="text-muted-foreground text-right">
+      {/* <p className="text-muted-foreground text-right">
         © 2025 CTRL. All Rights Reserved. Made with love by
         <span className="font-bold "> Telegra!</span>
-      </p>
+      </p> */}
     </>
   );
 };
