@@ -13,8 +13,8 @@ export interface IInvitePharmacyAdminRequest {
 export interface IInviteProviderRequest {
   email: string;
   businessId: string;
-  firstName: string;
-  lastName: string;
-  phone: string;
-  npi: string;
+  firstName?: string;
+  lastName?: string;
+  phone?: string;
+  npi?: string;
 }

@@ -15,7 +15,8 @@ export default function SidebarLayout() {
   );
   const isCreatePatientRoute =
     location.pathname === "/org/create-patient" ||
-    location.pathname === "/admin/create-medication";
+    location.pathname === "/admin/create-medication" ||
+    location.pathname === "/org/invite-provider";
   const isCreateOrderRoute = location.pathname === "/org/create-order";
 
   return (
