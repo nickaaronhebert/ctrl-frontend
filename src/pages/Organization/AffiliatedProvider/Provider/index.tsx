@@ -57,10 +57,10 @@ export default function InviteProvider() {
           to={"/org/providers"}
           className="font-normal text-sm text text-muted-foreground"
         >
-          {"<- Back to Patients"}
+          {"<- Back to Providers"}
         </Link>
 
-        <h1 className="text-2xl font-bold mt-1">Create Patient</h1>
+        <h1 className="text-2xl font-bold mt-1">Invite Provider</h1>
       </div>
 
       <div className="flex justify-center w-full">
