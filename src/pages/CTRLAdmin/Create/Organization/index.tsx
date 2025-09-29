@@ -13,6 +13,9 @@ import { toast } from "sonner";
 
 import { createOrganizationSchema } from "@/schemas/createOrganizationSchema";
 import { useCreateOrganizationMutation } from "@/redux/services/admin";
+import { CenteredRow } from "@/components/ui/centered-row";
+import SelectElement from "@/components/Form/select-element";
+import { USA_STATES } from "@/constants";
 
 export const statusOptions = [
   { value: "active", label: "Active" },
@@ -28,6 +31,15 @@ export default function CreateOrganization() {
       name: "",
       email: "",
       phoneNumber: "",
+      address: {
+        address1: "",
+        address2: "",
+        city: "",
+        state: "",
+        zipcode: "",
+        country: "United States",
+        isDefault: true,
+      },
     },
   });
 
@@ -35,6 +47,7 @@ export default function CreateOrganization() {
     await createOrg(data)
       .unwrap()
       .then(() => {
+        form.reset();
         toast.success("Organization created successfully", {
           duration: 1500,
         });
@@ -70,6 +83,7 @@ export default function CreateOrganization() {
               messageClassName="text-right"
               placeholder="Enter Organization Name"
               inputClassName="border border-[#9EA5AB]"
+              autoComplete="name"
             />
 
             <InputElement
@@ -79,7 +93,69 @@ export default function CreateOrganization() {
               messageClassName="text-right"
               placeholder="Enter email address"
               inputClassName="border border-[#9EA5AB]"
+              autoComplete="email"
             />
+
+            <CenteredRow>
+              <InputElement
+                name={`address.address1`}
+                className="w-[290px]"
+                label="Address Line 1"
+                isRequired={true}
+                messageClassName="text-right"
+                placeholder="1247 Broadway Street"
+                inputClassName="border-border"
+              />
+
+              <InputElement
+                name={`address.address2`}
+                className="w-[290px]"
+                label="Address Line 2"
+                // isRequired={true}
+                messageClassName="text-right"
+                inputClassName="border-border"
+              />
+            </CenteredRow>
+            <CenteredRow>
+              <InputElement
+                name={`address.city`}
+                className="w-[290px]"
+                label="City"
+                isRequired={true}
+                messageClassName="text-right"
+                inputClassName="border-border"
+              />
+              <SelectElement
+                name={`address.state`}
+                options={USA_STATES}
+                label="State"
+                isRequired={true}
+                placeholder="Select a State"
+                className="w-[290px] min-h-[56px] border-border"
+                errorClassName="text-right"
+              />
+            </CenteredRow>
+            <CenteredRow>
+              <InputElement
+                name={`address.zipcode`}
+                className="w-[290px]"
+                label="Zip Code"
+                isRequired={true}
+                messageClassName="text-right"
+                inputClassName="border-border"
+                // placeholder="1247 Broadway Street"
+              />
+
+              <InputElement
+                name={`address.country`}
+                className="w-[290px]"
+                label="Country"
+                isRequired={true}
+                messageClassName="text-right"
+                inputClassName="bg-[#C3C1C6] border border-[#9EA5AB]"
+                disabled={true}
+              />
+            </CenteredRow>
 
             {/* <CenteredRow> */}
             {/* <SelectElement
@@ -88,7 +164,7 @@ export default function CreateOrganization() {
                   label="Select Status"
                   isRequired={true}
                   triggerClassName="w-full min-h-[56px] border border-[#9EA5AB]"
-                  className="w-80 "
+                  className="w-[290px] "
                 /> */}
 
             <PhoneInputElement
@@ -100,11 +176,12 @@ export default function CreateOrganization() {
               messageClassName="text-right"
               inputClassName=" shadow-none focus-visible:ring-0 focus-visible:border-none"
             />
+
             {/* </CenteredRow> */}
 
             <div className="flex justify-center mt-6">
               <Button
-                disabled={!form.formState.isValid}
+                // disabled={!form.formState.isValid}
                 type="submit"
                 className="text-white rounded-full py-2.5 px-7 min-h-14 text-base font-semibold"
               >
