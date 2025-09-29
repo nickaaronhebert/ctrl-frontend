@@ -66,10 +66,13 @@ export function organizationTransmissionColumns(): ColumnDef<TransmissionDetails
       header: "Pharmacy",
       cell: ({ row }) => {
         const pharmacy: Pharmacy = row.getValue("pharmacy");
+
         return (
           <>
-            <p className="text-xs font-medium">{pharmacy.name}</p>
-            <p className="text-[10px] font-medium">{pharmacy.address}</p>
+            <p className="text-xs font-medium">{pharmacy?.name || "-"}</p>
+            <p className="text-[10px] font-medium">
+              {pharmacy?.address?.address1 || "-"}
+            </p>
           </>
         );
       },
