@@ -25,3 +25,23 @@ export const inviteAdminSchema = z.object({
   email: z.string().email("Invalid email address"),
   businessId: z.string().min(1, "Business name is required"),
 });
+
+export const inviteProviderSchema = z.object({
+  firstName: z.string().optional(),
+  lastName: z.string().optional(),
+  email: z.string().email("Invalid email address"),
+  phone: z
+    .string()
+    .optional() // Make it optional
+    .refine(
+      (val) => {
+        if (!val) return true; // Skip validation if the value is empty (optional)
+        const digits = val.replace(/\D/g, ""); // Remove non-digit characters
+        return digits.length === 10; // Ensure it's 10 digits
+      },
+      {
+        message: "Phone number must be 10 digits.",
+      }
+    ),
+  npi: z.string().min(1, "NPI Id is required"),
+});

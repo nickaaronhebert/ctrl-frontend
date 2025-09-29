@@ -70,6 +70,7 @@ import CreateOrgPharmacyForm from "./pages/CTRLAdmin/Create";
 import MedicationCatalogue from "./pages/CTRLAdmin/MedicationCatalogue";
 import AdminDashboard from "./pages/CTRLAdmin/Dashboard";
 import InviteAdmin from "./pages/CTRLAdmin/Invitation";
+import InviteProvider from "./pages/Organization/AffiliatedProvider/Provider";
 
 const router = createBrowserRouter([
   {
@@ -296,6 +297,10 @@ const router = createBrowserRouter([
       {
         path: ROUTES.ORG_SETTINGS,
         element: <OrganizationSettings />,
+      },
+      {
+        path: ROUTES.ORG_INVITE_PROVIDERS,
+        element: <InviteProvider />,
       },
       {
         path: ROUTES.VIEW_TRANSMISSION_DETAIL,

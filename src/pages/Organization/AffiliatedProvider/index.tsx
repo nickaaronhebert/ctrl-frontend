@@ -2,7 +2,7 @@ import { organizationProviderColumns } from "@/components/data-table/columns/aff
 import { DataTable } from "@/components/data-table/data-table";
 import { useMemo } from "react";
 import { useViewAffiliateProvidersQuery } from "@/redux/services/provider";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import {
   useDataTable,
   type DataTableFilterField,
@@ -47,7 +47,15 @@ export default function OrganizationAffiliatedProvider() {
             Manage affiliated healthcare providers and their credentials
           </h6>
         </div>
-        <DataTableToolbar table={table} filterFields={filterFields} />
+        <div className="flex items-center gap-2">
+          <DataTableToolbar table={table} filterFields={filterFields} />
+          <Link
+            to={"/org/invite-provider"}
+            className="flex items-center rounded-[50px] px-[20px] py-[5px] min-h-[40px]  text-white  font-semibold text-[12px] bg-primary-foreground "
+          >
+            Invite Provider
+          </Link>
+        </div>
       </div>
 
       <div className="mt-3.5 bg-white shadow-[0px_2px_40px_0px_#00000014] rounded-2xl ">

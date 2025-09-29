@@ -10,6 +10,7 @@ export interface UserDetails {
   role: Role;
   isEmailVerified: string;
   organization: {
+    _id: string;
     name: string;
   };
   organisations: string[];

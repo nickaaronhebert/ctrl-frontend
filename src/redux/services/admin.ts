@@ -37,7 +37,7 @@ const adminApi = baseApi.injectEndpoints({
 
     inviteProvider: builder.mutation<any, IInviteProviderRequest>({
       query: (body) => ({
-        url: `/invitation/pharmacy-admin`,
+        url: `/invitation/provider-group`,
         method: "POST",
         body,
       }),
@@ -103,6 +103,7 @@ export const {
   useInviteOrgAdminMutation,
   useViewAllPharmaciesQuery,
   useInvitePharmacyAdminMutation,
+  useInviteProviderMutation,
 } = adminApi;
 
 export default adminApi;

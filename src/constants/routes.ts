@@ -41,6 +41,7 @@ export const ROUTES = {
   ORG_PHARMACIES: "pharmacies",
   ORG_ACTIVITY_LOG: "activity-log",
   ORG_SETTINGS: "settings",
+  ORG_INVITE_PROVIDERS: "invite-provider",
   ORG_ORDER_DETAILS: "order/:id",
   ORG_MEDICATION_DETAILS: "medications/:id",
   ORG_CREATE_ORDER: "create-order",
