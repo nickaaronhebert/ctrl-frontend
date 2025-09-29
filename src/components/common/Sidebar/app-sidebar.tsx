@@ -166,6 +166,7 @@ export function AppSidebar() {
                             asChild
                             size="lg"
                             tooltip={item.title}
+                            onClick={() => {}}
                           >
                             <div
                               className={`flex items-center gap-3 w-full cursor-pointer ${
@@ -181,7 +182,11 @@ export function AppSidebar() {
                                   }`}
                                 />
                               </span>
-                              <span className="text-lg flex-1">
+                              <span
+                                className={`text-lg ${
+                                  state !== "collapsed" && "flex-1"
+                                }`}
+                              >
                                 {state !== "collapsed" && item.title}
                               </span>
                               {state !== "collapsed" &&
