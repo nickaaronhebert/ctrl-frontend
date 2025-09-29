@@ -26,13 +26,17 @@ export const tabsConfig: TabConfig[] = [
 
 export const platformAdminItems = [
   { title: "Dashboard", url: "/admin/dashboard", icon: Dashboard },
-  { title: "Registration", url: "/admin/organizations", icon: Dashboard },
+  { title: "Registration", url: "/admin/organizations", icon: User },
   {
     title: "Add Medication ",
     url: "/admin/create-medication",
     icon: MedicationLibrary,
   },
-  // { title: "My Settings ", url: "/admin/pharmacy", icon: AdminSettings },
+  {
+    title: "Send Invitation ",
+    url: "/admin/send-invitation",
+    icon: Transmission,
+  },
 ];
 export const organisationAdminItems = [
   { title: "Dashboard", url: "/org/dashboard", icon: Dashboard },

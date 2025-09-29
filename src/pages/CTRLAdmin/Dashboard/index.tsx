@@ -15,29 +15,16 @@ import {
   CheckCircle,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { useState } from "react";
 import { mockStats, quickActions, recentInvites } from "@/constants";
 import { useNavigate } from "react-router-dom";
-import PreInvitationDialog from "@/components/common/PreInvitationDialog/PreInvitationDialog";
 import { StatCard } from "@/components/common/StatCard/StatCard";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [modalType, setModalType] = useState<"organization" | "pharmacy">(
-    "organization"
-  );
-
-  const handleInviteClick = (type: "organization" | "pharmacy") => {
-    setModalType(type);
-    setIsModalOpen(true);
+  const handleInviteClick = () => {
+    navigate("/admin/send-invitation");
   };
 
-  const handleContinue = () => {
-    console.log(`Redirecting to: `);
-    setIsModalOpen(false);
-    navigate("/admin/organizations");
-  };
   return (
     <>
       <div className="space-y-6">
@@ -169,9 +156,9 @@ const AdminDashboard = () => {
                     className="px-4 py-2 bg-primary cursor-pointer hover:bg-primary text-white text-sm rounded-lg font-medium transition-colors"
                     onClick={() => {
                       if (action.title.includes("Organization")) {
-                        handleInviteClick("organization");
+                        handleInviteClick();
                       } else if (action.title.includes("Pharmacy")) {
-                        handleInviteClick("pharmacy");
+                        handleInviteClick();
                       }
                     }}
                   >
@@ -183,14 +170,6 @@ const AdminDashboard = () => {
           </Card>
         </div>
       </div>
-      {isModalOpen && (
-        <PreInvitationDialog
-          isModalOpen={isModalOpen}
-          setIsModalOpen={setIsModalOpen}
-          modalType={modalType}
-          handleContinue={handleContinue}
-        />
-      )}
     </>
   );
 };
