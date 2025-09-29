@@ -17,9 +17,9 @@ interface TripleToggleSwitchProps {
 }
 
 const defaultLabels: Labels = {
-  left: { title: "24h", value: "24h" },
-  center: { title: "1m", value: "1m" },
-  right: { title: "7d", value: "7d" },
+  left: { title: "Day", value: "day" },
+  center: { title: "Week", value: "week" },
+  right: { title: "Month", value: "month" },
 };
 
 const TripleToggleSwitch: React.FC<TripleToggleSwitchProps> = ({

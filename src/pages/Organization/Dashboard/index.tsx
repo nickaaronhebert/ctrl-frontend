@@ -7,10 +7,7 @@ import StatusCard from "@/components/common/StatusCard";
 import TripleToggleSwitch from "@/components/common/TripleToggleSwitch";
 import useAuthentication from "@/hooks/use-authentication";
 import { useCallback, useState, useMemo } from "react";
-import {
-  recentTransmissionColumns,
-  type Transmission,
-} from "@/components/data-table/columns/recentTransmissions";
+import { recentTransmissionColumns } from "@/components/data-table/columns/recentTransmissions";
 import { useOrganizationStatsQuery } from "@/redux/services/admin";
 import { DataTable } from "@/components/data-table/data-table";
 import { useDataTable } from "@/hooks/use-data-table";
@@ -37,20 +34,21 @@ const OrganisationDashboard = () => {
 
   const labels = {
     left: {
-      title: "24h",
-      value: "24h",
+      title: "Day",
+      value: "day",
     },
     right: {
-      title: "7d",
-      value: "7d",
+      title: "Month",
+      value: "month",
     },
     center: {
-      title: "1m",
-      value: "1m",
+      title: "Week",
+      value: "week",
     },
   };
 
-  type Period = "24h" | "7d" | "1m";
+  type Period = "day" | "week" | "month";
+
   const [selectedPeriod, setSelectedPeriod] = useState<Period>(
     labels.left.value as Period
   );
@@ -111,6 +109,8 @@ const OrganisationDashboard = () => {
     );
   }
 
+  console.log("selectedPeriod:: ", selectedPeriod);
+
   return (
     <>
       <div className="h-screen bg-background">
@@ -130,11 +130,11 @@ const OrganisationDashboard = () => {
             value={statusCounts?.created}
             description={
               <>
-                <span className="text-shadow-amber-500">Created</span>{" "}
+                <span className="text-pending">Created</span>{" "}
                 {/* <span className="text-gray-500">Attention</span> */}
               </>
             }
-            icon={Failed}
+            icon={Pending}
           />
 
           <StatusCard
@@ -169,7 +169,7 @@ const OrganisationDashboard = () => {
                 <span className="text-red-600">Failed</span>{" "}
               </>
             }
-            icon={Transmitted}
+            icon={Failed}
           />
         </div>
 

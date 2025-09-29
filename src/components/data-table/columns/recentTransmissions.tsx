@@ -2,6 +2,7 @@ import FailedBadge from "@/components/TransmissionBadge/failed";
 import PendingBadge from "@/components/TransmissionBadge/pending";
 import QueuedBadge from "@/components/TransmissionBadge/queued";
 import SuccessBadge from "@/components/TransmissionBadge/success";
+import type { ProductVariantDetails } from "@/types/responses/transmission";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Link } from "react-router-dom";
 
@@ -10,6 +11,8 @@ export type Medication = {
   quantity: string;
   quantityType: string;
   injectible: "oral" | "injectable";
+} & {
+  productVariant: ProductVariantDetails;
 };
 
 export type Pharmacy = {
