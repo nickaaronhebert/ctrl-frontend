@@ -26,6 +26,7 @@ export const ROUTES = {
   WARNING: "warning",
   PENDING_APPROVAL: "pending-approval",
   SETTINGS: "settings",
+  INVITATION: "send-invitation",
   PROVIDER_SETTINGS: "provider/settings",
   ADMIN_DASHBOARD: "dashboard",
   CREATE_PHARMACY: "pharmacy",

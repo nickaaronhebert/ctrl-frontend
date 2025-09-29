@@ -23,5 +23,5 @@ export const inviteAdminSchema = z.object({
   firstName: z.string().optional(),
   lastName: z.string().optional(),
   email: z.string().email("Invalid email address"),
-  businessId: z.string().min(1, "Business Id is required"),
+  businessId: z.string().min(1, "Business name is required"),
 });
