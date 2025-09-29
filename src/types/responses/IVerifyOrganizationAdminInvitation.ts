@@ -3,5 +3,7 @@ export interface IVerifyOrgAdminInvitationResponse {
     email: string;
     id: string;
     organization: string;
+    firstName: string;
+    lastName: string;
   };
 }

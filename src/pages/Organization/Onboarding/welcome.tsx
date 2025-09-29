@@ -27,7 +27,7 @@ export default function WelcomeOrgAdmin() {
           </Link>
 
           <Link
-            to="#"
+            to="/org/dashboard"
             className=" rounded-full py-4 px-7  text-[#3E4D61]  font-semibold bg-transparent border border-[#3E4D61]"
           >
             Set up later
