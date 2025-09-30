@@ -19,6 +19,8 @@ interface Pharmacy {
 }
 
 interface OrgAdmin {
+  firstName: string;
+  lastName: string;
   email: string;
   id: string;
   organization: string;

@@ -25,8 +25,8 @@ export default function RegisterOrgAdmin() {
     mode: "onChange",
     resolver: zodResolver(onboardingFormSchema),
     defaultValues: {
-      firstName: "",
-      lastName: "",
+      firstName: orgAdmin?.firstName || "",
+      lastName: orgAdmin?.lastName || "",
       email: orgAdmin?.email || "",
       phoneNumber: "",
       password: "",
