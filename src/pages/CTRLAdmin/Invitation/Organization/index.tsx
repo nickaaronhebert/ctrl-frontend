@@ -93,7 +93,6 @@ export default function InviteOrganizationAdmin() {
                 messageClassName="text-right"
                 placeholder="Enter first name... "
                 inputClassName="border border-[#9EA5AB]"
-                autoComplete="firstName"
               />
 
               <InputElement
@@ -103,7 +102,6 @@ export default function InviteOrganizationAdmin() {
                 messageClassName="text-right"
                 placeholder="Enter last name... "
                 inputClassName="border border-[#9EA5AB]"
-                autoComplete="lastName"
               />
             </CenteredRow>
 

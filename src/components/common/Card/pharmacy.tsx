@@ -23,11 +23,11 @@ const pharmacyDisplayFields: {
     getValue: (pharmacy) =>
       pharmacy.address ? pharmacy?.address?.address1 : "-",
   },
-  {
-    label: "Address",
-    getValue: (pharmacy) =>
-      pharmacy.address ? pharmacy?.address?.address1 : "-",
-  },
+  // {
+  //   label: "Address",
+  //   getValue: (pharmacy) =>
+  //     pharmacy.address ? pharmacy?.address?.address1 : "-",
+  // },
   {
     label: "City",
     getValue: (pharmacy) => (pharmacy.address ? pharmacy?.address?.city : "-"),

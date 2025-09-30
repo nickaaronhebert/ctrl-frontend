@@ -32,7 +32,9 @@ export function DataTableFacetedFilter<TData, TValue>({
   options,
 }: DataTableFacetedFilterProps<TData, TValue>) {
   const selectedValues = new Set(column?.getFilterValue() as string[]);
-  const selectedEntity = selectedValues.values().next().value;
+  const selectedEntity = options.find((option) =>
+    selectedValues.has(option.value)
+  )?.label;
 
   return (
     <Popover>
@@ -97,6 +99,7 @@ export function DataTableFacetedFilter<TData, TValue>({
 
                       if (!isSelected) {
                         selectedValues.add(option.value);
+                        // setSelectedEntity(option.label);
                       }
                       const filterValues = Array.from(selectedValues);
                       column?.setFilterValue(

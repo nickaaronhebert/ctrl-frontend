@@ -35,8 +35,8 @@ export const platformAdminItems = [
     icon: MedicationLibrary,
   },
   {
-    title: "Send Invitation ",
-    url: "/admin/send-invitation",
+    title: "Invitation",
+    url: "/admin/invitations",
     icon: Transmission,
   },
 ];

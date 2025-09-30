@@ -62,14 +62,9 @@ export default function TransmissionDetails() {
 
   const status = data?.status?.toLowerCase();
   const bgColor = statusColorMap[status as string];
-  const parsedObj = data?.fullfillmentResponse
-    ? JSON.parse(data.fullfillmentResponse)
-    : null;
 
-  const uniqueId =
-    parsedObj !== null && parsedObj?.response?.data?.orderId
-      ? parsedObj.response.data.orderId
-      : "-";
+  const uniqueId = data?.foreignPharmacyOrderId ?? "-";
+
   // const uniqueId = parsedObj ? parsedObj.status ===1 ?
   // console.log("sssssssss", parsedObj);
 

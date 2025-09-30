@@ -14,4 +14,5 @@ export interface ICommonSearchQuery {
     | "Payment";
   startDate?: string;
   endDate?: string;
+  status?: string;
 }

@@ -71,7 +71,7 @@ export function organizationTransmissionColumns(): ColumnDef<TransmissionDetails
           <>
             <p className="text-xs font-medium">{pharmacy?.name || "-"}</p>
             <p className="text-[10px] font-medium">
-              {pharmacy?.address?.address1 || "-"}
+              {pharmacy?.address?.address1 || ""}
             </p>
           </>
         );

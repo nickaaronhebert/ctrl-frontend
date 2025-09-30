@@ -15,6 +15,7 @@ import {
   TAG_GET_PHARMACY,
   TAG_GET_PROVIDERS,
 } from "@/types/baseApiTags";
+import type { IViewAllInvitationResponse } from "@/types/responses/IViewInvitation";
 
 const adminApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -102,6 +103,21 @@ const adminApi = baseApi.injectEndpoints({
       },
       providesTags: [TAG_GET_PHARMACY],
     }),
+
+    viewAllInvitations: builder.query<
+      IViewAllInvitationResponse,
+      ICommonSearchQuery
+    >({
+      query: ({ page, perPage, status }) => {
+        const statusQuery = status ? `&status=${status}` : "";
+
+        return {
+          url: `/invitation?page=${page}&limit=${perPage}${statusQuery}`,
+          method: "GET",
+        };
+      },
+      // providesTags: [TAG_GET_PHARMACY],
+    }),
   }),
 });
 
@@ -114,6 +130,7 @@ export const {
   useViewAllPharmaciesQuery,
   useInvitePharmacyAdminMutation,
   useInviteProviderMutation,
+  useViewAllInvitationsQuery,
 } = adminApi;
 
 export default adminApi;

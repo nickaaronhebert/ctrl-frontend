@@ -153,7 +153,7 @@ export interface Prescription {
 }
 
 export interface Transmission {
-  fullfillmentResponse?: string;
+  foreignPharmacyOrderId?: string;
   pharmacy: Pharmacy;
   prescriptions: Prescription[];
   status: string;

@@ -73,6 +73,7 @@ import OrganizationList from "./pages/CTRLAdmin/Business/Organization";
 import CreateOrganization from "./pages/CTRLAdmin/Create/Organization";
 import PharmacyList from "./pages/CTRLAdmin/Business/Pharmacy";
 import CreatePharmacy from "./pages/CTRLAdmin/Create/Pharmacy";
+import InvitationList from "./pages/CTRLAdmin/Invitation/view";
 
 const router = createBrowserRouter([
   {
@@ -540,6 +541,10 @@ const router = createBrowserRouter([
       },
       {
         path: ROUTES.INVITATION,
+        element: <InvitationList />,
+      },
+      {
+        path: ROUTES.SEND_INVITATION,
         element: <InviteAdmin />,
       },
     ],
