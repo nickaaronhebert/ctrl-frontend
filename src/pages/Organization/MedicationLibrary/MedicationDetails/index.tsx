@@ -155,7 +155,7 @@ const MedicationDetails = () => {
           />
           <div className="bg-white rounded-[15px]">
             <div className="flex items-center gap-2 p-3 mb-1">
-              <Pharmacies color="black" />
+              <MedicationLibrary color="black" />
               <h1 className="font-semibold text-[16px] leading-[22px] text-black">
                 Variants
               </h1>

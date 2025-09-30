@@ -85,8 +85,6 @@ export default function MedDetails({
           <InfoRow label="Category">
             <CustomBadge variant="purple">{category}</CustomBadge>
           </InfoRow>
-        </div>
-        <div className="flex mb-6 gap-10 items-center">
           <InfoRow label="Strength">
             <div className="flex gap-2">
               {variants?.map((variant) => {
