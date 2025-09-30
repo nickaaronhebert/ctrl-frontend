@@ -12,12 +12,14 @@ import { useOrganizationStatsQuery } from "@/redux/services/admin";
 import { DataTable } from "@/components/data-table/data-table";
 import { useDataTable } from "@/hooks/use-data-table";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { ScrollBar } from "@/components/ui/scroll-area";
 import {
   type PerformantPharmacies,
   type Period,
 } from "@/types/global/commonTypes";
 import { getStartDate, getStatusCounts } from "@/lib/utils";
 import { labels } from "@/lib/utils";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const OrganisationDashboard = () => {
   const { user } = useAuthentication();
@@ -50,7 +52,6 @@ const OrganisationDashboard = () => {
   const pharmaciesData = useMemo(() => {
     return (
       orgStats?.data?.performantPharmacies?.map((p: PerformantPharmacies) => {
-        console.log("performant Pharmacies>>>>>>>>>>>>>>>>", p);
         const segments = p.statusCounts.map((s) => ({
           value: s.count,
           color:
@@ -163,9 +164,10 @@ const OrganisationDashboard = () => {
             <h2 className="text-xl font-semibold text-dashboard-title mb-6">
               Recent Transmissions
             </h2>
-            <div className="w-full bg-white p-5 rounded-lg shadow-sm max-h-[700px]">
+            <ScrollArea className="w-full whitespace-nowrap bg-white p-5 rounded-lg shadow-sm max-h-[700px]">
               <DataTable table={table} className="p-5 bg-white" />
-            </div>
+              <ScrollBar orientation="horizontal" />
+            </ScrollArea>
           </div>
           <div className="w-1/2 flex-1">
             <h2 className="text-xl font-semibold text-dashboard-title mb-6">

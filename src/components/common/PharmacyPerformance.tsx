@@ -16,9 +16,9 @@ export const PharmacyPerformance: React.FC<{
   console.log("data", data);
   return (
     <>
-      <div className="w-full min-h-[660px] bg-white rounded-[15px] shadow-sm p-6">
+      <div className="w-full min-h-[660px] bg-white rounded-[15px] shadow-sm p-6 flex-col justify-center items-center">
         {data.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-full gap-2">
+          <div className="flex flex-col items-center h-full min-h-[600px] justify-center gap-2 flex-1">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="w-12 h-12 text-muted-foreground/70"

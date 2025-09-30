@@ -160,13 +160,12 @@ const MedicationDetails = () => {
                 Variants
               </h1>
             </div>
-            <div className="px-6">
+            <div className="px-6 ">
               <div
                 id="medVariants"
-                className="mt-3.5 bg-white shadow-[0px_2px_40px_0px_#00000014] pb-[12px]"
+                className="mt-3.5 bg-white  shadow-[0px_2px_40px_0px_#00000014] pb-[12px] mb-[20px]"
               >
                 <DataTable table={variantTable} />
-                {/* <DataTablePagination table={variantTable} /> */}
               </div>
             </div>
           </div>
@@ -178,7 +177,7 @@ const MedicationDetails = () => {
           </div>
           <div
             id="medPharmacies"
-            className="bg-white border border-card-border rounded-[15px] shadow-[0px_2px_40px_0px_#00000014] pb-[12px]"
+            className="bg-white border border-card-border rounded-[15px]  shadow-[0px_2px_40px_0px_#00000014] pb-[12px]"
           >
             <PharmacyResults data={pharmacyMedicines} />
           </div>

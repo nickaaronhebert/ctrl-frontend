@@ -5,7 +5,7 @@ import {
   type AccessResponse,
   type SingleAccessResponse,
 } from "@/types/responses/access-control";
-import { TAG_GET_ACCESS_CONTROL } from "@/types/baseApiTags";
+import { TAG_ACCESS, TAG_GET_ACCESS_CONTROL } from "@/types/baseApiTags";
 import type { DefaultPharmacy } from "@/components/data-table/columns/access-control";
 
 const accessControlApi = baseApi.injectEndpoints({
@@ -31,7 +31,7 @@ const accessControlApi = baseApi.injectEndpoints({
         method: "POST",
         body,
       }),
-      invalidatesTags: [TAG_GET_ACCESS_CONTROL, "test"],
+      invalidatesTags: [TAG_GET_ACCESS_CONTROL, TAG_ACCESS],
     }),
     getAccessControl: builder.query<AccessResponse, ICommonSearchQuery>({
       query: ({ page, perPage, q }) => ({
@@ -46,14 +46,14 @@ const accessControlApi = baseApi.injectEndpoints({
         method: "GET",
         url: `/access-control/${id}`,
       }),
-      providesTags: ["test"],
+      providesTags: [TAG_ACCESS],
     }),
     getAccessControlByProductVariant: builder.query<
       SingleAccessResponse,
       string
     >({
       query: (id) => `/access-control/product-variant/${id}`,
-      providesTags: ["test"],
+      providesTags: [TAG_ACCESS],
     }),
 
     // Bulk pharmacy assignment API //

@@ -18,6 +18,7 @@ export type Medication = {
 export type Pharmacy = {
   name: string;
   id: string;
+  phoneNumber?: string;
 };
 export type Transmission = {
   transmissionId: string;
@@ -70,10 +71,12 @@ export function recentTransmissionColumns(): ColumnDef<Transmission>[] {
         const pharmacy: Pharmacy = row.getValue("pharmacy");
         console.log("pharmacy row", pharmacy);
         return (
-          <>
-            <p className="text-xs font-medium">{pharmacy.name}</p>
-            <p className="text-[10px] font-medium">{pharmacy.id}</p>
-          </>
+          <div className="max-w-[100px]">
+            <p className="text-[11px] font-medium text-wrap  mb-2">
+              {pharmacy.name}
+            </p>
+            <p className="text-[9px] font-medium">{pharmacy.phoneNumber}</p>
+          </div>
         );
       },
     },
@@ -98,11 +101,11 @@ export function recentTransmissionColumns(): ColumnDef<Transmission>[] {
           <div className=" max-w-sm ">
             {displayedMedications.map((medication, index) => (
               <div key={index} className="mb-3 last:mb-0">
-                <div className="font-medium text-gray-900 text-sm mb-1">
+                <div className="font-medium text-gray-900 text-xs mb-1">
                   {medication.productVariant?.medicationCatalogue?.drugName}
                 </div>
                 <div className="flex items-center text-xs text-gray-600 mb-1">
-                  <span>
+                  <span className="text-xs text-gray-600 mb-1">
                     {medication.productVariant?.containerQuantity}
                     {medication.productVariant?.quantityType}
                   </span>
@@ -110,7 +113,7 @@ export function recentTransmissionColumns(): ColumnDef<Transmission>[] {
                     className={`w-1.5 h-1.5 rounded-full mx-2 bg-[#63627F] `}
                   ></div>
                   <span
-                    className={`capitalize ${getTypeColor(
+                    className={`capitalize text-xs ${getTypeColor(
                       medication.injectible
                     )}`}
                   >

@@ -44,7 +44,7 @@ DataTableProps<TData>) {
     <>
       {/* // ? below div and scroll area is commented */}
       {/* <ScrollArea className="h-[75vh] rounded-none border w-full overflow-x-auto"> */}
-      <ScrollArea className="h-[620px] rounded-md ">
+      <ScrollArea className="h-[620px] rounded-md">
         <Table className={cn("", className)}>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
