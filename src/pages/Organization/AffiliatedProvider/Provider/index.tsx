@@ -13,10 +13,11 @@ import { inviteProviderSchema } from "@/schemas/createOrganizationSchema";
 import { CenteredRow } from "@/components/ui/centered-row";
 import { useInviteProviderMutation } from "@/redux/services/admin";
 import useAuthentication from "@/hooks/use-authentication";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function InviteProvider() {
   const { user } = useAuthentication();
+  const navigate = useNavigate();
   const [inviteProvider] = useInviteProviderMutation();
 
   const form = useForm<z.infer<typeof inviteProviderSchema>>({
@@ -32,7 +33,6 @@ export default function InviteProvider() {
   });
 
   async function onSubmit(data: z.infer<typeof inviteProviderSchema>) {
-    console.log("data", data);
     const businessId = user?.organization?._id ?? "";
     await inviteProvider({ ...data, businessId })
       .unwrap()
@@ -41,6 +41,7 @@ export default function InviteProvider() {
         toast.success(data?.message || "Invitation sent successfully", {
           duration: 1500,
         });
+        navigate("/org/providers");
       })
       .catch((err) => {
         console.log("error", err);
@@ -101,7 +102,7 @@ export default function InviteProvider() {
                 isRequired={true}
               />
               <PhoneInputElement
-                name="phoneNumber"
+                name="phone"
                 className="w-80"
                 label="Phone Number"
                 placeholder="(123) 132-1312"
@@ -124,7 +125,7 @@ export default function InviteProvider() {
               <Button
                 // disabled={!form.formState.isValid}
                 type="submit"
-                className="text-white rounded-full py-2.5 px-7 min-h-14 text-base font-semibold"
+                className="text-white rounded-full py-2.5 px-7 min-h-14 text-base font-semibold cursor-pointer"
               >
                 Send Invitation
               </Button>

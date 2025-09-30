@@ -26,7 +26,9 @@ export const tabsConfig: TabConfig[] = [
 
 export const platformAdminItems = [
   { title: "Dashboard", url: "/admin/dashboard", icon: Dashboard },
-  { title: "Registration", url: "/admin/organizations", icon: User },
+  { title: "Organization", url: "/admin/organizations", icon: Affiliation },
+  { title: "Pharmacy", url: "/admin/pharmacies", icon: Licence },
+
   {
     title: "Add Medication ",
     url: "/admin/create-medication",

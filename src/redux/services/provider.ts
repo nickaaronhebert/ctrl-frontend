@@ -1,4 +1,4 @@
-import { TAG_GET_USER_PROFILE } from "@/types/baseApiTags";
+import { TAG_GET_PROVIDERS, TAG_GET_USER_PROFILE } from "@/types/baseApiTags";
 import { baseApi } from ".";
 import type { IGetAllAffiliatedProvidersResponse } from "@/types/responses/provider";
 import type { ICommonSearchQuery } from "@/types/requests/search";
@@ -44,6 +44,7 @@ export const providerApi = baseApi.injectEndpoints({
         url: `/business/affiliations?page=${page}&limit=${perPage}&q=${q}`,
         method: "GET",
       }),
+      providesTags: [TAG_GET_PROVIDERS],
     }),
 
     viewAllPrescriptions: builder.query<

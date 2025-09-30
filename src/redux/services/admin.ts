@@ -10,6 +10,11 @@ import type {
   IInvitePharmacyAdminResponse,
 } from "@/types/responses/Invitation";
 import type { IViewAllPharmaciesResponse } from "@/types/responses/IViewAllPharmacies";
+import {
+  TAG_GET_ORGANIZATIONS,
+  TAG_GET_PHARMACY,
+  TAG_GET_PROVIDERS,
+} from "@/types/baseApiTags";
 
 const adminApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -41,6 +46,7 @@ const adminApi = baseApi.injectEndpoints({
         method: "POST",
         body,
       }),
+      invalidatesTags: [TAG_GET_PROVIDERS],
     }),
 
     createOrganization: builder.mutation<any, any>({
@@ -49,6 +55,7 @@ const adminApi = baseApi.injectEndpoints({
         method: "POST",
         body,
       }),
+      invalidatesTags: [TAG_GET_ORGANIZATIONS],
     }),
 
     createPharmacy: builder.mutation<any, any>({
@@ -57,6 +64,7 @@ const adminApi = baseApi.injectEndpoints({
         method: "POST",
         body,
       }),
+      invalidatesTags: [TAG_GET_PHARMACY],
     }),
 
     // Stats API organziation //
@@ -79,6 +87,7 @@ const adminApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
+      providesTags: [TAG_GET_ORGANIZATIONS],
     }),
 
     viewAllPharmacies: builder.query<
@@ -91,6 +100,7 @@ const adminApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
+      providesTags: [TAG_GET_PHARMACY],
     }),
   }),
 });

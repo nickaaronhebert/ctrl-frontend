@@ -16,13 +16,14 @@ import { useCreateOrganizationMutation } from "@/redux/services/admin";
 import { CenteredRow } from "@/components/ui/centered-row";
 import SelectElement from "@/components/Form/select-element";
 import { USA_STATES } from "@/constants";
+import { Link, useNavigate } from "react-router-dom";
 
 export const statusOptions = [
   { value: "active", label: "Active" },
   { value: "inactive", label: "Inactive" },
 ];
 export default function CreateOrganization() {
-  //   const navigate = useNavigate();
+  const navigate = useNavigate();
   const [createOrg] = useCreateOrganizationMutation();
   const form = useForm<z.infer<typeof createOrganizationSchema>>({
     mode: "onChange",
@@ -51,6 +52,7 @@ export default function CreateOrganization() {
         toast.success("Organization created successfully", {
           duration: 1500,
         });
+        navigate("/admin/organizations");
       })
       .catch((err) => {
         console.log("error", err);
@@ -62,12 +64,17 @@ export default function CreateOrganization() {
 
   return (
     <>
-      <div className="  pt-10 ">
+      <div className="">
         {/* <div className="min-w-[1440px]:px-64 px-10 pt-12 bg-white min-h-[690px] rounded-4xl"> */}
-        <div className="mb-10 space-y-2.5">
-          <h2 className="font-semibold text-[26px] text-center">
-            Register Organization with CTRL
-          </h2>
+        <div className=" bg-[#EFE8F5] py-3 px-12">
+          <Link
+            to={"/admin/organizations"}
+            className="font-normal text-sm text text-muted-foreground"
+          >
+            {"<- Back to Organizations"}
+          </Link>
+
+          <h1 className="text-2xl font-bold mt-1">Create Organization</h1>
         </div>
 
         <Form {...form}>
@@ -181,7 +188,7 @@ export default function CreateOrganization() {
 
             <div className="flex justify-center mt-6">
               <Button
-                // disabled={!form.formState.isValid}
+                disabled={!form.formState.isValid}
                 type="submit"
                 className="text-white rounded-full py-2.5 px-7 min-h-14 text-base font-semibold"
               >
