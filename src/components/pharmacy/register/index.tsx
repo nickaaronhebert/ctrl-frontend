@@ -24,8 +24,8 @@ export default function RegisterPharmacy() {
     mode: "onChange",
     resolver: zodResolver(onboardingFormSchema),
     defaultValues: {
-      firstName: "",
-      lastName: "",
+      firstName: pharmacy?.firstName || "",
+      lastName: pharmacy?.lastName || "",
       email: pharmacy?.email || "",
       phoneNumber: "",
       password: "",

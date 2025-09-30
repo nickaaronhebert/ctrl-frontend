@@ -18,8 +18,10 @@ import {
   useViewAllOrganizationQuery,
 } from "@/redux/services/admin";
 import { useCallback, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function InviteOrganizationAdmin() {
+  const navigate = useNavigate();
   const [inviteOrgAdmin] = useInviteOrgAdminMutation();
   const [searchParams, setSearchParams] = useState("");
   const { data: organizationData } = useViewAllOrganizationQuery(
@@ -58,6 +60,7 @@ export default function InviteOrganizationAdmin() {
         toast.success(data?.message || "Invitation sent successfully", {
           duration: 1500,
         });
+        navigate("/admin/invitations");
       })
       .catch((err) => {
         console.log("error", err);

@@ -91,7 +91,7 @@ export default function CreatePharmacy() {
               label="Name"
               isRequired={true}
               messageClassName="text-right"
-              placeholder="Enter Organization Name"
+              placeholder="Enter Pharmacy Name"
               inputClassName="border border-[#9EA5AB]"
             />
 

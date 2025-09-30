@@ -33,6 +33,21 @@ export function ctrlInvitationColumns(): ColumnDef<Invitation>[] {
     },
 
     {
+      accessorKey: "id",
+      header: " Business Name",
+      cell: ({ row }) => {
+        const { type, organizationId, pharmacyId } = row.original;
+        const entityName =
+          type === "organization_admin_invitation"
+            ? organizationId?.name || "-"
+            : type === "pharmacy_admin_invitation"
+            ? pharmacyId?.name || "-"
+            : "-";
+        return <p className="text-sm font-medium">{entityName}</p>;
+      },
+    },
+
+    {
       accessorKey: "status",
       header: "Status",
       cell: ({ row }) => {

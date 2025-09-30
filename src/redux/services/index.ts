@@ -4,6 +4,7 @@ import {
   TAG_ACCESS,
   TAG_GET_ACCESS_CONTROL,
   TAG_GET_CARDS,
+  TAG_GET_INVITATIONS,
   TAG_GET_ORDERS,
   TAG_GET_ORGANIZATIONS,
   TAG_GET_PATIENTS,
@@ -26,6 +27,7 @@ export const baseApi = createApi({
     TAG_GET_ORGANIZATIONS,
     TAG_GET_PHARMACY,
     TAG_GET_PROVIDERS,
+    TAG_GET_INVITATIONS,
   ],
   baseQuery: fetchBaseQuery({
     baseUrl:

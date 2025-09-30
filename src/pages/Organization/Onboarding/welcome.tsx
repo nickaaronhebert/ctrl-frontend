@@ -19,24 +19,25 @@ export default function WelcomeOrgAdmin() {
         </h5>
 
         <div className="flex justify-center  gap-2.5">
-          <Link
+          {/* <Link
             to="#"
             className="text-white rounded-full py-4 px-7  text-base font-semibold bg-primary"
           >
             Add Payment Method
-          </Link>
+          </Link> */}
 
           <Link
             to="/org/dashboard"
             className=" rounded-full py-4 px-7  text-[#3E4D61]  font-semibold bg-transparent border border-[#3E4D61]"
           >
-            Set up later
+            Visit Dashboard
           </Link>
         </div>
 
         <p className="text-sm font-normal text-muted-foreground text-center">
-          Add a payment method now to streamline your first order and unlock
-          faster checkout
+          {/* Add a payment method now to streamline your first order and unlock
+          faster checkout */}
+          Welcome aboard! You’re all set up and ready to go. Let’s get started!
         </p>
       </div>
     </div>

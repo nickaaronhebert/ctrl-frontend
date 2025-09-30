@@ -9,8 +9,16 @@ export interface Invitation {
   email: string;
   type: InvitationType;
   status: string;
-  _id: string;
+  id: string;
   createdAt: string;
+  organizationId?: {
+    id: string;
+    name: string;
+  };
+  pharmacyId?: {
+    id: string;
+    name: string;
+  };
 }
 export interface IViewAllInvitationResponse {
   data: Invitation[];

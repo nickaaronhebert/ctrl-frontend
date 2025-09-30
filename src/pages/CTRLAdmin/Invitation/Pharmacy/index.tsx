@@ -18,8 +18,10 @@ import {
   useViewAllPharmaciesQuery,
 } from "@/redux/services/admin";
 import { useCallback, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function InvitePharmacyAdmin() {
+  const navigate = useNavigate();
   const [invitePharmacyAdmin] = useInvitePharmacyAdminMutation();
   const [searchParams, setSearchParams] = useState("");
   const { data: pharmaciesData } = useViewAllPharmaciesQuery(
@@ -58,6 +60,7 @@ export default function InvitePharmacyAdmin() {
         toast.success(data?.message || "Invitation sent successfully", {
           duration: 1500,
         });
+        navigate("/admin/invitations");
       })
       .catch((err) => {
         console.log("error", err);

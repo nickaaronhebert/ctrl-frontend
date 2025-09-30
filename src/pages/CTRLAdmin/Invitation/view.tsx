@@ -39,7 +39,6 @@ export default function InvitationList() {
       options: [
         { label: "Organization Admin", value: "organization_admin_invitation" },
         { label: "Pharmacy Admin", value: "pharmacy_admin_invitation" },
-        { label: "Provider", value: "provider_group_invitation" },
       ],
     },
   ];
