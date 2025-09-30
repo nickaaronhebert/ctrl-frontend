@@ -64,19 +64,17 @@ import ModifyPrices from "./components/pharmacy/modifyPrices/ModifyPrices";
 import OrganizationRedirect from "./pages/Organization/Onboarding/redirect";
 import RegisterOrgAdmin from "./pages/Organization/Onboarding";
 import WelcomeOrgAdmin from "./pages/Organization/Onboarding/welcome";
-// import AdminDashboard from "./pages/CTRLAdmin/Create";
-// import CreatePharmacy from "./pages/CTRLAdmin/Create/Pharmacy";
-import CreateOrgPharmacyForm from "./pages/CTRLAdmin/Create";
+
 import MedicationCatalogue from "./pages/CTRLAdmin/MedicationCatalogue";
 import AdminDashboard from "./pages/CTRLAdmin/Dashboard";
 import InviteAdmin from "./pages/CTRLAdmin/Invitation";
 import InviteProvider from "./pages/Organization/AffiliatedProvider/Provider";
+import OrganizationList from "./pages/CTRLAdmin/Business/Organization";
+import CreateOrganization from "./pages/CTRLAdmin/Create/Organization";
+import PharmacyList from "./pages/CTRLAdmin/Business/Pharmacy";
+import CreatePharmacy from "./pages/CTRLAdmin/Create/Pharmacy";
 
 const router = createBrowserRouter([
-  {
-    path: "/test",
-    element: <CreateOrgPharmacyForm />,
-  },
   {
     path: "/provider",
     element: (
@@ -522,7 +520,19 @@ const router = createBrowserRouter([
       },
       {
         path: ROUTES.ADMIN_ORGANIZATION,
-        element: <CreateOrgPharmacyForm />,
+        element: <OrganizationList />,
+      },
+      {
+        path: ROUTES.CREATE_ORGANIZATION,
+        element: <CreateOrganization />,
+      },
+      {
+        path: ROUTES.CREATE_PHARMACY,
+        element: <CreatePharmacy />,
+      },
+      {
+        path: ROUTES.ADMIN_PHARMACY,
+        element: <PharmacyList />,
       },
       {
         path: ROUTES.CREATE_MEDICATION,
@@ -532,10 +542,6 @@ const router = createBrowserRouter([
         path: ROUTES.INVITATION,
         element: <InviteAdmin />,
       },
-      // {
-      //   path: ROUTES.CREATE_PHARMACY,
-      //   element: <CreatePharmacy />,
-      // },
     ],
   },
 

@@ -18,13 +18,14 @@ import { USA_STATES } from "@/constants";
 import { useCreatePharmacyMutation } from "@/redux/services/admin";
 import MultiSelectElement from "@/components/Form/multi-select-element";
 import SelectElement from "@/components/Form/select-element";
+import { Link, useNavigate } from "react-router-dom";
 
 export const statusOptions = [
   { value: "active", label: "Active" },
   { value: "inactive", label: "Inactive" },
 ];
 export default function CreatePharmacy() {
-  //   const navigate = useNavigate();
+  const navigate = useNavigate();
   const [createPharmacy] = useCreatePharmacyMutation();
   const form = useForm<z.infer<typeof createPharmacySchema>>({
     mode: "onChange",
@@ -50,9 +51,11 @@ export default function CreatePharmacy() {
     await createPharmacy(data)
       .unwrap()
       .then(() => {
+        form.reset();
         toast.success("Pharmacy created successfully", {
           duration: 1500,
         });
+        navigate("/admin/pharmacies");
       })
       .catch((err) => {
         console.log("error", err);
@@ -64,12 +67,17 @@ export default function CreatePharmacy() {
 
   return (
     <>
-      <div className=" pt-10 ">
+      <div className="">
         {/* <div className="min-w-[1440px]:px-64 px-10 pt-12 bg-white min-h-[690px] rounded-4xl"> */}
-        <div className="mb-10 space-y-2.5">
-          <h2 className="font-semibold text-[26px] text-center">
-            Register Pharmacy with CTRL
-          </h2>
+        <div className=" bg-[#EFE8F5] py-3 px-12">
+          <Link
+            to={"/admin/pharmacies"}
+            className="font-normal text-sm text text-muted-foreground"
+          >
+            {"<- Back to Pharmacies"}
+          </Link>
+
+          <h1 className="text-2xl font-bold mt-1">Create Pharmacy</h1>
         </div>
 
         <Form {...form}>
