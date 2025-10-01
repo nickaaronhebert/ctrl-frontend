@@ -23,6 +23,9 @@ export default function ModifyPrices() {
   const page = parseInt(searchParams.get("page") || "1", 10);
   const perPage = parseInt(searchParams.get("per_page") ?? "10", 10);
   const [searchTerm, setSearchTerm] = useState("");
+  const [pharmacyIdentifiers, setPharmacyIdentifiers] = useState<
+    Record<string, string>
+  >({});
 
   const {
     data: allMedications,
@@ -36,29 +39,12 @@ export default function ModifyPrices() {
   const [bulkUpsertPharmacyCatalogue] =
     useBulkUpsertPharmacyCatalogueMutation();
 
-  // // Group selected variants by medication
-  // const selectedMedications = medications.filter((med) =>
-  //   selectedVariants.some((variant) => variant.medicationId === med.id)
-  // );
-
-  // const filteredMedications = selectedMedications.filter((med) =>
-  //   med.drugName.toLowerCase().includes(searchTerm.toLowerCase())
-  // );
-
-  // const totalVariants = selectedVariants.length;
-
   const allMedicationVariants = allMedications?.data ?? [];
 
   const totalVariants = allMedicationVariants.reduce(
     (acc: number, med: PharmacyCatalogue) => acc + med.productVariant.length,
     0
   );
-
-  console.log("totalVariants", totalVariants);
-
-  // const pricedVariants = Object.keys(prices).filter(
-  //   (key) => prices[key] && prices[key] !== "0.00"
-  // ).length;
 
   const pricedVariants = allMedicationVariants.reduce(
     (acc: number, med: PharmacyCatalogue) => {
@@ -74,31 +60,38 @@ export default function ModifyPrices() {
     0
   );
 
-  console.log("pricedVariants", pricedVariants);
-
   const handlePriceChange = (variantId: string, value: string) => {
     setPrices((prev) => ({ ...prev, [variantId]: value }));
+  };
+
+  const handleIdentifierChange = (variantId: string, value: string) => {
+    setPharmacyIdentifiers((prev) => ({ ...prev, [variantId]: value }));
   };
 
   useEffect(() => {
     if (allMedications?.data) {
       const initialPrices: Record<string, string> = {};
+      const initialIdentifiers: Record<string, string> = {};
       allMedications.data.forEach((medication: PharmacyCatalogue) => {
         medication.productVariant.forEach((variant: PharmacyProductVariant) => {
           if (!(variant.productVariant._id in prices)) {
             initialPrices[variant.productVariant._id] =
               variant.price.toString();
           }
+          if (variant?.pharmacyIdentifier) {
+            initialIdentifiers[variant?.productVariant?._id] =
+              variant?.pharmacyIdentifier;
+          }
         });
       });
       if (Object.keys(initialPrices).length > 0) {
         setPrices((prevPrices) => ({ ...prevPrices, ...initialPrices }));
       }
+      if (Object.keys(initialIdentifiers).length > 0) {
+        setPharmacyIdentifiers((prev) => ({ ...prev, ...initialIdentifiers }));
+      }
     }
   }, [allMedications, page]);
-
-  console.log("prices", prices);
-  console.log("pricedVariants", pricedVariants);
 
   const handleSaveCatalogue = async () => {
     const items = Object.entries(prices)
@@ -108,6 +101,7 @@ export default function ModifyPrices() {
         price: Number(price),
         transmissionMethod: "api",
         sku: "",
+        pharmacyIdentifier: pharmacyIdentifiers[variantId] || "",
         metadata: {},
       }));
 
@@ -162,6 +156,8 @@ export default function ModifyPrices() {
   if (error) {
     return <div>Error loading pharmacy catalogue.</div>;
   }
+
+  console.log("PharmacyIdentifiers:: ", pharmacyIdentifiers);
 
   return (
     <div className="mb-5">
@@ -238,8 +234,11 @@ export default function ModifyPrices() {
 
                 <div className="space-y-0 rounded-[10px] border border-gray-200 overflow-hidden">
                   <div className="flex justify-between items-center bg-white py-[9px] px-4 border-b border-gray-200">
-                    <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">
+                    <div className="text-xs font-medium text-gray-500 uppercase tracking-wide w-1/2">
                       VARIANTS
+                    </div>
+                    <div className="text-xs font-medium text-gray-500 uppercase w-1/3 ">
+                      PHARMACY IDENTIFIER
                     </div>
                     <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">
                       DEFAULT PRICE
@@ -247,7 +246,7 @@ export default function ModifyPrices() {
                   </div>
 
                   {medicationVariants.map((variant: PharmacyProductVariant) => {
-                    console.log("variant", variant);
+                    console.log("myvarianttttttttttt..", variant);
                     return (
                       <div
                         key={variant._id}
@@ -258,6 +257,24 @@ export default function ModifyPrices() {
                             {medication?.medicationCatalogue?.drugName}{" "}
                             {variant?.productVariant?.strength}
                           </span>
+                        </div>
+                        <div className="w-1/3">
+                          <Input
+                            type="text"
+                            placeholder="e.g., SKU-12345"
+                            value={
+                              pharmacyIdentifiers[
+                                variant?.productVariant?._id
+                              ] || ""
+                            }
+                            onChange={(e) => {
+                              handleIdentifierChange(
+                                variant?.productVariant?._id,
+                                e.target.value
+                              );
+                            }}
+                            className="w-full h-10 rounded-md px-3 py-2 border-gray-300 bg-white"
+                          />
                         </div>
                         <div className="relative">
                           <span className="absolute left-1 top-1/2 transform -translate-y-1/2 text-gray-500">
@@ -270,19 +287,6 @@ export default function ModifyPrices() {
                             placeholder="0"
                             value={prices[variant.productVariant?._id] || ""}
                             onChange={(e) => {
-                              //   const value = parseFloat(e.target.value);
-                              //   if (e.target.value === "") {
-                              //     handlePriceChange(
-                              //       variant.productVariant?._id,
-                              //       "1"
-                              //     );
-                              //   } else if (value >= 1) {
-                              //     handlePriceChange(
-                              //       variant.productVariant?._id,
-                              //       e.target.value
-                              //     );
-                              //   }
-
                               handlePriceChange(
                                 variant.productVariant?._id,
                                 e.target.value

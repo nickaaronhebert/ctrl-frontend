@@ -14,6 +14,9 @@ export default function SetDefaultPrices() {
   const [prices, setPrices] = useState<Record<string, string>>({});
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
+  const [pharmacyIdentifiers, setPharmacyIdentifiers] = useState<
+    Record<string, string>
+  >({});
   const [bulkUpsertPharmacyCatalogue] =
     useBulkUpsertPharmacyCatalogueMutation();
 
@@ -38,6 +41,10 @@ export default function SetDefaultPrices() {
     setPrices((prev) => ({ ...prev, [variantId]: value }));
   };
 
+  const handlePharmacyIdentifierChange = (variantId: string, value: string) => {
+    setPharmacyIdentifiers((prev) => ({ ...prev, [variantId]: value }));
+  };
+
   const handleSaveCatalogue = async () => {
     const items = Object.entries(prices)
       .filter(([_, price]) => price && Number(price) > 0)
@@ -46,6 +53,7 @@ export default function SetDefaultPrices() {
         price: Number(price),
         transmissionMethod: "api",
         sku: "",
+        pharmacyIdentifier: pharmacyIdentifiers[variantId] || "",
         metadata: {},
       }));
 
@@ -171,8 +179,11 @@ export default function SetDefaultPrices() {
 
                 <div className="space-y-0 rounded-[10px] border border-gray-200 overflow-hidden">
                   <div className="flex justify-between items-center bg-white py-[9px] px-4 border-b border-gray-200">
-                    <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">
+                    <div className="text-xs font-medium text-gray-500 uppercase tracking-wide w-1/2">
                       VARIANTS
+                    </div>
+                    <div className="text-xs font-medium text-gray-500 uppercase tracking-wide w-1/3 mr-[15px]">
+                      PHARMACY IDENTIFIER
                     </div>
                     <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">
                       DEFAULT PRICE
@@ -183,12 +194,26 @@ export default function SetDefaultPrices() {
                     return (
                       <div
                         key={variant.variantId}
-                        className="flex justify-between items-center py-3 px-4 bg-light-background border-b border-gray-200 last:border-b-0"
+                        className="flex justify-between items-center py-3 px-4 bg-light-background border-b border-gray-200 last:border-b-0 gap-4"
                       >
                         <div className="text-gray-900 w-1/2">
                           <span className="mt-[100px]">
                             {medication.drugName} {variant.variant.strength}
                           </span>
+                        </div>
+                        <div className="w-1/3">
+                          <Input
+                            type="text"
+                            placeholder="e.g., SKU-12345"
+                            value={pharmacyIdentifiers[variant.variantId] || ""}
+                            onChange={(e) =>
+                              handlePharmacyIdentifierChange(
+                                variant.variantId,
+                                e.target.value
+                              )
+                            }
+                            className="w-full h-10 rounded-md px-3 py-2 border-gray-300 bg-white"
+                          />
                         </div>
                         <div className="relative">
                           <span className="absolute left-1 top-1/2 transform -translate-y-1/2 text-gray-500">

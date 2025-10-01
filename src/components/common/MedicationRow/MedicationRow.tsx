@@ -12,6 +12,7 @@ interface MedicationProps {
 }
 
 export function MedicationRow({ medication }: MedicationProps) {
+  console.log("medication>>>>>>>>>>>>", medication);
   const variantCount = medication.productVariant.length;
   const [deletePharmacyCatalogue] = useDeletePharmacyCatalogueMutation();
 
@@ -46,26 +47,33 @@ export function MedicationRow({ medication }: MedicationProps) {
         </span>
       </div>
       <div className="space-y-0 rounded-[10px] border border-gray-200 overflow-hidden">
-        <div className="flex justify-between items-center bg-white py-[9px] px-4 border-b border-gray-200">
-          <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">
+        <div className="grid grid-cols-12 bg-white py-[9px] px-4 border-b border-gray-200">
+          <div className="col-span-12 md:col-span-6 text-xs font-medium text-gray-500 uppercase">
             VARIANTS
           </div>
-          <div className="text-xs font-medium text-gray-500 uppercase tracking-wide px-5">
+          <div className="col-span-12 md:col-span-4 text-xs font-medium text-gray-500 uppercase ">
+            PHARMACY IDENTIFIER
+          </div>
+          <div className="col-span-6 md:col-span-1 md:text-right text-xs font-medium text-gray-500 uppercase">
             DEFAULT PRICE
+          </div>
+          <div className="col-span-6 md:col-span-1 md:text-right text-xs font-medium text-gray-500 uppercase">
+            ACTIONS
           </div>
         </div>
 
-        {medication.productVariant.map((variant: PharmacyProductVariant) => {
-          console.log("variant", variant);
-          return (
-            <VariantRow
-              key={variant._id}
-              variant={variant}
-              drugName={medication.medicationCatalogue.drugName}
-              onDelete={handleDeleteVariant}
-            />
-          );
-        })}
+        <div className="border border-gray-200 overflow-hidden">
+          {medication.productVariant.map((variant: PharmacyProductVariant) => {
+            return (
+              <VariantRow
+                key={variant._id}
+                variant={variant}
+                drugName={medication.medicationCatalogue.drugName}
+                onDelete={handleDeleteVariant}
+              />
+            );
+          })}
+        </div>
       </div>
     </div>
   );
