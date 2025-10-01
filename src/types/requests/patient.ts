@@ -1,5 +1,6 @@
 import type { Address } from "../global/commonTypes";
 
+type PatientAddress = Omit<Address, "_id">;
 interface Patient {
   firstName: string;
   lastName: string;
@@ -10,7 +11,7 @@ interface Patient {
   diagnosedConditions?: string;
   gender: string;
   phoneNumber: string;
-  addresses: Address[];
+  addresses: PatientAddress[];
   height: number;
   weight: number;
 }
