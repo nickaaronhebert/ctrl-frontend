@@ -89,7 +89,10 @@ export default function MedDetails({
             <div className="flex gap-2">
               {variants?.map((variant) => {
                 return (
-                  <span className="bg-slate-100 font-semibold text-[12px] leading-[16px] text-black rounded-[5px] py-[4px] px-[8px]">
+                  <span
+                    key={variant.id}
+                    className="bg-slate-100 font-semibold text-[12px] leading-[16px] text-black rounded-[5px] py-[4px] px-[8px]"
+                  >
                     {variant?.strength}
                   </span>
                 );

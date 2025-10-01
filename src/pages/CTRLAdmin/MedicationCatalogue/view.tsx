@@ -4,7 +4,7 @@ import { DataTablePagination } from "@/components/data-table/data-table-paginati
 import { useMemo } from "react";
 import { Search } from "lucide-react";
 import { useGetMedicationCatalogueQuery } from "@/redux/services/medication";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import {
   medicationLibraryColumns,
   type Medication,
@@ -14,9 +14,9 @@ import {
   type DataTableFilterField,
 } from "@/hooks/use-data-table";
 
-const Medications = () => {
+const ViewMedicationCatalogue = () => {
   const columns = useMemo(
-    () => medicationLibraryColumns({ entity: "Organization" }),
+    () => medicationLibraryColumns({ entity: "CtrlAdmin" }),
     []
   );
   const [searchParams] = useSearchParams();
@@ -62,13 +62,20 @@ const Medications = () => {
             </h6>
           </div>
 
-          <div className="flex gap-1 items-center">
+          <div className="flex gap-3 items-center">
             <DataTableToolbar
               table={table}
               filterFields={filterFields}
               searchIcon={<Search className="w-5 h-5" />}
               className=" h-full"
             />
+
+            <Link
+              to={"/admin/create-medication"}
+              className="flex items-center rounded-[50px] px-[20px] py-[5px] min-h-[40px]  text-white  font-semibold text-[12px] bg-primary  "
+            >
+              Create Medication
+            </Link>
           </div>
         </div>
       </div>
@@ -80,4 +87,4 @@ const Medications = () => {
   );
 };
 
-export default Medications;
+export default ViewMedicationCatalogue;

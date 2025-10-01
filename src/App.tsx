@@ -74,6 +74,7 @@ import CreateOrganization from "./pages/CTRLAdmin/Create/Organization";
 import PharmacyList from "./pages/CTRLAdmin/Business/Pharmacy";
 import CreatePharmacy from "./pages/CTRLAdmin/Create/Pharmacy";
 import InvitationList from "./pages/CTRLAdmin/Invitation/view";
+import ViewMedicationCatalogue from "./pages/CTRLAdmin/MedicationCatalogue/view";
 
 const router = createBrowserRouter([
   {
@@ -538,6 +539,14 @@ const router = createBrowserRouter([
       {
         path: ROUTES.CREATE_MEDICATION,
         element: <MedicationCatalogue />,
+      },
+      {
+        path: ROUTES.CTRL_MEDICATIONS,
+        element: <ViewMedicationCatalogue />,
+      },
+      {
+        path: ROUTES.CTRL_ADMIN_MEDICATION_DETAILS,
+        element: <MedicationDetails />,
       },
       {
         path: ROUTES.INVITATION,

@@ -38,7 +38,13 @@ export interface Pharmacy {
   variants: PharmacyVariant[];
 }
 
-export function medicationLibraryColumns(): ColumnDef<Medication>[] {
+interface medicationLibraryColumnsProps {
+  entity: "CtrlAdmin" | "Organization";
+}
+
+export function medicationLibraryColumns({
+  entity,
+}: medicationLibraryColumnsProps): ColumnDef<Medication>[] {
   return [
     {
       accessorKey: "drugName",
@@ -103,14 +109,18 @@ export function medicationLibraryColumns(): ColumnDef<Medication>[] {
     {
       accessorKey: "id",
       header: "Action",
-      cell: ({ row }) => (
-        <Link
-          to={`/org/medications/${row.getValue("id")}`}
-          className="flex justify-center items-center py-1 px-5 w-[85px] h-[36px] rounded-[50px] border border-primary-foreground"
-        >
-          View
-        </Link>
-      ),
+      cell: ({ row }) => {
+        const urlPrefix =
+          entity === "CtrlAdmin" ? "/admin/medications/" : "/org/medications/";
+        return (
+          <Link
+            to={`${urlPrefix}${row.getValue("id")}`}
+            className="flex justify-center items-center py-1 px-5 w-[85px] h-[36px] rounded-[50px] border border-primary-foreground"
+          >
+            View
+          </Link>
+        );
+      },
     },
   ];
 }

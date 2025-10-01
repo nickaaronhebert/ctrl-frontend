@@ -30,8 +30,8 @@ export const platformAdminItems = [
   { title: "Pharmacy", url: "/admin/pharmacies", icon: Licence },
 
   {
-    title: "Add Medication ",
-    url: "/admin/create-medication",
+    title: "Medication",
+    url: "/admin/medications",
     icon: MedicationLibrary,
   },
   {
