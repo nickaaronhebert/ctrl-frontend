@@ -1,10 +1,15 @@
 import { z } from "zod";
 import { addressSchema, phoneNumberSchema } from "./createPatientSchema";
 
+const extendedAddressSchema = addressSchema.extend({
+  _id: z.string().min(1, "Address ID is required"),
+});
 export const patientSchema = z.object({
   selectedPatient: z.any().optional(),
-  address: addressSchema,
-
+  address: z.array(extendedAddressSchema).min(1, {
+    message: "At least one address is required",
+  }),
+  dispensingAddress: z.string().min(1, "Dispensing Address is required"),
   firstName: z.string().min(1, "First name is required"),
   lastName: z.string().min(1, "Last name is required"),
   phoneNumber: phoneNumberSchema,

@@ -15,6 +15,7 @@ export default function PharmacyResults({ data }: PharmacyResultsProps) {
         {data?.data?.map((pharmacy) => {
           return (
             <AccordionItem
+              key={pharmacy.id}
               value={`pharmacy-${pharmacy.id}`}
               className="border border-b-card-border border-t-0 border-l-0 border-r-0"
             >

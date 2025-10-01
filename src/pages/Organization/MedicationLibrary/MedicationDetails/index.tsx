@@ -1,6 +1,6 @@
 import MedicationLibrary from "@/assets/icons/MedicationLibrary";
 import { useMemo, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import MedDetails from "@/components/common/MedDetails/MedDetails";
 import type { MedicationVariant } from "@/components/data-table/columns/medication-library";
@@ -37,6 +37,9 @@ const menuItems = [
 
 const MedicationDetails = () => {
   const { id } = useParams();
+  const location = useLocation();
+  const pathname = location.pathname.split("/").slice(0, 2).join("/");
+
   const { data: singleMedDetail, isLoading } =
     useGetSingleMedicationCatalogueDetailsQuery(id!, {
       skip: !id,
@@ -48,8 +51,6 @@ const MedicationDetails = () => {
     perPage: 10,
     q: "",
   });
-
-  console.log("pharmacymedicines", pharmacyMedicines);
 
   const [activeTab, setActiveTab] = useState<TabKey>("medicationDetails");
   const variantColumn = useMemo(() => variantColumns(), []);
@@ -72,7 +73,7 @@ const MedicationDetails = () => {
     <div className="mb-5">
       <div className="bg-lilac py-3 px-12">
         <Link
-          to={"/org/medications"}
+          to={`${pathname}/medications`}
           className="font-normal text-sm text text-muted-foreground"
         >
           {"<- Back to Medication Library"}
@@ -100,7 +101,10 @@ const MedicationDetails = () => {
                   {singleMedDetail?.data?.productVariants.map(
                     (variant: MedicationVariant) => {
                       return (
-                        <span className="font-normal text-[12px] leading-[16px] text-slate">
+                        <span
+                          key={variant.id}
+                          className="font-normal text-[12px] leading-[16px] text-slate"
+                        >
                           {variant?.strength}
                         </span>
                       );

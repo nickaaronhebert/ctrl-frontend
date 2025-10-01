@@ -15,6 +15,7 @@ import {
 import { formatDateMMDDYYYY } from "@/lib/utils";
 import type { Address } from "@/types/global/commonTypes";
 import { Link } from "react-router-dom";
+import SelectElement from "@/components/Form/select-element";
 
 export default function SelectPatient({
   patient,
@@ -37,6 +38,7 @@ export default function SelectPatient({
       height: patient.height,
       weight: patient.weight,
       address: patient.address,
+      dispensingAddress: patient?.dispensingAddress?._id,
     },
   });
 
@@ -44,8 +46,23 @@ export default function SelectPatient({
   const selectedPatient = watch("selectedPatient");
 
   async function onSubmit(values: z.infer<typeof patientSchema>) {
-    dispatch(updateInitialStep(values));
+    const selectedAddress = values?.address?.filter(
+      (address: Address) => address._id === values.dispensingAddress
+    )?.[0];
+
+    dispatch(
+      updateInitialStep({ ...values, dispensingAddress: selectedAddress })
+    );
+
+    // dispatch(updateInitialStep(values));
   }
+
+  const formattedAddresses = form.getValues("address")?.map((item: any) => ({
+    label: `${item.address1}, ${item.city.trim()}, ${
+      item.state
+    }, ${item.zipcode.trim()}`,
+    value: item._id,
+  }));
 
   console.log("errors", form.formState.errors);
   return (
@@ -91,11 +108,12 @@ export default function SelectPatient({
                         "currentMedications",
                         patient.currentMedications
                       );
+                      form.setValue("address", patient.addresses);
                       form.setValue(
-                        "address",
+                        "dispensingAddress",
                         patient.addresses.filter(
                           (address: Address) => address.isDefault === true
-                        )[0]
+                        )[0]?._id
                       );
                       form.setValue("height", patient.height ?? "");
                       form.setValue("weight", patient.weight ?? "");
@@ -183,7 +201,24 @@ export default function SelectPatient({
                   />
                 </div>
 
-                <div className="bg-[#F6F8F9]  rounded-lg  border border-[#D9D9D9] ">
+                <div className="mt-3.5">
+                  <h3 className="font-semibold text-gray-900 my-5">
+                    Add Dispensing Address
+                  </h3>
+
+                  <SelectElement
+                    name="dispensingAddress"
+                    options={formattedAddresses || []}
+                    label="Select Dispensing"
+                    isRequired={true}
+                    className="w-full min-h-[56px]"
+                    placeholder="Select the option"
+                    errorClassName="text-right"
+                    defaultValue={patient?.dispensingAddress?._id}
+                  />
+                </div>
+
+                <div className="bg-[#F6F8F9]  rounded-lg  border border-[#D9D9D9] mt-1">
                   <h3 className="font-semibold text-gray-900 p-4">
                     Physical Measurements
                   </h3>

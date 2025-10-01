@@ -17,6 +17,7 @@ import SwitchElement from "@/components/Form/switch-element";
 import { useCreateMedicationMutation } from "@/redux/services/medication";
 import { toast } from "sonner";
 import SelectElement from "@/components/Form/select-element";
+import { Link, useNavigate } from "react-router-dom";
 
 const units = [
   { label: "Each", value: "each" },
@@ -25,7 +26,7 @@ const units = [
   { label: "Unit", value: "unit" },
 ];
 export default function CreateMedicationCatalogue() {
-  //   const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [createMedication] = useCreateMedicationMutation();
   const form = useForm<z.infer<typeof createMedicationCatalogueSchema>>({
@@ -60,7 +61,6 @@ export default function CreateMedicationCatalogue() {
   async function onSubmit(
     data: z.infer<typeof createMedicationCatalogueSchema>
   ) {
-    console.log("data", data);
     const parsedQuantities = data.availableQuantities.map((quantity) => {
       let num = Number(quantity); // Convert string to number
       if (!isNaN(num)) {
@@ -71,13 +71,14 @@ export default function CreateMedicationCatalogue() {
     await createMedication({ ...data, availableQuantities: parsedQuantities })
       .unwrap()
       .then((data) => {
+        form.reset();
         toast.success(
           data?.message || "Medication Catalogue added successfully",
           {
             duration: 1500,
           }
         );
-        // navigate("/onboarding-success");
+        navigate("/admin/medications");
       })
       .catch((err) => {
         console.log("error", err);
@@ -106,9 +107,19 @@ export default function CreateMedicationCatalogue() {
 
   return (
     <>
-      <div className=" bg-[#EFE8F5] py-7 px-12">
+      <div className=" bg-[#EFE8F5] py-3 px-12">
+        <Link
+          to={"/admin/medications"}
+          className="font-normal text-sm text text-muted-foreground"
+        >
+          {"<- Back to Medication Library"}
+        </Link>
+
         <h1 className="text-2xl font-bold mt-1">Create Medication Catalogue</h1>
       </div>
+      {/* <div className=" bg-[#EFE8F5] py-7 px-12">
+        <h1 className="text-2xl font-bold mt-1">Create Medication Catalogue</h1>
+      </div> */}
       <div className="  py-10 ">
         <Form {...form}>
           <form
