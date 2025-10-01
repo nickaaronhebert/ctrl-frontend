@@ -7,50 +7,48 @@ import ReviewOrderDetails from "./review";
 import { ChevronRight } from "lucide-react";
 import { cn, formatDateMMDDYYYY } from "@/lib/utils";
 import { useGetPatientDetailsByIdQuery } from "@/redux/services/patientApi";
-import { useAppDispatch } from "@/redux/store";
-import { useEffect } from "react";
-import { updateInitialStep } from "@/redux/slices/create-order";
+// import { useAppDispatch } from "@/redux/store";
+// import { useEffect } from "react";
+// import { updateInitialStep } from "@/redux/slices/create-order";
 import SelectPatientAddress from "./address";
 
 const CreateOrderPage = () => {
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   const [searchParams] = useSearchParams();
   const patientId = searchParams.get("patientId") ?? "";
-  const { data: patientData, isFetching } = useGetPatientDetailsByIdQuery(
-    patientId,
-    {
-      skip: !patientId,
-      selectFromResult: ({ data, isFetching }) => ({
-        data: data?.data
-          ? {
-              selectedPatient: data.data,
-              address: data.data.addresses.filter(
-                (address) => address.isDefault === true
-              )?.[0],
+  const { data: patientData } = useGetPatientDetailsByIdQuery(patientId, {
+    skip: !patientId,
+    selectFromResult: ({ data, isFetching }) => ({
+      data: data?.data
+        ? {
+            selectedPatient: data.data,
+            address: data.data.addresses || [],
+            dispensingAddress: data.data.addresses.filter(
+              (address) => address.isDefault === true
+            )?.[0],
 
-              firstName: data.data.firstName,
-              lastName: data.data.lastName,
-              phoneNumber: data.data.phoneNumber,
-              email: data.data.email,
-              dob: formatDateMMDDYYYY(data.data.dob),
-              medicationAllergies: data.data.medicationAllergies,
-              currentMedications: data.data.currentMedications,
-              height: data.data.height,
-              weight: data.data.weight,
-              gender: data.data.gender,
-            }
-          : undefined,
+            firstName: data.data.firstName,
+            lastName: data.data.lastName,
+            phoneNumber: data.data.phoneNumber,
+            email: data.data.email,
+            dob: formatDateMMDDYYYY(data.data.dob),
+            medicationAllergies: data.data.medicationAllergies,
+            currentMedications: data.data.currentMedications,
+            height: data.data.height,
+            weight: data.data.weight,
+            gender: data.data.gender,
+          }
+        : undefined,
 
-        isFetching: isFetching,
-      }),
-    }
-  );
+      isFetching: isFetching,
+    }),
+  });
 
-  useEffect(() => {
-    if (patientData) {
-      dispatch(updateInitialStep(patientData));
-    }
-  }, [isFetching]);
+  // useEffect(() => {
+  //   if (patientData) {
+  //     dispatch(updateInitialStep(patientData));
+  //   }
+  // }, [isFetching]);
 
   const order = useAppSelector((state) => state.order);
 
@@ -115,7 +113,10 @@ const CreateOrderPage = () => {
         </div>
 
         {order.currentStep === 0 && (
-          <SelectPatient patient={patientData || order.initialStep} />
+          <SelectPatient
+            patient={patientData || order.initialStep}
+            // addressList={order?.initialStep?.selectedPatient}
+          />
         )}
         {order.currentStep === 1 && (
           <SelectProductVariant productVariant={order.stepOne} />
@@ -125,8 +126,8 @@ const CreateOrderPage = () => {
         )}
         {order.currentStep === 3 && (
           <SelectPatientAddress
-            dispensingAddress={order.stepThree}
-            addressList={order?.initialStep?.selectedPatient}
+            // dispensingAddress={order.stepThree}
+            // addressList={order?.initialStep?.selectedPatient}
             selectedMethod={order.stepThree.transmissionMethod}
           />
         )}

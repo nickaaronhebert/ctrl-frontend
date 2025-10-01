@@ -24,7 +24,8 @@ export interface PATIENT_DETAILS {
   currentMedications?: string;
   height: number;
   weight: number;
-  address: Address;
+  address: Address[] | [];
+  dispensingAddress: Address;
 }
 
 export interface SELECT_PROVIDER_PHARMACY {
@@ -33,7 +34,7 @@ export interface SELECT_PROVIDER_PHARMACY {
 }
 
 export interface SELECT_DISPENSING {
-  address: Address & { _id: string };
+  // address: Address;
   transmissionMethod: "manual" | "auto";
 }
 
@@ -56,15 +57,17 @@ const initialState: OrderState = {
     gender: "",
     dob: "",
     medicationAllergies: "",
-    address: {
+    dispensingAddress: {
       address1: "",
       address2: "",
       city: "",
       zipcode: "",
       state: "",
       country: "",
+      _id: "",
       isDefault: false,
     },
+    address: [],
     height: 0,
     weight: 0,
   },
@@ -84,16 +87,16 @@ const initialState: OrderState = {
     // selectPharmacy: "",
   },
   stepThree: {
-    address: {
-      address1: "",
-      address2: "",
-      city: "",
-      state: "",
-      zipcode: "",
-      isDefault: false,
-      country: "",
-      _id: "",
-    },
+    // address: {
+    //   address1: "",
+    //   address2: "",
+    //   city: "",
+    //   state: "",
+    //   zipcode: "",
+    //   isDefault: false,
+    //   country: "",
+    //   _id: "",
+    // },
     transmissionMethod: "manual",
   },
 };

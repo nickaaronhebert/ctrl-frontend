@@ -2,7 +2,7 @@ import type { Address } from "../global/commonTypes";
 
 export interface ICreateOrderRequest {
   patient: string;
-  address: Address;
+  address: Omit<Address, "_id">;
   transmissionMethod: "manual" | "auto";
   prescriptions: {
     quantity: number;

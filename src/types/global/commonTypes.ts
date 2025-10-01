@@ -17,6 +17,7 @@ export interface Address {
   zipcode: string;
   country: string;
   isDefault: boolean;
+  _id: string;
 }
 
 export interface Role {

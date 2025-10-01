@@ -26,7 +26,7 @@ export default function ReviewOrderDetails({ order }: { order: OrderState }) {
   const [providerId, providerName] = order.stepTwo.selectProvider.split("/");
 
   const handleSubmit = async () => {
-    const { _id, ...address } = order.stepThree.address;
+    const { _id, ...address } = order.initialStep.dispensingAddress;
 
     const prescriptions = order.stepOne.medications.map((item) => {
       const [variantId, _variantName] = item.selectMedication.split("/");
