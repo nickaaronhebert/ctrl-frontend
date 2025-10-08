@@ -9,6 +9,9 @@ def registry = '901120114376.dkr.ecr.us-east-2.amazonaws.com'
 // Image Details
 def imageNamespace = 'ctrl';
 
+def ENV_KIND = 'dev';
+def AGENT = 'jenkins-agent';
+
 properties([
     disableConcurrentBuilds(),
 ])
@@ -112,7 +115,7 @@ timestamps {
 
                     withAWS(credentials: 'user-aws-jenkins', region: 'us-east-2') {
                         sh """
-                            aws eks update-kubeconfig --region us-east-2 --name ctrl-frontend --kubeconfig /tmp/ctrl-frontend
+                            aws eks update-kubeconfig --region us-east-2 --name ctrl-application --kubeconfig /tmp/ctrl-frontend
                             helm upgrade --kubeconfig /tmp/ctrl-frontend --install --atomic --wait --timeout 60m0s ctrl-frontend \
                                 ./charts/ \
                                 -f ./charts/common-values.yaml \
