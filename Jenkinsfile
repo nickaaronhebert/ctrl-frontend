@@ -89,7 +89,7 @@ timestamps {
                     ]) {
                         sh '''
                             docker build . \
-                            --target frontend \
+                            --target production \
                             -t ${REGISTRY}/${ENV_KIND}-${IMAGE_NAME}:${BUILD_NUMBER} \
                             -t ${REGISTRY}/${ENV_KIND}-${IMAGE_NAME}:latest
                         '''.stripIndent()
