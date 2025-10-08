@@ -2,6 +2,7 @@ import type { PharmacyInvoiceResponse } from "@/types/responses/invoices";
 import {
   TAG_GET_PHARMACY_CATALOGUE,
   TAG_GET_USER_PROFILE,
+  TAG_GLOBAL_PHARMACIES,
 } from "@/types/baseApiTags";
 import { baseApi } from ".";
 import type { IGetPharmacyInvoicesDetailsResponse } from "@/types/responses/IGetPharmacyInvoicesDetail";
@@ -95,6 +96,14 @@ export const pharmacyApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [TAG_GET_PHARMACY_CATALOGUE],
     }),
+
+    sendConnectionInvite: builder.mutation({
+      query: ({ pharmacyId }) => ({
+        url: `/organization/invite-pharmacy/${pharmacyId}`,
+        method: "GET",
+      }),
+      invalidatesTags: [TAG_GLOBAL_PHARMACIES],
+    }),
   }),
 });
 
@@ -109,4 +118,5 @@ export const {
   useGetAvailableMedicationQuery,
   useGetPharmacyMedicinesQuery,
   useDeletePharmacyCatalogueMutation,
+  useSendConnectionInviteMutation,
 } = pharmacyApi;

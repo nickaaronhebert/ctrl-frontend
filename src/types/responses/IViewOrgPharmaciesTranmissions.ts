@@ -1,14 +1,16 @@
-import type { MetaData } from "../global/commonTypes";
+import type { Address, MetaData } from "../global/commonTypes";
 
 export interface TransmissionsStats {
   id: string;
-  statusCounts: {
+  statusCounts?: {
     status: "Created" | "Transmitted" | "Failed" | "Queued";
     count: number;
   }[];
   name: string;
   email: string;
   phoneNumber: string;
+  address?: Address;
+  allowedStates?: string[];
 }
 
 export interface IViewOrgPharmaciesResponse {

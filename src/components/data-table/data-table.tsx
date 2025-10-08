@@ -29,6 +29,7 @@ interface DataTableProps<TData> extends React.HTMLAttributes<HTMLDivElement> {
   floatingBar?: React.ReactNode | null;
   showPagination?: boolean;
   headerClass?: boolean;
+  scrollClass?: boolean;
 }
 
 export function DataTable<TData>({
@@ -38,13 +39,14 @@ export function DataTable<TData>({
   className,
   // showPagination,
   headerClass = false,
+  scrollClass = false,
 }: // ...props
 DataTableProps<TData>) {
   return (
     <>
       {/* // ? below div and scroll area is commented */}
       {/* <ScrollArea className="h-[75vh] rounded-none border w-full overflow-x-auto"> */}
-      <ScrollArea className="h-[620px] rounded-md">
+      <ScrollArea className={cn("h-[620px]", !scrollClass ? "rounded-md" : "")}>
         <Table className={cn("", className)}>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

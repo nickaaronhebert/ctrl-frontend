@@ -8,6 +8,9 @@ import type {
 import { baseApi } from ".";
 import type { ICommonSearchQuery } from "@/types/requests/search";
 
+import type { IViewOrgPharmaciesResponse } from "@/types/responses/IViewOrgPharmaciesTranmissions";
+import { TAG_GLOBAL_PHARMACIES } from "@/types/baseApiTags";
+
 const transmissionApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     viewAllTransmissions: builder.query<
@@ -63,6 +66,19 @@ const transmissionApi = baseApi.injectEndpoints({
         };
       },
     }),
+
+    viewOrgPharmaciesTransmissionsV2: builder.query<
+      IViewOrgPharmaciesResponse,
+      ICommonSearchQuery
+    >({
+      query: ({ page, perPage, q = "", isConnected }) => {
+        return {
+          url: `/organization/pharmacies?page=${page}&limit=${perPage}&q=${q}&isConnected=${isConnected}`,
+          method: "GET",
+        };
+      },
+      providesTags: [TAG_GLOBAL_PHARMACIES],
+    }),
   }),
 });
 
@@ -72,6 +88,7 @@ export const {
   useViewAllPharmacyTransmissionsQuery,
   useViewPharmacyTransmissionByIdQuery,
   useViewOrgPharmaciesTransmissionsQuery,
+  useViewOrgPharmaciesTransmissionsV2Query,
 } = transmissionApi;
 
 export default transmissionApi;

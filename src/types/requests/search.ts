@@ -15,4 +15,5 @@ export interface ICommonSearchQuery {
   startDate?: string;
   endDate?: string;
   status?: string;
+  isConnected?: boolean;
 }
