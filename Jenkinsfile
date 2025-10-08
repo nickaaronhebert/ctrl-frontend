@@ -32,7 +32,7 @@ if (env.BRANCH_NAME == 'main') {
 timestamps {
     ansiColor('xterm') {
         node (AGENT) {
-            // notifySlack('STARTED')
+            notifySlack('STARTED')
             notifyDiscord('STARTED')
             try {
                 stage('Checkout') {
@@ -129,7 +129,7 @@ timestamps {
                 throw ex
             } finally {
                 echo "DONE"
-                // notifySlack(currentBuild.result)
+                notifySlack(currentBuild.result)
                 notifyDiscord(currentBuild.result)
             }
 
