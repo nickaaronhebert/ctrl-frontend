@@ -1,0 +1,7 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: {{ .Values.frontendService.name }}-config
+data:
+{{ tpl (toYaml .Values.env.frontend | indent 4) . }}
