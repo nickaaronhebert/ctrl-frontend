@@ -82,7 +82,7 @@ export function globalPharmaciesTransmissionColumns(): ColumnDef<TransmissionsSt
 
             {remainingCount > 0 && (
               <div className="mt-3  ">
-                <div className="text-blue-600 text-sm font-medium underline underline-offset-2">
+                <div className="text-[#008CE3] text-sm font-medium underline underline-offset-2">
                   +{remainingCount} state{remainingCount > 1 ? "s" : ""}
                 </div>
               </div>

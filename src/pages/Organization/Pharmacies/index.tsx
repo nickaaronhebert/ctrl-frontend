@@ -26,7 +26,7 @@ export default function OrgPharmaciesTransmission() {
         </div>
       </div>
 
-      <div className="flex gap-1.5 mt-4">
+      <div className="flex gap-2.5 mt-4">
         <Button
           size={"xxl"}
           variant={"tabs"}
