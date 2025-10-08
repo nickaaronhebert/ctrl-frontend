@@ -9,9 +9,6 @@ def registry = '901120114376.dkr.ecr.us-east-2.amazonaws.com'
 // Image Details
 def imageNamespace = 'ctrl';
 
-def ENV_KIND = 'dev';
-def AGENT = 'jenkins-agent';
-
 properties([
     disableConcurrentBuilds(),
 ])
