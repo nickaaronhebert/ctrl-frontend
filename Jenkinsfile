@@ -13,6 +13,9 @@ properties([
     disableConcurrentBuilds(),
 ])
 
+// Ensure BRANCH_NAME is populated (use GIT_BRANCH if available, otherwise default to 'development')
+env.BRANCH_NAME = env.BRANCH_NAME ?: (env.GIT_BRANCH?.tokenize('/')?.last() ?: 'development')
+
 currentBuild.displayName = "#${currentBuild.number} [${env.BRANCH_NAME}]"
 
 if (env.BRANCH_NAME == 'main') {
