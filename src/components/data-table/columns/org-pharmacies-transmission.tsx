@@ -1,4 +1,4 @@
-import type { TransmissionsStats } from "@/types/responses/IViewOrgPharmaciesTranmissions.";
+import type { TransmissionsStats } from "@/types/responses/IViewOrgPharmaciesTranmissions";
 import type { ColumnDef } from "@tanstack/react-table";
 
 const colorClasses = {
@@ -41,14 +41,14 @@ export function orgPharmaciesTransmissionColumns(): ColumnDef<TransmissionsStats
       header: "Transmissions",
       cell: ({ row }) => {
         const { statusCounts, name } = row.original;
-        const total = statusCounts.reduce((sum, item) => sum + item.count, 0);
+        const total = statusCounts?.reduce((sum, item) => sum + item.count, 0);
         return (
           <div className="w-fit">
             <div
               className={`min-w-[450px] max-w-[450px] h-5 bg-progress-bg rounded-lg overflow-hidden flex`}
             >
-              {statusCounts.map((segment, index) => {
-                const percentage = (segment.count / total) * 100;
+              {statusCounts?.map((segment, index) => {
+                const percentage = (segment.count / total!) * 100;
                 return (
                   <div
                     key={index}
@@ -67,7 +67,7 @@ export function orgPharmaciesTransmissionColumns(): ColumnDef<TransmissionsStats
             </div>
             <div className="flex justify-between items-center mt-2">
               <div className="flex items-center gap-3 text-sm text-dashboard-subtitle">
-                {statusCounts.map((item, index) => (
+                {statusCounts?.map((item, index) => (
                   <span
                     key={`${name}${index}${item.status}`}
                     className="flex items-center gap-1"
