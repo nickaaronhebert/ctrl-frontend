@@ -37,15 +37,17 @@ export function globalPharmaciesTransmissionColumns(): ColumnDef<TransmissionsSt
       header: "Contact Info",
       cell: ({ row }) => {
         const { phoneNumber, address } = row.original;
+        const formattedAddress =
+          `${address?.address1 ? address?.address1 : ""} ${
+            address?.address2 ? address?.address2 : ""
+          } ${address?.city ? address?.city : ""} ${
+            address?.state ? address?.state : ""
+          }` || "-";
         return (
           <>
             <p className="text-sm font-medium">{phoneNumber}</p>
             <p className="text-sm text-[#3E4D61] font-medium">
-              {`${address?.address1 ? address?.address1 : ""} ${
-                address?.address2 ? address?.address2 : ""
-              } ${address?.city ? address?.city : ""} ${
-                address?.state ? address?.city : ""
-              }`}{" "}
+              {address ? formattedAddress : ""}
             </p>
           </>
         );

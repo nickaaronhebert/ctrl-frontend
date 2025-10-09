@@ -33,7 +33,7 @@ export default function ActiveOrgPharmaciesTransmission() {
       page,
       perPage,
       q: name,
-      isConnected: true,
+      connectionStatus: "connected",
     },
     {
       selectFromResult: ({ data, isLoading, isError }) => ({

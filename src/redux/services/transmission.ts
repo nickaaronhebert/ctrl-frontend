@@ -71,9 +71,9 @@ const transmissionApi = baseApi.injectEndpoints({
       IViewOrgPharmaciesResponse,
       ICommonSearchQuery
     >({
-      query: ({ page, perPage, q = "", isConnected }) => {
+      query: ({ page, perPage, q = "", connectionStatus }) => {
         return {
-          url: `/organization/pharmacies?page=${page}&limit=${perPage}&q=${q}&isConnected=${isConnected}`,
+          url: `/organization/pharmacies?page=${page}&limit=${perPage}&connectionStatus=${connectionStatus}&q=${q}`,
           method: "GET",
         };
       },

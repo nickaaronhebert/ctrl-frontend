@@ -11,6 +11,7 @@ export interface TransmissionsStats {
   phoneNumber: string;
   address?: Address;
   allowedStates?: string[];
+  status?: "pending" | "rejected";
 }
 
 export interface IViewOrgPharmaciesResponse {

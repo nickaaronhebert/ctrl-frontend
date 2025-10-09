@@ -5,11 +5,12 @@ import { cn } from "@/lib/utils";
 
 import ActiveOrgPharmaciesTransmission from "./Active";
 import GlobalOrgPharmacies from "./Global";
+import RequestStatusPharmacies from "./Request";
 
 export default function OrgPharmaciesTransmission() {
-  const [activeStatus, setActiveStatus] = useState<"Active" | "Global">(
-    "Active"
-  );
+  const [activeStatus, setActiveStatus] = useState<
+    "Active" | "Global" | "Requested"
+  >("Active");
 
   return (
     <div className="p-5">
@@ -55,15 +56,31 @@ export default function OrgPharmaciesTransmission() {
           onClick={() => setActiveStatus("Global")}
         >
           <span className=" font-medium text-base mx-2.5">
-            Global Pharmacies
+            Other Pharmacies
           </span>
+        </Button>
+
+        <Button
+          size={"xxl"}
+          variant={"tabs"}
+          className={cn(
+            activeStatus === "Requested"
+              ? "bg-primary text-white"
+              : "bg-slate-background text-secondary-foreground hover:bg-slate-background",
+            "p-[30px]"
+          )}
+          onClick={() => setActiveStatus("Requested")}
+        >
+          <span className=" font-medium text-base mx-2.5">Request Status</span>
         </Button>
       </div>
       <div className=" bg-white shadow-[0px_2px_40px_0px_#00000014] pb-[12px] px-3.5">
         {activeStatus === "Active" ? (
           <ActiveOrgPharmaciesTransmission />
-        ) : (
+        ) : activeStatus === "Global" ? (
           <GlobalOrgPharmacies />
+        ) : (
+          <RequestStatusPharmacies />
         )}
       </div>
     </div>

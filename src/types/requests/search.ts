@@ -1,3 +1,8 @@
+export type PharmacyConnectionStatus =
+  | "connected"
+  | "not_connected"
+  | "requested";
+
 export interface ICommonSearchQuery {
   page: number;
   perPage: number;
@@ -15,5 +20,5 @@ export interface ICommonSearchQuery {
   startDate?: string;
   endDate?: string;
   status?: string;
-  isConnected?: boolean;
+  connectionStatus?: PharmacyConnectionStatus;
 }
