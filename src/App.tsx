@@ -680,7 +680,7 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  console.log("App running in live");
+  console.log("App running in live mode");
   return <RouterProvider router={router} />;
 }
 
