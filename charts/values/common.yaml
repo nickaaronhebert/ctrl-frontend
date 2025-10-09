@@ -1,0 +1,43 @@
+namespace: ctrl-local
+replicaCount: 1
+domainName: telegramd.com
+restService:
+  type: ClusterIP
+  externalPort: 80
+  internalPort: 6009
+  name: dev-ctrl-rest
+  imageName: dev-ctrl/rest
+  resources:
+    limits:
+      cpu: 500m
+      memory: 500Mi
+    requests:
+      cpu: 500m
+      memory: 500Mi
+frontendService:
+  type: ClusterIP
+  externalPort: 80
+  internalPort: 5173
+  name: dev-ctrl-frontend
+  imageName: dev-ctrl/frontend
+  resources:
+    limits:
+      cpu: 300m
+      memory: 300Mi
+    requests:
+      cpu: 100m
+      memory: 150Mi
+
+env:
+    # Frontend environment variables
+    frontend:
+        VITE_STRIPE_PUBLISHABLE_KEY:
+
+# AWS repo
+repo: '901120114376.dkr.ecr.us-east-2.amazonaws.com'
+imageTag: "latest"
+# AWS
+aws:
+  certificates:
+    # *.telegramd.com
+    - arn:aws:acm:us-east-2:901120114376:certificate/763ec17a-18f5-409f-8776-4fa9d77917f8

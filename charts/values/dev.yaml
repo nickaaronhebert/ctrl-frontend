@@ -1,0 +1,13 @@
+nodeSelector: "lifecycle: Ec2Spot"
+restService:
+    imageName: dev-ctrl/rest
+frontendService:
+    imageName: dev-ctrl/frontend
+ctrlEnv: dev
+# Environment variables
+env:
+    # Frontend environment variables
+    frontend:
+        VITE_MASTER_KEY: your_master_key
+        VITE_BASE_BACKEND_URL: "https://ctrl-rest-dev.telegramd.com"
+        VITE_STRIPE_PUBLISHABLE_KEY:

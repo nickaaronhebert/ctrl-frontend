@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: {{ .Values.frontendService.name }}-dep
+    labels:
+        chart: '{{ template "name" . }}-{{ .Chart.Version | replace "+" "_" }}'
+spec:
+    replicas: {{ .Values.replicaCount }}
+    strategy:
+        type: RollingUpdate
+        rollingUpdate:
+            maxSurge: 1
+            maxUnavailable: 0%
+    selector:
+        matchLabels:
+            app.kubernetes.io/name: app-{{ .Values.frontendService.name }}
+    template:
+        metadata:
+            labels:
+                app.kubernetes.io/name: app-{{ .Values.frontendService.name }}
+                kind: ctrl-frontend
+        spec:
+            nodeSelector:
+              {{ .Values.nodeSelector }}
+            containers:
+                -   name: {{ .Values.frontendService.name }}
+                    image: "{{ .Values.repo }}/{{ .Values.frontendService.imageName }}:{{ .Values.imageTag }}"
+                    imagePullPolicy: Always
+                    envFrom:
+                        -   configMapRef:
+                                name: {{ .Values.frontendService.name }}-config
+                    ports:
+                        - containerPort: {{ .Values.frontendService.internalPort }}
+                    resources:
+{{ toYaml .Values.frontendService.resources | indent 24 }}

@@ -1,0 +1,69 @@
+{
+    "cluster": {
+        "name": "telemdnow-new",
+        "arn": "arn:aws:eks:us-east-2:901120114376:cluster/telemdnow-new",
+        "createdAt": "2023-03-29T20:24:32.678000+05:30",
+        "version": "1.31",
+        "endpoint": "https://37B5FB12DB92EBEBDA8B86F76CFDAE44.yl4.us-east-2.eks.amazonaws.com",
+        "roleArn": "arn:aws:iam::901120114376:role/telemdnow-eks-service-rol-AWSServiceRoleForAmazonE-1LL3NV3BXDDXI",
+        "resourcesVpcConfig": {
+            "subnetIds": [
+                "subnet-00685d2443e7da00a",
+                "subnet-07b21c674f62b01ff"
+            ],
+            "securityGroupIds": [
+                "sg-0e62e9c0b223588cb"
+            ],
+            "clusterSecurityGroupId": "sg-0b12cddcc73db01df",
+            "vpcId": "vpc-084ffd3decc083f94",
+            "endpointPublicAccess": true,
+            "endpointPrivateAccess": false,
+            "publicAccessCidrs": [
+                "0.0.0.0/0"
+            ]
+        },
+        "kubernetesNetworkConfig": {
+            "serviceIpv4Cidr": "172.20.0.0/16",
+            "ipFamily": "ipv4"
+        },
+        "logging": {
+            "clusterLogging": [
+                {
+                    "types": [
+                        "api",
+                        "audit",
+                        "controllerManager",
+                        "scheduler"
+                    ],
+                    "enabled": true
+                },
+                {
+                    "types": [
+                        "authenticator"
+                    ],
+                    "enabled": false
+                }
+            ]
+        },
+        "identity": {
+            "oidc": {
+                "issuer": "https://oidc.eks.us-east-2.amazonaws.com/id/37B5FB12DB92EBEBDA8B86F76CFDAE44"
+            }
+        },
+        "status": "ACTIVE",
+        "certificateAuthority": {
+            "data": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUMvakNDQWVhZ0F3SUJBZ0lCQURBTkJna3Foa2lHOXcwQkFRc0ZBREFWTVJNd0VRWURWUVFERXdwcmRXSmwKY201bGRHVnpNQjRYRFRJek1ETXlPVEUxTURBeE9Wb1hEVE16TURNeU5qRTFNREF4T1Zvd0ZURVRNQkVHQTFVRQpBeE1LYTNWaVpYSnVaWFJsY3pDQ0FTSXdEUVlKS29aSWh2Y05BUUVCQlFBRGdnRVBBRENDQVFvQ2dnRUJBS2o3ClVsNCs2RENaQ0FNdFFSQWJIRnFTcG1aeFpTeWsvajRjZDNtZEVWdG5VQnBrMm0xRmhhUUkwdTFQMWJzcktLT3AKckFRT08zU1RUUW1ONEJzSU55VnFnbDdpdmFuRnNrMWZCcEF6M2VLVDlzRENCc2pUQVp6bU9vR3pPOGxkZzBRdApmRitiM3FGdHE0ZWQrNXlBeHRDU3VMVm9DMEwzWHovOU9jTjhWMUlwWTZJNnNtN0dML21DRm9UVkI4ODZZekRpClJNNXBLTi92eDBreVpXOGF0M0VwOURyQXZ0dFNhbGZGRi9aaFYrejVpaEpHQU9YVjlVZENpVXlEdXVPckErOFAKR3VWU0MxVTA0dE1BeWRZaGxzdjFSNjVtQVJMWDY5ekYrN0hya0lPMFFLUUZQUlVUV3VXNFRnQU5IQkxMd1dhQwo4OHVQZmJ3UUFBR05hN3BDWWEwQ0F3RUFBYU5aTUZjd0RnWURWUjBQQVFIL0JBUURBZ0trTUE4R0ExVWRFd0VCCi93UUZNQU1CQWY4d0hRWURWUjBPQkJZRUZOWWRtQnNHTE1QZWUxd3JaRnNqZ0puWjNhb1dNQlVHQTFVZEVRUU8KTUF5Q0NtdDFZbVZ5Ym1WMFpYTXdEUVlKS29aSWh2Y05BUUVMQlFBRGdnRUJBQjEvWWoxb05LQld5UVQ5ZWxsZwo4UGIweTRQcWdUSVNMcFAvRUZlM0hpSUloZFBEM0JSWHJzZkdwTnQ0bGxHTDR2cGNZanVlQXEreGVyclR2bis0CjFoNFdXV3BLTDVaSjlFMlVoTmVta3BKZnl6TUc3VWVxclEvbVdNNUFpcFhvV1JCRmxJZzFTSUhFMStsUXNNVlMKRVM3Vy84WTUyd0R3MzlmeHVlZXRmU1lpN0ZRWWF1KzM4WHJTNzlUdU1YZDRFYytzam8zdTBzbWUyVjNmVUlyUgpacmJjUVZiRy9tTnk5OTlId3dndHhHRzZuQ0RiQ3NzK1h6ZTZDUzJZNjhvZnZWY3R1WUhhT05zZFQ3bjZOb3ZCCnpFQUlIbXNNcHU5Q3RpY2g2aTJIazUrL2xkNjI1aGcrK3huSlVxSlJmbGNKNm1OSUM3dlpnbHdZMXVia0FhdXIKRHBjPQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg=="
+        },
+        "platformVersion": "eks.36",
+        "tags": {
+            "AWS.SSM.AppManager.EKS.Cluster.ARN": "arn:aws:eks:us-east-2:901120114376:cluster/telemdnow-new"
+        },
+        "accessConfig": {
+            "authenticationMode": "CONFIG_MAP"
+        },
+        "upgradePolicy": {
+            "supportType": "EXTENDED"
+        },
+        "deletionProtection": false
+    }
+}
