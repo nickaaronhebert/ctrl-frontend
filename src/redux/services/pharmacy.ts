@@ -1,5 +1,6 @@
 import type { PharmacyInvoiceResponse } from "@/types/responses/invoices";
 import {
+  TAG_GET_CONNECTED_ORGANIZATION,
   TAG_GET_PHARMACY_CATALOGUE,
   TAG_GET_USER_PROFILE,
   TAG_GLOBAL_PHARMACIES,
@@ -7,6 +8,7 @@ import {
 import { baseApi } from ".";
 import type { IGetPharmacyInvoicesDetailsResponse } from "@/types/responses/IGetPharmacyInvoicesDetail";
 import type { ICommonSearchQuery } from "@/types/requests/search";
+import type { IConnectedOrganizationResponse } from "@/types/responses/IConnectedOrganization";
 
 export const pharmacyApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -35,6 +37,18 @@ export const pharmacyApi = baseApi.injectEndpoints({
         url: `/transaction/pharmacy-transfers?page=${page}&limit=${perPage}&startDate=${startDate}&endDate=${endDate}`,
         method: "GET",
       }),
+    }),
+
+    getConnectedOrganization: builder.query<
+      IConnectedOrganizationResponse,
+      ICommonSearchQuery
+      // { page: number; perPage: number }
+    >({
+      query: ({ page, perPage, q, status }) => ({
+        url: `/pharmacy/organizations?page=${page}&limit=${perPage}&status=${status}&q=${q}`,
+        method: "GET",
+      }),
+      providesTags: [TAG_GET_CONNECTED_ORGANIZATION],
     }),
 
     getPharmacyInvoicesDetails: builder.query<
@@ -104,6 +118,22 @@ export const pharmacyApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [TAG_GLOBAL_PHARMACIES],
     }),
+
+    rejectConnectionInvite: builder.mutation({
+      query: (invitationId) => ({
+        url: `/pharmacy/reject-invitation/${invitationId}/reject`,
+        method: "POST",
+      }),
+      invalidatesTags: [TAG_GET_CONNECTED_ORGANIZATION],
+    }),
+
+    acceptConnectionInvite: builder.mutation({
+      query: (invitationId) => ({
+        url: `/pharmacy/approve-invitation/${invitationId}/accept`,
+        method: "POST",
+      }),
+      invalidatesTags: [TAG_GET_CONNECTED_ORGANIZATION],
+    }),
   }),
 });
 
@@ -111,6 +141,7 @@ export const {
   useVerifyPharmacyInvitationMutation,
   useAcceptPharmacyInvitationMutation,
   useGetPharmacyInvoicesQuery,
+  useGetConnectedOrganizationQuery,
   useGetPharmacyInvoicesDetailsQuery,
   useBulkUpsertPharmacyCatalogueMutation,
   useSetActiveStatesMutation,
@@ -119,4 +150,6 @@ export const {
   useGetPharmacyMedicinesQuery,
   useDeletePharmacyCatalogueMutation,
   useSendConnectionInviteMutation,
+  useRejectConnectionInviteMutation,
+  useAcceptConnectionInviteMutation,
 } = pharmacyApi;

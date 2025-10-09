@@ -21,4 +21,5 @@ export interface ICommonSearchQuery {
   endDate?: string;
   status?: string;
   connectionStatus?: PharmacyConnectionStatus;
+  organization?: string;
 }

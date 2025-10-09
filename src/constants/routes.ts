@@ -73,6 +73,7 @@ export const ROUTES = {
   VIEW_CATALOGUE: "view-catalogue",
   VIEW_TRANSMISSION_DETAIL: "transmissions/:id",
   VIEW_TRANSACTION_DETAIL: "transactions/:id",
+  PHARMACY_ORGANIZATIONS: "organizations",
 };
 
 export const STEPPER_FORM = {
