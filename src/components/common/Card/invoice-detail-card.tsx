@@ -36,7 +36,16 @@ export default function InvoiceDetailsCard({
     },
     {
       label: "Period",
-      value: data.periodStart + " - " + data.periodEnd,
+      value:
+        new Date(data.periodStart).toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+        }) +
+        " - " +
+        new Date(data.periodEnd).toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+        }),
     },
   ];
 

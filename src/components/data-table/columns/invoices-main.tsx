@@ -45,9 +45,7 @@ export function invoiceMainColumns(): ColumnDef<Invoice>[] {
       header: "Total Amount",
       cell: ({ row }) => {
         const amount = Number(row.getValue("totalAmount")) || 0;
-        return (
-          <p className="text-xs font-medium">${amount.toLocaleString()}</p>
-        );
+        return <p className="text-xs font-medium">${amount.toFixed(2)}</p>;
       },
     },
     {

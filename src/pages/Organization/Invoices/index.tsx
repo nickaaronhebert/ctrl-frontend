@@ -57,13 +57,18 @@
 import { DataTable } from "@/components/data-table/data-table";
 import { DataTablePagination } from "@/components/data-table/data-table-pagination";
 import { dummyOrgInvoices } from "@/constants";
-
 import { useDataTable } from "@/hooks/use-data-table";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { orgInvoiceMainColumns } from "@/components/data-table/columns/org-invoices-main";
+import { Button } from "@/components/ui/button";
+import { ChevronDown } from "lucide-react";
+import type { DateRange } from "react-day-picker";
+import { DateFilterDialog } from "@/components/common/DateRangeDialog/DateRangeDialog";
 
 export default function Invoices() {
   const columns = useMemo(() => orgInvoiceMainColumns(), []);
+  const [openDatePicker, setOpenDatePicker] = useState(false);
+  const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
   const { table } = useDataTable({
     data: dummyOrgInvoices || [],
     columns,
@@ -78,6 +83,17 @@ export default function Invoices() {
             Track and manage invoices across all pharmacies
           </p>
         </div>
+        <div>
+          <div className="flex gap-3 items-center">
+            <Button
+              onClick={() => setOpenDatePicker(true)}
+              className="w-[113px] h-[44px] rounded-[6px] border border-card-border cursor-pointer p-[15px] text-black bg-white hover:bg-white flex items-center justify-between"
+            >
+              <span>All Dates</span>
+              <ChevronDown className="w-4 h-4 ml-2" />
+            </Button>
+          </div>
+        </div>
       </div>
 
       <div className="mt-3.5 bg-white shadow-[0px_2px_40px_0px_#00000014] pb-[12px] rounded-2xl">
@@ -86,6 +102,14 @@ export default function Invoices() {
           <DataTablePagination table={table} />
         </div>
       </div>
+      {openDatePicker && (
+        <DateFilterDialog
+          open={openDatePicker}
+          onOpenChange={setOpenDatePicker}
+          dateRange={dateRange}
+          onDateRangeChange={setDateRange}
+        />
+      )}
     </div>
   );
 }
