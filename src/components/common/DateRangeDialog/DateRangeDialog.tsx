@@ -58,9 +58,9 @@ export function DateFilterDialog({
               onClick={handleClose}
               className="h-6 w-6 rounded-full hover:bg-gray-100"
             >
-              <div className="rounded-full p-1 border border-black">
+              {/* <div className="rounded-full p-1 border border-black">
                 <ChevronLeft width={10} height={10} />
-              </div>
+              </div> */}
             </Button>
           </div>
         </DialogHeader>

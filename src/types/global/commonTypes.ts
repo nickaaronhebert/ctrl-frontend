@@ -315,3 +315,33 @@ export interface PerformantPharmacies {
   totalCount: number;
   statusCounts: TransmissionStats[];
 }
+
+export type InvoiceStatus = "RECEIVED" | "NOT_RECEIVED";
+
+export type OrgInvoiceStatus = "PAID" | "NOT_PAID";
+
+export interface Organization {
+  id: string;
+  name: string;
+  code: string;
+}
+
+export type Invoice = {
+  id: string;
+  organization: Organization;
+  periodStart: string;
+  periodEnd: string;
+  totalAmount: number;
+  status: InvoiceStatus;
+  createdAt?: string;
+};
+
+export type OrgInvoice = {
+  id: string;
+  pharmacy: Organization;
+  periodStart: string;
+  periodEnd: string;
+  totalAmount: number;
+  status: OrgInvoiceStatus;
+  createdAt?: string;
+};

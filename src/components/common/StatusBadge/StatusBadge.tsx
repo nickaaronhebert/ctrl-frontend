@@ -3,6 +3,8 @@ import QueuedSecondary from "@/assets/icons/Queuedecondary";
 import { Check } from "lucide-react";
 import Tick from "@/assets/icons/Tick";
 import TripleDots from "@/assets/icons/TripleDots";
+import NotReceived from "@/assets/icons/NotReceived";
+import Received from "@/assets/icons/Received";
 
 interface StatusBadgeProps {
   status: string;
@@ -46,6 +48,30 @@ const statusStyles: Record<
     bg: "bg-progress-secondary",
     border: "border-progress",
     text: "text-progress",
+  },
+  RECEIVED: {
+    icon: <Received />,
+    bg: "bg-[#E6FAF5]",
+    border: "border-[#E6FAF5]",
+    text: "text-progress",
+  },
+  NOT_RECEIVED: {
+    icon: <NotReceived />,
+    bg: "bg-[#FFE9E9]",
+    border: "border-[#FFE9E9]",
+    text: "text-failed",
+  },
+  PAID: {
+    icon: <Received />,
+    bg: "bg-[#E6FAF5]",
+    border: "border-[#E6FAF5]",
+    text: "text-progress",
+  },
+  NOT_PAID: {
+    icon: <NotReceived />,
+    bg: "bg-[#FFE9E9]",
+    border: "border-[#FFE9E9]",
+    text: "text-failed",
   },
 };
 

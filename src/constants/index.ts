@@ -11,6 +11,8 @@ import InvoicesMain from "@/assets/icons/InvoicesMain";
 import PatientIcon from "@/assets/icons/PatientIcon";
 import { Settings } from "lucide-react";
 import MedicationLibrary from "@/assets/icons/MedicationLibrary";
+import type { Invoice, OrgInvoice } from "@/types/global/commonTypes";
+import Home from "@/assets/icons/Home";
 
 export interface TabConfig {
   id: string;
@@ -44,8 +46,9 @@ export const organisationAdminItems = [
   { title: "Dashboard", url: "/org/dashboard", icon: Dashboard },
   { title: "Orders", url: "/org/orders", icon: Orders },
   { title: "Transmissions", url: "/org/transmissions", icon: Transmission },
-  { title: "Transactions", url: "/org/transactions", icon: Transactions },
+  { title: "Invoices", url: "/org/transactions", icon: Transactions },
   { title: "Patients", url: "/org/patients", icon: PatientIcon },
+  { title: "Sub-organizations", url: "/org/sub-orgs", icon: Home },
   // { title: "Providers", url: "/org/providers", icon: Provider },
   { title: "Settings", url: "/org/settings", icon: Settings },
   // {
@@ -318,3 +321,348 @@ export const USA_STATES = [
 ];
 
 export default US_STATES;
+
+export const invoiceData = {
+  invoiceId: "INV-2025-012",
+  organizationName: "John Smith",
+  organizationRef: "#7181",
+  periodText: "Oct 1 – Oct 7, 2025",
+};
+
+export const totals = {
+  amount: 1350,
+  currency: "USD",
+  collectionStatus: "collected" as const,
+  remittanceStatus: "pending" as const,
+};
+
+export const transactionData = [
+  {
+    id: "txn::001",
+    transmissions: ["eRx", "Pharmacy Portal"],
+    patient: {
+      firstName: "Xavier",
+      lastName: "Doherty",
+      dob: "2001-12-11T18:30:00.000Z",
+      gender: "Male",
+      phoneNumber: "(234) 234-2342",
+      addresses: [
+        {
+          address1: "test",
+          address2: "test",
+          city: "test",
+          state: "California",
+          zipcode: "35004",
+          country: "United States",
+          isDefault: false,
+          _id: "68c156c8132765d309f3c996",
+        },
+        {
+          address1: "1247 Broadway Street",
+          address2: "",
+          city: "asdasd",
+          state: "Texas",
+          zipcode: "123123",
+          country: "United States",
+          isDefault: true,
+          _id: "68c156c8132765d309f3c997",
+        },
+      ],
+      patientId: "PAT_000002",
+      email: "xav@yopmail.com",
+      keywords: ["xavier", "doherty", "xavyopmailcom", "234", "234-2342"],
+      height: 120,
+      weight: 80,
+      medicationAllergies: "lactose ",
+      currentMedications: "Metformim",
+      createdAt: "2025-09-10T06:23:07.017Z",
+      updatedAt: "2025-09-10T10:45:28.596Z",
+      id: "pt::f8e9da62-0a55-487b-afe6-33c4b4868386",
+    },
+    productVariants: [
+      {
+        medicationCatalogue: {
+          drugName: "Fluconor",
+          dosageForm: "Capsule",
+          category: "Antifungal",
+          id: "mc::06e8bb81-5f0f-4373-aa55-8eb4e612c740",
+        },
+        strength: "200mg",
+        quantityType: "mg",
+        containerQuantity: 20,
+        id: "prv::87e61361-edb3-4b44-b0d6-5c44e1f6b5da",
+      },
+      {
+        medicationCatalogue: {
+          drugName: "Ibuprofen",
+          dosageForm: "oral",
+          category: "NSAID",
+          id: "mc::02e8bb81-1f0f-4323-bb65-7eb4e611c721",
+        },
+        strength: "400mg",
+        quantityType: "mg",
+        containerQuantity: 60,
+        id: "prv::17e61361-edb3-4b44-b0d6-5c44e1f6b9df",
+      },
+    ],
+    amount: 1120,
+    createdAt: "2025-10-06T10:45:00.000Z",
+  },
+  {
+    id: "txn::002",
+    transmissions: ["Direct"],
+    patient: {
+      firstName: "Melissa",
+      lastName: "Joy",
+      dob: "1995-04-15T18:30:00.000Z",
+      gender: "Female",
+      phoneNumber: "(345) 876-1234",
+      addresses: [
+        {
+          address1: "45 Lakeview Dr",
+          address2: "",
+          city: "Austin",
+          state: "Texas",
+          zipcode: "73301",
+          country: "United States",
+          isDefault: true,
+          _id: "68c156c8132765d309f3c998",
+        },
+      ],
+      patientId: "PAT_000003",
+      email: "melissa.joy@yopmail.com",
+      keywords: ["melissa", "joy", "melissajoy", "345", "876-1234"],
+      height: 165,
+      weight: 65,
+      medicationAllergies: "Penicillin",
+      currentMedications: "Losartan",
+      createdAt: "2025-09-12T10:00:00.000Z",
+      updatedAt: "2025-09-20T15:00:00.000Z",
+      id: "pt::77a6e134-5e5a-4c18-98bc-f7c4c292f7b3",
+    },
+    productVariants: [
+      {
+        medicationCatalogue: {
+          drugName: "Losartan",
+          dosageForm: "oral",
+          category: "Antihypertensive",
+          id: "mc::17e7cb12-4g5b-2233-aa55-7eb4e612d821",
+        },
+        strength: "50mg",
+        quantityType: "mg",
+        containerQuantity: 90,
+        id: "prv::66e12361-edb3-4b44-b0d6-5c44e1f6c231",
+      },
+    ],
+    amount: 400,
+    createdAt: "2025-10-05T11:30:00.000Z",
+  },
+  {
+    id: "txn::003",
+    transmissions: ["Fax"],
+    patient: {
+      firstName: "Joey",
+      lastName: "Geller",
+      dob: "1988-07-23T18:30:00.000Z",
+      gender: "Male",
+      phoneNumber: "(456) 999-4567",
+      addresses: [
+        {
+          address1: "678 Central Perk",
+          address2: "Apt 5B",
+          city: "New York",
+          state: "NY",
+          zipcode: "10001",
+          country: "United States",
+          isDefault: true,
+          _id: "68c156c8132765d309f3c999",
+        },
+      ],
+      patientId: "PAT_000004",
+      email: "joey.geller@yopmail.com",
+      keywords: ["joey", "geller", "joeygeller", "456", "999-4567"],
+      height: 178,
+      weight: 82,
+      medicationAllergies: "None",
+      currentMedications: "Atorvastatin",
+      createdAt: "2025-09-15T08:45:00.000Z",
+      updatedAt: "2025-09-25T09:30:00.000Z",
+      id: "pt::88b7e134-6e5a-4c28-98bc-a8d4c292f8b4",
+    },
+    productVariants: [
+      {
+        medicationCatalogue: {
+          drugName: "Atorvastatin",
+          dosageForm: "oral",
+          category: "Statin",
+          id: "mc::27e7cb12-4g5b-2233-aa55-7eb4e612d834",
+        },
+        strength: "10mg",
+        quantityType: "mg",
+        containerQuantity: 30,
+        id: "prv::77e12361-edb3-4b44-b0d6-5c44e1f6c242",
+      },
+      {
+        medicationCatalogue: {
+          drugName: "Metformin",
+          dosageForm: "oral",
+          category: "Antidiabetic",
+          id: "mc::37e7cb12-4g5b-2233-aa55-7eb4e612d845",
+        },
+        strength: "500mg",
+        quantityType: "mg",
+        containerQuantity: 60,
+        id: "prv::88e12361-edb3-4b44-b0d6-5c44e1f6c253",
+      },
+    ],
+    amount: 590,
+    createdAt: "2025-10-05T12:15:00.000Z",
+  },
+];
+
+export const dummyInvoices: Invoice[] = [
+  {
+    id: "INV-2025-012",
+    organization: { name: "John Smith", id: "org::7181", code: "#7181" },
+    periodStart: "2025-10-01",
+    periodEnd: "2025-10-07",
+    totalAmount: 2110,
+    status: "NOT_RECEIVED",
+  },
+  {
+    id: "INV-2025-011",
+    organization: { name: "Melissa Joy", id: "org::7185", code: "#7185" },
+    periodStart: "2025-10-05",
+    periodEnd: "2025-10-12",
+    totalAmount: 1350,
+    status: "RECEIVED",
+  },
+  {
+    id: "INV-2025-008",
+    organization: { name: "Jaden Walter", id: "org::7130", code: "#7130" },
+    periodStart: "2025-09-15",
+    periodEnd: "2025-09-22",
+    totalAmount: 950,
+    status: "NOT_RECEIVED",
+  },
+  {
+    id: "INV-2025-006",
+    organization: { name: "Jaden Walter", id: "org::7130", code: "#7130" },
+    periodStart: "2025-09-15",
+    periodEnd: "2025-09-22",
+    totalAmount: 950,
+    status: "RECEIVED",
+  },
+  {
+    id: "INV-2025-005",
+    organization: { name: "John Smith", id: "org::7181", code: "#7181" },
+    periodStart: "2025-08-20",
+    periodEnd: "2025-08-28",
+    totalAmount: 2200,
+    status: "RECEIVED",
+  },
+  {
+    id: "INV-2025-004",
+    organization: { name: "John Smith", id: "org::7181", code: "#7181" },
+    periodStart: "2025-08-10",
+    periodEnd: "2025-08-15",
+    totalAmount: 450,
+    status: "RECEIVED",
+  },
+  {
+    id: "INV-2025-003",
+    organization: { name: "Jordan Weller", id: "org::7145", code: "#7145" },
+    periodStart: "2025-08-10",
+    periodEnd: "2025-08-15",
+    totalAmount: 450,
+    status: "RECEIVED",
+  },
+  {
+    id: "INV-2025-002",
+    organization: { name: "Jordan Weller", id: "org::7145", code: "#7145" },
+    periodStart: "2025-07-01",
+    periodEnd: "2025-07-07",
+    totalAmount: 3000,
+    status: "RECEIVED",
+  },
+];
+
+export const dummyOrgInvoices: OrgInvoice[] = [
+  {
+    id: "INV-2025-012",
+    pharmacy: { name: "GreenLeaf Pharmacy", id: "org::7181", code: "#7181" },
+    periodStart: "2025-10-01",
+    periodEnd: "2025-10-07",
+    totalAmount: 2110,
+    status: "NOT_PAID",
+  },
+  {
+    id: "INV-2025-011",
+    pharmacy: { name: "WellCare Pharmacy", id: "org::7185", code: "#7185" },
+    periodStart: "2025-10-05",
+    periodEnd: "2025-10-12",
+    totalAmount: 1350,
+    status: "PAID",
+  },
+  {
+    id: "INV-2025-008",
+    pharmacy: { name: "CityMeds Pharmacy", id: "org::7130", code: "#7130" },
+    periodStart: "2025-09-15",
+    periodEnd: "2025-09-22",
+    totalAmount: 950,
+    status: "NOT_PAID",
+  },
+  {
+    id: "INV-2025-006",
+    pharmacy: { name: "CityMeds Pharmacy", id: "org::7130", code: "#7130" },
+    periodStart: "2025-09-15",
+    periodEnd: "2025-09-22",
+    totalAmount: 950,
+    status: "PAID",
+  },
+  {
+    id: "INV-2025-005",
+    pharmacy: { name: "GreenLeaf Pharmacy", id: "org::7181", code: "#7181" },
+    periodStart: "2025-08-20",
+    periodEnd: "2025-08-28",
+    totalAmount: 2200,
+    status: "PAID",
+  },
+  {
+    id: "INV-2025-004",
+    pharmacy: { name: "GreenLeaf Pharmacy", id: "org::7181", code: "#7181" },
+    periodStart: "2025-08-10",
+    periodEnd: "2025-08-15",
+    totalAmount: 450,
+    status: "PAID",
+  },
+  {
+    id: "INV-2025-003",
+    pharmacy: { name: "HealthHub Pharmacy", id: "org::7145", code: "#7145" },
+    periodStart: "2025-08-10",
+    periodEnd: "2025-08-15",
+    totalAmount: 450,
+    status: "PAID",
+  },
+  {
+    id: "INV-2025-002",
+    pharmacy: { name: "HealthHub Pharmacy", id: "org::7145", code: "#7145" },
+    periodStart: "2025-07-01",
+    periodEnd: "2025-07-07",
+    totalAmount: 3000,
+    status: "PAID",
+  },
+];
+
+export const organizations = [
+  { id: "org-1", value: "Acme Corp" },
+  { id: "org-2", value: "Globex Corporation" },
+  { id: "org-3", value: "Initech" },
+  { id: "org-4", value: "Umbrella Corp" },
+  { id: "org-5", value: "Hooli" },
+  { id: "org-6", value: "Stark Industries" },
+  { id: "org-7", value: "Wayne Enterprises" },
+  { id: "org-8", value: "Oscorp" },
+  { id: "org-9", value: "Redcorp" },
+  { id: "org-10", value: "Spectre Enterprises" },
+];
