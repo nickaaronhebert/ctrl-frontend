@@ -12,6 +12,7 @@ import PatientIcon from "@/assets/icons/PatientIcon";
 import { Settings } from "lucide-react";
 import MedicationLibrary from "@/assets/icons/MedicationLibrary";
 import type { Invoice, OrgInvoice } from "@/types/global/commonTypes";
+import Home from "@/assets/icons/Home";
 
 export interface TabConfig {
   id: string;
@@ -47,6 +48,7 @@ export const organisationAdminItems = [
   { title: "Transmissions", url: "/org/transmissions", icon: Transmission },
   { title: "Invoices", url: "/org/transactions", icon: Transactions },
   { title: "Patients", url: "/org/patients", icon: PatientIcon },
+  { title: "Sub-organizations", url: "/org/sub-orgs", icon: Home },
   // { title: "Providers", url: "/org/providers", icon: Provider },
   { title: "Settings", url: "/org/settings", icon: Settings },
   // {
