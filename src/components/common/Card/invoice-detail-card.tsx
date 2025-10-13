@@ -1,48 +1,46 @@
-import { type Invoice, type OrgInvoice } from "@/types/global/commonTypes";
+import type { InvoiceDetail } from "@/types/responses/invoice";
 import { DescriptionList, type DescriptionItem } from "./description-list";
 
 type InvoiceDetailsCardProps = {
-  data: Invoice | OrgInvoice;
+  data: InvoiceDetail;
   className?: string;
   labels?: {
     invoiceId?: string;
     organizationDetails?: string;
     period?: string;
   };
+  screenType?: string;
 };
-
-function getOrganization(data: Invoice | OrgInvoice) {
-  return (data as Invoice).organization ?? (data as OrgInvoice).pharmacy;
-}
 
 export default function InvoiceDetailsCard({
   data,
   className,
+  labels,
+  screenType,
 }: InvoiceDetailsCardProps) {
-  const org = getOrganization(data);
+  console.log("my details", data);
 
   const items: DescriptionItem[] = [
-    { label: "Invoice ID", value: data.id },
+    { label: "Invoice ID", value: data?.invoiceId },
     {
-      label: "Organization Details",
+      label: labels?.organizationDetails as string,
       value: (
-        <span>
-          <span className="font-semibold">{org.name}</span>
-          {org.code && (
-            <span className="text-muted-foreground">{`, ${org.code}`}</span>
-          )}
+        <span className="font-semibold">
+          {screenType === "organization"
+            ? data?.pharmacy?.name
+            : data?.organization?.name}
         </span>
       ),
     },
     {
       label: "Period",
       value:
-        new Date(data.periodStart).toLocaleDateString("en-US", {
+        new Date(data?.startDate).toLocaleDateString("en-US", {
           month: "short",
           day: "numeric",
         }) +
         " - " +
-        new Date(data.periodEnd).toLocaleDateString("en-US", {
+        new Date(data?.endDate).toLocaleDateString("en-US", {
           month: "short",
           day: "numeric",
         }),

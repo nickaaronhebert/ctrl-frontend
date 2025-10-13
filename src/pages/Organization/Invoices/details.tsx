@@ -195,27 +195,35 @@
 //////////////// v2 code below //////////////////
 
 import { Link, useParams } from "react-router-dom";
-import { dummyOrgInvoices, transactionData } from "@/constants";
-import type { OrgInvoice } from "@/types/global/commonTypes";
+import { type InvoiceDetail } from "@/types/responses/invoice";
+import { useGetInvoiceByIdQuery } from "@/redux/services/invoice";
 import InvoiceDetailsCard from "@/components/common/Card/invoice-detail-card";
 import { TotalAmountCard } from "@/components/common/Card/total-amount-card";
 import { DataTable } from "@/components/data-table/data-table";
 import { useMemo } from "react";
 import { pharmacyInvoiceColumns } from "@/components/data-table/columns/pharmacy-invoices";
 import { useDataTable } from "@/hooks/use-data-table";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 export default function ViewInvoiceDetails() {
   const { id } = useParams();
+  const { data: invoiceData, isLoading: isInvoiceLoading } =
+    useGetInvoiceByIdQuery(id as string);
   const columns = useMemo(() => pharmacyInvoiceColumns(), []);
-  const singleInvoiceDetail = dummyOrgInvoices.find(
-    (invoice) => invoice.id === id
-  );
 
   const { table } = useDataTable({
-    data: transactionData || [],
+    data: invoiceData?.data?.transactions || [],
     columns,
     pageCount: -1,
   });
+
+  if (isInvoiceLoading) {
+    return (
+      <div className="flex h-screen justify-center items-center">
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
   return (
     <div className="mb-5">
@@ -228,21 +236,22 @@ export default function ViewInvoiceDetails() {
         </Link>
 
         <h1 className="text-2xl font-bold mt-1">
-          Invoice: {singleInvoiceDetail?.id}
+          Invoice: {invoiceData?.data?.invoiceId}
         </h1>
       </div>
 
       <div className="grid grid-cols-1 mt-10 gap-4 md:grid-cols-2">
         <InvoiceDetailsCard
-          data={singleInvoiceDetail as OrgInvoice}
+          data={invoiceData?.data as InvoiceDetail}
           labels={{
             invoiceId: "Invoice ID",
             organizationDetails: "Pharmacy Details",
             period: "Period",
           }}
+          screenType="organization"
         />
         <TotalAmountCard
-          data={singleInvoiceDetail as OrgInvoice}
+          data={invoiceData?.data as InvoiceDetail}
           onMarkRemitted={() => {
             /* API call later*/
           }}

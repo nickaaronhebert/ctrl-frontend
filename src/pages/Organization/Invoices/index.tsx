@@ -56,7 +56,7 @@
 /////////////// v2 code start ///////////////
 import { DataTable } from "@/components/data-table/data-table";
 import { DataTablePagination } from "@/components/data-table/data-table-pagination";
-import { dummyOrgInvoices } from "@/constants";
+// import { dummyOrgInvoices } from "@/constants";
 import { useDataTable } from "@/hooks/use-data-table";
 import { useMemo, useState } from "react";
 import { orgInvoiceMainColumns } from "@/components/data-table/columns/org-invoices-main";
@@ -64,15 +64,35 @@ import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
 import type { DateRange } from "react-day-picker";
 import { DateFilterDialog } from "@/components/common/DateRangeDialog/DateRangeDialog";
+import { useGetInvoicesQuery } from "@/redux/services/invoice";
+import { useSearchParams } from "react-router-dom";
 
 export default function Invoices() {
+  const [searchParams] = useSearchParams();
+  const page = parseInt(searchParams.get("page") || "1", 10);
+  const perPage = parseInt(searchParams.get("per_page") ?? "10", 10);
+  const invoiceId = searchParams.get("invoiceId") ?? "";
+
+  const { data: invoiceData, meta } = useGetInvoicesQuery(
+    { page, perPage, q: invoiceId },
+    {
+      selectFromResult: ({ data, isLoading, isError }) => ({
+        data: data?.data,
+        meta: data?.meta,
+        isLoading: isLoading,
+        isError: isError,
+      }),
+    }
+  );
+
   const columns = useMemo(() => orgInvoiceMainColumns(), []);
   const [openDatePicker, setOpenDatePicker] = useState(false);
   const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
+
   const { table } = useDataTable({
-    data: dummyOrgInvoices || [],
+    data: invoiceData || [],
     columns,
-    pageCount: -1,
+    pageCount: meta?.pageCount ?? -1,
   });
   return (
     <div className="p-5">

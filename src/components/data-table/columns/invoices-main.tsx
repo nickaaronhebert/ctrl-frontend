@@ -1,26 +1,28 @@
 import { type ColumnDef } from "@tanstack/react-table";
-import { type Invoice } from "@/types/global/commonTypes";
+import { type Invoice } from "@/types/responses/invoice";
 import { Link } from "react-router-dom";
 import { StatusBadge } from "@/components/common/StatusBadge/StatusBadge";
 
 export function invoiceMainColumns(): ColumnDef<Invoice>[] {
   return [
     {
-      accessorKey: "id",
+      accessorKey: "invoiceId",
       header: "Invoice ID",
       cell: ({ row }) => (
-        <p className="text-xs font-medium">{row.getValue("id")}</p>
+        <p className="text-xs font-medium">{row.getValue("invoiceId")}</p>
       ),
     },
     {
       accessorKey: "organization",
       header: "Organization",
       cell: ({ row }) => {
-        const org = row.getValue("organization") as Invoice["organization"];
+        const org = row.getValue("organization") as {
+          name: string;
+          id: string;
+        };
         return (
           <div className="flex flex-col gap-1">
             <span className="text-xs font-bold">{org.name}</span>
-            <span className="text-gray-400 ">{org.code}</span>
           </div>
         );
       },
@@ -29,14 +31,15 @@ export function invoiceMainColumns(): ColumnDef<Invoice>[] {
       id: "period",
       header: "Period",
       cell: ({ row }) => {
-        const start = new Date(row.original.periodStart).toLocaleDateString(
+        const start = new Date(row.original.startDate).toLocaleDateString(
           "en-US",
           { month: "short", day: "numeric" }
         );
-        const end = new Date(row.original.periodEnd).toLocaleDateString(
-          "en-US",
-          { month: "short", day: "numeric", year: "numeric" }
-        );
+        const end = new Date(row.original.endDate).toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        });
         return <p className="text-xs font-medium">{`${start} – ${end}`}</p>;
       },
     },
@@ -58,7 +61,7 @@ export function invoiceMainColumns(): ColumnDef<Invoice>[] {
       },
     },
     {
-      id: "action",
+      accessorKey: "id",
       header: "Action",
       cell: ({ row }) => {
         return (

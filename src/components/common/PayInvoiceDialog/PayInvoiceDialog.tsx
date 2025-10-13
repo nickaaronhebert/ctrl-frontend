@@ -9,12 +9,12 @@ import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
-import type { Invoice, OrgInvoice } from "@/types/global/commonTypes";
+import { type InvoiceDetail } from "@/types/responses/invoice";
 
 type PayInvoiceDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  data: Invoice | OrgInvoice;
+  data: InvoiceDetail;
 };
 
 export function PayInvoiceDialog({

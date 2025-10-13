@@ -165,62 +165,37 @@
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { DataTable } from "@/components/data-table/data-table";
-// import { LoadingSpinner } from "@/components/ui/loading-spinner";
-// import { useGetPharmacyInvoicesDetailsQuery } from "@/redux/services/pharmacy";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 // import { formatDateMMDDYYYY } from "@/lib/utils";
 import InvoiceDetailsCard from "@/components/common/Card/invoice-detail-card";
-import { dummyInvoices, transactionData } from "@/constants";
 import { TotalAmountCard } from "@/components/common/Card/total-amount-card";
 import { useDataTable } from "@/hooks/use-data-table";
 import { useMemo } from "react";
 import { pharmacyInvoiceColumns } from "@/components/data-table/columns/pharmacy-invoices";
-import { type Invoice } from "../../../types/global/commonTypes";
+import { type InvoiceDetail } from "@/types/responses/invoice";
+import { useGetInvoiceByIdQuery } from "@/redux/services/invoice";
 
 export default function ViewPharmacyInvoiceDetails() {
   const { id } = useParams();
+  const { data: invoiceData, isLoading: isInvoiceLoading } =
+    useGetInvoiceByIdQuery(id as string);
+
+  console.log("dataaa>>>>", invoiceData);
   const columns = useMemo(() => pharmacyInvoiceColumns(), []);
 
-  const singleInvoiceDetail = dummyInvoices.find(
-    (invoice) => invoice.id === id
-  );
-
-  // const {
-  //   data: invoiceData,
-  //   medicationDetails,
-  //   invoiceDetails,
-  //   isFetching,
-  // } = useGetPharmacyInvoicesDetailsQuery(id as string, {
-  //   skip: !id,
-  //   selectFromResult: ({ data, isLoading, isFetching, isError }) => {
-  //     return {
-  //       data: data?.data,
-
-  //       invoiceDetails: {
-  //         id: data?.data?.id ?? "",
-  //         transmissionCode: data?.data?.transaction?.transmissionCode ?? "",
-  //         totalAmount: data?.data?.transaction?.totalAmount ?? 0,
-  //         createdAt: formatDateMMDDYYYY(data?.data?.createdAt ?? "") ?? "",
-  //       },
-  //       medicationDetails: data?.data?.transaction?.lineItems?.map((item) => ({
-  //         variantId: item.productVariant.id,
-  //         variantUnit: item.productVariant.quantityType,
-  //         productName: item.productVariant.medicationCatalogue.drugName,
-  //         qty: item.quantity,
-  //         unitPrice: item.productVariantPrice,
-  //         strength: item.productVariant.strength,
-  //       })),
-  //       isLoading: isLoading,
-  //       isError: isError,
-  //       isFetching: isFetching,
-  //     };
-  //   },
-  // });
-
   const { table } = useDataTable({
-    data: transactionData || [],
+    data: invoiceData?.data?.transactions || [],
     columns,
     pageCount: -1,
   });
+
+  if (isInvoiceLoading) {
+    return (
+      <div className="flex h-screen justify-center items-center">
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
   return (
     <div className="mb-5">
@@ -233,24 +208,23 @@ export default function ViewPharmacyInvoiceDetails() {
         </Link>
 
         <h1 className="text-2xl font-bold mt-1">
-          Invoice: {singleInvoiceDetail?.id}
+          Invoice: {invoiceData?.data?.invoiceId}
         </h1>
       </div>
 
       <div className="grid grid-cols-1 mt-10 gap-4 md:grid-cols-2">
         <InvoiceDetailsCard
-          data={singleInvoiceDetail as Invoice}
+          data={invoiceData?.data as InvoiceDetail}
           labels={{
             invoiceId: "Invoice ID",
             organizationDetails: "Organization Details",
             period: "Period",
           }}
+          screenType="pharmacy"
         />
         <TotalAmountCard
-          data={singleInvoiceDetail as Invoice}
-          onMarkRemitted={() => {
-            /* API call later*/
-          }}
+          data={invoiceData?.data as InvoiceDetail}
+          onMarkRemitted={() => {}}
         />
       </div>
 

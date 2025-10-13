@@ -1,26 +1,28 @@
 import { type ColumnDef } from "@tanstack/react-table";
-import { type OrgInvoice } from "@/types/global/commonTypes";
 import { Link } from "react-router-dom";
 import { StatusBadge } from "@/components/common/StatusBadge/StatusBadge";
+import type { Invoice } from "@/types/responses/invoice";
 
-export function orgInvoiceMainColumns(): ColumnDef<OrgInvoice>[] {
+export function orgInvoiceMainColumns(): ColumnDef<Invoice>[] {
   return [
     {
-      accessorKey: "id",
+      accessorKey: "invoiceId",
       header: "Invoice ID",
       cell: ({ row }) => (
-        <p className="text-xs font-medium">{row.getValue("id")}</p>
+        <p className="text-xs font-medium">{row.getValue("invoiceId")}</p>
       ),
     },
     {
       accessorKey: "pharmacy",
       header: "Pharmacy",
       cell: ({ row }) => {
-        const pharmacy = row.getValue("pharmacy") as OrgInvoice["pharmacy"];
+        const pharmacy = row.getValue("pharmacy") as {
+          name: string;
+          id: string;
+        };
         return (
           <div className="flex flex-col gap-1">
             <span className="text-xs font-bold">{pharmacy.name}</span>
-            <span className="text-gray-400 ">{pharmacy.code}</span>
           </div>
         );
       },
@@ -29,14 +31,16 @@ export function orgInvoiceMainColumns(): ColumnDef<OrgInvoice>[] {
       id: "period",
       header: "Period",
       cell: ({ row }) => {
-        const start = new Date(row.original.periodStart).toLocaleDateString(
+        console.log("Date Row", row.original);
+        const start = new Date(row.original.startDate).toLocaleDateString(
           "en-US",
           { month: "short", day: "numeric" }
         );
-        const end = new Date(row.original.periodEnd).toLocaleDateString(
-          "en-US",
-          { month: "short", day: "numeric", year: "numeric" }
-        );
+        const end = new Date(row.original.endDate).toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        });
         return <p className="text-xs font-medium">{`${start} – ${end}`}</p>;
       },
     },
@@ -45,9 +49,7 @@ export function orgInvoiceMainColumns(): ColumnDef<OrgInvoice>[] {
       header: "Total Amount",
       cell: ({ row }) => {
         const amount = Number(row.getValue("totalAmount")) || 0;
-        return (
-          <p className="text-xs font-medium">${amount.toLocaleString()}</p>
-        );
+        return <p className="text-xs font-medium">${amount.toFixed(2)}</p>;
       },
     },
     {
@@ -60,7 +62,7 @@ export function orgInvoiceMainColumns(): ColumnDef<OrgInvoice>[] {
       },
     },
     {
-      id: "action",
+      accessorKey: "id",
       header: "Action",
       cell: ({ row }) => {
         return (

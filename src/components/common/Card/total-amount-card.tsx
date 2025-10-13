@@ -1,9 +1,9 @@
 import { cn } from "@/lib/utils";
 import { StatusBadge } from "../StatusBadge/StatusBadge";
-import type { Invoice, OrgInvoice } from "@/types/global/commonTypes";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import PayInvoiceDialog from "../PayInvoiceDialog/PayInvoiceDialog";
+import { type InvoiceDetail } from "@/types/responses/invoice";
 
 export type TotalAmountData = {
   amount: number;
@@ -13,7 +13,7 @@ export function TotalAmountCard({
   data,
   className,
 }: {
-  data: Invoice | OrgInvoice;
+  data: InvoiceDetail;
   onMarkRemitted?: () => void;
   className?: string;
 }) {
@@ -21,7 +21,7 @@ export function TotalAmountCard({
   const [open, setOpen] = useState<boolean>(false);
 
   function isNotPaid(status: string | undefined) {
-    return status === "NOT_PAID";
+    return status === "Unpaid";
   }
 
   return (
@@ -41,7 +41,7 @@ export function TotalAmountCard({
         <div
           className={cn(
             "mt-3 flex items-center gap-4",
-            isNotPaid(data.status) ? "justify-between" : "justify-start"
+            isNotPaid(data?.status) ? "justify-between" : "justify-start"
           )}
         >
           <div>
@@ -51,13 +51,13 @@ export function TotalAmountCard({
             <p className="text-[12px] mt-1 text-gray-400 font-semibold ">
               (Includes{" "}
               <span className="text-[12px] font-semibold text-[#BD51BB]">
-                $30.00
+                {data?.applicationFee}
               </span>{" "}
               CTRL service fees)
             </p>
           </div>
 
-          {isNotPaid(data.status) && (
+          {isNotPaid(data?.status) && (
             <Button
               onClick={() => setOpen(true)}
               className="w-[110px] min-h-[40px] rounded-[50px] py-[5px] px-[20px] bg-black text-white"

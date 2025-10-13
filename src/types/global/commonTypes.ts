@@ -325,23 +325,3 @@ export interface Organization {
   name: string;
   code: string;
 }
-
-export type Invoice = {
-  id: string;
-  organization: Organization;
-  periodStart: string;
-  periodEnd: string;
-  totalAmount: number;
-  status: InvoiceStatus;
-  createdAt?: string;
-};
-
-export type OrgInvoice = {
-  id: string;
-  pharmacy: Organization;
-  periodStart: string;
-  periodEnd: string;
-  totalAmount: number;
-  status: OrgInvoiceStatus;
-  createdAt?: string;
-};

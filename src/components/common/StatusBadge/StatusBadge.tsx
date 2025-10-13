@@ -49,25 +49,25 @@ const statusStyles: Record<
     border: "border-progress",
     text: "text-progress",
   },
-  RECEIVED: {
+  // RECEIVED: {
+  //   icon: <Received />,
+  //   bg: "bg-[#E6FAF5]",
+  //   border: "border-[#E6FAF5]",
+  //   text: "text-progress",
+  // },
+  // NOT_RECEIVED: {
+  //   icon: <NotReceived />,
+  //   bg: "bg-[#FFE9E9]",
+  //   border: "border-[#FFE9E9]",
+  //   text: "text-failed",
+  // },
+  Paid: {
     icon: <Received />,
     bg: "bg-[#E6FAF5]",
     border: "border-[#E6FAF5]",
     text: "text-progress",
   },
-  NOT_RECEIVED: {
-    icon: <NotReceived />,
-    bg: "bg-[#FFE9E9]",
-    border: "border-[#FFE9E9]",
-    text: "text-failed",
-  },
-  PAID: {
-    icon: <Received />,
-    bg: "bg-[#E6FAF5]",
-    border: "border-[#E6FAF5]",
-    text: "text-progress",
-  },
-  NOT_PAID: {
+  Unpaid: {
     icon: <NotReceived />,
     bg: "bg-[#FFE9E9]",
     border: "border-[#FFE9E9]",
