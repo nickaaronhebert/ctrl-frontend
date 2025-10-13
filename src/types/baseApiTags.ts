@@ -10,3 +10,4 @@ export const TAG_GET_PHARMACY = "PHARMACY" as const;
 export const TAG_GET_PROVIDERS = "Providers" as const;
 export const TAG_GET_INVITATIONS = "Invitations" as const;
 export const TAG_GLOBAL_PHARMACIES = "Global_Pharmacies" as const;
+export const TAG_GET_CONNECTED_ORGANIZATION = "Connected_Organization" as const;

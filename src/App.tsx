@@ -75,6 +75,7 @@ import PharmacyList from "./pages/CTRLAdmin/Business/Pharmacy";
 import CreatePharmacy from "./pages/CTRLAdmin/Create/Pharmacy";
 import InvitationList from "./pages/CTRLAdmin/Invitation/view";
 import ViewMedicationCatalogue from "./pages/CTRLAdmin/MedicationCatalogue/view";
+import PharmacyOrganizationStatus from "./pages/Pharmacy/Organization";
 
 const router = createBrowserRouter([
   {
@@ -425,6 +426,10 @@ const router = createBrowserRouter([
       {
         path: ROUTES.PHARMACY_SETTINGS,
         element: <PharmacySettings />,
+      },
+      {
+        path: ROUTES.PHARMACY_ORGANIZATIONS,
+        element: <PharmacyOrganizationStatus />,
       },
       {
         path: `${ROUTES.PHARMACY_TRANSMISSIONS}/:id`,

@@ -118,6 +118,10 @@ export const nestedPharmacyItems = [
     title: "Medication Library",
     url: "/pharmacy/medications/view-catalogue",
   },
+  {
+    title: "Organization",
+    url: "/pharmacy/organizations",
+  },
   { title: "Settings", url: "/pharmacy/settings" },
 ];
 
@@ -128,6 +132,7 @@ export const pharmacyAdminItems = [
     icon: Transmission,
   },
   { title: "Invoices", url: "/pharmacy/invoices", icon: InvoicesMain },
+
   { title: "Settings", url: "/pharmacy/settings", icon: SettingsMain },
 ];
 

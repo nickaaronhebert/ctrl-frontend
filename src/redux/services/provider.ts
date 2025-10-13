@@ -40,10 +40,13 @@ export const providerApi = baseApi.injectEndpoints({
       IGetAllAffiliatedProvidersResponse,
       ICommonSearchQuery
     >({
-      query: ({ page, perPage, q = "" }) => ({
-        url: `/business/affiliations?page=${page}&limit=${perPage}&q=${q}`,
-        method: "GET",
-      }),
+      query: ({ page, perPage, q = "", organization }) => {
+        const orgUrl = organization ? `&organization=${organization}` : "";
+        return {
+          url: `/business/affiliations?page=${page}&limit=${perPage}&q=${q}${orgUrl}`,
+          method: "GET",
+        };
+      },
       providesTags: [TAG_GET_PROVIDERS],
     }),
 
