@@ -250,12 +250,7 @@ export default function ViewInvoiceDetails() {
           }}
           screenType="organization"
         />
-        <TotalAmountCard
-          data={invoiceData?.data as InvoiceDetail}
-          onMarkRemitted={() => {
-            /* API call later*/
-          }}
-        />
+        <TotalAmountCard data={invoiceData?.data as InvoiceDetail} />
       </div>
 
       {/* Transaction table */}

@@ -38,11 +38,13 @@ export default function InvoiceDetailsCard({
         new Date(data?.startDate).toLocaleDateString("en-US", {
           month: "short",
           day: "numeric",
+          timeZone: "UTC",
         }) +
         " - " +
         new Date(data?.endDate).toLocaleDateString("en-US", {
           month: "short",
           day: "numeric",
+          timeZone: "UTC",
         }),
     },
   ];

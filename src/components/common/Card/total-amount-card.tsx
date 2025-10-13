@@ -5,18 +5,17 @@ import { useState } from "react";
 import PayInvoiceDialog from "../PayInvoiceDialog/PayInvoiceDialog";
 import { type InvoiceDetail } from "@/types/responses/invoice";
 
-export type TotalAmountData = {
-  amount: number;
+type InvoiceDetailProps = {
+  data: InvoiceDetail;
+  className?: string;
+  screenType?: string;
 };
 
 export function TotalAmountCard({
   data,
   className,
-}: {
-  data: InvoiceDetail;
-  onMarkRemitted?: () => void;
-  className?: string;
-}) {
+  screenType,
+}: InvoiceDetailProps) {
   console.log("databby>>--", data);
   const [open, setOpen] = useState<boolean>(false);
 
@@ -46,18 +45,18 @@ export function TotalAmountCard({
         >
           <div>
             <p className="text-2xl md:text-3xl font-semibold text-foreground">
-              ${data?.totalAmount.toFixed(2)}
+              ${(data?.totalAmount).toFixed(2)}
             </p>
             <p className="text-[12px] mt-1 text-gray-400 font-semibold ">
               (Includes{" "}
               <span className="text-[12px] font-semibold text-[#BD51BB]">
-                {data?.applicationFee}
+                ${data?.pharmacy?.applicationFee}
               </span>{" "}
               CTRL service fees)
             </p>
           </div>
 
-          {isNotPaid(data?.status) && (
+          {isNotPaid(data?.status) && screenType !== "pharmacy" && (
             <Button
               onClick={() => setOpen(true)}
               className="w-[110px] min-h-[40px] rounded-[50px] py-[5px] px-[20px] bg-black text-white"

@@ -34,12 +34,13 @@ export function orgInvoiceMainColumns(): ColumnDef<Invoice>[] {
         console.log("Date Row", row.original);
         const start = new Date(row.original.startDate).toLocaleDateString(
           "en-US",
-          { month: "short", day: "numeric" }
+          { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" }
         );
         const end = new Date(row.original.endDate).toLocaleDateString("en-US", {
           month: "short",
           day: "numeric",
           year: "numeric",
+          timeZone: "UTC",
         });
         return <p className="text-xs font-medium">{`${start} – ${end}`}</p>;
       },

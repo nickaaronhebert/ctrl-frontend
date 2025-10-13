@@ -224,7 +224,7 @@ export default function ViewPharmacyInvoiceDetails() {
         />
         <TotalAmountCard
           data={invoiceData?.data as InvoiceDetail}
-          onMarkRemitted={() => {}}
+          screenType="pharmacy"
         />
       </div>
 

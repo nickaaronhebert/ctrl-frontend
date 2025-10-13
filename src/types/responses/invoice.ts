@@ -32,6 +32,7 @@ export type InvoiceDetail = {
   pharmacy: {
     id: string;
     name: string;
+    applicationFee: number;
   };
   organization: {
     id: string;
