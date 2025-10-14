@@ -30,6 +30,7 @@ export interface PATIENT_DETAILS {
 
 export interface SELECT_PROVIDER_PHARMACY {
   selectProvider: string;
+  subOrganization?: string;
   // selectPharmacy: string;
 }
 
@@ -84,6 +85,7 @@ const initialState: OrderState = {
   },
   stepTwo: {
     selectProvider: "",
+    subOrganization: "",
     // selectPharmacy: "",
   },
   stepThree: {

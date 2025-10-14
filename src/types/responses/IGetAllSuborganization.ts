@@ -4,6 +4,7 @@ import type { PaginationMeta } from "./pagination";
 export type SubOrganization = {
   name: string;
   email: string;
+  id: string;
   //   integration: string;
   phoneNumber: string;
   address: Address;

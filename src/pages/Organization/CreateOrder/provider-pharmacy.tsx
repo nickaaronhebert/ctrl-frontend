@@ -14,6 +14,7 @@ import {
 import { useViewAffiliateProvidersQuery } from "@/redux/services/provider";
 import { useCallback, useState } from "react";
 import { useDebounce } from "@/hooks/use-debounce";
+import { useViewAllSubOrganizationQuery } from "@/redux/services/admin";
 
 export default function SelectProviderPharmacy({
   providerPharmacy,
@@ -35,10 +36,24 @@ export default function SelectProviderPharmacy({
       }),
     }
   );
+
+  const { data: subOrgOptions } = useViewAllSubOrganizationQuery(
+    { page: 1, perPage: 100, q: "" },
+    {
+      selectFromResult: ({ data }) => ({
+        data:
+          data?.data?.map((item) => ({
+            value: `${item.id}`,
+            label: `${item.name}`,
+          })) ?? [],
+      }),
+    }
+  );
   const form = useForm<z.infer<typeof providerPharmacySchema>>({
     resolver: zodResolver(providerPharmacySchema),
     defaultValues: {
       selectProvider: providerPharmacy.selectProvider,
+      subOrganization: providerPharmacy.subOrganization || "",
     },
   });
 
@@ -71,6 +86,18 @@ export default function SelectProviderPharmacy({
                     placeholder="Select the option"
                     onSearch={handleSearchProvider}
                     searchValue={providerQuery}
+                  />
+                </div>
+                <div className="mt-3.5">
+                  <SelectElement
+                    name="subOrganization"
+                    options={subOrgOptions || []}
+                    label="Select Sub-Organization"
+                    isRequired={false}
+                    className="w-[500px] min-h-[56px]"
+                    placeholder="Select the option"
+                    // onSearch={handleSearchProvider}
+                    // searchValue={providerQuery}
                   />
                 </div>
               </div>
