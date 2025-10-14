@@ -201,15 +201,16 @@ import InvoiceDetailsCard from "@/components/common/Card/invoice-detail-card";
 import { TotalAmountCard } from "@/components/common/Card/total-amount-card";
 import { DataTable } from "@/components/data-table/data-table";
 import { useMemo } from "react";
-import { pharmacyInvoiceColumns } from "@/components/data-table/columns/pharmacy-invoices";
+// import { pharmacyInvoiceColumns } from "@/components/data-table/columns/pharmacy-invoices";
 import { useDataTable } from "@/hooks/use-data-table";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { organizationInvoiceColumns } from "@/components/data-table/columns/organization-invoices";
 
 export default function ViewInvoiceDetails() {
   const { id } = useParams();
   const { data: invoiceData, isLoading: isInvoiceLoading } =
     useGetInvoiceByIdQuery(id as string);
-  const columns = useMemo(() => pharmacyInvoiceColumns(), []);
+  const columns = useMemo(() => organizationInvoiceColumns(), []);
 
   const { table } = useDataTable({
     data: invoiceData?.data?.transactions || [],
