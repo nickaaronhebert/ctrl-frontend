@@ -18,6 +18,8 @@ import {
 } from "@/types/baseApiTags";
 import type { IViewAllInvitationResponse } from "@/types/responses/IViewInvitation";
 
+import type { IGetAllSubOrganization } from "@/types/responses/IGetAllSuborganization";
+
 const adminApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     inviteOrgAdmin: builder.mutation<
@@ -62,6 +64,15 @@ const adminApi = baseApi.injectEndpoints({
       invalidatesTags: [TAG_GET_ORGANIZATIONS],
     }),
 
+    createSubOrganization: builder.mutation<any, any>({
+      query: (body) => ({
+        url: `/organization/sub-organization`,
+        method: "POST",
+        body,
+      }),
+      // invalidatesTags: [TAG_GET_ORGANIZATIONS],
+    }),
+
     createPharmacy: builder.mutation<any, any>({
       query: (body) => ({
         url: `/business/pharmacy`,
@@ -92,6 +103,19 @@ const adminApi = baseApi.injectEndpoints({
         };
       },
       providesTags: [TAG_GET_ORGANIZATIONS],
+    }),
+
+    viewAllSubOrganization: builder.query<
+      IGetAllSubOrganization,
+      ICommonSearchQuery
+    >({
+      query: ({ page, perPage, q = "" }) => {
+        return {
+          url: `/organization/sub-organizations?page=${page}&limit=${perPage}&q=${q}`,
+          method: "GET",
+        };
+      },
+      // providesTags: [TAG_GET_ORGANIZATIONS],
     }),
 
     viewAllPharmacies: builder.query<
@@ -135,6 +159,8 @@ export const {
   useInvitePharmacyAdminMutation,
   useInviteProviderMutation,
   useViewAllInvitationsQuery,
+  useCreateSubOrganizationMutation,
+  useViewAllSubOrganizationQuery,
 } = adminApi;
 
 export default adminApi;

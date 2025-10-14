@@ -119,7 +119,10 @@ const CreateOrderPage = () => {
           />
         )}
         {order.currentStep === 1 && (
-          <SelectProductVariant productVariant={order.stepOne} />
+          <SelectProductVariant
+            productVariant={order.stepOne}
+            state={order.initialStep.dispensingAddress.state}
+          />
         )}
         {order.currentStep === 2 && (
           <SelectProviderPharmacy providerPharmacy={order.stepTwo} />

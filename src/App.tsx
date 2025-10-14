@@ -76,6 +76,8 @@ import CreatePharmacy from "./pages/CTRLAdmin/Create/Pharmacy";
 import InvitationList from "./pages/CTRLAdmin/Invitation/view";
 import ViewMedicationCatalogue from "./pages/CTRLAdmin/MedicationCatalogue/view";
 import PharmacyOrganizationStatus from "./pages/Pharmacy/Organization";
+import CreateSubOrganization from "./pages/Organization/SubOrganization/Create";
+import ViewSubOrganization from "./pages/Organization/SubOrganization";
 
 const router = createBrowserRouter([
   {
@@ -322,6 +324,15 @@ const router = createBrowserRouter([
       {
         path: ROUTES.ORG_PHARMACIES_TRANSMISSIONS,
         element: <OrgPharmaciesTransmission />,
+      },
+      {
+        path: ROUTES.CREATE_SUB_ORGANIZATION,
+
+        element: <CreateSubOrganization />,
+      },
+      {
+        path: ROUTES.VIEW_SUB_ORGANIZATION,
+        element: <ViewSubOrganization />,
       },
     ],
   },

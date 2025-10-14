@@ -130,7 +130,6 @@ export function useDataTable<TData, TValue>({
       per_page: pageSize,
     });
 
-    // console.log("page change query", query);
     navigate(`${location.pathname}?${query}`, { replace: true });
   }, [pageIndex, pageSize, createQueryString, location.pathname, navigate]);
 
@@ -150,10 +149,17 @@ export function useDataTable<TData, TValue>({
     filterableColumns.find((col) => col.value === filter.id)
   );
 
+  const [mounted, setMounted] = React.useState(false);
+
   // console.log("facetedFilters******", facetedFilters);
 
   React.useEffect(() => {
     if (enableAdvancedFilter) return;
+
+    if (!mounted) {
+      setMounted(true);
+      return;
+    }
 
     const newParams: Record<string, string | number | null> = { page: 1 };
 

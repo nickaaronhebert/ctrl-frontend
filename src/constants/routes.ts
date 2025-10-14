@@ -38,6 +38,8 @@ export const ROUTES = {
   ORG_DASHBOARD: "dashboard",
   ORG_TRANSMISSIONS: "transmissions",
   ORG_ORDERS: "orders",
+  VIEW_SUB_ORGANIZATION: "sub-orgs",
+  CREATE_SUB_ORGANIZATION: "create-suborganization",
   ORG_PROVIDERS: "providers",
   ORG_TRANSACTIONS: "transactions",
   ORG_MEDICATIONS: "medications",

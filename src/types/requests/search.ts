@@ -22,4 +22,5 @@ export interface ICommonSearchQuery {
   status?: string;
   connectionStatus?: PharmacyConnectionStatus;
   organization?: string;
+  state?: string;
 }
