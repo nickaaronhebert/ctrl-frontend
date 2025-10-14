@@ -45,5 +45,6 @@ export type InvoiceDetail = {
   stripeAccountId: string;
   stripeConnectOnboardingStatus: string;
   applicationFee: number;
+  medicationFee: number;
   transactions: Transaction;
 };

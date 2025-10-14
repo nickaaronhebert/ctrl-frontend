@@ -3,7 +3,7 @@ import { DataTable } from "@/components/data-table/data-table";
 import { DataTablePagination } from "@/components/data-table/data-table-pagination";
 import { useMemo } from "react";
 import { Search } from "lucide-react";
-import { useGetMedicationCatalogueQuery } from "@/redux/services/medication";
+import { useGetMedicationDetailsByOrgQuery } from "@/redux/services/medication";
 import { useSearchParams } from "react-router-dom";
 import {
   medicationLibraryColumns,
@@ -13,6 +13,7 @@ import {
   useDataTable,
   type DataTableFilterField,
 } from "@/hooks/use-data-table";
+import type { OrganizationMeds } from "@/types/global/commonTypes";
 
 const Medications = () => {
   const columns = useMemo(
@@ -24,15 +25,29 @@ const Medications = () => {
   const perPage = parseInt(searchParams.get("per_page") ?? "10", 10);
   const drugName = searchParams.get("drugName") ?? "";
 
-  const { data: medicationData, meta } = useGetMedicationCatalogueQuery(
-    { page, perPage, q: drugName },
-    {
-      selectFromResult: ({ data, isLoading, isError }) => ({
-        data: data?.data,
-        meta: data?.meta,
-        isLoading: isLoading,
-        isError: isError,
-      }),
+  const { data: getMedicationsByOrg, meta: medMeta } =
+    useGetMedicationDetailsByOrgQuery(
+      {
+        page,
+        perPage,
+        q: drugName,
+      },
+      {
+        selectFromResult: ({ data, isLoading, isError }) => ({
+          data: data?.data,
+          meta: data?.meta,
+          isLoading: isLoading,
+          isError: isError,
+        }),
+      }
+    );
+
+  const flattenedMedications = getMedicationsByOrg?.map(
+    (med: OrganizationMeds) => {
+      return {
+        _id: med._id,
+        ...med.medicationCatalogue,
+      };
     }
   );
 
@@ -45,10 +60,10 @@ const Medications = () => {
   ];
 
   const { table } = useDataTable({
-    data: medicationData || [],
+    data: flattenedMedications || [],
     columns,
     filterFields,
-    pageCount: meta?.pageCount ?? -1,
+    pageCount: medMeta?.pageCount ?? -1,
   });
 
   return (

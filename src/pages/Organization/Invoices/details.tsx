@@ -250,7 +250,10 @@ export default function ViewInvoiceDetails() {
           }}
           screenType="organization"
         />
-        <TotalAmountCard data={invoiceData?.data as InvoiceDetail} />
+        <TotalAmountCard
+          data={invoiceData?.data as InvoiceDetail}
+          screenType="organization"
+        />
       </div>
 
       {/* Transaction table */}

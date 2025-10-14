@@ -9,6 +9,8 @@ import Pharmacies from "@/assets/mainlayouticons/Pharmacies";
 import ZigZag from "@/assets/mainlayouticons/ZigZag";
 import Medications from "@/assets/mainlayouticons/Medications";
 import SecondaryOverview from "@/assets/mainlayouticons/SecondaryOverview";
+import { useLazyTransmitTransmissionQuery } from "@/redux/services/transmission";
+import { toast } from "sonner";
 
 const menuItems = [
   {
@@ -44,7 +46,7 @@ export default function TransmissionDetails() {
     "transmissionOverview" | "pharmacyInformation" | "medicationInformation"
   >("transmissionOverview");
 
-  const { data, pharmacy, prescriptions, transmissionDetails } =
+  const { data, pharmacy, prescriptions, transmissionDetails, refetch } =
     useViewTransmissionByIdQuery(params.id as string, {
       selectFromResult: ({ data, isLoading, isError }) => ({
         data: data?.data,
@@ -60,27 +62,63 @@ export default function TransmissionDetails() {
       }),
     });
 
+  const [transmit] = useLazyTransmitTransmissionQuery();
+
   const status = data?.status?.toLowerCase();
   const bgColor = statusColorMap[status as string];
 
   const uniqueId = data?.foreignPharmacyOrderId ?? "-";
+
+  const handleOrderTransmission = () => {
+    if (!params.id) return;
+
+    transmit(params.id)
+      .unwrap()
+      .then(() => {
+        toast.success("Transmission transmitted successfully", {
+          duration: 1500,
+        });
+        refetch();
+      })
+      .catch((err) => {
+        console.error("Transmission failed:", err);
+        toast.error(err?.data?.message ?? "Something went wrong", {
+          duration: 1500,
+        });
+      });
+  };
 
   // const uniqueId = parsedObj ? parsedObj.status ===1 ?
   // console.log("sssssssss", parsedObj);
 
   return (
     <div className="mb-5">
-      <div className={` ${bgColor} py-3 px-12`}>
-        <Link
-          to={"/org/transmissions"}
-          className="font-normal text-sm text text-muted-foreground"
-        >
-          {"<- Recent transmission volume and statistics"}
-        </Link>
+      <div
+        className={` ${bgColor} py-3 px-12 flex justify-between items-center`}
+      >
+        <div>
+          <Link
+            to={"/org/transmissions"}
+            className="font-normal text-sm text text-muted-foreground"
+          >
+            {"<- Recent transmission volume and statistics"}
+          </Link>
 
-        <h1 className="text-2xl font-bold mt-1">
-          Transmissions: {data?.transmissionId}{" "}
-        </h1>
+          <h1 className="text-2xl font-bold mt-1">
+            Transmissions: {data?.transmissionId}{" "}
+          </h1>
+        </div>
+        <div>
+          {data?.order?.transmissionMethod === "manual" &&
+            data?.status === "Queued" && (
+              <Button
+                className="rounded-full cursor-pointer text-white p-5"
+                onClick={handleOrderTransmission}
+              >
+                Transmit Transmission
+              </Button>
+            )}
+        </div>
       </div>
 
       <div className="flex gap-8 px-14 mt-6">

@@ -79,6 +79,12 @@ const transmissionApi = baseApi.injectEndpoints({
       },
       providesTags: [TAG_GLOBAL_PHARMACIES],
     }),
+    transmitTransmission: builder.query({
+      query: (id: string) => ({
+        url: `transmission/transmit/${id}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -89,6 +95,7 @@ export const {
   useViewPharmacyTransmissionByIdQuery,
   useViewOrgPharmaciesTransmissionsQuery,
   useViewOrgPharmaciesTransmissionsV2Query,
+  useLazyTransmitTransmissionQuery,
 } = transmissionApi;
 
 export default transmissionApi;
