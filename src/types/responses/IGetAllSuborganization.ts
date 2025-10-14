@@ -5,6 +5,7 @@ export type SubOrganization = {
   name: string;
   email: string;
   //   integration: string;
+  phoneNumber: string;
   address: Address;
   status: string;
 };

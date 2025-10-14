@@ -22,14 +22,14 @@ export function ctrlSubOrganizationColumns(): ColumnDef<SubOrganization>[] {
       },
     },
 
-    // {
-    //   accessorKey: "phoneNumber",
-    //   header: "Phone Number",
-    //   cell: ({ row }) => {
-    //     const { phoneNumber } = row.original;
-    //     return <p className="text-sm font-medium">{phoneNumber}</p>;
-    //   },
-    // },
+    {
+      accessorKey: "phoneNumber",
+      header: "Phone Number",
+      cell: ({ row }) => {
+        const { phoneNumber } = row.original;
+        return <p className="text-sm font-medium">{phoneNumber}</p>;
+      },
+    },
 
     {
       accessorKey: "status",

@@ -49,7 +49,7 @@ export default function CreateSubOrganization() {
         toast.success("Sub-Organization created successfully", {
           duration: 1500,
         });
-        // navigate("/admin/organizations");
+        navigate("/org/sub-orgs");
       })
       .catch((err) => {
         console.log("error", err);

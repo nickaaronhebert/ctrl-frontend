@@ -15,6 +15,7 @@ import {
   TAG_GET_ORGANIZATIONS,
   TAG_GET_PHARMACY,
   TAG_GET_PROVIDERS,
+  TAG_GET_SUB_ORGANIZATION,
 } from "@/types/baseApiTags";
 import type { IViewAllInvitationResponse } from "@/types/responses/IViewInvitation";
 
@@ -70,7 +71,7 @@ const adminApi = baseApi.injectEndpoints({
         method: "POST",
         body,
       }),
-      // invalidatesTags: [TAG_GET_ORGANIZATIONS],
+      invalidatesTags: [TAG_GET_SUB_ORGANIZATION],
     }),
 
     createPharmacy: builder.mutation<any, any>({
@@ -115,7 +116,7 @@ const adminApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
-      // providesTags: [TAG_GET_ORGANIZATIONS],
+      providesTags: [TAG_GET_SUB_ORGANIZATION],
     }),
 
     viewAllPharmacies: builder.query<
