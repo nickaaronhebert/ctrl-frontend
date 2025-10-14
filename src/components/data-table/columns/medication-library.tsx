@@ -9,6 +9,7 @@ export interface MedicationVariant {
 }
 
 export type Medication = {
+  id: string;
   _id: string;
   drugName: string;
   productVariants: MedicationVariant[];

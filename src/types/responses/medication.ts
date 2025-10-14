@@ -7,6 +7,7 @@ export interface ProductVariant {
 
 export interface Medication {
   id: string;
+  _id: string;
   drugName: string;
   productVariants: ProductVariant[];
   dosageForm: string;
