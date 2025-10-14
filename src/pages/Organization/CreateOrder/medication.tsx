@@ -20,8 +20,10 @@ import { useDebounce } from "@/hooks/use-debounce";
 
 export default function SelectProductVariant({
   productVariant,
+  state = "",
 }: {
   productVariant: SELECT_MEDICATION;
+  state: string;
 }) {
   const dispatch = useAppDispatch();
   const [searchParams, setSearchParams] = useState("");
@@ -31,6 +33,7 @@ export default function SelectProductVariant({
       page: 1,
       perPage: 100,
       q: debounceSearchParams,
+      state: state,
     },
     {
       selectFromResult: ({ data }) => ({

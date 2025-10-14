@@ -40,9 +40,9 @@ const medicationApi = baseApi.injectEndpoints({
       IGetAllProductVariantsResponse,
       ICommonSearchQuery
     >({
-      query: ({ page, perPage, q = "" }) => {
+      query: ({ page, perPage, q = "", state = "" }) => {
         return {
-          url: `/product-variants?page=${page}&limit=${perPage}&q=${q}`,
+          url: `/product-variants?page=${page}&limit=${perPage}&state=${state}&q=${q}`,
           method: "GET",
         };
       },
