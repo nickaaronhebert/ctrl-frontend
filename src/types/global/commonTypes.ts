@@ -1,3 +1,4 @@
+import type { MedicationVariant } from "@/components/data-table/columns/medication-library";
 import { type Permission } from "@/components/Permissions/permissions";
 
 export type Period = "day" | "week" | "month";
@@ -161,6 +162,9 @@ export interface Transmission {
   id: string;
   transmissionId: string;
   amount: number;
+  order?: {
+    transmissionMethod: string;
+  };
 }
 
 // Pharmacy Transmission //
@@ -325,3 +329,13 @@ export interface Organization {
   name: string;
   code: string;
 }
+
+export type OrganizationMeds = {
+  _id: string;
+  medicationCatalogue: {
+    drugName: string;
+    dosageForm: string;
+    category: string;
+    productVariants: MedicationVariant;
+  };
+};

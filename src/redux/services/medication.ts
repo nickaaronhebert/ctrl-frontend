@@ -47,6 +47,12 @@ const medicationApi = baseApi.injectEndpoints({
         };
       },
     }),
+    getMedicationDetailsByOrg: builder.query({
+      query: ({ page, perPage, q }) => ({
+        url: `/organization/medication-catalogues?page=${page}&limit=${perPage}&q=${q}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -55,6 +61,7 @@ export const {
   useGetSingleMedicationCatalogueDetailsQuery,
   useGetAllProductVariantsQuery,
   useCreateMedicationMutation,
+  useGetMedicationDetailsByOrgQuery,
 } = medicationApi;
 
 export default medicationApi;

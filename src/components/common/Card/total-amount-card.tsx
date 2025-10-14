@@ -16,7 +16,6 @@ export function TotalAmountCard({
   className,
   screenType,
 }: InvoiceDetailProps) {
-  console.log("databby>>--", data);
   const [open, setOpen] = useState<boolean>(false);
 
   function isNotPaid(status: string | undefined) {
@@ -27,7 +26,7 @@ export function TotalAmountCard({
     <>
       <div
         className={cn(
-          "rounded-xl bg-card flex flex-col justify-between p-5 md:p-6 shadow-sm ",
+          "rounded-xl bg-card flex flex-col justify-between p-5 md:p-6 shadow-sm",
           className
         )}
       >
@@ -45,15 +44,20 @@ export function TotalAmountCard({
         >
           <div>
             <p className="text-2xl md:text-3xl font-semibold text-foreground">
-              ${(data?.totalAmount).toFixed(2)}
+              $
+              {screenType === "organization"
+                ? (data?.totalAmount).toFixed(2)
+                : data?.medicationFee}
             </p>
-            <p className="text-[12px] mt-1 text-gray-400 font-semibold ">
-              (Includes{" "}
-              <span className="text-[12px] font-semibold text-[#BD51BB]">
-                ${data?.pharmacy?.applicationFee}
-              </span>{" "}
-              CTRL service fees)
-            </p>
+            {screenType === "organization" && (
+              <p className="text-[12px] mt-1 text-gray-400 font-semibold ">
+                (Includes{" "}
+                <span className="text-[12px] font-semibold text-[#BD51BB]">
+                  ${data?.applicationFee}
+                </span>{" "}
+                CTRL service fees)
+              </p>
+            )}
           </div>
 
           {isNotPaid(data?.status) && screenType !== "pharmacy" && (

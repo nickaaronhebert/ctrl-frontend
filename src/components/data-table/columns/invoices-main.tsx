@@ -50,10 +50,10 @@ export function invoiceMainColumns(): ColumnDef<Invoice>[] {
       },
     },
     {
-      accessorKey: "totalAmount",
+      accessorKey: "medicationFee",
       header: "Total Amount",
       cell: ({ row }) => {
-        const amount = Number(row.getValue("totalAmount")) || 0;
+        const amount = Number(row.getValue("medicationFee")) || 0;
         return <p className="text-xs font-medium">${amount.toFixed(2)}</p>;
       },
     },

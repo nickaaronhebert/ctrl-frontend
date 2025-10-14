@@ -8,8 +8,8 @@ export interface MedicationVariant {
   containerQuantity: number;
 }
 
-export interface Medication {
-  id: string;
+export type Medication = {
+  _id: string;
   drugName: string;
   productVariants: MedicationVariant[];
   category: string;
@@ -18,7 +18,7 @@ export interface Medication {
   compound?: string;
   instructions?: string;
   administrationNotes?: string;
-}
+};
 
 export interface PharmacyVariant {
   strength: string;
@@ -114,7 +114,7 @@ export function medicationLibraryColumns({
           entity === "CtrlAdmin" ? "/admin/medications/" : "/org/medications/";
         return (
           <Link
-            to={`${urlPrefix}${row.getValue("id")}`}
+            to={`${urlPrefix}${row.original._id}`}
             className="flex justify-center items-center py-1 px-5 w-[85px] h-[36px] rounded-[50px] border border-primary-foreground"
           >
             View
