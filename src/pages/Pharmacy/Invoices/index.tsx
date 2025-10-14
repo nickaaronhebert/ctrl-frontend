@@ -10,12 +10,26 @@ import { DateFilterDialog } from "@/components/common/DateRangeDialog/DateRangeD
 import { invoiceMainColumns } from "@/components/data-table/columns/invoices-main";
 import OrganizationDialog from "@/components/common/organizationDialog/OrganizationDialog";
 import { useGetInvoicesQuery } from "@/redux/services/invoice";
+import { useGetOrganizationsQuery } from "@/redux/services/invoice";
 
 export default function PharmacyInvoices() {
   const [searchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1", 10);
   const perPage = parseInt(searchParams.get("per_page") ?? "10", 10);
   const invoiceId = searchParams.get("invoiceId") ?? "";
+
+  const { data: organizationsData } = useGetOrganizationsQuery(
+    {},
+    {
+      selectFromResult: ({ data, isLoading, isError }) => ({
+        data: data?.data,
+        isLoading: isLoading,
+        isError: isError,
+      }),
+    }
+  );
+
+  console.log("Org dataaa", organizationsData);
 
   const { data: invoiceData, meta } = useGetInvoicesQuery(
     { page, perPage, q: invoiceId },
@@ -31,13 +45,17 @@ export default function PharmacyInvoices() {
   const columns = useMemo(() => invoiceMainColumns(), []);
   const [openDatePicker, setOpenDatePicker] = useState(false);
   const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState<string>("");
 
   const { table } = useDataTable({
     data: invoiceData || [],
     columns,
     pageCount: meta?.pageCount ?? -1,
   });
+
+  const formattedOrgs = useMemo(() => {
+    return organizationsData?.map((org: any) => org.organization);
+  }, [organizationsData]);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -51,7 +69,12 @@ export default function PharmacyInvoices() {
           </div>
           <div>
             <div className="flex gap-3 items-center">
-              <OrganizationDialog value={value} setValue={setValue} />
+              <OrganizationDialog
+                value={value}
+                setValue={setValue}
+                data={formattedOrgs}
+                placeholder="All Organizations"
+              />
               <Button
                 onClick={() => setOpenDatePicker(true)}
                 className="w-[113px] h-[44px] rounded-[6px] border border-card-border cursor-pointer p-[15px] text-black bg-white hover:bg-white flex items-center justify-between"

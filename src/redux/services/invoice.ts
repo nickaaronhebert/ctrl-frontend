@@ -18,7 +18,24 @@ export const invoiceApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
+    getPharmaciesByOrg: builder.query({
+      query: () => ({
+        url: `/organization/pharmacies`,
+        method: "GET",
+      }),
+    }),
+    getOrganizations: builder.query({
+      query: () => ({
+        url: `/pharmacy/organizations`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useGetInvoicesQuery, useGetInvoiceByIdQuery } = invoiceApi;
+export const {
+  useGetInvoicesQuery,
+  useGetInvoiceByIdQuery,
+  useGetPharmaciesByOrgQuery,
+  useGetOrganizationsQuery,
+} = invoiceApi;

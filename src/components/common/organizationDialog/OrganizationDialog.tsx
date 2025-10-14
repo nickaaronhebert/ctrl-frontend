@@ -7,25 +7,32 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { organizations } from "@/constants";
+import type { Pharmacy } from "@/types/global/commonTypes";
 
 type ControlledSelectProps = {
   value: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
+  data?: any;
+  placeholder: string;
 };
 
-const OrganizationDialog = ({ value, setValue }: ControlledSelectProps) => {
+const OrganizationDialog = ({
+  value,
+  setValue,
+  data,
+  placeholder,
+}: ControlledSelectProps) => {
   return (
     <Select value={value} onValueChange={setValue}>
       <SelectTrigger className="w-[180px] text-black">
-        <SelectValue placeholder="Organizations" />
+        <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
           <SelectLabel>Organizations</SelectLabel>
-          {organizations.map((org) => (
-            <SelectItem key={org.id} value={org.id}>
-              {org.value}
+          {data?.map((pharmacy: Pharmacy) => (
+            <SelectItem key={pharmacy.id} value={pharmacy.id}>
+              {pharmacy.name}
             </SelectItem>
           ))}
         </SelectGroup>

@@ -56,7 +56,6 @@
 /////////////// v2 code start ///////////////
 import { DataTable } from "@/components/data-table/data-table";
 import { DataTablePagination } from "@/components/data-table/data-table-pagination";
-// import { dummyOrgInvoices } from "@/constants";
 import { useDataTable } from "@/hooks/use-data-table";
 import { useMemo, useState } from "react";
 import { orgInvoiceMainColumns } from "@/components/data-table/columns/org-invoices-main";
@@ -64,14 +63,30 @@ import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
 import type { DateRange } from "react-day-picker";
 import { DateFilterDialog } from "@/components/common/DateRangeDialog/DateRangeDialog";
-import { useGetInvoicesQuery } from "@/redux/services/invoice";
+import {
+  useGetInvoicesQuery,
+  useGetPharmaciesByOrgQuery,
+} from "@/redux/services/invoice";
 import { useSearchParams } from "react-router-dom";
+import OrganizationDialog from "@/components/common/organizationDialog/OrganizationDialog";
 
 export default function Invoices() {
   const [searchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1", 10);
   const perPage = parseInt(searchParams.get("per_page") ?? "10", 10);
   const invoiceId = searchParams.get("invoiceId") ?? "";
+  const [value, setValue] = useState<string>("");
+
+  const { data: pharmacyData } = useGetPharmaciesByOrgQuery(
+    {},
+    {
+      selectFromResult: ({ data, isLoading, isError }) => ({
+        data: data?.data,
+        isLoading: isLoading,
+        isError: isError,
+      }),
+    }
+  );
 
   const { data: invoiceData, meta } = useGetInvoicesQuery(
     { page, perPage, q: invoiceId },
@@ -105,6 +120,12 @@ export default function Invoices() {
         </div>
         <div>
           <div className="flex gap-3 items-center">
+            <OrganizationDialog
+              value={value}
+              setValue={setValue}
+              data={pharmacyData}
+              placeholder="All Pharmacies"
+            />
             <Button
               onClick={() => setOpenDatePicker(true)}
               className="w-[113px] h-[44px] rounded-[6px] border border-card-border cursor-pointer p-[15px] text-black bg-white hover:bg-white flex items-center justify-between"
