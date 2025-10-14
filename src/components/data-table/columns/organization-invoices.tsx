@@ -17,7 +17,7 @@ export type PharmacyInvoiceDetails = {
   };
 };
 
-export function pharmacyInvoiceColumns(): ColumnDef<PharmacyInvoiceDetails>[] {
+export function organizationInvoiceColumns(): ColumnDef<PharmacyInvoiceDetails>[] {
   return [
     {
       accessorKey: "createdAt",
@@ -123,7 +123,7 @@ export function pharmacyInvoiceColumns(): ColumnDef<PharmacyInvoiceDetails>[] {
       cell: ({ row }) => {
         return (
           <Link
-            to={`/pharmacy/transmissions/${row.original.transmission.id}`}
+            to={`/org/transmissions/${row.original.transmission.id}`}
             className="flex justify-center items-center py-1 px-5 w-[85px] h-[36px] rounded-[50px] border border-primary-foreground "
           >
             View
