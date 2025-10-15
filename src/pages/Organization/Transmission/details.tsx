@@ -88,9 +88,6 @@ export default function TransmissionDetails() {
       });
   };
 
-  // const uniqueId = parsedObj ? parsedObj.status ===1 ?
-  // console.log("sssssssss", parsedObj);
-
   return (
     <div className="mb-5">
       <div

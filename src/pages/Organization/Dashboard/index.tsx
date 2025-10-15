@@ -95,8 +95,6 @@ const OrganisationDashboard = () => {
     );
   }
 
-  console.log("selectedPeriod:: ", selectedPeriod);
-
   return (
     <>
       <div className="h-screen bg-background">

@@ -42,8 +42,6 @@ export function pharmacyInvoiceColumns(): ColumnDef<PharmacyInvoiceDetails>[] {
       header: "Medication",
       cell: ({ row }) => {
         const medication: LineItem[] = row.getValue("lineItems");
-        console.log("medicationsss>>>", medication);
-
         const displayedMedications = medication.slice(0, 1);
         const remainingCount = medication.length - 1;
 
@@ -95,7 +93,6 @@ export function pharmacyInvoiceColumns(): ColumnDef<PharmacyInvoiceDetails>[] {
 
       cell: ({ row }) => {
         const patientInfo = row.original.transmission;
-        console.log("patient");
         return (
           <>
             <p className="text-xs font-medium">{`${patientInfo?.patient?.firstName} ${patientInfo?.patient?.lastName}`}</p>
@@ -113,7 +110,6 @@ export function pharmacyInvoiceColumns(): ColumnDef<PharmacyInvoiceDetails>[] {
 
       cell: ({ row }) => {
         const amount = Number(row.getValue("totalAmount")) || 0;
-        console.log("row 4th >> amount", amount);
         return <p className="text-xs font-medium">${amount.toFixed(2)}</p>;
       },
     },

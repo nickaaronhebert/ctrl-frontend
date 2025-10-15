@@ -40,6 +40,8 @@ export interface PharmacyProductVariant {
   productVariant: {
     _id: string;
     strength: string;
+    containerQuantity: number;
+    quantityType: string;
   };
 }
 

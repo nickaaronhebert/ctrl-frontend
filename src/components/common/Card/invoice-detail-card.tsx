@@ -18,8 +18,6 @@ export default function InvoiceDetailsCard({
   labels,
   screenType,
 }: InvoiceDetailsCardProps) {
-  console.log("my details", data);
-
   const items: DescriptionItem[] = [
     { label: "Invoice ID", value: data?.invoiceId },
     {

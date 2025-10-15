@@ -13,7 +13,6 @@ export const PharmacyPerformance: React.FC<{
     };
   }[];
 }> = ({ data = [] }) => {
-  console.log("data", data);
   return (
     <>
       <div className="w-full min-h-[660px] bg-white rounded-[15px] shadow-sm p-6 flex-col justify-center items-center">
@@ -65,7 +64,6 @@ export const PharmacyPerformance: React.FC<{
                 <div className="flex items-center gap-4 text-sm text-dashboard-subtitle">
                   {pharmacy.stats.values.map((value, index) => {
                     const status = value.split(":")[0].trim();
-                    console.log("value>>>>>>>>>>", value);
                     return (
                       <span key={index} className="flex items-center gap-1">
                         <div

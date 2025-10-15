@@ -29,8 +29,6 @@ export default function PharmacyInvoices() {
     }
   );
 
-  console.log("Org dataaa", organizationsData);
-
   const { data: invoiceData, meta } = useGetInvoicesQuery(
     { page, perPage, q: invoiceId },
     {

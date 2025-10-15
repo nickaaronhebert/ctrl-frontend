@@ -179,8 +179,6 @@ export default function ViewPharmacyInvoiceDetails() {
   const { id } = useParams();
   const { data: invoiceData, isLoading: isInvoiceLoading } =
     useGetInvoiceByIdQuery(id as string);
-
-  console.log("dataaa>>>>", invoiceData);
   const columns = useMemo(() => pharmacyInvoiceColumns(), []);
 
   const { table } = useDataTable({

@@ -79,7 +79,6 @@ interface TransmissionStats {
 export const getStatusCounts = (
   stats: TransmissionStats[] = []
 ): Record<"created" | "queued" | "transmitted" | "failed", number> => {
-  console.log("MY Stats>>>>>>>>>>>>>>>>>>>>>", stats);
   const lookup = stats.reduce((acc, item) => {
     acc[item.status] = item.count;
     return acc;

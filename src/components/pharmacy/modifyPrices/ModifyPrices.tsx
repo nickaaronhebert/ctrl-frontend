@@ -157,8 +157,6 @@ export default function ModifyPrices() {
     return <div>Error loading pharmacy catalogue.</div>;
   }
 
-  console.log("PharmacyIdentifiers:: ", pharmacyIdentifiers);
-
   return (
     <div className="mb-5">
       <div className="bg-lilac py-3 px-12 flex justify-between mb-4">
@@ -212,7 +210,6 @@ export default function ModifyPrices() {
         {/* Medications */}
         <div className="space-y-4">
           {filteredMedications.map((medication: PharmacyCatalogue) => {
-            console.log("medication", medication);
             const medicationVariants = medication.productVariant ?? [];
             return (
               <div
@@ -246,7 +243,6 @@ export default function ModifyPrices() {
                   </div>
 
                   {medicationVariants.map((variant: PharmacyProductVariant) => {
-                    console.log("myvarianttttttttttt..", variant);
                     return (
                       <div
                         key={variant._id}
@@ -254,7 +250,7 @@ export default function ModifyPrices() {
                       >
                         <div className="text-gray-900 w-1/2">
                           <span className="mt-[100px]">
-                            {medication?.medicationCatalogue?.drugName}{" "}
+                            {/* {medication?.medicationCatalogue?.drugName}{" "} */}
                             {variant?.productVariant?.strength}
                           </span>
                         </div>

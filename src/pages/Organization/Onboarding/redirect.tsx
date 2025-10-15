@@ -23,7 +23,6 @@ export default function OrganizationRedirect() {
 
   useEffect(() => {
     if (isSuccess) {
-      console.log("token retrieved successfully");
       navigate("/organization-onboarding");
     } else if (isError) {
       console.log("something went wrong");

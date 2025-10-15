@@ -6,17 +6,18 @@ import { Search } from "lucide-react";
 import { useGetMedicationCatalogueQuery } from "@/redux/services/medication";
 import { Link, useSearchParams } from "react-router-dom";
 import {
-  medicationLibraryColumns,
+  // medicationLibraryColumns,
   type Medication,
 } from "@/components/data-table/columns/medication-library";
 import {
   useDataTable,
   type DataTableFilterField,
 } from "@/hooks/use-data-table";
+import { CtrlmedicationLibraryColumns } from "@/components/data-table/columns/ctrl-medication-library";
 
 const ViewMedicationCatalogue = () => {
   const columns = useMemo(
-    () => medicationLibraryColumns({ entity: "CtrlAdmin" }),
+    () => CtrlmedicationLibraryColumns({ entity: "CtrlAdmin" }),
     []
   );
   const [searchParams] = useSearchParams();

@@ -33,7 +33,6 @@ export function recentTransmissionColumns(): ColumnDef<Transmission>[] {
       accessorKey: "id",
       header: "Transmission ID",
       cell: ({ row }) => {
-        console.log("row transmission id", row);
         return (
           <p className="text-xs font-medium">{row.original.transmissionId}</p>
         );
@@ -47,8 +46,6 @@ export function recentTransmissionColumns(): ColumnDef<Transmission>[] {
       header: "Status",
       cell: ({ row }) => {
         const orderStatus = row.getValue("status");
-        console.log("orderStatus row", orderStatus);
-
         return (
           <>
             {orderStatus === "Queued" ? (
@@ -69,7 +66,6 @@ export function recentTransmissionColumns(): ColumnDef<Transmission>[] {
       header: "Pharmacy",
       cell: ({ row }) => {
         const pharmacy: Pharmacy = row.getValue("pharmacy");
-        console.log("pharmacy row", pharmacy);
         return (
           <div className="max-w-[100px]">
             <p className="text-[11px] font-medium text-wrap  mb-2">
@@ -86,7 +82,6 @@ export function recentTransmissionColumns(): ColumnDef<Transmission>[] {
       header: "Medication",
       cell: ({ row }) => {
         const medication: Medication[] = row.getValue("prescriptions");
-        console.log("medication row", medication);
 
         const displayedMedications = medication.slice(0, 2);
         const remainingCount = medication.length - 2;
@@ -94,8 +89,6 @@ export function recentTransmissionColumns(): ColumnDef<Transmission>[] {
         const getTypeColor = (type: "oral" | "injectable") => {
           return type === "oral" ? "text-green-600" : "text-pink-600";
         };
-
-        console.log("displayedMedications", displayedMedications);
 
         return (
           <div className=" max-w-sm ">

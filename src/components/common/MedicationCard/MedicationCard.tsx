@@ -82,25 +82,44 @@ export function MedicationCard({ medication }: MedicationCardProps) {
       {/* Variants */}
       {isExpanded && (
         <div className="space-y-2">
-          <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
-            VARIANTS
+          <div className="flex justify-between items-center ">
+            <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+              VARIANTS
+            </div>
+            <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+              Container Quantity
+            </div>
           </div>
           <div className="space-y-2">
-            {medication.productVariants.map((variant: ProductVariant) => (
-              <div
-                key={variant.id}
-                className="flex items-center gap-3 p-3 rounded-md bg-light-background hover:bg-light-background"
-              >
-                <Checkbox
-                  checked={isVariantSelected(medication.id, variant.id)}
-                  onCheckedChange={() => handleVariantToggle(variant)}
-                  className="h-4 w-4 bg-white"
-                />
-                <span className="text-sm text-foreground">
-                  {medication.drugName} {variant.strength}
-                </span>
-              </div>
-            ))}
+            {medication.productVariants.map((variant: ProductVariant) => {
+              return (
+                <div
+                  key={variant.id}
+                  className="flex items-center justify-between gap-3 p-3 rounded-md bg-light-background hover:bg-light-background"
+                >
+                  <div>
+                    <Checkbox
+                      checked={isVariantSelected(medication.id, variant.id)}
+                      onCheckedChange={() => handleVariantToggle(variant)}
+                      className="h-4 w-4 bg-white"
+                    />
+                    <span className="text-sm ml-2 text-foreground">
+                      {medication.drugName} {variant.strength}
+                    </span>
+                  </div>
+                  {variant.containerQuantity && (
+                    <span className="text-gray-500">
+                      {variant.containerQuantity}
+                    </span>
+                  )}
+                  {/* {variant.quantityType && (
+                    <span className="text-gray-500">
+                      {variant.quantityType}
+                    </span>
+                  )} */}
+                </div>
+              );
+            })}
           </div>
         </div>
       )}

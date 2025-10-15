@@ -22,7 +22,6 @@ export function PayInvoiceDialog({
   onOpenChange,
   data,
 }: PayInvoiceDialogProps) {
-  console.log("data", data);
   const [method, setMethod] = useState<"card" | "stripe-link">("card");
   const [copied, setCopied] = useState(false);
   const paymentLink = "https://checkout.stripe.com/c/pay/s_test_yrf36metu";

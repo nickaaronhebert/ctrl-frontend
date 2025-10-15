@@ -45,7 +45,6 @@ export function invoiceMainColumns(): ColumnDef<Invoice>[] {
           year: "numeric",
           timeZone: "UTC",
         });
-        console.log("end", row.original.endDate);
         return <p className="text-xs font-medium">{`${start} – ${end}`}</p>;
       },
     },

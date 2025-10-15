@@ -20,7 +20,6 @@ interface VariantProps {
 }
 
 const VariantRow = ({ variant, drugName, onDelete }: VariantProps) => {
-  console.log("myVariant>>", variant);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleDelete = () => {
@@ -30,16 +29,23 @@ const VariantRow = ({ variant, drugName, onDelete }: VariantProps) => {
 
   return (
     <div className="grid grid-cols-12 items-center py-3 px-4 bg-light-background  border-b border-gray-200 last:border-b-0 gap-4">
-      <p className="col-span-12 md:col-span-6 text-sm text-gray-900 font-medium">
-        {drugName} {variant?.productVariant?.strength}
+      <p className="col-span-12 md:col-span-2 text-sm text-gray-900 font-medium">
+        {variant?.productVariant?.strength}
       </p>
-      <p className="col-span-12 md:col-span-4 text-sm text-gray-900 font-medium truncate">
+      <p className="col-span-6 md:col-span-2 text-sm   text-gray-900">
+        {variant?.productVariant?.containerQuantity || "N/A"}
+      </p>
+      <p className="col-span-6 md:col-span-2 text-sm text-gray-900">
+        {variant?.productVariant?.quantityType || "N/A"}
+      </p>
+      <p className="col-span-12 md:col-span-2 text-sm text-gray-900 font-medium truncate">
         {variant?.pharmacyIdentifier || "N/A"}
       </p>
-      <p className="col-span-6 md:col-span-1 text-sm text-gray-900 font-semibold md:text-right">
+      <p className="col-span-6 md:col-span-2 text-sm text-gray-900 font-semibold md:text-right">
         ${variant?.price?.toFixed(2)}
       </p>
-      <div className="col-span-6 md:col-span-1 flex justify-end items-center">
+
+      <div className="col-span-6 md:col-span-2 flex justify-end items-center">
         <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
           <AlertDialogTrigger asChild>
             <button

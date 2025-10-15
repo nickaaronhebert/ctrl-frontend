@@ -43,7 +43,7 @@ interface medicationLibraryColumnsProps {
   entity: "CtrlAdmin" | "Organization";
 }
 
-export function medicationLibraryColumns({
+export function CtrlmedicationLibraryColumns({
   entity,
 }: medicationLibraryColumnsProps): ColumnDef<Medication>[] {
   return [
@@ -115,7 +115,7 @@ export function medicationLibraryColumns({
           entity === "CtrlAdmin" ? "/admin/medications/" : "/org/medications/";
         return (
           <Link
-            to={`${urlPrefix}${row.original._id}`}
+            to={`${urlPrefix}${row.original.id}`}
             className="flex justify-center items-center py-1 px-5 w-[85px] h-[36px] rounded-[50px] border border-primary-foreground"
           >
             View

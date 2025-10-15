@@ -90,10 +90,6 @@ const AccessDetail = () => {
     );
   }
 
-  console.log("selectedMedication>>..", selectedMedication);
-  console.log("selectedVariant>>..", selectedVariant);
-  console.log("configuredStates", configuredStates);
-
   return (
     <div className="mb-5">
       <div className="bg-lilac py-3 px-12">

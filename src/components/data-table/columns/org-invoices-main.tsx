@@ -31,7 +31,6 @@ export function orgInvoiceMainColumns(): ColumnDef<Invoice>[] {
       id: "period",
       header: "Period",
       cell: ({ row }) => {
-        console.log("Date Row", row.original);
         const start = new Date(row.original.startDate).toLocaleDateString(
           "en-US",
           { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" }

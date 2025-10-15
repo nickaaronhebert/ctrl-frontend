@@ -35,8 +35,6 @@ export default function SetDefaultPrices() {
     (key) => prices[key] && prices[key] !== "0.00"
   ).length;
 
-  console.log("pricedVariants", pricedVariants);
-
   const handlePriceChange = (variantId: string, value: string) => {
     setPrices((prev) => ({ ...prev, [variantId]: value }));
   };
@@ -89,8 +87,6 @@ export default function SetDefaultPrices() {
       });
     }
   };
-
-  console.log("selectedMedications", selectedMedications.length);
 
   return (
     <div className="mb-5">

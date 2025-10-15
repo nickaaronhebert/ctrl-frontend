@@ -29,7 +29,6 @@ export function BulkAssignment({
   selectedVariant,
   setSelectedPharmacy,
 }: BulkAssignmentProps) {
-  console.log("selected variant>>", selectedVariant);
   const totalStates = 50;
   const [selectedStates, setSelectedStates] = useState<string[]>([]);
   const [triggerGetPharmacies, { data: bulkPharmacyData }] =
@@ -37,24 +36,17 @@ export function BulkAssignment({
 
   const [createAccessControl] = useCreateAccessControlMutation();
 
-  console.log("bulkpharmacydata", bulkPharmacyData);
-  console.log("selectedPharmacy", selectedPharmacy);
-
   const selectedPharmacyData = bulkPharmacyData?.data?.find(
     (pharmacy: Pharmacy) => pharmacy.id === selectedPharmacy
   );
-  console.log("selectedPharmacyData", selectedPharmacyData);
 
   const allowedStates = selectedPharmacyData?.allowedStates || [];
-  console.log("allowedStates", allowedStates);
 
   const unavailableStates = totalStates - allowedStates.length;
 
   const handleStateChange = (selected: string[]) => {
     setSelectedStates(selected);
   };
-
-  console.log("selectedStates", selectedStates);
 
   const handleApplyToAll = () => {
     if (!selectedVariant?.id) {
@@ -69,13 +61,10 @@ export function BulkAssignment({
       }, {}),
     };
 
-    console.log("Payload to be sent ", payload);
-
     // API call below //
     createAccessControl(payload)
       .unwrap()
-      .then((res) => {
-        console.log("Access control created successfully", res);
+      .then(() => {
         toast.success("Bulk Assignment Successful", {
           duration: 1500,
         });
@@ -94,7 +83,7 @@ export function BulkAssignment({
     <div className="bg-white rounded-lg border border-gray-200 p-6">
       <div className="mb-6">
         <div className="flex items-center gap-2 mb-1">
-          <div className="min-w-4 min-h-4 rounded-full  flex items-center justify-center">
+          <div className="min-w-4 min-h-4 rounded-full flex items-center justify-center">
             <Globe />
           </div>
           <h2 className="text-lg font-semibold text-gray-900">
@@ -116,8 +105,8 @@ export function BulkAssignment({
               if (isOpen && selectedVariant?.id) {
                 triggerGetPharmacies(selectedVariant?.id || "")
                   .unwrap()
-                  .then((res) => {
-                    console.log("Pharmacy data:", res);
+                  .then(() => {
+                    // console.log("Pharmacy data:", res);
                   })
                   .catch((error) => {
                     console.error("Error fetching pharmacies:", error);
@@ -130,7 +119,6 @@ export function BulkAssignment({
             </SelectTrigger>
             <SelectContent>
               {bulkPharmacyData?.data?.map((pharmacy: any) => {
-                console.log("pharmacy", pharmacy);
                 return (
                   <SelectItem key={pharmacy.id} value={pharmacy.id}>
                     {pharmacy.name}
