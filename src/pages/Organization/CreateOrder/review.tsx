@@ -46,6 +46,7 @@ export default function ReviewOrderDetails({ order }: { order: OrderState }) {
       patient: order.initialStep.selectedPatient?.id,
       prescriptions,
       address,
+      subOrganization: order.stepTwo.subOrganization,
     };
 
     await createOrder(orderPayload)

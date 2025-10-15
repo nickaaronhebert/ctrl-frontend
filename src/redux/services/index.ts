@@ -13,6 +13,7 @@ import {
   TAG_GET_PHARMACY,
   TAG_GET_PHARMACY_CATALOGUE,
   TAG_GET_PROVIDERS,
+  TAG_GET_SUB_ORGANIZATION,
   TAG_GET_USER_PROFILE,
   TAG_GLOBAL_PHARMACIES,
 } from "@/types/baseApiTags";
@@ -34,6 +35,7 @@ export const baseApi = createApi({
     TAG_GLOBAL_PHARMACIES,
     TAG_GET_CONNECTED_ORGANIZATION,
     TAG_GET_INVOICES,
+    TAG_GET_SUB_ORGANIZATION,
   ],
   baseQuery: fetchBaseQuery({
     baseUrl:

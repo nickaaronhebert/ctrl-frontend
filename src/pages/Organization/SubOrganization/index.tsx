@@ -60,7 +60,7 @@ export default function ViewSubOrganization() {
 
           <Link
             to={"/org/create-suborganization"}
-            className="flex items-center rounded-[50px] px-[20px] py-[5px] min-h-[40px]  text-white  font-semibold text-[12px] bg-primary-foreground  "
+            className="flex items-center rounded-[50px] px-[20px] py-[5px] mb-1 min-h-[40px]  text-white  font-semibold text-[12px] bg-primary-foreground  "
             // onClick={() => navigate("/org/create-suborganization")}
           >
             Create Sub-Org
