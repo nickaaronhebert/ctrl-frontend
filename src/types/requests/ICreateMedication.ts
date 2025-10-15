@@ -7,18 +7,18 @@ interface MedicationCatalogue {
   indications?: string[];
   category: string;
   clinicalInstructions?: string;
-  condition: string;
+  // condition: string;
   tags?: string[];
   activeIngredients: {
     name: string;
-    strength: string;
+    // strength: string;
   }[];
   variants: {
     strength: string;
     quantityType: string;
     containerQuantity: number;
   }[];
-  availableQuantities: (number | undefined)[];
+  // availableQuantities: (number | undefined)[];
 }
 
 export interface ICreateMedicationCatalogue extends MedicationCatalogue {}

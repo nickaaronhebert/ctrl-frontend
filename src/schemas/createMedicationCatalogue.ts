@@ -2,7 +2,7 @@ import { z } from "zod";
 
 const activeIngredientsSchema = z.object({
   name: z.string().min(1, "Ingredient Name is required"),
-  strength: z.string().min(1, "Strength is required"),
+  // strength: z.string().min(1, "Strength is required"),
   // quantity: z.coerce
   //   .number({
   //     invalid_type_error: "Invalid Number",
@@ -35,12 +35,12 @@ export const createMedicationCatalogueSchema = z.object({
   variants: z.array(variantSchema).min(1, "At least one variant is required"),
   drugName: z.string().min(1, "DrugName is required"),
   category: z.string().min(1, "Category is required"),
-  condition: z.string().min(1, "Condition is required"),
+  // condition: z.string().min(1, "Condition is required"),
   dosageForm: z.string().min(1, "DosageForm is required"),
   route: z.string().min(1, "Route is required"),
-  availableQuantities: z
-    .array(z.string().min(1, "Quantity is required"))
-    .min(1, "At least one quantity is required"),
+  // availableQuantities: z
+  //   .array(z.string().min(1, "Quantity is required"))
+  //   .min(1, "At least one quantity is required"),
   tags: z.array(z.string().min(1, "State is required.")).optional(),
   indications: z.array(z.string().min(1, "State is required.")).optional(),
 });

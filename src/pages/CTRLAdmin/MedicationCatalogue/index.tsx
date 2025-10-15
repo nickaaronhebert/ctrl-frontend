@@ -25,6 +25,21 @@ const units = [
   { label: "MG", value: "mg" },
   { label: "Unit", value: "unit" },
 ];
+
+const routeTypes = [
+  {
+    label: "Oral",
+    value: "Oral",
+  },
+  {
+    label: "Injection",
+    value: "Injection",
+  },
+  {
+    label: "Topical",
+    value: "Topical",
+  },
+];
 export default function CreateMedicationCatalogue() {
   const navigate = useNavigate();
 
@@ -36,14 +51,14 @@ export default function CreateMedicationCatalogue() {
       isCompound: false,
       drugName: "",
       category: "",
-      condition: "",
-      availableQuantities: [],
+      // condition: "",
+      // availableQuantities: [],
       tags: [],
       indications: [],
       activeIngredients: [
         {
           name: "",
-          strength: "",
+          // strength: "",
         },
       ],
       dosageForm: "",
@@ -61,14 +76,14 @@ export default function CreateMedicationCatalogue() {
   async function onSubmit(
     data: z.infer<typeof createMedicationCatalogueSchema>
   ) {
-    const parsedQuantities = data.availableQuantities.map((quantity) => {
-      let num = Number(quantity); // Convert string to number
-      if (!isNaN(num)) {
-        // Check if the number is valid
-        return num; // If valid, return the number
-      }
-    });
-    await createMedication({ ...data, availableQuantities: parsedQuantities })
+    // const parsedQuantities = data.availableQuantities.map((quantity) => {
+    //   let num = Number(quantity); // Convert string to number
+    //   if (!isNaN(num)) {
+    //     // Check if the number is valid
+    //     return num; // If valid, return the number
+    //   }
+    // });
+    await createMedication(data)
       .unwrap()
       .then((data) => {
         form.reset();
@@ -136,25 +151,25 @@ export default function CreateMedicationCatalogue() {
               inputClassName="border border-[#9EA5AB]"
             />
 
-            <TagsInputElement
+            {/* <TagsInputElement
               name="availableQuantities"
               label="Available Quantities"
               placeholder="Type available quantity and press Enter"
               isRequired={true}
               type="number"
-            />
+            /> */}
 
             <CenteredRow>
               <InputElement
                 name="category"
-                className="w-[300px]"
+                className="w-[620px]"
                 label="Category"
                 messageClassName="text-right"
                 isRequired={true}
                 placeholder="Enter category"
                 inputClassName="border border-[#9EA5AB]"
               />
-              <InputElement
+              {/* <InputElement
                 name="condition"
                 className="w-[300px]"
                 isRequired={true}
@@ -162,7 +177,7 @@ export default function CreateMedicationCatalogue() {
                 messageClassName="text-right"
                 placeholder="Enter condition"
                 inputClassName="border border-[#9EA5AB]"
-              />
+              /> */}
             </CenteredRow>
 
             <TagsInputElement
@@ -184,7 +199,7 @@ export default function CreateMedicationCatalogue() {
                 inputClassName="border border-[#9EA5AB]"
               />
 
-              <InputElement
+              {/* <InputElement
                 name="route"
                 className="w-[198px]"
                 label="Route"
@@ -192,6 +207,17 @@ export default function CreateMedicationCatalogue() {
                 isRequired={true}
                 placeholder="Enter route"
                 inputClassName="border border-[#9EA5AB]"
+              /> */}
+
+              <SelectElement
+                errorClassName="text-right"
+                name={`route`}
+                label="Route"
+                options={routeTypes}
+                placeholder="Enter route"
+                className="w-[198px] min-h-[56px] "
+                isRequired={true}
+                triggerClassName="border border-[#9EA5AB] "
               />
 
               <SwitchElement
@@ -218,7 +244,7 @@ export default function CreateMedicationCatalogue() {
                   onClick={() =>
                     ingredientAppend({
                       name: "",
-                      strength: "",
+                      // strength: "",
                     })
                   }
                 >
@@ -235,7 +261,7 @@ export default function CreateMedicationCatalogue() {
                     >
                       <InputElement
                         name={`activeIngredients.${index}.name`}
-                        className="w-[270px]"
+                        className="w-[560px]"
                         label="Name"
                         messageClassName="text-right"
                         placeholder="Citrazene"
@@ -243,7 +269,7 @@ export default function CreateMedicationCatalogue() {
                         isRequired={true}
                       />
 
-                      <InputElement
+                      {/* <InputElement
                         name={`activeIngredients.${index}.strength`}
                         className="w-[270px]"
                         label="Strength"
@@ -251,7 +277,7 @@ export default function CreateMedicationCatalogue() {
                         placeholder="10mg/ml"
                         inputClassName="bg-white"
                         isRequired={true}
-                      />
+                      /> */}
 
                       <button
                         className={cn(
