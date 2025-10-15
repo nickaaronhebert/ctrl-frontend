@@ -201,15 +201,29 @@ import InvoiceDetailsCard from "@/components/common/Card/invoice-detail-card";
 import { TotalAmountCard } from "@/components/common/Card/total-amount-card";
 import { DataTable } from "@/components/data-table/data-table";
 import { useMemo } from "react";
-// import { pharmacyInvoiceColumns } from "@/components/data-table/columns/pharmacy-invoices";
+import { useGetAdminCardsQuery } from "@/redux/services/stripe";
 import { useDataTable } from "@/hooks/use-data-table";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { organizationInvoiceColumns } from "@/components/data-table/columns/organization-invoices";
 
 export default function ViewInvoiceDetails() {
   const { id } = useParams();
-  const { data: invoiceData, isLoading: isInvoiceLoading } =
-    useGetInvoiceByIdQuery(id as string);
+  const {
+    data: invoiceData,
+    isLoading: isInvoiceLoading,
+    refetch,
+  } = useGetInvoiceByIdQuery(id as string);
+  const { data: userCards } = useGetAdminCardsQuery(undefined, {
+    selectFromResult: ({ data, isFetching }) => {
+      return {
+        data: data?.data,
+        isFetching: isFetching,
+      };
+    },
+  });
+
+  console.log("Saved Card>>> ", userCards);
+
   const columns = useMemo(() => organizationInvoiceColumns(), []);
 
   const { table } = useDataTable({
@@ -254,6 +268,8 @@ export default function ViewInvoiceDetails() {
         <TotalAmountCard
           data={invoiceData?.data as InvoiceDetail}
           screenType="organization"
+          cards={userCards}
+          refetch={refetch}
         />
       </div>
 

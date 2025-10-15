@@ -1,6 +1,7 @@
 import type { ICommonSearchQuery } from "@/types/requests/search";
 import { baseApi } from ".";
 import type { InvoicesApiResponse } from "@/types/responses/invoice";
+import { TAG_GET_INVOICES } from "@/types/baseApiTags";
 
 export const invoiceApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -11,12 +12,14 @@ export const invoiceApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
+      providesTags: [TAG_GET_INVOICES],
     }),
     getInvoiceById: builder.query({
       query: (id: string) => ({
         url: `/invoice/${id}`,
         method: "GET",
       }),
+      providesTags: [TAG_GET_INVOICES],
     }),
     getPharmaciesByOrg: builder.query({
       query: () => ({
@@ -30,6 +33,18 @@ export const invoiceApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
+
+    // pay invoice //
+    payInvoice: builder.mutation({
+      query: (body) => {
+        return {
+          url: `/invoice/pay`,
+          method: "POST",
+          body,
+        };
+      },
+      invalidatesTags: [TAG_GET_INVOICES],
+    }),
   }),
 });
 
@@ -38,4 +53,5 @@ export const {
   useGetInvoiceByIdQuery,
   useGetPharmaciesByOrgQuery,
   useGetOrganizationsQuery,
+  usePayInvoiceMutation,
 } = invoiceApi;

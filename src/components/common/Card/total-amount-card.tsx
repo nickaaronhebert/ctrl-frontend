@@ -9,13 +9,18 @@ type InvoiceDetailProps = {
   data: InvoiceDetail;
   className?: string;
   screenType?: string;
+  cards?: any;
+  refetch?: any;
 };
 
 export function TotalAmountCard({
   data,
   className,
   screenType,
+  cards,
+  refetch,
 }: InvoiceDetailProps) {
+  console.log("data status", data.status);
   const [open, setOpen] = useState<boolean>(false);
 
   function isNotPaid(status: string | undefined) {
@@ -50,7 +55,7 @@ export function TotalAmountCard({
                 : data?.medicationFee}
             </p>
             {screenType === "organization" && (
-              <p className="text-[12px] mt-1 text-gray-400 font-semibold ">
+              <p className="text-[12px] mt-1 text-gray-400 font-semibold">
                 (Includes{" "}
                 <span className="text-[12px] font-semibold text-[#BD51BB]">
                   ${data?.applicationFee}
@@ -71,7 +76,13 @@ export function TotalAmountCard({
         </div>
       </div>
       {open && (
-        <PayInvoiceDialog open={open} onOpenChange={setOpen} data={data} />
+        <PayInvoiceDialog
+          open={open}
+          onOpenChange={setOpen}
+          data={data}
+          cards={cards}
+          refetch={refetch}
+        />
       )}
     </>
   );

@@ -46,5 +46,6 @@ export type InvoiceDetail = {
   stripeConnectOnboardingStatus: string;
   applicationFee: number;
   medicationFee: number;
-  transactions: Transaction;
+  transactions: Transaction[];
+  stripeHostedInvoiceUrl: string;
 };

@@ -87,7 +87,6 @@ function SwitchForm({ id, activeStates }: SwitchFormProps) {
   });
 
   const watchedStates = form.watch("allowedStates");
-  console.log("watchedStates", watchedStates);
 
   useEffect(() => {
     const allStatesSelected = Object.values(watchedStates || {}).every(
@@ -123,8 +122,6 @@ function SwitchForm({ id, activeStates }: SwitchFormProps) {
     );
     form.setValue("allowedStates", updatedStates);
   };
-
-  console.log("selectAll", selectAll);
 
   return (
     <Form {...form}>
