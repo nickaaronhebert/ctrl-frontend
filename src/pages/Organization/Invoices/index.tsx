@@ -71,6 +71,7 @@ import { useSearchParams } from "react-router-dom";
 import OrganizationDialog from "@/components/common/organizationDialog/OrganizationDialog";
 import { toStartOfDayUTC } from "@/lib/utils";
 import { toEndOfDayUTC } from "@/lib/utils";
+import { useGetSubOrgsQuery } from "@/redux/services/invoice";
 
 export default function Invoices() {
   const [searchParams] = useSearchParams();
@@ -79,6 +80,7 @@ export default function Invoices() {
   // const pharmacy = searchParams.get("pharmacy") ?? "";
   const invoiceId = searchParams.get("invoiceId") ?? "";
   const [value, setValue] = useState<string>("");
+  const [subOrgValue, setSubOrgValue] = useState<string>("");
   const [openDatePicker, setOpenDatePicker] = useState(false);
   const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
 
@@ -93,12 +95,26 @@ export default function Invoices() {
     }
   );
 
+  const { data: subOrgsData } = useGetSubOrgsQuery(
+    {},
+    {
+      selectFromResult: ({ data, isLoading, isError }) => ({
+        data: data?.data,
+        isLoading: isLoading,
+        isError: isError,
+      }),
+    }
+  );
+
+  console.log("subOrgsData", subOrgsData);
+
   const { data: invoiceData, meta } = useGetInvoicesQuery(
     {
       page,
       perPage,
       q: invoiceId,
       pharmacy: value,
+      subOrganization: subOrgValue,
       startDate: dateRange?.from ? toStartOfDayUTC(dateRange.from) : undefined,
       endDate: dateRange?.to ? toEndOfDayUTC(dateRange.to) : undefined,
     },
@@ -136,6 +152,12 @@ export default function Invoices() {
               setValue={setValue}
               data={pharmacyData}
               placeholder="All Pharmacies"
+            />
+            <OrganizationDialog
+              value={subOrgValue}
+              setValue={setSubOrgValue}
+              data={subOrgsData}
+              placeholder="All Sub Orgs"
             />
             <Button
               onClick={() => setOpenDatePicker(true)}

@@ -10,6 +10,7 @@ export interface Invoice {
   endDate: string;
   totalAmount: number;
   status: string;
+  subOrganization?: string;
 }
 
 export interface InvoicesApiResponse {

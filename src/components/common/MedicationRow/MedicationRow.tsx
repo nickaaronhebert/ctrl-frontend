@@ -47,22 +47,16 @@ export function MedicationRow({ medication }: MedicationProps) {
       </div>
       <div className="space-y-0 rounded-[10px] border border-gray-200 overflow-hidden">
         <div className="grid grid-cols-12 bg-white py-[9px] px-4 border-b border-gray-200">
-          <div className="col-span-12 md:col-span-2 text-xs font-medium text-gray-500 uppercase">
+          <div className="col-span-12 md:col-span-3 text-xs font-medium text-gray-500 uppercase">
             VARIANTS
           </div>
-          <div className="col-span-6 md:col-span-2 text-xs font-medium text-gray-500 uppercase">
-            CONTAINER QTY
-          </div>
-          <div className="col-span-6 md:col-span-2 text-xs font-medium text-gray-500 uppercase">
-            QTY TYPE
-          </div>
-          <div className="col-span-12 md:col-span-2 text-xs font-medium text-gray-500 uppercase">
+          <div className="col-span-12 md:col-span-3 text-xs font-medium text-gray-500 uppercase">
             PHARMACY IDENTIFIER
           </div>
-          <div className="col-span-6 md:col-span-2 md:text-right text-xs font-medium text-gray-500 uppercase">
+          <div className="col-span-6 md:col-span-3 md:text-right text-xs font-medium text-gray-500 uppercase">
             DEFAULT PRICE
           </div>
-          <div className="col-span-6 md:col-span-2 md:text-right text-xs font-medium text-gray-500 uppercase">
+          <div className="col-span-6 md:col-span-3 md:text-right text-xs font-medium text-gray-500 uppercase">
             ACTIONS
           </div>
         </div>

@@ -82,16 +82,12 @@ export function MedicationCard({ medication }: MedicationCardProps) {
       {/* Variants */}
       {isExpanded && (
         <div className="space-y-2">
-          <div className="flex justify-between items-center ">
-            <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
-              VARIANTS
-            </div>
-            <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
-              Container Quantity
-            </div>
+          <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+            VARIANTS
           </div>
           <div className="space-y-2">
             {medication.productVariants.map((variant: ProductVariant) => {
+              console.log("variant>>>", variant);
               return (
                 <div
                   key={variant.id}
@@ -103,20 +99,11 @@ export function MedicationCard({ medication }: MedicationCardProps) {
                       onCheckedChange={() => handleVariantToggle(variant)}
                       className="h-4 w-4 bg-white"
                     />
-                    <span className="text-sm ml-2 text-foreground">
-                      {medication.drugName} {variant.strength}
-                    </span>
+                    {/* <span className="text-sm ml-2 text-foreground">
+                      {variant?.name}
+                    </span> */}
+                    <span className="text-sm ml-2 text-foreground">-</span>
                   </div>
-                  {variant.containerQuantity && (
-                    <span className="text-gray-500">
-                      {variant.containerQuantity}
-                    </span>
-                  )}
-                  {/* {variant.quantityType && (
-                    <span className="text-gray-500">
-                      {variant.quantityType}
-                    </span>
-                  )} */}
                 </div>
               );
             })}

@@ -14,9 +14,10 @@ export const invoiceApi = baseApi.injectEndpoints({
         pharmacy = "",
         startDate,
         endDate,
+        subOrganization,
       }) => {
         return {
-          url: `/invoice?page=${page}&limit=${perPage}&q=${q}&organization=${organization}&pharmacy=${pharmacy}&startDate=${
+          url: `/invoice?page=${page}&limit=${perPage}&q=${q}&organization=${organization}&subOrganization=${subOrganization}&pharmacy=${pharmacy}&startDate=${
             startDate ?? ""
           }&endDate=${endDate ?? ""}`,
           method: "GET",
@@ -44,6 +45,13 @@ export const invoiceApi = baseApi.injectEndpoints({
       }),
     }),
 
+    getSubOrgs: builder.query({
+      query: ({ page = 1, perPage = 100 }) => ({
+        url: `/organization/sub-organizations?page=${page}&limit=${perPage}`,
+        method: "GET",
+      }),
+    }),
+
     // pay invoice //
     payInvoice: builder.mutation({
       query: (body) => {
@@ -64,4 +72,5 @@ export const {
   useGetPharmaciesByOrgQuery,
   useGetOrganizationsQuery,
   usePayInvoiceMutation,
+  useGetSubOrgsQuery,
 } = invoiceApi;

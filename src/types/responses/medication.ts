@@ -42,6 +42,7 @@ export interface PharmacyProductVariant {
     strength: string;
     containerQuantity: number;
     quantityType: string;
+    name?: string;
   };
 }
 

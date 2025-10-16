@@ -29,6 +29,27 @@ export function orgInvoiceMainColumns(): ColumnDef<Invoice>[] {
       },
     },
     {
+      accessorKey: "organization",
+      header: "Organization",
+      cell: ({ row }) => {
+        const org = row.getValue("organization") as {
+          name: string;
+          id: string;
+        };
+        const subOrg = row.original.subOrganization as
+          | { name: string; id: string }
+          | undefined;
+
+        const displayName = subOrg?.name || org?.name;
+
+        return (
+          <div className="flex flex-col gap-1">
+            <span className="text-xs font-bold">{displayName}</span>
+          </div>
+        );
+      },
+    },
+    {
       id: "period",
       header: "Period",
       cell: ({ row }) => {

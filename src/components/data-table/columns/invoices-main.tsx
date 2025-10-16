@@ -20,9 +20,15 @@ export function invoiceMainColumns(): ColumnDef<Invoice>[] {
           name: string;
           id: string;
         };
+        const subOrg = row.original.subOrganization as
+          | { name: string; id: string }
+          | undefined;
+
+        const displayName = subOrg?.name || org?.name;
+
         return (
           <div className="flex flex-col gap-1">
-            <span className="text-xs font-bold">{org.name}</span>
+            <span className="text-xs font-bold">{displayName}</span>
           </div>
         );
       },

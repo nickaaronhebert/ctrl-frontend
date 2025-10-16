@@ -5,6 +5,7 @@ export interface ProductVariant {
   quantityType: string;
   containerQuantity: number;
   id: string;
+  name?: string;
 }
 
 export interface Medication {
