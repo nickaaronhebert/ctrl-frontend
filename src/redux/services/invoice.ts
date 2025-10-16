@@ -16,10 +16,13 @@ export const invoiceApi = baseApi.injectEndpoints({
         endDate,
         subOrganization,
       }) => {
+        const subOrg = subOrganization
+          ? `&subOrganization=${subOrganization}`
+          : "";
         return {
-          url: `/invoice?page=${page}&limit=${perPage}&q=${q}&organization=${organization}&subOrganization=${subOrganization}&pharmacy=${pharmacy}&startDate=${
+          url: `/invoice?page=${page}&limit=${perPage}&q=${q}&organization=${organization}&pharmacy=${pharmacy}&startDate=${
             startDate ?? ""
-          }&endDate=${endDate ?? ""}`,
+          }&endDate=${endDate ?? ""}${subOrg}`,
           method: "GET",
         };
       },
