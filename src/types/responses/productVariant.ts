@@ -4,6 +4,7 @@ export interface IGetAllProductVariantsResponse {
       drugName: string;
       dosageForm: string;
     };
+    name?: string;
     strength: string;
     quantityType: string;
     containerQuantity: number;
