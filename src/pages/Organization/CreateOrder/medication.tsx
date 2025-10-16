@@ -38,11 +38,16 @@ export default function SelectProductVariant({
     {
       selectFromResult: ({ data }) => ({
         data:
-          data?.data?.map((item) => ({
-            value: `${item.id}/${item.medicationCatalogue.drugName} ${item.strength} `,
-            label: `${item.medicationCatalogue.drugName} ${item.strength}`,
-            unit: item.quantityType,
-          })) ?? [],
+          data?.data?.map((item) => {
+            const drugLabel = item?.name
+              ? item.name
+              : ` ${item.medicationCatalogue.drugName} ${item.strength}`;
+            return {
+              value: `${item.id}/${item.medicationCatalogue.drugName} ${item.strength} `,
+              label: drugLabel,
+              unit: item.quantityType,
+            };
+          }) ?? [],
       }),
     }
   );
