@@ -21,7 +21,7 @@ export default function ModifyPrices() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1", 10);
-  const perPage = parseInt(searchParams.get("per_page") ?? "10", 10);
+  const perPage = parseInt(searchParams.get("per_page") ?? "100", 10);
   const [searchTerm, setSearchTerm] = useState("");
   const [pharmacyIdentifiers, setPharmacyIdentifiers] = useState<
     Record<string, string>

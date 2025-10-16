@@ -91,3 +91,23 @@ export const getStatusCounts = (
     failed: lookup["Failed"] || 0,
   };
 };
+
+export function toStartOfDayUTC(date: Date) {
+  return new Date(
+    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
+  ).toISOString();
+}
+
+export function toEndOfDayUTC(date: Date) {
+  return new Date(
+    Date.UTC(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
+      23,
+      59,
+      59,
+      999
+    )
+  ).toISOString();
+}

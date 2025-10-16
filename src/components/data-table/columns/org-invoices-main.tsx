@@ -2,6 +2,7 @@ import { type ColumnDef } from "@tanstack/react-table";
 import { Link } from "react-router-dom";
 import { StatusBadge } from "@/components/common/StatusBadge/StatusBadge";
 import type { Invoice } from "@/types/responses/invoice";
+import { format } from "date-fns";
 
 export function orgInvoiceMainColumns(): ColumnDef<Invoice>[] {
   return [
@@ -31,16 +32,13 @@ export function orgInvoiceMainColumns(): ColumnDef<Invoice>[] {
       id: "period",
       header: "Period",
       cell: ({ row }) => {
-        const start = new Date(row.original.startDate).toLocaleDateString(
-          "en-US",
-          { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" }
-        );
-        const end = new Date(row.original.endDate).toLocaleDateString("en-US", {
-          month: "short",
-          day: "numeric",
-          year: "numeric",
-          timeZone: "UTC",
-        });
+        const start = row.original.startDate
+          ? format(new Date(row.original.startDate), "MMM d, yyyy")
+          : "-";
+        const end = row.original.endDate
+          ? format(new Date(row.original.endDate), "MMM d, yyyy")
+          : "-";
+
         return <p className="text-xs font-medium">{`${start} – ${end}`}</p>;
       },
     },

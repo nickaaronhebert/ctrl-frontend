@@ -1,18 +1,47 @@
-import { ShieldX, LogOut } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ShieldX } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import useAuthentication from "@/hooks/use-authentication";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "@/redux/store";
-import { logout } from "@/redux/slices/auth";
 
 const PermissionDenied = () => {
+  const { user, isLoadingUserDetails, isLoggedIn } = useAuthentication();
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
 
-  const handleSwitchAccount = () => {
-    dispatch(logout());
-    navigate("/", { replace: true });
-  };
+  console.log("user>>>", user);
+
+  useEffect(() => {
+    if (!isLoadingUserDetails && isLoggedIn) {
+      if (!user || !user.role?.name) {
+        navigate("/", { replace: true }); // Redirect to login if no user or role
+        return;
+      }
+
+      const role = user.role.name;
+      const status = user.providerStatus;
+
+      switch (role) {
+        case "Organization Admin":
+          navigate("/org/dashboard", { replace: true });
+          break;
+        case "Provider":
+          if (status === "med_submitted") {
+            navigate("/provider/pending-approval", { replace: true });
+          } else {
+            navigate("/provider/warning", { replace: true });
+          }
+          break;
+        case "Pharmacy Admin":
+          navigate("/pharmacy/transmissions", { replace: true });
+          break;
+        case "Platform Admin":
+          navigate("/admin/dashboard", { replace: true });
+          break;
+        default:
+          navigate("/", { replace: true });
+      }
+    }
+  }, [user, isLoadingUserDetails, isLoggedIn, navigate]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-50 via-white to-orange-50 flex items-center justify-center p-4">
@@ -69,19 +98,6 @@ const PermissionDenied = () => {
             </div>
           </CardContent>
         </Card>
-
-        {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <Button
-            onClick={handleSwitchAccount}
-            variant="destructive"
-            size="lg"
-            className="hover:scale-105 transition-all duration-200"
-          >
-            <LogOut className="w-5 h-5 mr-2" />
-            Sign in with a Different Account
-          </Button>
-        </div>
 
         {/* Help Text */}
         <div className="pt-8 border-t border-gray-200">

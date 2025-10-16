@@ -19,7 +19,7 @@ export default function ActivityLogs() {
   const [searchParams] = useSearchParams();
 
   const page = parseInt(searchParams.get("page") || "1", 10);
-  const perPage = parseInt(searchParams.get("per_page") ?? "10", 10);
+  const perPage = parseInt(searchParams.get("per_page") ?? "100", 10);
   const entityType = searchParams.get("entityType") ?? undefined;
   const { data: activityData, meta } = useViewAllAuditLogsQuery(
     { page, perPage, q: "", type: entityType as EntityType },

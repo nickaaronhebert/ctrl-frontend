@@ -15,7 +15,7 @@ import { Link, useSearchParams } from "react-router-dom";
 export default function PatientList() {
   const [searchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1", 10);
-  const perPage = parseInt(searchParams.get("per_page") ?? "10", 10);
+  const perPage = parseInt(searchParams.get("per_page") ?? "100", 10);
   const name = searchParams.get("firstName") ?? "";
   const { data: patientData, meta } = useGetPatientDetailsQuery(
     { page, perPage, q: name },

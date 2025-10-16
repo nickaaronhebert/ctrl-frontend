@@ -69,13 +69,18 @@ import {
 } from "@/redux/services/invoice";
 import { useSearchParams } from "react-router-dom";
 import OrganizationDialog from "@/components/common/organizationDialog/OrganizationDialog";
+import { toStartOfDayUTC } from "@/lib/utils";
+import { toEndOfDayUTC } from "@/lib/utils";
 
 export default function Invoices() {
   const [searchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1", 10);
-  const perPage = parseInt(searchParams.get("per_page") ?? "10", 10);
+  const perPage = parseInt(searchParams.get("per_page") ?? "100", 10);
+  // const pharmacy = searchParams.get("pharmacy") ?? "";
   const invoiceId = searchParams.get("invoiceId") ?? "";
   const [value, setValue] = useState<string>("");
+  const [openDatePicker, setOpenDatePicker] = useState(false);
+  const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
 
   const { data: pharmacyData } = useGetPharmaciesByOrgQuery(
     {},
@@ -89,7 +94,14 @@ export default function Invoices() {
   );
 
   const { data: invoiceData, meta } = useGetInvoicesQuery(
-    { page, perPage, q: invoiceId },
+    {
+      page,
+      perPage,
+      q: invoiceId,
+      pharmacy: value,
+      startDate: dateRange?.from ? toStartOfDayUTC(dateRange.from) : undefined,
+      endDate: dateRange?.to ? toEndOfDayUTC(dateRange.to) : undefined,
+    },
     {
       selectFromResult: ({ data, isLoading, isError }) => ({
         data: data?.data,
@@ -101,14 +113,13 @@ export default function Invoices() {
   );
 
   const columns = useMemo(() => orgInvoiceMainColumns(), []);
-  const [openDatePicker, setOpenDatePicker] = useState(false);
-  const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
 
   const { table } = useDataTable({
     data: invoiceData || [],
     columns,
     pageCount: meta?.pageCount ?? -1,
   });
+
   return (
     <div className="p-5">
       <div className="flex justify-between items-center w-full">

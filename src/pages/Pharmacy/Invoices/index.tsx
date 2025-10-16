@@ -11,12 +11,17 @@ import { invoiceMainColumns } from "@/components/data-table/columns/invoices-mai
 import OrganizationDialog from "@/components/common/organizationDialog/OrganizationDialog";
 import { useGetInvoicesQuery } from "@/redux/services/invoice";
 import { useGetOrganizationsQuery } from "@/redux/services/invoice";
+import { toStartOfDayUTC, toEndOfDayUTC } from "@/lib/utils";
 
 export default function PharmacyInvoices() {
   const [searchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1", 10);
-  const perPage = parseInt(searchParams.get("per_page") ?? "10", 10);
+  const perPage = parseInt(searchParams.get("per_page") ?? "100", 10);
   const invoiceId = searchParams.get("invoiceId") ?? "";
+  const columns = useMemo(() => invoiceMainColumns(), []);
+  const [openDatePicker, setOpenDatePicker] = useState(false);
+  const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
+  const [value, setValue] = useState<string>("");
 
   const { data: organizationsData } = useGetOrganizationsQuery(
     {},
@@ -30,7 +35,14 @@ export default function PharmacyInvoices() {
   );
 
   const { data: invoiceData, meta } = useGetInvoicesQuery(
-    { page, perPage, q: invoiceId },
+    {
+      page,
+      perPage,
+      q: invoiceId,
+      organization: value,
+      startDate: dateRange?.from ? toStartOfDayUTC(dateRange.from) : undefined,
+      endDate: dateRange?.to ? toEndOfDayUTC(dateRange.to) : undefined,
+    },
     {
       selectFromResult: ({ data, isLoading, isError }) => ({
         data: data?.data,
@@ -40,10 +52,6 @@ export default function PharmacyInvoices() {
       }),
     }
   );
-  const columns = useMemo(() => invoiceMainColumns(), []);
-  const [openDatePicker, setOpenDatePicker] = useState(false);
-  const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
-  const [value, setValue] = useState<string>("");
 
   const { table } = useDataTable({
     data: invoiceData || [],

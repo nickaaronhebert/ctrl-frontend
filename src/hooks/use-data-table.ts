@@ -50,7 +50,7 @@ export function useDataTable<TData, TValue>({
   data,
   columns,
   pageCount,
-  defaultPerPage = 10,
+  defaultPerPage = 100,
 
   filterFields = [],
   enableAdvancedFilter = false,

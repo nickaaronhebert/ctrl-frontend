@@ -15,7 +15,7 @@ import type { DataItem } from "@/types/responses/access-control";
 const AccessControl = () => {
   const [searchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1", 10);
-  const perPage = parseInt(searchParams.get("per_page") ?? "10", 10);
+  const perPage = parseInt(searchParams.get("per_page") ?? "100", 10);
   const drugName = searchParams.get("drugName") ?? "";
   const navigate = useNavigate();
 

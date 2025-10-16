@@ -18,7 +18,7 @@ import { globalPharmaciesTransmissionColumns } from "@/components/data-table/col
 export default function GlobalOrgPharmacies() {
   const [searchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1", 10);
-  const perPage = parseInt(searchParams.get("per_page") ?? "10", 10);
+  const perPage = parseInt(searchParams.get("per_page") ?? "100", 10);
   const name = searchParams.get("name") ?? "";
   const { data, meta } = useViewOrgPharmaciesTransmissionsV2Query(
     {

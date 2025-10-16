@@ -15,7 +15,7 @@ import { LoadingSpinner } from "@/components/ui/loading-spinner";
 export default function OrganizationAffiliatedProvider() {
   const [searchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1", 10);
-  const perPage = parseInt(searchParams.get("per_page") ?? "10", 10);
+  const perPage = parseInt(searchParams.get("per_page") ?? "100", 10);
   const providerFirstName = searchParams.get("firstName") ?? "";
   const providerNpiNumber = searchParams.get("npi") ?? "";
   const { data, isLoading, isError } = useViewAffiliateProvidersQuery({

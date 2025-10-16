@@ -6,9 +6,19 @@ import { TAG_GET_INVOICES } from "@/types/baseApiTags";
 export const invoiceApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getInvoices: builder.query<InvoicesApiResponse, ICommonSearchQuery>({
-      query: ({ page = 1, perPage = 10, q = "" }) => {
+      query: ({
+        page = 1,
+        perPage = 10,
+        q = "",
+        organization = "",
+        pharmacy = "",
+        startDate,
+        endDate,
+      }) => {
         return {
-          url: `/invoice?page=${page}&limit=${perPage}&q=${q}`,
+          url: `/invoice?page=${page}&limit=${perPage}&q=${q}&organization=${organization}&pharmacy=${pharmacy}&startDate=${
+            startDate ?? ""
+          }&endDate=${endDate ?? ""}`,
           method: "GET",
         };
       },
@@ -22,14 +32,14 @@ export const invoiceApi = baseApi.injectEndpoints({
       providesTags: [TAG_GET_INVOICES],
     }),
     getPharmaciesByOrg: builder.query({
-      query: () => ({
-        url: `/organization/pharmacies`,
+      query: ({ page = 1, perPage = 100 }) => ({
+        url: `/organization/pharmacies?page=${page}&limit=${perPage}`,
         method: "GET",
       }),
     }),
     getOrganizations: builder.query({
-      query: () => ({
-        url: `/pharmacy/organizations`,
+      query: ({ page = 1, perPage = 100 }) => ({
+        url: `/pharmacy/organizations?page=${page}&limit=${perPage}`,
         method: "GET",
       }),
     }),

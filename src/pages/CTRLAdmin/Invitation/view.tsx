@@ -17,7 +17,7 @@ import { Link, useSearchParams } from "react-router-dom";
 export default function InvitationList() {
   const [searchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1", 10);
-  const perPage = parseInt(searchParams.get("per_page") ?? "10", 10);
+  const perPage = parseInt(searchParams.get("per_page") ?? "100", 10);
   const type = searchParams.get("type") ?? "";
   const { data: invitationData, meta } = useViewAllInvitationsQuery(
     { page, perPage, status: type },
