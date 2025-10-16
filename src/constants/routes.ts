@@ -35,6 +35,7 @@ export const ROUTES = {
   CREATE_ORGANIZATION: "create-organization",
   CREATE_PHARMACY: "create-pharmacy",
   CREATE_MEDICATION: "create-medication",
+  EDIT_MEDICATION: "edit-medication/:id",
   ORG_DASHBOARD: "dashboard",
   ORG_TRANSMISSIONS: "transmissions",
   ORG_ORDERS: "orders",

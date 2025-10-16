@@ -13,6 +13,7 @@ import { variantColumns } from "@/components/data-table/columns/variant-column";
 import Medications from "@/assets/mainlayouticons/Medications";
 import PharmacyResults from "@/components/common/PharmacyResults/PharmacyResults";
 import { useGetPharmacyMedicinesQuery } from "@/redux/services/pharmacy";
+import useAuthentication from "@/hooks/use-authentication";
 
 type TabKey = "medicationDetails" | "medVariants" | "medPharmacies";
 
@@ -38,6 +39,8 @@ const menuItems = [
 const MedicationDetails = () => {
   const { id } = useParams();
   const location = useLocation();
+  const { user } = useAuthentication();
+
   const pathname = location.pathname.split("/").slice(0, 2).join("/");
 
   const { data: singleMedDetail, isLoading } =
@@ -71,17 +74,27 @@ const MedicationDetails = () => {
 
   return (
     <div className="mb-5">
-      <div className="bg-lilac py-3 px-12">
-        <Link
-          to={`${pathname}/medications`}
-          className="font-normal text-sm text text-muted-foreground"
-        >
-          {"<- Back to Medication Library"}
-        </Link>
+      <div className="bg-lilac py-3 px-12 flex justify-between items-center ">
+        <div>
+          <Link
+            to={`${pathname}/medications`}
+            className="font-normal text-sm text text-muted-foreground"
+          >
+            {"<- Back to Medication Library"}
+          </Link>
 
-        <h1 className="text-2xl font-bold mt-1">
-          Medication: {singleMedDetail?.data?.drugName}
-        </h1>
+          <h1 className="text-2xl font-bold mt-1">
+            Medication: {singleMedDetail?.data?.drugName}
+          </h1>
+        </div>
+        {user?.role?.name === "Platform Admin" && pathname === "/admin" && (
+          <Link
+            to={`/admin/edit-medication/${id}`}
+            className="bg-primary rounded-2xl text-white px-4 py-2 text-sm"
+          >
+            Edit Medication
+          </Link>
+        )}
       </div>
       <div className="flex gap-8 px-14 mt-6">
         <div
