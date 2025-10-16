@@ -19,8 +19,13 @@ const variantSchema = z.object({
     .number({
       invalid_type_error: "Invalid Number",
     })
-    .int("Invalid Number")
     .positive("Invalid Number"),
+  // containerQuantity: z.coerce
+  //   .number({
+  //     invalid_type_error: "Invalid Number",
+  //   })
+  //   .int("Invalid Number")
+  //   .positive("Invalid Number"),
 });
 
 const editVariantSchema = z.object({
@@ -30,8 +35,14 @@ const editVariantSchema = z.object({
     .number({
       invalid_type_error: "Invalid Number",
     })
-    .int("Invalid Number")
     .positive("Invalid Number"),
+
+  // containerQuantity: z.coerce
+  //   .number({
+  //     invalid_type_error: "Invalid Number",
+  //   })
+  //   .int("Invalid Number")
+  //   .positive("Invalid Number"),
   id: z.string().optional(),
 });
 
