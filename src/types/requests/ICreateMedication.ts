@@ -1,4 +1,4 @@
-interface MedicationCatalogue {
+export interface MedicationCatalogue {
   drugName: string;
   isCompound: boolean;
 
@@ -22,3 +22,7 @@ interface MedicationCatalogue {
 }
 
 export interface ICreateMedicationCatalogue extends MedicationCatalogue {}
+export interface IEditMedicationCatalogue {
+  data: MedicationCatalogue;
+  id: string;
+}

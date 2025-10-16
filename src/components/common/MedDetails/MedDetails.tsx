@@ -5,7 +5,7 @@ import MedicationLibrary from "@/assets/icons/MedicationLibrary";
 interface MedDetailsProps {
   drugName: string;
   isCompound: boolean;
-  compoundBaseDrug: string | null;
+  compoundBaseDrug?: string;
   category: string;
   variants: MedicationVariant[];
   form: string;

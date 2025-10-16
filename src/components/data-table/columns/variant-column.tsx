@@ -2,8 +2,9 @@ import { type ColumnDef } from "@tanstack/react-table";
 
 type VariantData = {
   strength: string;
-  containerQuantity: string;
+  containerQuantity: number;
   quantityType: string;
+  id: string;
 };
 
 export function variantColumns(): ColumnDef<VariantData>[] {

@@ -78,6 +78,7 @@ import ViewMedicationCatalogue from "./pages/CTRLAdmin/MedicationCatalogue/view"
 import PharmacyOrganizationStatus from "./pages/Pharmacy/Organization";
 import CreateSubOrganization from "./pages/Organization/SubOrganization/Create";
 import ViewSubOrganization from "./pages/Organization/SubOrganization";
+import EditMedicationCatalogue from "./pages/CTRLAdmin/MedicationCatalogue/edit";
 
 const router = createBrowserRouter([
   {
@@ -555,6 +556,10 @@ const router = createBrowserRouter([
       {
         path: ROUTES.CREATE_MEDICATION,
         element: <MedicationCatalogue />,
+      },
+      {
+        path: ROUTES.EDIT_MEDICATION,
+        element: <EditMedicationCatalogue />,
       },
       {
         path: ROUTES.CTRL_MEDICATIONS,
