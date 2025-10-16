@@ -5,7 +5,7 @@ import Login from "./pages/Auth/Login";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
 import ResetLinkScreen from "./pages/Auth/ResetLinkScreen";
 import ResetPassword from "./pages/Auth/ResetPassword";
-import PermissionDenied from "./pages/Auth/PermissionDenied/PermissionDenied";
+// import PermissionDenied from "./pages/Auth/PermissionDenied/PermissionDenied";
 import OnboardingLayout from "./components/Layout/Onboarding";
 import RegisterProvider from "./components/provider/register";
 import WelcomeProvider from "./components/provider/welcome";
@@ -681,10 +681,10 @@ const router = createBrowserRouter([
     path: ROUTES.RESET_PASSWORD,
     element: <ResetPassword />,
   },
-  {
-    path: ROUTES.UNAUTHORIZED,
-    element: <PermissionDenied />,
-  },
+  // {
+  //   path: ROUTES.UNAUTHORIZED,
+  //   element: <PermissionDenied />,
+  // },
   {
     path: ROUTES.PROVIDER_DASHBOARD,
     element: <ProviderDashboard />,

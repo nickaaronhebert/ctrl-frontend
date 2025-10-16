@@ -26,7 +26,7 @@ const LoginVerification = () => {
       } else if (role === "Pharmacy Admin") {
         navigate("/pharmacy/transmissions", { replace: true });
       } else {
-        navigate("/unauthorized", { replace: true });
+        navigate("/", { replace: true });
       }
     }
   }, [isLoadingUserDetails, isLoggedIn, user, navigate]);

@@ -99,10 +99,10 @@ export function MedicationCard({ medication }: MedicationCardProps) {
                       onCheckedChange={() => handleVariantToggle(variant)}
                       className="h-4 w-4 bg-white"
                     />
-                    {/* <span className="text-sm ml-2 text-foreground">
-                      {variant?.name}
-                    </span> */}
-                    <span className="text-sm ml-2 text-foreground">-</span>
+                    <span className="text-sm ml-2 text-foreground">
+                      {variant?.name ? variant?.name : "-"}
+                    </span>
+                    {/* <span className="text-sm ml-2 text-foreground">-</span> */}
                   </div>
                 </div>
               );

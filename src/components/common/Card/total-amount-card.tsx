@@ -54,7 +54,7 @@ export function TotalAmountCard({
                 ? (data?.totalAmount).toFixed(2)
                 : data?.medicationFee}
             </p>
-            {screenType === "organization" && (
+            {/* {screenType === "organization" && (
               <p className="text-[12px] mt-1 text-gray-400 font-semibold">
                 (Includes{" "}
                 <span className="text-[12px] font-semibold text-[#BD51BB]">
@@ -62,7 +62,7 @@ export function TotalAmountCard({
                 </span>{" "}
                 CTRL service fees)
               </p>
-            )}
+            )} */}
           </div>
 
           {isNotPaid(data?.status) && screenType !== "pharmacy" && (

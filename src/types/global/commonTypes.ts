@@ -123,11 +123,12 @@ export interface MedicationCatalogue {
 // }
 
 export interface ProductVariant {
-  medicationCatalogue: MedicationCatalogue;
+  medicationCatalogue?: MedicationCatalogue;
   strength: string;
   quantityType: string;
   containerQuantity: number;
   id: string;
+  name?: string;
 }
 
 export interface Provider {

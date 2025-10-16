@@ -44,10 +44,6 @@ const AccessDetail = () => {
     { data: variantAccessControlData, isError, isFetching },
   ] = useLazyGetAccessControlByProductVariantQuery();
 
-  // const [, setAccessControlVariantData] = useState<SingleAccessResponse | null>(
-  //   null
-  // );
-
   useEffect(() => {
     if (id && singleAccessControl) {
       setSelectedMedication({

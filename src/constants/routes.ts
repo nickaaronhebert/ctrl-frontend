@@ -10,7 +10,7 @@ export const ROUTES = {
   FORGOT_PASSWORD: "/forgot-password",
   RESET_PASSWORD: "/reset-password",
   RESET_LINK: "/reset-link",
-  UNAUTHORIZED: "/unauthorized",
+  UNAUTHORIZED: "/",
   NOT_FOUND: "*",
   PHARMACY_ONBOARDING: "/pharmacy-onboarding",
   ORGANIZATION_ADMIN_ONBOARDING: "/organization-onboarding",

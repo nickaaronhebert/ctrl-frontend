@@ -39,6 +39,10 @@ export function VariantSelection({
 
   const variantOptions = data?.data;
 
+  console.log("Variant Optionss>>>>>", variantOptions);
+
+  console.log("Selected Variant>>>", selectedVariant);
+
   return (
     <Select
       disabled={disabled}
@@ -70,7 +74,7 @@ export function VariantSelection({
 
           {data?.data?.productVariants?.map((med: ProductVariant) => (
             <SelectItem key={med.id} value={med.id.toString()}>
-              {med.strength}
+              {med.name ? med?.name : "-"}
             </SelectItem>
           ))}
         </SelectGroup>

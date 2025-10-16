@@ -37,7 +37,7 @@ function PrescriptionCard({ transmission }: { transmission: Transmission }) {
           >
             <div className="flex justify-between items-center p-5 border-b border-card-border">
               <h2 className="text-base font-semibold">
-                {prescription.productVariant.medicationCatalogue.drugName}
+                {prescription.productVariant.medicationCatalogue?.drugName}
               </h2>
 
               <div>

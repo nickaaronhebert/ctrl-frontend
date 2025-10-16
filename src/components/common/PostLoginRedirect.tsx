@@ -25,7 +25,7 @@ const PostLoginRedirect = () => {
       } else if (role === "Platform Admin") {
         navigate("/admin/dashboard");
       } else {
-        navigate("/unauthorized", { replace: true });
+        navigate("/", { replace: true });
       }
     }
   }, [isLoadingUserDetails, isLoggedIn, user, navigate]);

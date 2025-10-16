@@ -10,6 +10,7 @@ const Login = () => {
 
   useEffect(() => {
     if (!isLoadingUserDetails && isLoggedIn && user) {
+      console.log("user>>>>", user);
       const role = user.role.name;
       const status = user.providerStatus;
 
@@ -23,8 +24,10 @@ const Login = () => {
         }
       } else if (role === "Pharmacy Admin") {
         navigate("/pharmacy/transmissions", { replace: true });
+      } else if (role === "Platform Admin") {
+        navigate("/admin/dashboard");
       } else {
-        navigate("/unauthorized", { replace: true });
+        navigate("/", { replace: true });
       }
     }
   }, [isLoadingUserDetails, isLoggedIn, user, navigate]);
