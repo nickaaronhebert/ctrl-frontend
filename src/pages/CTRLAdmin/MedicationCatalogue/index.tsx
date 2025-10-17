@@ -40,6 +40,43 @@ const routeTypes = [
     value: "Topical",
   },
 ];
+
+const categoryTypes = [
+  { label: "Pain Management", value: "pain_management" },
+  {
+    label: "Hormone Replacement Therapy (HRT)",
+    value: "hormone_replacement_therapy",
+  },
+  { label: "Erectile Dysfunction", value: "erectile_dysfunction" },
+  { label: "Women's Health", value: "womens_health" },
+  { label: "Sexual Health", value: "sexual_health" },
+  { label: "Pediatrics", value: "pediatrics" },
+  { label: "Dermatology", value: "dermatology" },
+  { label: "Veterinary Medicine", value: "veterinary_medicine" },
+  { label: "Podiatry", value: "podiatry" },
+  { label: "GI and Digestive Health", value: "gi_health" },
+  { label: "ENT (Ear, Nose & Throat)", value: "ent" },
+  { label: "Ophthalmology", value: "ophthalmology" },
+  { label: "Urology", value: "urology" },
+  { label: "Neurology", value: "neurology" },
+  { label: "Mental Health", value: "mental_health" },
+  { label: "Adrenal Support", value: "adrenal_support" },
+  { label: "Thyroid Support", value: "thyroid_support" },
+  { label: "Immunotherapy", value: "immunotherapy" },
+  { label: "Sports Medicine", value: "sports_medicine" },
+  { label: "Weight Management", value: "weight_management" },
+  { label: "Anti-Aging", value: "anti_aging" },
+  { label: "Wound Care", value: "wound_care" },
+  { label: "Infectious Disease", value: "infectious_disease" },
+  { label: "Oncology Support", value: "oncology_support" },
+  { label: "Allergy Treatments", value: "allergy_treatments" },
+  { label: "Hair Restoration", value: "hair_restoration" },
+  { label: "Sleep Disorders", value: "sleep_disorders" },
+  { label: "Migraine Therapy", value: "migraine_therapy" },
+  { label: "Cardiovascular Support", value: "cardiovascular_support" },
+  { label: "Geriatric Care", value: "geriatric_care" },
+];
+
 export default function CreateMedicationCatalogue() {
   const navigate = useNavigate();
 
@@ -160,7 +197,18 @@ export default function CreateMedicationCatalogue() {
             /> */}
 
             <CenteredRow>
-              <InputElement
+              <SelectElement
+                errorClassName="text-right"
+                name={`category`}
+                label="Category"
+                options={categoryTypes}
+                placeholder="Enter category"
+                className="w-[620px] min-h-[56px] "
+                isRequired={true}
+                // defaultValue={data?.category}
+                triggerClassName="border border-[#9EA5AB] bg-transparent"
+              />
+              {/* <InputElement
                 name="category"
                 className="w-[620px]"
                 label="Category"
@@ -168,7 +216,7 @@ export default function CreateMedicationCatalogue() {
                 isRequired={true}
                 placeholder="Enter category"
                 inputClassName="border border-[#9EA5AB]"
-              />
+              /> */}
               {/* <InputElement
                 name="condition"
                 className="w-[300px]"

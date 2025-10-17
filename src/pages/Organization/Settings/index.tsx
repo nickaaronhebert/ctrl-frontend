@@ -3,9 +3,10 @@ import { useState } from "react";
 import OrgStripeAccount from "./StripeAccount";
 import OrgAdminProfileSettings from "./Profile";
 import OrgAdminPasswordSettings from "./ConfigurePassword";
+import CreateCredentials from "./Credentials";
 
 const settingsMenu: {
-  name: "Profile" | "Change Password" | "Payment Method";
+  name: "Profile" | "Change Password" | "Payment Method" | "Create Credentials";
 }[] = [
   {
     name: "Profile",
@@ -16,10 +17,13 @@ const settingsMenu: {
   {
     name: "Payment Method",
   },
+  {
+    name: "Create Credentials",
+  },
 ];
 export default function OrganizationSettings() {
   const [activeTab, setActiveTab] = useState<
-    "Profile" | "Change Password" | "Payment Method"
+    "Profile" | "Change Password" | "Payment Method" | "Create Credentials"
   >("Profile");
   return (
     <div className="p-5">
@@ -50,6 +54,7 @@ export default function OrganizationSettings() {
         {activeTab === "Profile" && <OrgAdminProfileSettings />}
         {activeTab === "Change Password" && <OrgAdminPasswordSettings />}
         {activeTab === "Payment Method" && <OrgStripeAccount />}
+        {activeTab === "Create Credentials" && <CreateCredentials />}
       </div>
     </div>
   );

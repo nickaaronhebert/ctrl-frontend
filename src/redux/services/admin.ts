@@ -20,6 +20,7 @@ import {
 import type { IViewAllInvitationResponse } from "@/types/responses/IViewInvitation";
 
 import type { IGetAllSubOrganization } from "@/types/responses/IGetAllSuborganization";
+import type { IViewAllCredentialsResponse } from "@/types/responses/IViewAllCredentials";
 
 const adminApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -81,6 +82,21 @@ const adminApi = baseApi.injectEndpoints({
         body,
       }),
       invalidatesTags: [TAG_GET_PHARMACY],
+    }),
+
+    generateCredentials: builder.mutation({
+      query: (body) => ({
+        url: `/organization/api-keys`,
+        method: "POST",
+        body,
+      }),
+    }),
+
+    viewCredentials: builder.query<IViewAllCredentialsResponse, void>({
+      query: () => ({
+        url: `/organization/api-keys`,
+        method: "GET",
+      }),
     }),
 
     // Stats API organziation //
@@ -161,6 +177,8 @@ export const {
   useInviteProviderMutation,
   useViewAllInvitationsQuery,
   useCreateSubOrganizationMutation,
+  useGenerateCredentialsMutation,
+  useViewCredentialsQuery,
   useViewAllSubOrganizationQuery,
 } = adminApi;
 
