@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { useGetPharmacyCatalogueQuery } from "@/redux/services/pharmacy";
 // import { MedicationCatalogueCard } from "@/components/common/Card/medication-catalogue-card";
 import { useSearchParams } from "react-router-dom";
-// import { PaginationWithLinks } from "@/components/common/PaginationLink/PaginationLink";
+import { PaginationWithLinks } from "@/components/common/PaginationLink/PaginationLink";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import {
   Tooltip,
@@ -70,7 +70,7 @@ export function ViewCatalogueModal({ pharmacy }: any) {
       </Tooltip>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="min-w-6xl p-5 max-h-[80vh] overflow-y-scroll flex flex-col">
+        <DialogContent className="min-w-6xl p-5 max-h-[80vh]  flex flex-col">
           <DialogHeader>
             <DialogTitle>Catalogue</DialogTitle>
           </DialogHeader>
@@ -85,13 +85,13 @@ export function ViewCatalogueModal({ pharmacy }: any) {
             )}
           </ScrollArea>
 
-          {/* <div className="mt-4 flex-shrink-0">
+          <div className="mt-4 flex-shrink-0">
             <PaginationWithLinks
               page={page}
               pageSize={perPage}
               totalCount={data?.meta?.itemCount}
             />
-          </div> */}
+          </div>
         </DialogContent>
       </Dialog>
     </>

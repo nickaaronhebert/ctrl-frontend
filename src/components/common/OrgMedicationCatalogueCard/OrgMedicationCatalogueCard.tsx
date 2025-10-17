@@ -10,7 +10,7 @@ export function OrgMedicationCatalogueCard({
 }: MedicationCatalogueCardProps) {
   return (
     <div className="p-6">
-      <div className="space-y-6">
+      <div className="space-y-6 max-h-[63vh] overflow-scroll">
         {data.data.map((medication: PharmacyCatalogue) => {
           return (
             <OrgMedicationRow key={medication._id} medication={medication} />
