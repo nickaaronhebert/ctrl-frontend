@@ -1,3 +1,4 @@
+import type { MedicationCatalogue } from "@/types/global/commonTypes";
 import { createContext, useContext, useState, type ReactNode } from "react";
 
 export interface ProductVariant {
@@ -6,6 +7,7 @@ export interface ProductVariant {
   containerQuantity: number;
   id: string;
   name?: string;
+  medicationCatalogue: MedicationCatalogue;
 }
 
 export interface Medication {

@@ -57,7 +57,7 @@
 import { DataTable } from "@/components/data-table/data-table";
 import { DataTablePagination } from "@/components/data-table/data-table-pagination";
 import { useDataTable } from "@/hooks/use-data-table";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { orgInvoiceMainColumns } from "@/components/data-table/columns/org-invoices-main";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
@@ -72,17 +72,29 @@ import OrganizationDialog from "@/components/common/organizationDialog/Organizat
 import { toStartOfDayUTC } from "@/lib/utils";
 import { toEndOfDayUTC } from "@/lib/utils";
 import { useGetSubOrgsQuery } from "@/redux/services/invoice";
+import { useNavigate } from "react-router-dom";
 
 export default function Invoices() {
   const [searchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1", 10);
   const perPage = parseInt(searchParams.get("per_page") ?? "100", 10);
+  const navigate = useNavigate();
   // const pharmacy = searchParams.get("pharmacy") ?? "";
   const invoiceId = searchParams.get("invoiceId") ?? "";
   const [value, setValue] = useState<string>("");
   const [subOrgValue, setSubOrgValue] = useState<string>("");
   const [openDatePicker, setOpenDatePicker] = useState(false);
   const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
+
+  useEffect(() => {
+    if (page !== 1 && (value || subOrgValue || dateRange)) {
+      const newSearchParams = new URLSearchParams(location.search);
+      newSearchParams.set("page", "1");
+      navigate(`${location.pathname}?${newSearchParams.toString()}`, {
+        replace: true,
+      });
+    }
+  }, [value, subOrgValue, dateRange]);
 
   const { data: pharmacyData } = useGetPharmaciesByOrgQuery(
     {},
@@ -156,6 +168,7 @@ export default function Invoices() {
             <OrganizationDialog
               value={subOrgValue}
               setValue={setSubOrgValue}
+              table={table}
               data={subOrgsData}
               placeholder="All Sub Orgs"
             />

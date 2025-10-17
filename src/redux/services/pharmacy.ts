@@ -85,10 +85,14 @@ export const pharmacyApi = baseApi.injectEndpoints({
     }),
     getPharmacyCatalogue: builder.query({
       providesTags: [TAG_GET_PHARMACY_CATALOGUE],
-      query: ({ page, perPage }) => ({
-        url: `/pharmacy-catalogue?page=${page}&limit=${perPage}`,
-        method: "GET",
-      }),
+      query: ({ page, perPage, pharmacy }) => {
+        const isPharmacy = pharmacy ? `&pharmacy=${pharmacy}` : "";
+        return {
+          url: `/pharmacy-catalogue?page=${page}&limit=${perPage}${isPharmacy}
+          `,
+          method: "GET",
+        };
+      },
     }),
     getAvailableMedication: builder.query({
       providesTags: [TAG_GET_PHARMACY_CATALOGUE],

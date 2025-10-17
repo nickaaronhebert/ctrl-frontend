@@ -1,3 +1,4 @@
+import { ViewCatalogueModal } from "@/components/common/ViewCatalogueModal/ViewCatalogueModal";
 import PharmacyConnectDialog from "@/components/dialog/connect";
 import { Button } from "@/components/ui/button";
 import type { TransmissionsStats } from "@/types/responses/IViewOrgPharmaciesTranmissions";
@@ -68,7 +69,7 @@ export function globalPharmaciesTransmissionColumns(): ColumnDef<TransmissionsSt
         const remainingCount = states.length - 4;
 
         return (
-          <div className="  ">
+          <div className="flex items-center gap-2">
             <div className="flex flex-wrap gap-2">
               {displayedStates.map((state, index) => (
                 <div
@@ -89,6 +90,7 @@ export function globalPharmaciesTransmissionColumns(): ColumnDef<TransmissionsSt
                 </div>
               </div>
             )}
+            <ViewCatalogueModal pharmacy={row.original.id} />
           </div>
         );
       },

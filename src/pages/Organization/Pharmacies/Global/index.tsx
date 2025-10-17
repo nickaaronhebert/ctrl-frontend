@@ -14,6 +14,8 @@ import type { TransmissionsStats } from "@/types/responses/IViewOrgPharmaciesTra
 
 import { useViewOrgPharmaciesTransmissionsV2Query } from "@/redux/services/transmission";
 import { globalPharmaciesTransmissionColumns } from "@/components/data-table/columns/global-pharmacies";
+import { useGetPharmacyCatalogueQuery } from "@/redux/services/pharmacy";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 export default function GlobalOrgPharmacies() {
   const [searchParams] = useSearchParams();
@@ -37,6 +39,18 @@ export default function GlobalOrgPharmacies() {
     }
   );
 
+  const {
+    data: pharmacyData,
+    error,
+    isLoading,
+    isFetching,
+  } = useGetPharmacyCatalogueQuery({
+    page,
+    perPage,
+  });
+
+  console.log("data>>", pharmacyData);
+
   const columns = useMemo(() => globalPharmaciesTransmissionColumns(), []);
   const filterFields: DataTableFilterField<TransmissionsStats>[] = [
     {
@@ -51,6 +65,18 @@ export default function GlobalOrgPharmacies() {
     filterFields,
     pageCount: meta?.pageCount ?? -1,
   });
+
+  if (isLoading || isFetching) {
+    return (
+      <div className="flex justify-center items-center h-[80vh]">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div>Error loading pharmacy catalogue.</div>;
+  }
 
   return (
     <>

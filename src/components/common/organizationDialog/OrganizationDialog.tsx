@@ -14,6 +14,7 @@ type ControlledSelectProps = {
   setValue: React.Dispatch<React.SetStateAction<string>>;
   data?: any;
   placeholder: string;
+  table?: any;
 };
 
 const OrganizationDialog = ({
@@ -21,9 +22,15 @@ const OrganizationDialog = ({
   setValue,
   data,
   placeholder,
+  table,
 }: ControlledSelectProps) => {
+  const handleValueChange = (newValue: string) => {
+    setValue(newValue);
+    table.setPageIndex(0);
+  };
+
   return (
-    <Select value={value} onValueChange={setValue}>
+    <Select value={value} onValueChange={handleValueChange}>
       <SelectTrigger className="w-[180px] text-black">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
