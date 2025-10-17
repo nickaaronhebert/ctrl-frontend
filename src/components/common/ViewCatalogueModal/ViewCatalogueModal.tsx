@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { useGetPharmacyCatalogueQuery } from "@/redux/services/pharmacy";
 // import { MedicationCatalogueCard } from "@/components/common/Card/medication-catalogue-card";
 import { useSearchParams } from "react-router-dom";
-import { PaginationWithLinks } from "@/components/common/PaginationLink/PaginationLink";
+// import { PaginationWithLinks } from "@/components/common/PaginationLink/PaginationLink";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import {
   Tooltip,
