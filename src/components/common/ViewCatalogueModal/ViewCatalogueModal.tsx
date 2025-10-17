@@ -85,13 +85,13 @@ export function ViewCatalogueModal({ pharmacy }: any) {
             )}
           </ScrollArea>
 
-          <div className="mt-4 flex-shrink-0">
+          {/* <div className="mt-4 flex-shrink-0">
             <PaginationWithLinks
               page={page}
               pageSize={perPage}
               totalCount={data?.meta?.itemCount}
             />
-          </div>
+          </div> */}
         </DialogContent>
       </Dialog>
     </>
