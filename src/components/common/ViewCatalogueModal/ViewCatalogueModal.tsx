@@ -70,7 +70,7 @@ export function ViewCatalogueModal({ pharmacy }: any) {
       </Tooltip>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="min-w-6xl p-5 max-h-[80vh] flex flex-col">
+        <DialogContent className="min-w-6xl p-5 max-h-[80vh] overflow-y-scroll flex flex-col">
           <DialogHeader>
             <DialogTitle>Catalogue</DialogTitle>
           </DialogHeader>
