@@ -128,7 +128,7 @@ function GenerateCredentials({
 }) {
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState<Date | undefined>(undefined);
-  const [GenerateCredentials] = useGenerateCredentialsMutation();
+  const [GenerateCredentials, { isLoading }] = useGenerateCredentialsMutation();
 
   async function handleSubmit() {
     await GenerateCredentials({
@@ -213,7 +213,7 @@ function GenerateCredentials({
         className="rounded-[18px]"
         variant={"ctrl"}
         size={"lg"}
-        disabled={!date}
+        disabled={!date || isLoading}
         onClick={handleSubmit}
       >
         {" "}

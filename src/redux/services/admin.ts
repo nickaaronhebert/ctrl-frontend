@@ -11,6 +11,7 @@ import type {
 } from "@/types/responses/Invitation";
 import type { IViewAllPharmaciesResponse } from "@/types/responses/IViewAllPharmacies";
 import {
+  TAG_GET_CREDENTIALS,
   TAG_GET_INVITATIONS,
   TAG_GET_ORGANIZATIONS,
   TAG_GET_PHARMACY,
@@ -90,6 +91,7 @@ const adminApi = baseApi.injectEndpoints({
         method: "POST",
         body,
       }),
+      invalidatesTags: [TAG_GET_CREDENTIALS],
     }),
 
     viewCredentials: builder.query<IViewAllCredentialsResponse, void>({
@@ -97,6 +99,7 @@ const adminApi = baseApi.injectEndpoints({
         url: `/organization/api-keys`,
         method: "GET",
       }),
+      providesTags: [TAG_GET_CREDENTIALS],
     }),
 
     // Stats API organziation //
