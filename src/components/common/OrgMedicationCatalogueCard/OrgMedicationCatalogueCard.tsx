@@ -9,7 +9,7 @@ export function OrgMedicationCatalogueCard({
   data,
 }: MedicationCatalogueCardProps) {
   return (
-    <div className="p-6">
+    <div className="p-4">
       <div className="space-y-6">
         {data.data.map((medication: PharmacyCatalogue) => {
           return (

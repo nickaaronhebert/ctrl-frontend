@@ -3,6 +3,7 @@ import PharmacyConnectDialog from "@/components/dialog/connect";
 import { Button } from "@/components/ui/button";
 import type { TransmissionsStats } from "@/types/responses/IViewOrgPharmaciesTranmissions";
 import type { ColumnDef } from "@tanstack/react-table";
+import { Eye } from "lucide-react";
 import { useState } from "react";
 
 export function globalPharmaciesTransmissionColumns(): ColumnDef<TransmissionsStats>[] {
@@ -19,20 +20,6 @@ export function globalPharmaciesTransmissionColumns(): ColumnDef<TransmissionsSt
         );
       },
     },
-
-    // {
-    //   accessorKey: "email", // just for sorting/filtering on firstName
-    //   header: "Email",
-    //   cell: ({ row }) => {
-    //     const { email } = row.original;
-    //     return (
-    //       <>
-    //         <p className="text-sm font-medium">{email}</p>
-    //       </>
-    //     );
-    //   },
-    // },
-
     {
       accessorKey: "phoneNumber", // just for sorting/filtering on firstName
       header: "Contact Info",
@@ -59,6 +46,7 @@ export function globalPharmaciesTransmissionColumns(): ColumnDef<TransmissionsSt
       accessorKey: "allowedStates", // just for sorting/filtering on firstName
       header: "Available States",
       cell: ({ row }) => {
+        const [catalogueOpen, setCatalogueOpen] = useState(false);
         const states: string[] = row.getValue("allowedStates");
         if (!states || states.length === 0) {
           return (
@@ -69,29 +57,47 @@ export function globalPharmaciesTransmissionColumns(): ColumnDef<TransmissionsSt
         const remainingCount = states.length - 4;
 
         return (
-          <div className="flex items-center gap-2">
-            <div className="flex flex-wrap gap-2">
-              {displayedStates.map((state, index) => (
-                <div
-                  key={index}
-                  className=" py-1.5 px-2 bg-[#E5F3FC] rounded-[8px]"
-                >
-                  <div className="font-medium text-black text-sm mb-1">
-                    {state}
+          <>
+            <div className="flex items-center gap-2">
+              <div className="flex flex-wrap gap-2">
+                {displayedStates.map((state, index) => (
+                  <div
+                    key={index}
+                    className=" py-1.5 px-2 bg-[#E5F3FC] rounded-[8px]"
+                  >
+                    <div className="font-medium text-black text-sm mb-1">
+                      {state}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {remainingCount > 0 && (
+                <div className="mt-3  ">
+                  <div className="text-[#008CE3] text-sm font-medium underline underline-offset-2">
+                    +{remainingCount} state{remainingCount > 1 ? "s" : ""}
                   </div>
                 </div>
-              ))}
+              )}
+              {/* <ViewCatalogueModal pharmacy={row.original.id} /> */}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setCatalogueOpen(true)}
+                className="h-8 w-8 p-0 hover:bg-blue-50"
+              >
+                <Eye className="h-6 w-6 text-gray-500" />
+              </Button>
             </div>
 
-            {remainingCount > 0 && (
-              <div className="mt-3  ">
-                <div className="text-[#008CE3] text-sm font-medium underline underline-offset-2">
-                  +{remainingCount} state{remainingCount > 1 ? "s" : ""}
-                </div>
-              </div>
+            {catalogueOpen && (
+              <ViewCatalogueModal
+                pharmacy={row.original.id}
+                open={catalogueOpen}
+                setOpen={setCatalogueOpen}
+              />
             )}
-            <ViewCatalogueModal pharmacy={row.original.id} />
-          </div>
+          </>
         );
       },
     },
