@@ -25,7 +25,7 @@ export default function PharmacyOrganizationStatus() {
         </div>
       </div>
 
-      <div className="flex gap-2.5 mt-4">
+      <div className="flex gap-2.5 my-2">
         <Button
           size={"xxl"}
           variant={"tabs"}

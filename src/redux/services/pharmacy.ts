@@ -132,9 +132,19 @@ export const pharmacyApi = baseApi.injectEndpoints({
     }),
 
     acceptConnectionInvite: builder.mutation({
-      query: (invitationId) => ({
-        url: `/pharmacy/approve-invitation/${invitationId}/accept`,
+      query: (body) => ({
+        url: `/pharmacy/approve-invitation`,
         method: "POST",
+        body,
+      }),
+      invalidatesTags: [TAG_GET_CONNECTED_ORGANIZATION],
+    }),
+
+    createPharmacyCreds: builder.mutation({
+      query: (body) => ({
+        url: `/pharmacy/creds`,
+        method: "POST",
+        body,
       }),
       invalidatesTags: [TAG_GET_CONNECTED_ORGANIZATION],
     }),
@@ -156,4 +166,5 @@ export const {
   useSendConnectionInviteMutation,
   useRejectConnectionInviteMutation,
   useAcceptConnectionInviteMutation,
+  useCreatePharmacyCredsMutation,
 } = pharmacyApi;

@@ -27,14 +27,11 @@ export function PayInvoiceDialog({
   cards,
   refetch,
 }: PayInvoiceDialogProps) {
-  console.log("Single invoice data>>", data);
-  console.log("card:: ", cards);
   const [payInvoice, { isLoading }] = usePayInvoiceMutation();
   const [method, setMethod] = useState<"card" | "stripe-link">("card");
   const [isWaitingForWebhook, setIsWaitingForWebhook] = useState(false);
 
   const defaultCard = cards.find((card: any) => card.isDefault);
-  console.log("defaultCard", defaultCard);
 
   const handleCardPayment = async () => {
     if (!defaultCard || !data?.invoiceId) return;

@@ -49,8 +49,6 @@ export function ViewCatalogueModal({ pharmacy }: any) {
     return <div>Error loading pharmacy catalogue.</div>;
   }
 
-  console.log("data>>", data);
-
   return (
     <>
       <Tooltip>

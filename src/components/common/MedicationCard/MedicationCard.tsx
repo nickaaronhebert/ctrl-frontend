@@ -87,7 +87,6 @@ export function MedicationCard({ medication }: MedicationCardProps) {
           </div>
           <div className="space-y-2">
             {medication.productVariants.map((variant: ProductVariant) => {
-              console.log("variant>>>", variant);
               return (
                 <div
                   key={variant.id}

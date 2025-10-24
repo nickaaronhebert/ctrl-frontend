@@ -24,7 +24,7 @@ import {
 import { useForm } from "react-hook-form";
 import {
   basicAuthenticationSchema,
-  basicTokenAuthenticationSchema,
+  // basicTokenAuthenticationSchema,
 } from "@/schemas/createOrganizationCredentialSchema";
 import InputElement from "@/components/Form/input-element";
 import TextAreaElement from "@/components/Form/textarea-elements";
@@ -220,81 +220,81 @@ function BasicAuthentication({
   );
 }
 
-function TokenAuthentication({
-  setCurrentStep,
-  setOpen,
-  setOpenConnection,
-}: AuthenticationProps) {
-  const form = useForm<z.infer<typeof basicTokenAuthenticationSchema>>({
-    mode: "onChange",
-    resolver: zodResolver(basicTokenAuthenticationSchema),
-    defaultValues: {
-      accessToken: "",
-      headers: "",
-    },
-  });
+// function TokenAuthentication({
+//   setCurrentStep,
+//   setOpen,
+//   setOpenConnection,
+// }: AuthenticationProps) {
+//   const form = useForm<z.infer<typeof basicTokenAuthenticationSchema>>({
+//     mode: "onChange",
+//     resolver: zodResolver(basicTokenAuthenticationSchema),
+//     defaultValues: {
+//       accessToken: "",
+//       headers: "",
+//     },
+//   });
 
-  async function onSubmit(
-    data: z.infer<typeof basicTokenAuthenticationSchema>
-  ) {
-    console.log("data", data);
-  }
+//   async function onSubmit(
+//     data: z.infer<typeof basicTokenAuthenticationSchema>
+//   ) {
+//     console.log("data", data);
+//   }
 
-  return (
-    <div className="">
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col  p-5 items-center"
-        >
-          <InputElement
-            name="accessToken"
-            className="w-full"
-            label="Access Token"
-            isRequired={true}
-            messageClassName="text-right"
-            placeholder="Eg. https://host27a.lifefile.net:10165/lfapi/v1%27"
-            inputClassName="border border-[#9EA5AB]"
-          />
+//   return (
+//     <div className="">
+//       <Form {...form}>
+//         <form
+//           onSubmit={form.handleSubmit(onSubmit)}
+//           className="flex flex-col  p-5 items-center"
+//         >
+//           <InputElement
+//             name="accessToken"
+//             className="w-full"
+//             label="Access Token"
+//             isRequired={true}
+//             messageClassName="text-right"
+//             placeholder="Eg. https://host27a.lifefile.net:10165/lfapi/v1%27"
+//             inputClassName="border border-[#9EA5AB]"
+//           />
 
-          <TextAreaElement
-            placeholder={`{"Authorization": "Bearer token", "X-Custom-Header": "value"}`}
-            name="headers"
-            isRequired={false}
-            label="Headers (JSON)"
-            className="w-full "
-            inputClassName="border border-[#9EA5AB] "
-          />
+//           <TextAreaElement
+//             placeholder={`{"Authorization": "Bearer token", "X-Custom-Header": "value"}`}
+//             name="headers"
+//             isRequired={false}
+//             label="Headers (JSON)"
+//             className="w-full "
+//             inputClassName="border border-[#9EA5AB] "
+//           />
 
-          <div className="flex justify-end  w-full gap-2.5">
-            <Button
-              variant={"transparent"}
-              size={"lg"}
-              type="button"
-              onClick={() => {
-                setCurrentStep(1);
-                setOpenConnection(true);
-                setOpen(false);
-              }}
-              // onClick={handleRejectInvitation}
-              className="min-w-40 text-[#E31010] border-[#E31010] bg-white rounded-[18px]"
-            >
-              Back
-            </Button>
-            <Button
-              variant={"ctrl"}
-              size={"lg"}
-              type="submit"
-              className="min-w-40 bg-[#21BB72] text-white rounded-[18px]"
-              // onClick={handleSendInvite}
-              // onClick={handleAcceptInvitation}
-            >
-              {" "}
-              Confirm & Accept
-            </Button>
-          </div>
-        </form>
-      </Form>
-    </div>
-  );
-}
+//           <div className="flex justify-end  w-full gap-2.5">
+//             <Button
+//               variant={"transparent"}
+//               size={"lg"}
+//               type="button"
+//               onClick={() => {
+//                 setCurrentStep(1);
+//                 setOpenConnection(true);
+//                 setOpen(false);
+//               }}
+//               // onClick={handleRejectInvitation}
+//               className="min-w-40 text-[#E31010] border-[#E31010] bg-white rounded-[18px]"
+//             >
+//               Back
+//             </Button>
+//             <Button
+//               variant={"ctrl"}
+//               size={"lg"}
+//               type="submit"
+//               className="min-w-40 bg-[#21BB72] text-white rounded-[18px]"
+//               // onClick={handleSendInvite}
+//               // onClick={handleAcceptInvitation}
+//             >
+//               {" "}
+//               Confirm & Accept
+//             </Button>
+//           </div>
+//         </form>
+//       </Form>
+//     </div>
+//   );
+// }
