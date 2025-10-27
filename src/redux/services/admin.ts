@@ -94,6 +94,14 @@ const adminApi = baseApi.injectEndpoints({
       invalidatesTags: [TAG_GET_CREDENTIALS],
     }),
 
+    revokeCredentials: builder.mutation({
+      query: (apiKeyId) => ({
+        url: `/organization/api-keys/${apiKeyId}/revoke`,
+        method: "PUT",
+      }),
+      invalidatesTags: [TAG_GET_CREDENTIALS],
+    }),
+
     viewCredentials: builder.query<IViewAllCredentialsResponse, void>({
       query: () => ({
         url: `/organization/api-keys`,
@@ -181,6 +189,7 @@ export const {
   useViewAllInvitationsQuery,
   useCreateSubOrganizationMutation,
   useGenerateCredentialsMutation,
+  useRevokeCredentialsMutation,
   useViewCredentialsQuery,
   useViewAllSubOrganizationQuery,
 } = adminApi;
