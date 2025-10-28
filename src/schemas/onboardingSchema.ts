@@ -4,7 +4,7 @@ import { phoneNumberSchema } from "./createPatientSchema";
 const minLengthErrorMessage = "Minimum 8 characters required.";
 const maxLengthErrorMessage = "Maximum 20 characters.";
 const uppercaseErrorMessage =
-  "Password should have at least have one uppercase letter.";
+  "Password should have at least one uppercase letter.";
 const lowercaseErrorMessage =
   "Password should have at least one lowercase letter.";
 const numberErrorMessage = "Password should have at least one number.";
