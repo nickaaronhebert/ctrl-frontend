@@ -43,7 +43,7 @@ export const providerApi = baseApi.injectEndpoints({
       query: ({ page, perPage, q = "", organization }) => {
         const orgUrl = organization ? `&organization=${organization}` : "";
         return {
-          url: `/business/affiliations?page=${page}&limit=${perPage}&q=${q}${orgUrl}`,
+          url: `/organization/affiliations?page=${page}&limit=${perPage}&q=${q}${orgUrl}`,
           method: "GET",
         };
       },
