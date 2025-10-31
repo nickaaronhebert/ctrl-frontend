@@ -5,6 +5,7 @@ export interface CtrlOrganization {
   id: string;
   email: string;
   phoneNumber: string;
+  isTelegraTrustedPartner?: boolean;
   status: string;
   createdAt: string;
   updatedAt: string;

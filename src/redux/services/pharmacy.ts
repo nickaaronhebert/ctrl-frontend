@@ -142,8 +142,16 @@ export const pharmacyApi = baseApi.injectEndpoints({
 
     createPharmacyCreds: builder.mutation({
       query: (body) => ({
-        url: `/pharmacy/creds`,
+        url: `/pharmacy/org-creds`,
         method: "POST",
+        body,
+      }),
+      invalidatesTags: [TAG_GET_CONNECTED_ORGANIZATION],
+    }),
+    updatePharmacyCreds: builder.mutation({
+      query: (body) => ({
+        url: `/pharmacy/org-creds`,
+        method: "PUT",
         body,
       }),
       invalidatesTags: [TAG_GET_CONNECTED_ORGANIZATION],
@@ -167,4 +175,5 @@ export const {
   useRejectConnectionInviteMutation,
   useAcceptConnectionInviteMutation,
   useCreatePharmacyCredsMutation,
+  useUpdatePharmacyCredsMutation,
 } = pharmacyApi;

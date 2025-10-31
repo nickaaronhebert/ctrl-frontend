@@ -22,15 +22,19 @@ import {
 } from "@/schemas/orgCredentialsSchema";
 import { Form, FormField } from "@/components/ui/form";
 import type z from "zod";
-import { useCreatePharmacyCredsMutation } from "@/redux/services/pharmacy";
+import {
+  useCreatePharmacyCredsMutation,
+  useUpdatePharmacyCredsMutation,
+} from "@/redux/services/pharmacy";
 import { toast } from "sonner";
 
 interface CreateOrganizationCredentialsModalProps {
   open: boolean;
   setOpen: (open: boolean) => void;
-  organizationName: string;
-  id: string;
-  invitation: string;
+  organizationName?: string;
+  id?: string;
+  invitation?: string;
+  update?: boolean;
 }
 
 export function CreateOrganizationCredentialsModal({
@@ -39,6 +43,7 @@ export function CreateOrganizationCredentialsModal({
   organizationName,
   id,
   invitation,
+  update = false,
 }: CreateOrganizationCredentialsModalProps) {
   const form = useForm<z.infer<typeof orgCredentialSchema>>({
     resolver: zodResolver(orgCredentialSchema),
@@ -53,6 +58,7 @@ export function CreateOrganizationCredentialsModal({
   });
 
   const [createPharmacyCreds, { isLoading }] = useCreatePharmacyCredsMutation();
+  const [updatePharmacyCreds] = useUpdatePharmacyCredsMutation();
 
   const platformType = form.watch("platformType");
 
@@ -88,8 +94,12 @@ export function CreateOrganizationCredentialsModal({
               authenticationType: "token",
               token: data.accessToken!,
             };
-
-      await createPharmacyCreds(payload).unwrap();
+      if (update) {
+        await updatePharmacyCreds(payload).unwrap();
+      } else {
+        await createPharmacyCreds(payload).unwrap();
+      }
+      console.log("Payload", payload);
 
       toast.success("Organization credentials created successfully!", {
         duration: 1500,
@@ -108,13 +118,15 @@ export function CreateOrganizationCredentialsModal({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="max-w-md p-5">
-        <DialogTitle>Create Organization Credentials</DialogTitle>
+        <DialogTitle>{` ${
+          update ? "Update" : "Create"
+        } Organization Credentials`}</DialogTitle>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <div className="space-y-4">
               <p className="text-sm text-gray-600">
-                Create credentials for {organizationName} to access your
-                pharmacy system.
+                {update ? "Update" : "Create"} credentials for{" "}
+                {organizationName} to access your pharmacy system.
               </p>
 
               {/* Platform Type Selection */}
