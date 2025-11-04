@@ -39,10 +39,6 @@ export function VariantSelection({
 
   const variantOptions = data?.data;
 
-  console.log("Variant Optionss>>>>>", variantOptions);
-
-  console.log("Selected Variant>>>", selectedVariant);
-
   return (
     <Select
       disabled={disabled}

@@ -51,7 +51,7 @@ export default function OrganizationAffiliatedProvider() {
           <DataTableToolbar table={table} filterFields={filterFields} />
           <Link
             to={"/org/invite-provider"}
-            className="flex items-center rounded-[50px] px-[20px] py-[5px] min-h-[40px]  text-white  font-semibold text-[12px] bg-primary-foreground "
+            className="flex items-center rounded-[50px] px-[20px] py-[5px] min-h-[40px]  text-white  font-semibold text-[12px] bg-primary-foreground"
           >
             Invite Provider
           </Link>

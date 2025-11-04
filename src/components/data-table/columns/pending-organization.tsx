@@ -1,7 +1,5 @@
 import OrganizationConnectActionDialog from "@/components/dialog/action";
-
 import { Button } from "@/components/ui/button";
-
 import type { ConnectedOrganization } from "@/types/responses/IConnectedOrganization";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
@@ -38,7 +36,8 @@ export function pendingOrganizationColumns(): ColumnDef<ConnectedOrganization>[]
       accessorKey: "id", // just for sorting/filtering on firstName
       header: "Action",
       cell: ({ row }) => {
-        const { organization, invitation } = row.original;
+        const { organization, invitation, status, isAffiliationActive } =
+          row.original;
         const [openConnectionRequest, setOpenConnectionRequest] =
           useState(false);
         // const { email } = row.original;
@@ -53,6 +52,8 @@ export function pendingOrganizationColumns(): ColumnDef<ConnectedOrganization>[]
             </Button>
             <OrganizationConnectActionDialog
               invitationId={invitation}
+              status={status}
+              isAffiliationActive={isAffiliationActive!}
               open={openConnectionRequest}
               setOpen={setOpenConnectionRequest}
               id={organization.id}

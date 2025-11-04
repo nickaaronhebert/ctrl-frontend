@@ -18,7 +18,6 @@ export function MedicationRow({ medication }: MedicationProps) {
   const handleDeleteVariant = async (variant: PharmacyProductVariant) => {
     try {
       await deletePharmacyCatalogue({ id: variant._id }).unwrap();
-      // console.log("Deleted variant:", variant._id);
       toast.success("Catalogue deleted successfully", {
         duration: 1500,
       });

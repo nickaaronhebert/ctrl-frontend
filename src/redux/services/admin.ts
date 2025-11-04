@@ -1,6 +1,7 @@
 import type {
   IInviteOrgAdminRequest,
   IInviteProviderRequest,
+  ITrustedOrganization,
 } from "@/types/requests/IInviteAdmin";
 import { baseApi } from ".";
 import type { ICommonSearchQuery } from "@/types/requests/search";
@@ -94,6 +95,14 @@ const adminApi = baseApi.injectEndpoints({
       invalidatesTags: [TAG_GET_CREDENTIALS],
     }),
 
+    revokeCredentials: builder.mutation({
+      query: (apiKeyId) => ({
+        url: `/organization/api-keys/${apiKeyId}/revoke`,
+        method: "PUT",
+      }),
+      invalidatesTags: [TAG_GET_CREDENTIALS],
+    }),
+
     viewCredentials: builder.query<IViewAllCredentialsResponse, void>({
       query: () => ({
         url: `/organization/api-keys`,
@@ -166,6 +175,14 @@ const adminApi = baseApi.injectEndpoints({
       providesTags: [TAG_GET_INVITATIONS],
       // providesTags: [TAG_GET_PHARMACY],
     }),
+    trustedOrganizations: builder.mutation<ITrustedOrganization, any>({
+      query: (body) => ({
+        url: `/admin/organization/trusted`,
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: [TAG_GET_ORGANIZATIONS],
+    }),
   }),
 });
 
@@ -181,8 +198,10 @@ export const {
   useViewAllInvitationsQuery,
   useCreateSubOrganizationMutation,
   useGenerateCredentialsMutation,
+  useRevokeCredentialsMutation,
   useViewCredentialsQuery,
   useViewAllSubOrganizationQuery,
+  useTrustedOrganizationsMutation,
 } = adminApi;
 
 export default adminApi;

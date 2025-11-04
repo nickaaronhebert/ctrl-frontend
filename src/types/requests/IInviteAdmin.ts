@@ -18,3 +18,8 @@ export interface IInviteProviderRequest {
   phone?: string;
   npi?: string;
 }
+
+export interface ITrustedOrganization {
+  organization: string;
+  isTrusted: boolean;
+}

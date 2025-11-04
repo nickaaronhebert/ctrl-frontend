@@ -1,6 +1,11 @@
 import { Badge } from "@/components/ui/badge";
+// import { Label } from "@/components/ui/label";
+import { toast } from "sonner";
+import { Switch } from "@/components/ui/switch";
 import type { CtrlOrganization } from "@/types/responses/IListAllOrganization";
 import type { ColumnDef } from "@tanstack/react-table";
+import { useTrustedOrganizationsMutation } from "@/redux/services/admin";
+import { useState } from "react";
 
 export function ctrlOrganizationColumns(): ColumnDef<CtrlOrganization>[] {
   return [
@@ -30,80 +35,66 @@ export function ctrlOrganizationColumns(): ColumnDef<CtrlOrganization>[] {
         return <p className="text-sm font-medium">{phoneNumber}</p>;
       },
     },
-
     {
       accessorKey: "status",
       header: "Status",
       cell: ({ row }) => {
         const { status } = row.original;
-        return <Badge variant={"outline"}>{status}</Badge>;
+
+        return (
+          <>
+            <div className="flex items-center gap-2">
+              <Badge variant={"outline"}>{status}</Badge>
+            </div>
+          </>
+        );
       },
     },
+    {
+      accessorKey: "isTelegraTrustedPartner",
+      header: "Trusted Organizations",
+      cell: ({ row }) => {
+        const [updateTrusted, { isLoading }] =
+          useTrustedOrganizationsMutation();
+        const { isTelegraTrustedPartner } = row.original;
+        const [trusted, setTrusted] = useState<boolean>(
+          isTelegraTrustedPartner || false
+        );
 
-    // {
-    //   accessorKey: "gender",
-    //   header: "Demographics",
+        const handleTrustedToggle = async (value: boolean) => {
+          try {
+            await updateTrusted({
+              organization: row.original.id,
+              isTrusted: value,
+            }).unwrap();
+            setTrusted(value);
+            toast.success(
+              `Marked organization as ${value ? "trusted" : "untrusted"}`
+            );
+          } catch (error) {
+            console.error("Failed to update trusted status:", error);
+            if (error && typeof error === "object" && "data" in error) {
+              const err = error as { data?: { message?: string } };
+              toast.error(err.data?.message || "Failed to create credentials");
+            } else {
+              toast.error("Something went wrong");
+            }
+          }
+        };
 
-    //   cell: ({ row }) => {
-    //     const { gender, createdAt } = row.original;
-    //     const formattedDate = new Date(createdAt).toLocaleDateString("en-US");
-    //     return (
-    //       <p className="text-xs font-medium">{`${gender}, ${formattedDate}`}</p>
-    //     );
-    //   },
-    // },
+        console.log("Trusted status:", trusted);
 
-    // {
-    //   accessorKey: "email",
-    //   header: "Contact Information",
-
-    //   cell: ({ row }) => {
-    //     const { email, phoneNumber, addresses } = row.original;
-    //     const defaultAddress = addresses.filter(
-    //       (address) => address.isDefault === true
-    //     )?.[0];
-
-    //     return (
-    //       <>
-    //         <p className="text-xs font-medium">{email}</p>
-    //         <p className="text-xs font-medium py-0.5">{phoneNumber}</p>
-    //         <p className="text-[10px] font-medium text-[#3E4D61] ">{`${
-    //           defaultAddress?.address1 || ""
-    //         } ${defaultAddress?.address2 || ""}`}</p>
-    //       </>
-    //     );
-    //   },
-    // },
-
-    // {
-    //   accessorKey: "height",
-    //   header: "Medical Info",
-
-    //   cell: ({ row }) => {
-    //     const { height, weight } = row.original;
-
-    //     return (
-    //       <>
-    //         <p className="text-xs font-medium">{`Height: ${height} (inches)`}</p>
-    //         <p className="text-xs font-medium py-0.5">{`Weight: ${weight} (pounds)`}</p>
-    //       </>
-    //     );
-    //   },
-    // },
-
-    // {
-    //   accessorKey: "id",
-    //   header: "Action",
-    //   cell: ({ row }) => {
-    //     return (
-    //       <Link
-    //         to={`/org/patient/${row.getValue("id")}`}
-    //         className="flex justify-center items-center py-1 px-5 w-[85px] h-[36px] rounded-[50px] border border-primary-foreground "
-    //       >
-    //         View
-    //       </Link>
-    //     );
-    //   },
-    // },
+        return (
+          <>
+            <Switch
+              checked={trusted}
+              onCheckedChange={handleTrustedToggle}
+              disabled={isLoading}
+              className="data-[state=checked]:bg-green-600 ml-10 cursor-pointer"
+            />
+          </>
+        );
+      },
+    },
   ];
 }

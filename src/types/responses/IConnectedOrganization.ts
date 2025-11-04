@@ -13,6 +13,7 @@ export interface ConnectedOrganization {
   status: string;
   organization: Organization;
   invitation: string;
+  isAffiliationActive?: boolean;
 }
 export interface IConnectedOrganizationResponse {
   data: ConnectedOrganization[];

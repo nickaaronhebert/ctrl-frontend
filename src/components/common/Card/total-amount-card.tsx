@@ -20,7 +20,6 @@ export function TotalAmountCard({
   cards,
   refetch,
 }: InvoiceDetailProps) {
-  console.log("data status", data.status);
   const [open, setOpen] = useState<boolean>(false);
 
   function isNotPaid(status: string | undefined) {

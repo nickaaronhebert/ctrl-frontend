@@ -15,6 +15,8 @@ import {
 } from "@/redux/services/admin";
 import { toast } from "sonner";
 import type { ListCredentials } from "@/types/responses/IViewAllCredentials";
+import { Input } from "@/components/ui/input";
+import { RevokeCredentialsDialog } from "./DeleteCredentialDialog";
 
 function ApiCredentialsList({ credentials }: { credentials: ListCredentials }) {
   const formatDate = (dateString: string) => {
@@ -65,28 +67,31 @@ function ApiCredentialsList({ credentials }: { credentials: ListCredentials }) {
                     </div>
                   </div>
 
-                  <div className="flex-shrink-0">
-                    <label className="block text-xs font-medium text-gray-500 mb-1">
-                      Expires On
-                    </label>
-                    <div className="flex items-center gap-2">
-                      <svg
-                        className="w-4 h-4 text-gray-400"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                        />
-                      </svg>
-                      <span className="text-sm text-gray-700 font-medium">
-                        {formatDate(item?.createdAt)}
-                      </span>
+                  <div className="flex gap-6 items-center">
+                    <div className="flex-shrink-0">
+                      <label className="block text-xs font-medium text-gray-500 mb-1">
+                        Expires On
+                      </label>
+                      <div className="flex items-center gap-2">
+                        <svg
+                          className="w-4 h-4 text-gray-400"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                          />
+                        </svg>
+                        <span className="text-sm text-gray-700 font-medium">
+                          {formatDate(item?.expiresAt)}
+                        </span>
+                      </div>
                     </div>
+                    <RevokeCredentialsDialog id={item.id} />
                   </div>
                 </div>
               </div>
@@ -128,11 +133,12 @@ function GenerateCredentials({
 }) {
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState<Date | undefined>(undefined);
+  const [description, setDescription] = useState("");
   const [GenerateCredentials, { isLoading }] = useGenerateCredentialsMutation();
 
   async function handleSubmit() {
     await GenerateCredentials({
-      description: "API Key for external integrations",
+      description: description,
       expiryDate: date,
     })
       .unwrap()
@@ -143,6 +149,7 @@ function GenerateCredentials({
         toast.success(data?.message || "Credentials Generated Successfully", {
           duration: 1500,
         });
+        setDescription("");
         // reset();
         // navigate("/org/patients");
       })
@@ -207,6 +214,21 @@ function GenerateCredentials({
             </PopoverContent>
           </Popover>
         </div>
+        <div>
+          <Label htmlFor="description" className="px-1 mb-2">
+            Description
+          </Label>
+
+          <Input
+            id="description"
+            type="text"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Enter Description"
+            required
+            className="w-[340px] max-h-9 border border-gray-400"
+          />
+        </div>
       </div>
 
       <Button
@@ -226,9 +248,13 @@ function GenerateCredentials({
 function SaveCredentials({
   publicKey,
   secretKey,
+  setApiPublicKey,
+  setApiSecretKey,
 }: {
   publicKey: string;
   secretKey: string;
+  setApiSecretKey: React.Dispatch<React.SetStateAction<string>>;
+  setApiPublicKey: React.Dispatch<React.SetStateAction<string>>;
 }) {
   const [copied, setCopied] = useState({ public: false, secret: false });
 
@@ -311,6 +337,20 @@ function SaveCredentials({
         </div>
       </div>
 
+      <div className=" flex justify-end">
+        <Button
+          variant={"ctrl"}
+          size={"lg"}
+          className="rounded-2xl"
+          onClick={() => {
+            setApiPublicKey("");
+            setApiSecretKey("");
+          }}
+        >
+          View Credentials
+        </Button>
+      </div>
+
       {/* <button
         //   onClick={handleSave}
         //   disabled={!expiryDate}
@@ -363,7 +403,12 @@ export default function CreateCredentials() {
         )}
 
       {apiSecretKey && publicKey && !newSecretKey && (
-        <SaveCredentials publicKey={publicKey} secretKey={apiSecretKey} />
+        <SaveCredentials
+          publicKey={publicKey}
+          secretKey={apiSecretKey}
+          setApiPublicKey={setApiPublicKey}
+          setApiSecretKey={setApiSecretKey}
+        />
       )}
 
       {/* <SaveCredentials /> */}
