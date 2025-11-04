@@ -1,0 +1,14 @@
+nodeSelector: "lifecycle: Ec2OnDemand"
+restService:
+  imageName: prod-ctrl/rest
+frontendService:
+  name: prod-ctrl-frontend
+  imageName: prod-ctrl/frontend
+ctrlEnv: prod
+# Environment variables
+env:
+  # Frontend environment variables
+  frontend:
+    VITE_MASTER_KEY: your_master_key
+    VITE_BASE_BACKEND_URL: "https://ctrl-rest.telegramd.com/api/v1"
+    VITE_STRIPE_PUBLISHABLE_KEY:
