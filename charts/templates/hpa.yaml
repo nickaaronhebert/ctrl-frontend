@@ -1,0 +1,18 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ .Values.frontendService.name }}-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ .Values.frontendService.name }}-dep
+  minReplicas: {{ default 1 .Values.frontendService.autoscaling.minReplicas }}
+  maxReplicas: {{ default 3 .Values.frontendService.autoscaling.maxReplicas }}
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: {{ default 60 .Values.frontendService.autoscaling.targetCPUUtilizationPercentage }}

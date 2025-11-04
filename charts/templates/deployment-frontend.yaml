@@ -33,3 +33,28 @@ spec:
                         - containerPort: {{ .Values.frontendService.internalPort }}
                     resources:
 {{ toYaml .Values.frontendService.resources | indent 24 }}
+                  # Liveness probe (restart container if unhealthy)
+                    livenessProbe:
+                      httpGet:
+                        path: {{ default "/" .Values.frontendService.livenessProbe.path }}
+                        port: {{ .Values.frontendService.internalPort }}
+                      initialDelaySeconds: {{ default 30 .Values.frontendService.livenessProbe.initialDelaySeconds }}
+                      periodSeconds: {{ default 10 .Values.frontendService.livenessProbe.periodSeconds }}
+                      timeoutSeconds: {{ default 5 .Values.frontendService.livenessProbe.timeoutSeconds }}
+                      failureThreshold: {{ default 3 .Values.frontendService.livenessProbe.failureThreshold }}
+                  # Readiness probe (controls traffic routing)
+                    readinessProbe:
+                      httpGet:
+                        path: {{ default "/" .Values.frontendService.readinessProbe.path }}
+                        port: {{ .Values.frontendService.internalPort }}
+                      initialDelaySeconds: {{ default 5 .Values.frontendService.readinessProbe.initialDelaySeconds }}
+                      periodSeconds: {{ default 10 .Values.frontendService.readinessProbe.periodSeconds }}
+                      timeoutSeconds: {{ default 3 .Values.frontendService.readinessProbe.timeoutSeconds }}
+                      failureThreshold: {{ default 3 .Values.frontendService.readinessProbe.failureThreshold }}
+                  # Optional startup probe to give app more time to initialize
+                    startupProbe:
+                      httpGet:
+                        path: {{ default "/" .Values.frontendService.startupProbe.path }}
+                        port: {{ .Values.frontendService.internalPort }}
+                      initialDelaySeconds: {{ default 10 .Values.frontendService.startupProbe.initialDelaySeconds }}
+                      periodSeconds: {{ default 10 .Values.frontendService.startupProbe.periodSeconds }}
