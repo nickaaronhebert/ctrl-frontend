@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -79,6 +80,9 @@ export default function EditVariantModal({
           <DialogTitle className="text-xl font-semibold text-gray-900">
             Pharmacy Product Metadata
           </DialogTitle>
+          <DialogDescription className="sr-only">
+            Edit the metadata information for the selected pharmacy product
+          </DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
