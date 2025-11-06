@@ -37,6 +37,13 @@ export interface PharmacyProductVariant {
   _id: string;
   price: number;
   pharmacyIdentifier?: string;
+  primaryPharmacyIdentifier?: string;
+  pharmacyDescriptor?: string;
+  secondaryPharmacyIdentifier?: string;
+  drugForm?: string;
+  scheduleCode?: string;
+  shippingClass?: string;
+  drugStrength?: string;
   productVariant: {
     _id: string;
     strength: string;

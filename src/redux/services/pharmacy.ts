@@ -156,6 +156,14 @@ export const pharmacyApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [TAG_GET_CONNECTED_ORGANIZATION],
     }),
+    editPharmacyCatalogue: builder.mutation({
+      query: ({ id, ...body }) => ({
+        url: `/pharmacy-catalogue/${id}`,
+        method: "PATCH",
+        body,
+      }),
+      invalidatesTags: [TAG_GET_PHARMACY_CATALOGUE],
+    }),
   }),
 });
 
@@ -176,4 +184,5 @@ export const {
   useAcceptConnectionInviteMutation,
   useCreatePharmacyCredsMutation,
   useUpdatePharmacyCredsMutation,
+  useEditPharmacyCatalogueMutation,
 } = pharmacyApi;
