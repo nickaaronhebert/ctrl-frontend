@@ -14,6 +14,32 @@ restService:
     requests:
       cpu: 500m
       memory: 500Mi
+  # Probe defaults (can be overridden in environment-specific values)
+  livenessProbe:
+    path: "/api/docs"
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
+  readinessProbe:
+    path: "/api/docs"
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    timeoutSeconds: 3
+    failureThreshold: 3
+  startupProbe:
+    path: "/api/docs"
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    failureThreshold: 30
+  autoscaling:
+    # HPA defaults (enable by setting min/max appropriately in env values)
+    minReplicas: 2
+    maxReplicas: 5
+    targetCPUUtilizationPercentage: 60
+  pdb:
+    # minimum available pods during voluntary disruptions
+    minAvailable: 1
 frontendService:
   type: ClusterIP
   externalPort: 80
@@ -27,11 +53,37 @@ frontendService:
     requests:
       cpu: 100m
       memory: 150Mi
+  # Probe defaults (can be overridden in environment-specific values)
+  livenessProbe:
+    path: "/"
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
+  readinessProbe:
+    path: "/"
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    timeoutSeconds: 3
+    failureThreshold: 3
+  startupProbe:
+    path: "/"
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    failureThreshold: 30
+  autoscaling:
+    # HPA defaults (enable by setting min/max appropriately in env values)
+    minReplicas: 2
+    maxReplicas: 5
+    targetCPUUtilizationPercentage: 60
+  pdb:
+    # minimum available pods during voluntary disruptions
+    minAvailable: 1
 
 env:
-    # Frontend environment variables
-    frontend:
-        VITE_STRIPE_PUBLISHABLE_KEY:
+  # Frontend environment variables
+  frontend:
+    VITE_STRIPE_PUBLISHABLE_KEY:
 
 # AWS repo
 repo: '901120114376.dkr.ecr.us-east-2.amazonaws.com'
