@@ -75,7 +75,7 @@ export default function EditVariantModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto p-4">
+      <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto p-5">
         <DialogHeader>
           <DialogTitle className="text-xl font-semibold text-gray-900">
             Pharmacy Product Metadata
@@ -87,68 +87,61 @@ export default function EditVariantModal({
 
         <Form {...form}>
           <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
-            <InputElement
-              name="pharmacyDescriptor"
-              className="w-full"
-              label="Pharmacy Descriptor"
-              isRequired={true}
-              messageClassName="text-right"
-              placeholder="Enter pharmacy descriptor"
-              inputClassName="border border-[#9EA5AB]"
-            />
-            <InputElement
-              name="primaryPharmacyIdentifier"
-              className="w-full"
-              label="Primary Pharmacy Identifier"
-              isRequired={true}
-              messageClassName="text-right"
-              placeholder="Enter primary identifier"
-              inputClassName="border border-[#9EA5AB]"
-            />
-            <InputElement
-              name="secondaryPharmacyIdentifier"
-              className="w-full"
-              label="Secondary Pharmacy Identifier"
-              isRequired={true}
-              messageClassName="text-right"
-              placeholder="Enter secondary identifier (optional)"
-              inputClassName="border border-[#9EA5AB]"
-            />
-            <InputElement
-              name="drugStrength"
-              className="w-full"
-              label="Drug Strength"
-              isRequired={true}
-              messageClassName="text-right"
-              placeholder="Enter drug strength (e.g., 100 mg, 5 ml)"
-              inputClassName="border border-[#9EA5AB]"
-            />
-            <InputElement
-              name="drugForm"
-              className="w-full"
-              label="Drug Form"
-              isRequired={true}
-              messageClassName="text-right"
-              placeholder="e.g. Capsule, Injection"
-              inputClassName="border border-[#9EA5AB]"
-            />
-            <InputElement
-              name="scheduleCode"
-              className="w-full"
-              label="Schedule Code"
-              isRequired={true}
-              messageClassName="text-right"
-              placeholder="Enter schedule code (optional)"
-              inputClassName="border border-[#9EA5AB]"
-            />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <InputElement
+                name="pharmacyDescriptor"
+                label="Pharmacy Descriptor"
+                messageClassName="text-right"
+                placeholder="Enter pharmacy descriptor"
+                inputClassName="border border-slate-300 placeholder:text-slate-400"
+              />
+              <InputElement
+                name="primaryPharmacyIdentifier"
+                label="Primary Pharmacy Identifier"
+                messageClassName="text-right"
+                placeholder="Enter primary identifier"
+                inputClassName="border border-slate-300 placeholder:text-slate-400"
+              />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <InputElement
+                name="secondaryPharmacyIdentifier"
+                label="Secondary Pharmacy Identifier"
+                messageClassName="text-right"
+                placeholder="Enter secondary identifier"
+                inputClassName="border border-slate-300 placeholder:text-slate-400 "
+              />
+              <InputElement
+                name="drugStrength"
+                label="Drug Strength"
+                messageClassName="text-right"
+                placeholder="Enter drug strength (e.g., 100 mg, 5 ml)"
+                inputClassName="border border-slate-300 placeholder:text-slate-400 "
+              />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <InputElement
+                name="drugForm"
+                label="Drug Form"
+                messageClassName="text-right"
+                placeholder="e.g. Capsule, Injection"
+                inputClassName="border border-slate-300 placeholder:text-slate-400 "
+              />
+              <InputElement
+                name="scheduleCode"
+                label="Schedule Code"
+                messageClassName="text-right"
+                placeholder="Enter schedule code"
+                inputClassName="border border-slate-300 placeholder:text-slate-400"
+              />
+            </div>
             <InputElement
               name="shippingClass"
-              className="w-full"
               label="Shipping Class"
-              isRequired={true}
               messageClassName="text-right"
-              placeholder="Enter shipping class (optional)"
-              inputClassName="border border-[#9EA5AB]"
+              placeholder="Enter shipping class"
+              inputClassName="border border-slate-300 placeholder:text-slate-400 "
             />
 
             <DialogFooter className="gap-2 pt-4">
