@@ -1,8 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import SuccessCheckSVG from "@/assets/icons/SuccessCheckIcon";
+import useAuthentication from "@/hooks/use-authentication";
+
 export default function SkipMedicalVerification() {
   const navigate = useNavigate();
+  const { user } = useAuthentication();
+
   return (
     <div className="flex justify-center items-center  min-h-[670px]">
       <div className=" rounded-4xl px-8 py-8 w-[670px] ">
@@ -10,7 +14,7 @@ export default function SkipMedicalVerification() {
           <SuccessCheckSVG />
           {/* <img src={HandWaive} alt="Logo" className="h-16 w-16" /> */}
           <h1 className="font-semibold text-3xl text-primary-foreground text-center">
-            All set, Johan Smith!
+            All set, {user?.firstName} {user?.lastName}
           </h1>
           <h1 className="font-semibold text-3xl text-secondary-foreground">
             You can verify your credentials later.
