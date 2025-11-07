@@ -10,6 +10,7 @@ export interface ICreateOrderRequest {
     provider: string;
     productVariant: string;
     daysSupply: number;
+    clinicalDifference?: string;
     // pharmacy: string;
     notes?: string;
     instructions?: string;

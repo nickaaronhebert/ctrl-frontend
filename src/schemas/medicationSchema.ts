@@ -18,6 +18,7 @@ const medicationSchema = z.object({
     .min(0, "Invalid Number"),
 
   unit: z.string().min(1, "Unit is required"),
+  clinicalDifference: z.string().optional(),
   sigInstructions: z
     .string()
 

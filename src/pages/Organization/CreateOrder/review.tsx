@@ -37,6 +37,7 @@ export default function ReviewOrderDetails({ order }: { order: OrderState }) {
         daysSupply: item.daysSupply,
         // pharmacy: pharmacyId,
         instructions: item.sigInstructions,
+        clinicalDifference: item.clinicalDifference,
         // isManualTransmission: true,
       };
     });
