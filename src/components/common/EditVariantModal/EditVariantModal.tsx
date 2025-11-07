@@ -97,7 +97,7 @@ export default function EditVariantModal({
               />
               <InputElement
                 name="primaryPharmacyIdentifier"
-                label="Primary Pharmacy Identifier"
+                label="SKU(Primary Pharmacy Identifier)"
                 messageClassName="text-right"
                 placeholder="Enter primary identifier"
                 inputClassName="border border-slate-300 placeholder:text-slate-400"
