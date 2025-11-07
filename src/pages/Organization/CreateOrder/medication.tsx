@@ -137,7 +137,7 @@ export default function SelectProductVariant({
                         type="number"
                         label="Quantity"
                         isRequired={true}
-                        inputClassName="max-w-[100px]"
+                        inputClassName="max-w-[180px]"
                         placeholder="30"
                       />
 
@@ -146,17 +146,37 @@ export default function SelectProductVariant({
                         label="Unit"
                         isRequired={true}
                         placeholder="Tablet"
-                        inputClassName="max-w-[125px]"
+                        inputClassName="max-w-[180px]"
                         disabled={true}
                       />
 
-                      <InputElement
+                      {/* <InputElement
                         name={`medications.${index}.daysSupply`}
                         type="number"
                         label="Days Supply"
                         isRequired={true}
                         inputClassName="max-w-[100px]"
                         placeholder="30"
+                      /> */}
+                    </div>
+
+                    <div className=" flex gap-4 mt-2">
+                      <InputElement
+                        name={`medications.${index}.daysSupply`}
+                        type="number"
+                        label="Days Supply"
+                        isRequired={true}
+                        inputClassName="w-[230px]"
+                        placeholder="30"
+                      />
+
+                      <InputElement
+                        name={`medications.${index}.clinicalDifference`}
+                        type="text"
+                        label="Clinical Difference"
+                        isRequired={false}
+                        inputClassName="w-[400px]"
+                        placeholder=""
                       />
                     </div>
                     <div className="mt-2">

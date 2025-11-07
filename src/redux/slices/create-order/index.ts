@@ -9,6 +9,7 @@ export interface SELECT_MEDICATION {
     unit: string;
     sigInstructions: string;
     daysSupply: number;
+    clinicalDifference?: string;
   }[];
 }
 
@@ -80,6 +81,7 @@ const initialState: OrderState = {
         unit: "",
         sigInstructions: "",
         daysSupply: 0,
+        clinicalDifference: "",
       },
     ],
   },
