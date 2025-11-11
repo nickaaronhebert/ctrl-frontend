@@ -79,7 +79,7 @@ const adminApi = baseApi.injectEndpoints({
 
     createPharmacy: builder.mutation<any, any>({
       query: (body) => ({
-        url: `/business/pharmacy`,
+        url: `/pharmacy`,
         method: "POST",
         body,
       }),

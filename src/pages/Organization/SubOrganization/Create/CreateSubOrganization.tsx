@@ -8,14 +8,14 @@ import PhoneInputElement from "@/components/Form/phone-input-element";
 import { toast } from "sonner";
 import { createOrganizationSchema } from "@/schemas/createOrganizationSchema";
 // import { useCreateOrganizationMutation } from "@/redux/services/admin";
-import { updateStepOne } from "@/redux/slices/sub-org";
+// import { updateStepOne } from "@/redux/slices/sub-org";
 import { CenteredRow } from "@/components/ui/centered-row";
 import SelectElement from "@/components/Form/select-element";
 import { USA_STATES } from "@/constants";
 import { useNavigate } from "react-router-dom";
 import { useCreateSubOrganizationMutation } from "@/redux/services/admin";
 import type { SubOrganizationDetails } from "@/redux/slices/sub-org";
-import { useAppDispatch } from "@/redux/store";
+// import { useAppDispatch } from "@/redux/store";
 
 interface CreateSubOrganizationProps {
   organizationDetails: SubOrganizationDetails;
@@ -26,7 +26,7 @@ export default function CreateSubOrganization({
 }: CreateSubOrganizationProps) {
   const navigate = useNavigate();
   const [createOrg] = useCreateSubOrganizationMutation();
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
   const form = useForm<z.infer<typeof createOrganizationSchema>>({
     mode: "onChange",
@@ -48,7 +48,7 @@ export default function CreateSubOrganization({
   });
 
   async function onSubmit(data: z.infer<typeof createOrganizationSchema>) {
-    dispatch(updateStepOne(data));
+    // dispatch(updateStepOne(data));
     console.log("first step data", data);
     await createOrg(data)
       .unwrap()
