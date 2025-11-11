@@ -2,6 +2,8 @@ import { configureStore } from "@reduxjs/toolkit";
 import { baseApi } from "./services";
 import authReducer from "@/redux/slices/auth";
 import orderReducer from "@/redux/slices/create-order";
+import subOrgReducer from "@/redux/slices/sub-org";
+
 import {
   useDispatch,
   useSelector,
@@ -13,6 +15,7 @@ export const store = configureStore({
     [baseApi.reducerPath]: baseApi.reducer,
     auth: authReducer,
     order: orderReducer,
+    subOrg: subOrgReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(baseApi.middleware),

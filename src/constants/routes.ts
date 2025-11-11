@@ -77,6 +77,8 @@ export const ROUTES = {
   VIEW_TRANSMISSION_DETAIL: "transmissions/:id",
   VIEW_TRANSACTION_DETAIL: "transactions/:id",
   PHARMACY_ORGANIZATIONS: "organizations",
+  ADMIN_ENCOUNTERED: "encountered",
+  ADMIN_PRODUCT: "add-product",
 };
 
 export const STEPPER_FORM = {

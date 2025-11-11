@@ -22,7 +22,7 @@ import InputElement from "@/components/Form/input-element";
 interface EditVariantModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  variant: PharmacyProductVariant;
+  variant?: PharmacyProductVariant;
 }
 
 export default function EditVariantModal({

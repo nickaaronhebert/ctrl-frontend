@@ -40,6 +40,11 @@ export const platformAdminItems = [
     url: "/admin/invitations",
     icon: Transmission,
   },
+  {
+    title: "Encountered Products",
+    url: "/admin/encountered",
+    icon: Licence,
+  },
 ];
 export const organisationAdminItems = [
   { title: "Dashboard", url: "/org/dashboard", icon: Dashboard },

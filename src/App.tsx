@@ -76,9 +76,12 @@ import CreatePharmacy from "./pages/CTRLAdmin/Create/Pharmacy";
 import InvitationList from "./pages/CTRLAdmin/Invitation/view";
 import ViewMedicationCatalogue from "./pages/CTRLAdmin/MedicationCatalogue/view";
 import PharmacyOrganizationStatus from "./pages/Pharmacy/Organization";
-import CreateSubOrganization from "./pages/Organization/SubOrganization/Create";
+// import CreateSubOrganization from "./pages/Organization/SubOrganization/Create/CreateSubOrganization";
 import ViewSubOrganization from "./pages/Organization/SubOrganization";
 import EditMedicationCatalogue from "./pages/CTRLAdmin/MedicationCatalogue/edit";
+import Encountered from "./pages/CTRLAdmin/Encountered";
+import SubOrganization from "./pages/Organization/SubOrganization/Create";
+import AddProductForm from "./pages/CTRLAdmin/Encountered/AddProductForm/AddProductForm";
 
 const router = createBrowserRouter([
   {
@@ -329,7 +332,7 @@ const router = createBrowserRouter([
       {
         path: ROUTES.CREATE_SUB_ORGANIZATION,
 
-        element: <CreateSubOrganization />,
+        element: <SubOrganization />,
       },
       {
         path: ROUTES.VIEW_SUB_ORGANIZATION,
@@ -576,6 +579,14 @@ const router = createBrowserRouter([
       {
         path: ROUTES.SEND_INVITATION,
         element: <InviteAdmin />,
+      },
+      {
+        path: ROUTES.ADMIN_ENCOUNTERED,
+        element: <Encountered />,
+      },
+      {
+        path: ROUTES.ADMIN_PRODUCT,
+        element: <AddProductForm />,
       },
     ],
   },
