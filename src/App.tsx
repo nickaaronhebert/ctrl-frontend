@@ -83,6 +83,7 @@ import Encountered from "./pages/CTRLAdmin/Encountered";
 import SubOrganization from "./pages/Organization/SubOrganization/Create";
 import AddProductForm from "./pages/CTRLAdmin/Encountered/AddProductForm/AddProductForm";
 import ActiveOrgDetails from "./pages/Pharmacy/Organization/Active/details";
+import EncounterPage from "./pages/Organization/Encounter";
 
 const router = createBrowserRouter([
   {
@@ -259,6 +260,10 @@ const router = createBrowserRouter([
       {
         path: ROUTES.ORG_CREATE_ORDER,
         element: <CreateOrderPage />,
+      },
+      {
+        path: ROUTES.ORG_ENCOUNTER,
+        element: <EncounterPage />,
       },
 
       {

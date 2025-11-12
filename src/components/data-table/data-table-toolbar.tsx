@@ -14,6 +14,8 @@ interface DataTableToolbarProps<TData>
   table: Table<TData>;
   filterFields?: DataTableFilterField<TData>[];
   searchIcon?: React.ReactNode;
+  inputClassName?: string;
+  facetedClassName?: string;
 }
 
 export function DataTableToolbar<TData>({
@@ -22,6 +24,8 @@ export function DataTableToolbar<TData>({
   children,
   className,
   searchIcon,
+  inputClassName = "",
+  facetedClassName = "",
   ...props
 }: DataTableToolbarProps<TData>) {
   // Memoize computation of searchableColumns and filterableColumns
@@ -61,7 +65,7 @@ export function DataTableToolbar<TData>({
                         .getColumn(String(column.value))
                         ?.setFilterValue(event.target.value)
                     }
-                    className="h-12 w-40 lg:w-96 bg-white"
+                    className={cn("h-12 w-40 lg:w-96 bg-white", inputClassName)}
                   />
                   {searchIcon && (
                     <span className="absolute inset-y-0 right-3 flex items-center text-gray-400">
@@ -76,6 +80,7 @@ export function DataTableToolbar<TData>({
             (column) =>
               table.getColumn(column.value ? String(column.value) : "") && (
                 <DataTableFacetedFilter
+                  facetedClassName={facetedClassName}
                   key={String(column.value)}
                   column={table.getColumn(
                     column.value ? String(column.value) : ""

@@ -24,12 +24,14 @@ interface DataTableFacetedFilterProps<TData, TValue> {
   column?: Column<TData, TValue>;
   title?: string;
   options: Option[];
+  facetedClassName?: string;
 }
 
 export function DataTableFacetedFilter<TData, TValue>({
   column,
   title,
   options,
+  facetedClassName,
 }: DataTableFacetedFilterProps<TData, TValue>) {
   const selectedValues = new Set(column?.getFilterValue() as string[]);
   const selectedEntity = options.find((option) =>
@@ -41,7 +43,10 @@ export function DataTableFacetedFilter<TData, TValue>({
       <PopoverTrigger asChild>
         <Button
           variant="transparent"
-          className="flex justify-between rounded-[6px] !p-3.5 h-11 min-w-[200px] !bg-white"
+          className={cn(
+            "flex justify-between rounded-[6px] !p-3.5 h-11 min-w-[200px] !bg-white",
+            facetedClassName
+          )}
         >
           {/* <CirclePlus className="mr-2 size-4" /> */}
           {selectedEntity ?? "All Type"}

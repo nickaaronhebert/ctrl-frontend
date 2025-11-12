@@ -19,6 +19,7 @@ import {
   TAG_GET_MEDICATIONS_CATALOGUE,
   TAG_GET_CREDENTIALS,
   TAG_GET_ENCOUNTERED,
+  TAG_GET_ENCOUNTER,
 } from "@/types/baseApiTags";
 
 export const baseApi = createApi({
@@ -42,6 +43,7 @@ export const baseApi = createApi({
     TAG_GET_MEDICATIONS_CATALOGUE,
     TAG_GET_CREDENTIALS,
     TAG_GET_ENCOUNTERED,
+    TAG_GET_ENCOUNTER,
   ],
   baseQuery: fetchBaseQuery({
     baseUrl:

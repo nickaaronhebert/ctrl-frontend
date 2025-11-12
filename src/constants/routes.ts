@@ -53,6 +53,7 @@ export const ROUTES = {
   ORG_MEDICATION_DETAILS: "medications/:id",
   CTRL_ADMIN_MEDICATION_DETAILS: "medications/:id",
   ORG_CREATE_ORDER: "create-order",
+  ORG_ENCOUNTER: "encounter",
   ORG_ACCESS_CONTROL: "access-control",
   ORG_MEDICATION_SELECTION: "access-control/medication/:id?",
   ORG_EDIT_PATIENT: "edit-patient/:id",
