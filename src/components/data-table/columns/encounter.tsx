@@ -1,5 +1,7 @@
-// import EditVariantModal from "@/components/common/EditVariantModal/EditVariantModal";
+import UpdateEncounterDialog from "@/components/common/UpdateEncounterDialog/UpdateEncounterDialog";
 import type { ColumnDef } from "@tanstack/react-table";
+import { SquarePen } from "lucide-react";
+import { useState } from "react";
 // import { SquarePen } from "lucide-react";
 // import { useState } from "react";
 
@@ -7,7 +9,7 @@ export interface EncounterProduct {
   id: string;
   name: string;
   description: string;
-  output: string;
+  output: "ctrl_order_approval" | "pdf_document";
   isActive: boolean;
   telegraProductVariant: string[];
   createdAt: string;
@@ -55,31 +57,39 @@ export function encounterProductColumns(): ColumnDef<EncounterProduct>[] {
         return <p className="text-sm">{formattedDate}</p>;
       },
     },
-    // {
-    //   accessorKey: "id",
-    //   header: "Action",
-    //   cell: ({ row }) => {
-    //     // const [selectedProduct, setSelectedProduct] =
-    //     //   useState<EncounterProduct | null>(null);
-    //     // const [open, setOpen] = useState<boolean>(false);
-    //     return (
-    //       <>
-    //         {/* <SquarePen
-    //           color="#5354ac"
-    //           onClick={() => setSelectedProduct(row.original)}
-    //           className="h-4 w-4 cursor-pointer hover:text-blue-500 transition-colors duration-200"
-    //         /> */}
+    {
+      accessorKey: "id",
+      header: "Action",
+      cell: ({ row }) => {
+        const [selectedProduct, setSelectedProduct] =
+          useState<EncounterProduct | null>(null);
+        const [open, setOpen] = useState<boolean>(false);
 
-    //         {/* {selectedProduct && (
-    //           <EditVariantModal
-    //             open={open}
-    //             onOpenChange={setOpen}
-    //             // variant={variant}
-    //           />
-    //         )} */}
-    //       </>
-    //     );
-    //   },
-    // },
+        const handleClick = () => {
+          setSelectedProduct(row.original);
+          setOpen(true);
+        };
+
+        console.log("selected Product", selectedProduct);
+
+        return (
+          <>
+            <SquarePen
+              color="#5354ac"
+              onClick={handleClick}
+              className="h-4 w-4 cursor-pointer hover:text-blue-500 transition-colors duration-200"
+            />
+
+            {open && (
+              <UpdateEncounterDialog
+                open={open}
+                onOpenChange={setOpen}
+                selectedProduct={selectedProduct!}
+              />
+            )}
+          </>
+        );
+      },
+    },
   ];
 }

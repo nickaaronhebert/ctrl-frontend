@@ -136,11 +136,15 @@ const adminApi = baseApi.injectEndpoints({
 
     viewAllSubOrganization: builder.query<
       IGetAllSubOrganization,
-      ICommonSearchQuery
+      ICommonSearchQuery & { parentOrganization?: string }
     >({
-      query: ({ page, perPage, q = "" }) => {
+      query: ({ page, perPage, q = "", parentOrganization }) => {
+        const parentOrgParam = parentOrganization
+          ? `&parentOrganization=${parentOrganization}`
+          : "";
+
         return {
-          url: `/organization/sub-organizations?page=${page}&limit=${perPage}&q=${q}`,
+          url: `/organization/sub-organizations?page=${page}&limit=${perPage}&q=${q}${parentOrgParam}`,
           method: "GET",
         };
       },

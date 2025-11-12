@@ -23,9 +23,9 @@ export default function ModifyPrices() {
   const page = parseInt(searchParams.get("page") || "1", 10);
   const perPage = parseInt(searchParams.get("per_page") ?? "100", 10);
   const [searchTerm, setSearchTerm] = useState("");
-  const [pharmacyIdentifiers, setPharmacyIdentifiers] = useState<
-    Record<string, string>
-  >({});
+  // const [pharmacyIdentifiers, setPharmacyIdentifiers] = useState<
+  //   Record<string, string>
+  // >({});
 
   const {
     data: allMedications,
@@ -64,9 +64,9 @@ export default function ModifyPrices() {
     setPrices((prev) => ({ ...prev, [variantId]: value }));
   };
 
-  const handleIdentifierChange = (variantId: string, value: string) => {
-    setPharmacyIdentifiers((prev) => ({ ...prev, [variantId]: value }));
-  };
+  // const handleIdentifierChange = (variantId: string, value: string) => {
+  //   setPharmacyIdentifiers((prev) => ({ ...prev, [variantId]: value }));
+  // };
 
   useEffect(() => {
     if (allMedications?.data) {
@@ -87,9 +87,9 @@ export default function ModifyPrices() {
       if (Object.keys(initialPrices).length > 0) {
         setPrices((prevPrices) => ({ ...prevPrices, ...initialPrices }));
       }
-      if (Object.keys(initialIdentifiers).length > 0) {
-        setPharmacyIdentifiers((prev) => ({ ...prev, ...initialIdentifiers }));
-      }
+      // if (Object.keys(initialIdentifiers).length > 0) {
+      //   setPharmacyIdentifiers((prev) => ({ ...prev, ...initialIdentifiers }));
+      // }
     }
   }, [allMedications, page]);
 
@@ -101,7 +101,7 @@ export default function ModifyPrices() {
         price: Number(price),
         transmissionMethod: "api",
         sku: "",
-        pharmacyIdentifier: pharmacyIdentifiers[variantId] || "",
+        // pharmacyIdentifier: pharmacyIdentifiers[variantId] || "",
         metadata: {},
       }));
 
@@ -234,9 +234,9 @@ export default function ModifyPrices() {
                     <div className="text-xs font-medium text-gray-500 uppercase tracking-wide w-1/2">
                       VARIANTS
                     </div>
-                    <div className="text-xs font-medium text-gray-500 uppercase w-1/3 ">
+                    {/* <div className="text-xs font-medium text-gray-500 uppercase w-1/3 ">
                       PHARMACY IDENTIFIER
-                    </div>
+                    </div> */}
                     <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">
                       DEFAULT PRICE
                     </div>
@@ -254,7 +254,7 @@ export default function ModifyPrices() {
                             {variant?.productVariant?.strength}
                           </span>
                         </div>
-                        <div className="w-1/3">
+                        {/* <div className="w-1/3">
                           <Input
                             type="text"
                             placeholder="e.g., SKU-12345"
@@ -271,7 +271,7 @@ export default function ModifyPrices() {
                             }}
                             className="w-full h-10 rounded-md px-3 py-2 border-gray-300 bg-white"
                           />
-                        </div>
+                        </div> */}
                         <div className="relative">
                           <span className="absolute left-1 top-1/2 transform -translate-y-1/2 text-gray-500">
                             $

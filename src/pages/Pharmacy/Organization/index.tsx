@@ -1,5 +1,5 @@
 import { ArrowRight } from "lucide-react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import ConnectedOrganization from "./Active";
@@ -10,6 +10,19 @@ export default function PharmacyOrganizationStatus() {
   const [activeStatus, setActiveStatus] = useState<
     "Active" | "Requested" | "Rejected"
   >("Active");
+
+  const [counts, setCounts] = useState<{
+    Active?: number;
+    Requested?: number;
+    Rejected?: number;
+  }>({});
+
+  const handleRequestedCount = useCallback(
+    (count: number) => setCounts((prev) => ({ ...prev, Requested: count })),
+    []
+  );
+
+  console.log(">", counts.Requested);
 
   return (
     <div className="p-5">
@@ -54,7 +67,9 @@ export default function PharmacyOrganizationStatus() {
           )}
           onClick={() => setActiveStatus("Requested")}
         >
-          <span className=" font-medium text-base mx-2.5">Request Status</span>
+          <span className=" font-medium text-base mx-2.5">
+            Organizations Request {counts.Requested}
+          </span>
         </Button>
 
         <Button
@@ -77,7 +92,7 @@ export default function PharmacyOrganizationStatus() {
         {activeStatus === "Active" ? (
           <ConnectedOrganization />
         ) : activeStatus === "Requested" ? (
-          <PendingOrganization />
+          <PendingOrganization onCountChange={handleRequestedCount} />
         ) : (
           <RejectedOrganization />
         )}

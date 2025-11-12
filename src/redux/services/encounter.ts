@@ -3,6 +3,13 @@ import { baseApi } from ".";
 
 export const encounterApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    getEncounteredProducts: builder.query({
+      query: ({ page, perPage, q }) => ({
+        url: `/encounters/products?page=${page}&limit=${perPage}&q=${q}`,
+        method: "GET",
+      }),
+      providesTags: [TAG_GET_ENCOUNTERED],
+    }),
     createEncounterProduct: builder.mutation({
       query: (product) => ({
         url: "/encounters/products",
@@ -11,12 +18,13 @@ export const encounterApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [TAG_GET_ENCOUNTERED],
     }),
-    getEncounteredProducts: builder.query({
-      query: ({ page, perPage, q }) => ({
-        url: `/encounters/products?page=${page}&limit=${perPage}&q=${q}`,
-        method: "GET",
+    updateEncounteredProduct: builder.mutation({
+      query: ({ productId, ...body }) => ({
+        url: `/encounters/products/${productId}`,
+        method: "PATCH",
+        body,
       }),
-      providesTags: [TAG_GET_ENCOUNTERED],
+      invalidatesTags: [TAG_GET_ENCOUNTERED],
     }),
   }),
 });
@@ -24,4 +32,5 @@ export const encounterApi = baseApi.injectEndpoints({
 export const {
   useCreateEncounterProductMutation,
   useGetEncounteredProductsQuery,
+  useUpdateEncounteredProductMutation,
 } = encounterApi;

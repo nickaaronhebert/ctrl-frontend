@@ -19,6 +19,8 @@ import { useEffect, useState } from "react";
 import { AffiliatedProviders } from "../common/AffiliateProviders/AffiliateProviders";
 import { BillingFrequencySelector } from "../common/BillingFrequencySelector/BillingFrequencySelector";
 import { CreateOrganizationCredentialsModal } from "../common/CreateOrganizationCredentialsModal/CreateOrganizationCredentialsModal";
+import { useViewAllSubOrganizationQuery } from "@/redux/services/admin";
+import { SubOrganizations } from "../common/SubOrganizations/SubOrganizations";
 
 interface PharmacyConnectDialogProps {
   id: string;
@@ -48,9 +50,9 @@ export default function OrganizationConnectActionDialog({
   const [rejectInvitation] = useRejectConnectionInviteMutation();
   const [acceptInvitation] = useAcceptConnectionInviteMutation();
   const [selected, setSelected] = useState<BillingFrequency>("daily");
-  const [activeTab, setActiveTab] = useState<"affiliatedProviders" | "billing">(
-    "billing"
-  );
+  const [activeTab, setActiveTab] = useState<
+    "affiliatedProviders" | "billing" | "subOrgs"
+  >("billing");
   const [showCredentialsModal, setShowCredentailsModal] =
     useState<boolean>(false);
 
@@ -99,7 +101,7 @@ export default function OrganizationConnectActionDialog({
       });
   }
   const { data } = useViewAffiliateProvidersQuery(
-    { page: 1, perPage: 10, organization: id },
+    { page: 1, perPage: 100, organization: id },
     {
       skip: !open,
       selectFromResult: ({ data, isLoading, isError }) => ({
@@ -110,10 +112,26 @@ export default function OrganizationConnectActionDialog({
     }
   );
 
+  const { data: subOrgData } = useViewAllSubOrganizationQuery(
+    {
+      page: 1,
+      perPage: 100,
+      q: "",
+      parentOrganization: id,
+    },
+    {
+      skip: !open || !id,
+      selectFromResult: ({ data, isLoading }) => ({
+        data: data?.data,
+        isLoading,
+      }),
+    }
+  );
+
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className=" max-w-96 ">
+        <DialogContent className="min-w-[700px] ">
           <DialogTitle className="pt-4 pb-2 px-5 border-b  ">
             Request Details
           </DialogTitle>
@@ -147,7 +165,7 @@ export default function OrganizationConnectActionDialog({
                 activeTab === "billing"
                   ? "bg-primary text-white"
                   : "bg-slate-background text-secondary-foreground hover:bg-slate-background",
-                "p-[30px] w-[48%]"
+                "p-[30px] w-[33%]"
               )}
               onClick={() => setActiveTab("billing")}
             >
@@ -162,12 +180,27 @@ export default function OrganizationConnectActionDialog({
                 activeTab === "affiliatedProviders"
                   ? "bg-primary text-white"
                   : "bg-slate-background text-secondary-foreground hover:bg-slate-background",
-                "p-[30px] w-[48%]"
+                "p-[30px] w-[33%]"
               )}
               onClick={() => setActiveTab("affiliatedProviders")}
             >
               <span className=" font-medium text-base mx-2.5">
                 Affiliate Providers
+              </span>
+            </Button>
+            <Button
+              size={"xxl"}
+              variant={"tabs"}
+              className={cn(
+                activeTab === "subOrgs"
+                  ? "bg-primary text-white"
+                  : "bg-slate-background text-secondary-foreground hover:bg-slate-background",
+                "p-[30px] w-[33%]"
+              )}
+              onClick={() => setActiveTab("subOrgs")}
+            >
+              <span className=" font-medium text-base mx-2.5">
+                Sub-Organizations
               </span>
             </Button>
           </div>
@@ -181,6 +214,8 @@ export default function OrganizationConnectActionDialog({
               setSelected={setSelected}
             />
           )}
+
+          {activeTab === "subOrgs" && <SubOrganizations data={subOrgData} />}
 
           <DialogFooter className="p-5">
             <Button

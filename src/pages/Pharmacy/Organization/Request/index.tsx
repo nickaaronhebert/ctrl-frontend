@@ -4,7 +4,7 @@ import { DataTablePagination } from "@/components/data-table/data-table-paginati
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 
 // import { useViewOrgPharmaciesTransmissionsQuery } from "@/redux/services/transmission";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
 import {
   useDataTable,
@@ -21,7 +21,7 @@ import { useGetConnectedOrganizationQuery } from "@/redux/services/pharmacy";
 import type { ConnectedOrganization } from "@/types/responses/IConnectedOrganization";
 import { pendingOrganizationColumns } from "@/components/data-table/columns/pending-organization";
 
-export default function PendingOrganization() {
+export default function PendingOrganization({ onCountChange }: any) {
   const [searchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1", 10);
   const perPage = parseInt(searchParams.get("per_page") ?? "100", 10);
@@ -58,6 +58,11 @@ export default function PendingOrganization() {
     pageCount: meta?.pageCount ?? -1,
   });
 
+  useEffect(() => {
+    if (data && onCountChange) {
+      onCountChange(data?.length);
+    }
+  }, [data, onCountChange]);
   return (
     <>
       <div className="pt-3 px-3.5 flex justify-between items-center">

@@ -77,6 +77,7 @@ export const ROUTES = {
   VIEW_TRANSMISSION_DETAIL: "transmissions/:id",
   VIEW_TRANSACTION_DETAIL: "transactions/:id",
   PHARMACY_ORGANIZATIONS: "organizations",
+  PHARMACY_ACTIVE_ORGANIZATIONS: "organizations/active",
   ADMIN_ENCOUNTERED: "encountered",
   ADMIN_PRODUCT: "add-product",
 };

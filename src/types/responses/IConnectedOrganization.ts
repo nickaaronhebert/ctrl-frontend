@@ -14,6 +14,7 @@ export interface ConnectedOrganization {
   organization: Organization;
   invitation: string;
   isAffiliationActive?: boolean;
+  invoiceFrequency?: string;
 }
 export interface IConnectedOrganizationResponse {
   data: ConnectedOrganization[];

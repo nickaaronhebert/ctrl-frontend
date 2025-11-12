@@ -50,7 +50,7 @@ export function MedicationRow({ medication }: MedicationProps) {
             VARIANTS
           </div>
           <div className="col-span-12 md:col-span-3 text-xs font-medium text-gray-500 uppercase">
-            PHARMACY IDENTIFIER
+            SKU(PRIMARY PHARMACY IDENTIFIER)
           </div>
           <div className="col-span-6 md:col-span-3 md:text-right text-xs font-medium text-gray-500 uppercase">
             DEFAULT PRICE

@@ -5,6 +5,7 @@ import type { ConnectedOrganization } from "@/types/responses/IConnectedOrganiza
 import type { ColumnDef } from "@tanstack/react-table";
 import { SquarePen } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export function activeOrganizationColumns(): ColumnDef<ConnectedOrganization>[] {
   return [
@@ -22,7 +23,7 @@ export function activeOrganizationColumns(): ColumnDef<ConnectedOrganization>[] 
     },
 
     {
-      accessorKey: "email", // just for sorting/filtering on firstName
+      accessorKey: "email",
       header: "Email",
       cell: ({ row }) => {
         const { organization } = row.original;
@@ -35,7 +36,22 @@ export function activeOrganizationColumns(): ColumnDef<ConnectedOrganization>[] 
     },
 
     {
-      accessorKey: "status", // just for sorting/filtering on firstName
+      accessorKey: "invoiceFrequency",
+      header: "Billing Cycle",
+      cell: ({ row }) => {
+        // const { organization } = row.original;
+        return (
+          <>
+            <span className="text-sm font-medium px-3 py-1 rounded-sm bg-[#E5F3FC]">
+              {row.original?.invoiceFrequency?.toUpperCase()}
+            </span>
+          </>
+        );
+      },
+    },
+
+    {
+      accessorKey: "status",
       header: "Status",
       cell: ({ row }) => {
         const { status, isAffiliationActive } = row.original;
@@ -64,6 +80,24 @@ export function activeOrganizationColumns(): ColumnDef<ConnectedOrganization>[] 
               />
             )}
           </>
+        );
+      },
+    },
+    {
+      accessorKey: "id",
+      header: "Action",
+      cell: ({ row }) => {
+        const org = row.original.organization;
+        return (
+          <Link
+            to={`/pharmacy/organizations/active/${row.original.organization.id}`}
+            className="flex justify-center items-center py-1 px-5 w-[85px] h-[36px] rounded-[50px] border border-primary-foreground "
+            state={{
+              organization: org,
+            }}
+          >
+            View
+          </Link>
         );
       },
     },

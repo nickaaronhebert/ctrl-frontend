@@ -27,7 +27,7 @@ export default function InvitePharmacyAdmin() {
   const { data: pharmaciesData } = useViewAllPharmaciesQuery(
     {
       page: 1,
-      perPage: 20,
+      perPage: 100,
       q: searchParams,
     },
     {

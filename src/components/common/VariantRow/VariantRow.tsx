@@ -39,7 +39,7 @@ const VariantRow = ({ variant, drugName, onDelete }: VariantProps) => {
         -
       </p> */}
         <p className="col-span-12 md:col-span-3 text-sm text-gray-900 font-medium truncate">
-          {variant?.pharmacyIdentifier || "N/A"}
+          {variant?.primaryPharmacyIdentifier || "N/A"}
         </p>
         <p className="col-span-6 md:col-span-3 text-sm text-gray-900 font-semibold md:text-right">
           ${variant?.price?.toFixed(2)}

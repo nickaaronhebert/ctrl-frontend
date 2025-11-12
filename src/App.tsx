@@ -82,6 +82,7 @@ import EditMedicationCatalogue from "./pages/CTRLAdmin/MedicationCatalogue/edit"
 import Encountered from "./pages/CTRLAdmin/Encountered";
 import SubOrganization from "./pages/Organization/SubOrganization/Create";
 import AddProductForm from "./pages/CTRLAdmin/Encountered/AddProductForm/AddProductForm";
+import ActiveOrgDetails from "./pages/Pharmacy/Organization/Active/details";
 
 const router = createBrowserRouter([
   {
@@ -445,6 +446,10 @@ const router = createBrowserRouter([
       {
         path: ROUTES.PHARMACY_ORGANIZATIONS,
         element: <PharmacyOrganizationStatus />,
+      },
+      {
+        path: `${ROUTES.PHARMACY_ACTIVE_ORGANIZATIONS}/:id`,
+        element: <ActiveOrgDetails />,
       },
       {
         path: `${ROUTES.PHARMACY_TRANSMISSIONS}/:id`,
