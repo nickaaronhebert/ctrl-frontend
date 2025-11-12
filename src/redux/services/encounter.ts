@@ -50,6 +50,13 @@ export const encounterApi = baseApi.injectEndpoints({
       },
       providesTags: [TAG_GET_ENCOUNTER],
     }),
+    updateEncounteredProduct: builder.mutation({
+      query: ({ productId, ...body }) => ({
+        url: `/encounters/products/${productId}`,
+        method: "PATCH",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -58,4 +65,5 @@ export const {
   useCreateEncounterMutation,
   useGetEncounteredProductsQuery,
   useGetAllEncounterQuery,
+  useUpdateEncounteredProductMutation,
 } = encounterApi;

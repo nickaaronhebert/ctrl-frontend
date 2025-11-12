@@ -4,7 +4,7 @@ export interface EncounteredProduct {
   telegraProductVariant: string[];
   name: string;
   description: string;
-  output: string;
+  output: "ctrl_order_approval" | "pdf_document";
   isActive: boolean;
   createdAt: string;
   updatedAt: string;
