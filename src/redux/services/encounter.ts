@@ -56,7 +56,7 @@ export const encounterApi = baseApi.injectEndpoints({
         method: "PATCH",
         body,
       }),
-      invalidatesTags: [TAG_GET_ENCOUNTER],
+      invalidatesTags: [TAG_GET_ENCOUNTERED],
     }),
   }),
 });
