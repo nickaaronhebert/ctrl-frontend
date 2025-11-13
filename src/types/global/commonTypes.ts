@@ -157,7 +157,9 @@ export interface Prescription {
 
 export interface Transmission {
   foreignPharmacyOrderId?: string;
+  externalOrderId?: string;
   pharmacy: Pharmacy;
+  patient?: Patient;
   prescriptions: Prescription[];
   status: string;
   id: string;
@@ -165,6 +167,8 @@ export interface Transmission {
   amount: number;
   order?: {
     transmissionMethod: string;
+    externalOrderId?: string;
+    patient?: Patient;
   };
 }
 
