@@ -9,6 +9,7 @@ export type SubOrganization = {
   phoneNumber: string;
   address: Address;
   status: string;
+  parentOrganization?: string;
 };
 
 export interface IGetAllSubOrganization {

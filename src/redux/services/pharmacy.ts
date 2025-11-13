@@ -2,6 +2,7 @@ import type { PharmacyInvoiceResponse } from "@/types/responses/invoices";
 import {
   TAG_GET_CONNECTED_ORGANIZATION,
   TAG_GET_PHARMACY_CATALOGUE,
+  TAG_GET_SUB_ORGANIZATION,
   TAG_GET_USER_PROFILE,
   TAG_GLOBAL_PHARMACIES,
 } from "@/types/baseApiTags";
@@ -164,6 +165,14 @@ export const pharmacyApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [TAG_GET_PHARMACY_CATALOGUE],
     }),
+    createSubOrgCreds: builder.mutation({
+      query: (body) => ({
+        url: `/pharmacy/suborg-creds`,
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: [TAG_GET_SUB_ORGANIZATION],
+    }),
   }),
 });
 
@@ -185,4 +194,5 @@ export const {
   useCreatePharmacyCredsMutation,
   useUpdatePharmacyCredsMutation,
   useEditPharmacyCatalogueMutation,
+  useCreateSubOrgCredsMutation,
 } = pharmacyApi;

@@ -14,6 +14,11 @@ interface BillingOption {
   icon: React.ReactNode;
 }
 
+interface BillingFrequencySelectorProps {
+  selected: BillingFrequency;
+  setSelected: (value: BillingFrequency) => void;
+}
+
 const billingOptions: BillingOption[] = [
   {
     id: "daily",
@@ -35,7 +40,10 @@ const billingOptions: BillingOption[] = [
   },
 ];
 
-export function BillingFrequencySelector({ selected, setSelected }: any) {
+export function BillingFrequencySelector({
+  selected,
+  setSelected,
+}: BillingFrequencySelectorProps) {
   return (
     <div className="px-5 pt-4">
       <div className="space-y-3">
