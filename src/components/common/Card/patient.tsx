@@ -30,7 +30,17 @@ const patientDisplayFields: {
 
   {
     label: "Zip Code",
-    getValue: (patient) => patient.zipcode,
+    getValue: (patient) => {
+      const addresses = patient.addresses ?? [];
+      const fallbackAddressZip = addresses.length
+        ? addresses[0]?.zipcode ?? ""
+        : "";
+      const inlineZip =
+        patient.zipcode ||
+        (patient as unknown as { zipCode?: string }).zipCode ||
+        fallbackAddressZip;
+      return inlineZip || "-";
+    },
   },
 ];
 export default function PatientCard({ patient }: { patient: Patient }) {

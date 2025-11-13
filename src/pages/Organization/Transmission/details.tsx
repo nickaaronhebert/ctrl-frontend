@@ -75,7 +75,9 @@ export default function TransmissionDetails() {
       prescriptions: data?.data?.prescriptions,
       patient: data?.data?.patient ?? data?.data?.order?.patient,
       externalOrderId:
-        data?.data?.order?.externalOrderId ?? data?.data?.externalOrderId,
+        data?.data?.order?.externalOrderId ??
+        data?.data?.externalOrderId ??
+        data?.data?.order?.orderId,
       transmissionDetails: {
         amount: data?.data?.amount || 0,
         createdAt: data?.data?.createdAt || "-",
