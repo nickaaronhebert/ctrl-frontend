@@ -2,52 +2,45 @@ import { StatusBadge } from "@/components/common/StatusBadge/StatusBadge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
-import { useGetConnectedOrganizationQuery } from "@/redux/services/pharmacy";
+import { Link } from "react-router-dom";
+import { useGetLinkedOrganizationQuery } from "@/redux/services/pharmacy";
 import { useParams } from "react-router-dom";
 import PharmacyOrgAffiliateProviders from "./providers";
 import ViewPharmacySubOrganization from "./sub-organizations";
 import { CreateOrganizationCredentialsModal } from "@/components/common/CreateOrganizationCredentialsModal/CreateOrganizationCredentialsModal";
 import type { BillingFrequency } from "@/components/dialog/action";
 import { OrgInvoiceFrequencyDialog } from "@/components/common/InvoiceFrequencyDialog/OrgInvoiceFrequencyDialog";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 const ActiveOrgDetails = () => {
-  const [searchParams] = useSearchParams();
-  const page = parseInt(searchParams.get("page") || "1", 10);
-  const perPage = parseInt(searchParams.get("per_page") ?? "100", 10);
-  const { id } = useParams();
-  const { data, meta } = useGetConnectedOrganizationQuery(
-    {
-      page,
-      perPage,
-      status: "accepted",
-      q: "",
-    },
-    {
-      selectFromResult: ({ data, isLoading, isError }) => ({
-        data: data?.data,
-        meta: data?.meta,
-        isLoading: isLoading,
-        isError: isError,
-      }),
-    }
-  );
+  const { id } = useParams<{ id: string }>();
 
-  const singleOrg = data?.find((item) => item.organization?.id === id);
+  const { data, isLoading } = useGetLinkedOrganizationQuery(id ?? "", {
+    skip: !id,
+  });
+
   const [activeStatus, setActiveStatus] = useState<"affiliates" | "subOrgs">(
     "affiliates"
   );
   const [openCredentialsForm, setOpenCredentialsForm] = useState(false);
   const [openBillingModal, setOpenBillingModal] = useState<boolean>(false);
   const [selected, setSelected] = useState<BillingFrequency>(
-    (singleOrg?.invoiceFrequency as BillingFrequency) || "daily"
+    (data?.data?.invoiceFrequency as BillingFrequency) || "daily"
   );
 
   useEffect(() => {
-    if (singleOrg?.invoiceFrequency) {
-      setSelected(singleOrg.invoiceFrequency as BillingFrequency);
+    if (data?.data?.invoiceFrequency) {
+      setSelected(data?.data?.invoiceFrequency as BillingFrequency);
     }
-  }, [singleOrg]);
+  }, [data?.data]);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -60,9 +53,7 @@ const ActiveOrgDetails = () => {
             {"<- Back to Organizations"}
           </Link>
 
-          <h1 className="text-2xl font-bold mt-1">
-            {singleOrg?.organization?.name}
-          </h1>
+          <h1 className="text-2xl font-bold mt-1">{data?.data?.name}</h1>
         </div>
         <div className="flex gap-3">
           <Button
@@ -89,30 +80,24 @@ const ActiveOrgDetails = () => {
           <div className="p-3 bg-[#F7F1FD] text-black rounded-[6px] space-y-3">
             <div className="flex justify-between">
               <p className="text-sm font-normal">Name</p>
-              <p className="text-sm font-medium">
-                {singleOrg?.organization?.name}
-              </p>
+              <p className="text-sm font-medium">{data?.data?.name}</p>
             </div>
             <div className="flex justify-between">
               <p className="text-sm font-normal">Email</p>
-              <p className="text-sm font-medium">
-                {singleOrg?.organization?.email}
-              </p>
+              <p className="text-sm font-medium">{data?.data?.email}</p>
             </div>
             <div className="flex justify-between">
               <p className="text-sm font-normal">Phone</p>
-              <p className="text-sm font-medium">
-                {singleOrg?.organization?.phoneNumber}
-              </p>
+              <p className="text-sm font-medium">{data?.data?.phoneNumber}</p>
             </div>
             <div className="flex justify-between">
               <p className="text-sm font-normal">Status</p>
-              <StatusBadge status={singleOrg?.status as string} />
+              <StatusBadge status={data?.data?.status as string} />
             </div>
             <div className="flex justify-between">
               <p className="text-sm font-normal">Billing</p>
               <p className="text-sm font-medium">
-                {singleOrg?.invoiceFrequency?.toUpperCase()}
+                {data?.data?.invoiceFrequency?.toUpperCase()}
               </p>
             </div>
           </div>
@@ -163,8 +148,8 @@ const ActiveOrgDetails = () => {
         <CreateOrganizationCredentialsModal
           open={openCredentialsForm}
           setOpen={setOpenCredentialsForm}
-          id={singleOrg?.organization?.id}
-          invitation={singleOrg?.invitation}
+          id={data?.data?.id}
+          invitation={data?.data?.invitation}
           update={true}
         />
       )}
@@ -175,6 +160,7 @@ const ActiveOrgDetails = () => {
           setOpen={setOpenBillingModal}
           selected={selected}
           setSelected={setSelected}
+          organization={data?.data?.id as string}
         />
       )}
     </>

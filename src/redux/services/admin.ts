@@ -18,11 +18,13 @@ import {
   TAG_GET_PHARMACY,
   TAG_GET_PROVIDERS,
   TAG_GET_SUB_ORGANIZATION,
+  TAG_ORG_SUB_ORGS,
 } from "@/types/baseApiTags";
 import type { IViewAllInvitationResponse } from "@/types/responses/IViewInvitation";
 
 import type { IGetAllSubOrganization } from "@/types/responses/IGetAllSuborganization";
 import type { IViewAllCredentialsResponse } from "@/types/responses/IViewAllCredentials";
+import { type SubOrgResponse } from "@/types/responses/ISubOrg";
 
 const adminApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -187,6 +189,17 @@ const adminApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [TAG_GET_ORGANIZATIONS],
     }),
+
+    // Get sub orgs with frequency //
+    getOrgSubOrganizations: builder.query<SubOrgResponse, ICommonSearchQuery>({
+      query: ({ page, perPage, q, organizationId }) => {
+        return {
+          url: `/pharmacy/sub-organizations/${organizationId}?page=${page}&limit=${perPage}&q=${q}`,
+          method: "GET",
+        };
+      },
+      providesTags: [TAG_ORG_SUB_ORGS],
+    }),
   }),
 });
 
@@ -206,6 +219,7 @@ export const {
   useViewCredentialsQuery,
   useViewAllSubOrganizationQuery,
   useTrustedOrganizationsMutation,
+  useGetOrgSubOrganizationsQuery,
 } = adminApi;
 
 export default adminApi;

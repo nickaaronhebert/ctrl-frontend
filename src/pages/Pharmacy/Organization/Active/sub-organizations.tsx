@@ -2,7 +2,7 @@ import { pharmacysubOrganizationColumns } from "@/components/data-table/columns/
 import { DataTable } from "@/components/data-table/data-table";
 import { DataTablePagination } from "@/components/data-table/data-table-pagination";
 import { useDataTable } from "@/hooks/use-data-table";
-import { useViewAllSubOrganizationQuery } from "@/redux/services/admin";
+import { useGetOrgSubOrganizationsQuery } from "@/redux/services/admin";
 
 import { useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
@@ -17,8 +17,8 @@ export default function ViewPharmacySubOrganization({
   const [searchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1", 10);
   const perPage = parseInt(searchParams.get("per_page") ?? "100", 10);
-  const { data: subOrgData, meta } = useViewAllSubOrganizationQuery(
-    { page, perPage, q: "", parentOrganization: organization },
+  const { data: subOrgData, meta } = useGetOrgSubOrganizationsQuery(
+    { page, perPage, q: "", organizationId: organization },
     {
       selectFromResult: ({ data, isLoading, isError }) => ({
         data: data?.data,
@@ -29,7 +29,10 @@ export default function ViewPharmacySubOrganization({
     }
   );
 
-  const columns = useMemo(() => pharmacysubOrganizationColumns(), []);
+  const columns = useMemo(
+    () => pharmacysubOrganizationColumns(organization),
+    [organization]
+  );
 
   const { table } = useDataTable({
     data: subOrgData || [],

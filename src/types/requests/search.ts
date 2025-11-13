@@ -25,4 +25,5 @@ export interface ICommonSearchQuery {
   pharmacy?: string;
   state?: string;
   subOrganization?: string;
+  organizationId?: string;
 }

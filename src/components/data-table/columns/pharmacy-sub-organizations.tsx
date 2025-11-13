@@ -2,16 +2,14 @@ import { CreateSubOrgCredentialsModal } from "@/components/common/CreateOrganiza
 import { SubOrgInvoiceFrequencyDialog } from "@/components/common/InvoiceFrequencyDialog/SubOrgInvoiceFrequencyDialog";
 import type { BillingFrequency } from "@/components/dialog/action";
 import { Button } from "@/components/ui/button";
-import type { SubOrganization } from "@/types/responses/IGetAllSuborganization";
+import { cn } from "@/lib/utils";
+import type { OrgSubOrgs } from "@/types/responses/ISubOrg";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
 
-type SubOrgInfo = Pick<
-  SubOrganization,
-  "name" | "email" | "id" | "parentOrganization"
->;
-
-export function pharmacysubOrganizationColumns(): ColumnDef<SubOrgInfo>[] {
+export function pharmacysubOrganizationColumns(
+  organization: string
+): ColumnDef<OrgSubOrgs>[] {
   return [
     {
       accessorKey: "name",
@@ -31,30 +29,54 @@ export function pharmacysubOrganizationColumns(): ColumnDef<SubOrgInfo>[] {
       },
     },
     {
-      accessorKey: "credentials",
+      accessorKey: "invoiceFrequency",
       header: "Credentials",
       cell: ({ row }) => {
-        const { email } = row.original;
-        return <p className="text-sm font-medium">{email}</p>;
+        const { invoiceFrequency } = row.original;
+        const isConfigured = !!invoiceFrequency;
+        return (
+          <span
+            className={cn(
+              "px-2 py-1 text-xs font-medium rounded-md border",
+              isConfigured
+                ? "text-green-600 border-green-300 bg-green-50"
+                : "text-orange-600 border-orange-300 bg-orange-50"
+            )}
+          >
+            {isConfigured ? "Configured" : "Not Configured"}
+          </span>
+        );
       },
     },
     {
-      accessorKey: "id", // just for sorting/filtering on firstName
+      accessorKey: "id",
       header: "Action",
       cell: ({ row }) => {
         console.log(">myRowwwwwwww", row.original);
         const [openConnectionRequest, setOpenConnectionRequest] =
           useState(false);
         const [openCredentialsModal, setOpenCredentialsModal] = useState(false);
-        const [selected, setSelected] = useState<BillingFrequency>("daily");
+        const [selected, setSelected] = useState<BillingFrequency>(
+          (row.original.invoiceFrequency || "daily") as BillingFrequency
+        );
+        const isConfigured = !!row.original.invoiceFrequency;
         return (
           <>
             <Button
-              variant={"transparent"}
-              className="min-w-28 py-2.5"
-              onClick={() => setOpenConnectionRequest(true)}
+              variant={"outline"}
+              className={cn(
+                "min-w-28 py-2.5 rounded-full",
+                isConfigured
+                  ? "text-primary border-primary hover:bg-primary/5"
+                  : "text-black"
+              )}
+              onClick={() =>
+                isConfigured
+                  ? setOpenConnectionRequest(true)
+                  : setOpenConnectionRequest(true)
+              }
             >
-              Set Credentials
+              {isConfigured ? "View Credential" : "Set Credential"}
             </Button>
             <SubOrgInvoiceFrequencyDialog
               open={openConnectionRequest}
@@ -62,7 +84,8 @@ export function pharmacysubOrganizationColumns(): ColumnDef<SubOrgInfo>[] {
               selected={selected}
               setSelected={setSelected}
               subOrganization={row.original.id}
-              organization={row.original.parentOrganization!}
+              organization={organization}
+              isConfigured={isConfigured}
               onUpdate={() => setOpenCredentialsModal(true)}
             />
             {openCredentialsModal && (
@@ -70,7 +93,7 @@ export function pharmacysubOrganizationColumns(): ColumnDef<SubOrgInfo>[] {
                 open={openCredentialsModal}
                 setOpen={setOpenCredentialsModal}
                 organizationName={row.original.name}
-                organization={row.original.parentOrganization as string}
+                organization={organization}
                 subOrganization={row.original.id}
                 invoiceFrequency={selected}
               />

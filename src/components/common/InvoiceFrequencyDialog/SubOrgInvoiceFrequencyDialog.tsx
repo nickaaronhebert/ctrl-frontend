@@ -17,6 +17,7 @@ interface BillingFrequencySelectorProps {
   subOrganization: string;
   organization: string;
   onUpdate?: () => void;
+  isConfigured: boolean;
 }
 
 export function SubOrgInvoiceFrequencyDialog({
@@ -27,6 +28,7 @@ export function SubOrgInvoiceFrequencyDialog({
   //   subOrganization,
   //   organization,
   onUpdate,
+  isConfigured,
 }: BillingFrequencySelectorProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -42,20 +44,22 @@ export function SubOrgInvoiceFrequencyDialog({
           selected={selected}
           setSelected={setSelected}
         />
-        <div className="mt-4 flex justify-end gap-2">
-          <Button variant="outline" onClick={() => console.log("Cancelled")}>
-            Cancel
-          </Button>
-          <Button
-            className="text-white cursor-pointer"
-            onClick={() => {
-              if (onUpdate) onUpdate();
-              setOpen(false);
-            }}
-          >
-            Update
-          </Button>
-        </div>
+        {!isConfigured && (
+          <div className="mt-4 flex justify-end gap-2">
+            <Button variant="outline" onClick={() => setOpen(false)}>
+              Cancel
+            </Button>
+            <Button
+              className="text-white cursor-pointer"
+              onClick={() => {
+                if (onUpdate) onUpdate();
+                setOpen(false);
+              }}
+            >
+              Update
+            </Button>
+          </div>
+        )}
       </DialogContent>
     </Dialog>
   );

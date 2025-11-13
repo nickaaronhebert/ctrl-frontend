@@ -1,3 +1,4 @@
+import type { BillingFrequency } from "@/components/dialog/action";
 import type { Address } from "../global/commonTypes";
 import type { PaginationMeta } from "./pagination";
 
@@ -10,6 +11,8 @@ export type SubOrganization = {
   address: Address;
   status: string;
   parentOrganization?: string;
+  organizationId?: string;
+  invoiceFrequency?: BillingFrequency;
 };
 
 export interface IGetAllSubOrganization {

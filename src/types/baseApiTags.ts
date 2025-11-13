@@ -17,3 +17,5 @@ export const TAG_GET_MEDICATIONS_CATALOGUE = "Medication_Catalogue" as const;
 export const TAG_GET_CREDENTIALS = "API_CREDENTIALS" as const;
 export const TAG_GET_ENCOUNTERED = "Encountered" as const;
 export const TAG_GET_ENCOUNTER = "Encounter" as const;
+export const TAG_LINKED_ORG = "LinkedOrg";
+export const TAG_ORG_SUB_ORGS = "OrgSubOrgs";
