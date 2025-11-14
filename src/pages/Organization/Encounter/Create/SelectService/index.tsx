@@ -8,7 +8,11 @@ import type { EncounteredProduct } from "@/types/responses/IGetAllEncounteredPro
 
 interface ServiceSearchProps {
   selectedService?: string | null;
-  onSelect: (displayText: string | null, id: string | null) => void;
+  onSelect: (
+    displayText: string | null,
+    id: string | null,
+    output: "ctrl_order_approval" | "pdf_document" | ""
+  ) => void;
 }
 
 export function ServiceSearch({
@@ -50,11 +54,11 @@ export function ServiceSearch({
   const handleClearSearch = () => {
     setDisplayValue("");
     setSearch("");
-    onSelect("", "");
+    onSelect("", "", "");
   };
 
   return (
-    <div className="space-y-2 max-w-[480px]">
+    <div className="space-y-2 ">
       <div className="relative">
         <Input
           id="service"
@@ -100,7 +104,7 @@ export function ServiceSearch({
                 key={service.id}
                 className="p-2 hover:bg-gray-100 cursor-pointer border-0 flex text-sm font-normal gap-0.5"
                 onClick={() => {
-                  onSelect(`${service.name}`, service.id);
+                  onSelect(`${service.name}`, service.id, service.output);
                   setDisplayValue(`${service.name}`);
                   setSearch(""); // clear search query so API doesn’t re-run
                 }}

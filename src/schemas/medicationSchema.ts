@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const medicationSchema = z.object({
+export const medicationSchema = z.object({
   selectMedication: z.string().min(2, "Medication selection is required"),
 
   quantity: z.coerce

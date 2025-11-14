@@ -6,10 +6,15 @@ import { useGetPatientDetailsQuery } from "@/redux/services/patientApi";
 
 import type { PatientDetails } from "@/types/responses/patient";
 import { useDebounce } from "@/hooks/use-debounce";
+import type { Address } from "@/types/global/commonTypes";
 
 interface PatientSearchProps {
   selectedPatient?: string | null;
-  onSelect: (displayText: string | null, id: string | null) => void;
+  onSelect: (
+    displayText: string | null,
+    id: string | null,
+    addresses: Address[] | []
+  ) => void;
 }
 
 export function PatientSearch({
@@ -51,16 +56,16 @@ export function PatientSearch({
   const handleClearSearch = () => {
     setDisplayValue("");
     setSearch("");
-    onSelect("", "");
+    onSelect("", "", []);
   };
 
   return (
-    <div className="space-y-2 max-w-[480px]">
+    <div className="space-y-2 ">
       <div className="relative">
         <Input
           id="patient"
           name="patient"
-          className="border-[#9EA5AB]"
+          className="border-[#9EA5AB] "
           type="text"
           placeholder="Search patient..."
           value={displayValue}
@@ -96,32 +101,35 @@ export function PatientSearch({
           {isFetching ? (
             <li className="p-2 text-gray-500">Loading...</li>
           ) : data?.length ? (
-            data?.map((patient: PatientDetails) => (
-              <li
-                key={patient.id}
-                className="p-2 hover:bg-gray-100 cursor-pointer border-0 flex text-sm font-normal gap-0.5"
-                onClick={() => {
-                  onSelect(
-                    `${patient.firstName} ${patient.lastName}, ${patient.phoneNumber}, ${patient.email}`,
-                    patient.id
-                  );
-                  setDisplayValue(
-                    `${patient.firstName} ${patient.lastName}, ${patient.phoneNumber}, ${patient.email}`
-                  );
-                  setSearch(""); // clear search query so API doesn’t re-run
-                }}
-              >
-                <span className="font-medium text-black">
-                  {patient.firstName}
-                </span>
-                <span className="font-medium text-black">
-                  {" "}
-                  {patient.lastName} ,
-                </span>
-                <span>{patient.phoneNumber} ,</span>
-                <span>{patient.email}</span>
-              </li>
-            ))
+            data?.map((patient: PatientDetails) => {
+              return (
+                <li
+                  key={patient.id}
+                  className="p-2 hover:bg-gray-100 cursor-pointer border-0 flex text-sm font-normal gap-0.5"
+                  onClick={() => {
+                    onSelect(
+                      `${patient.firstName} ${patient.lastName}, ${patient.phoneNumber}, ${patient.email}`,
+                      patient.id,
+                      patient.addresses
+                    );
+                    setDisplayValue(
+                      `${patient.firstName} ${patient.lastName}, ${patient.phoneNumber}, ${patient.email}`
+                    );
+                    setSearch(""); // clear search query so API doesn’t re-run
+                  }}
+                >
+                  <span className="font-medium text-black">
+                    {patient.firstName}
+                  </span>
+                  <span className="font-medium text-black">
+                    {" "}
+                    {patient.lastName} ,
+                  </span>
+                  <span>{patient.phoneNumber} ,</span>
+                  <span>{patient.email}</span>
+                </li>
+              );
+            })
           ) : (
             <li className="p-2 text-gray-500 text-sm">No patients found</li>
           )}
