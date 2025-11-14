@@ -2,7 +2,10 @@ import { TAG_GET_ENCOUNTER, TAG_GET_ENCOUNTERED } from "@/types/baseApiTags";
 import { baseApi } from ".";
 import type { ICommonSearchQuery } from "@/types/requests/search";
 import type { IGetAllEncounteredProducts } from "@/types/responses/IGetAllEncounteredProducts";
-import type { IGetAllEncounter } from "@/types/responses/IGetAllEncounter";
+import type {
+  IGetAllEncounter,
+  IGetEncounterDetails,
+} from "@/types/responses/IGetAllEncounter";
 import type { ICreateEncounter } from "@/types/requests/ICreateEncounter";
 import type { ICreateEncounterResponse } from "@/types/responses/ICreareCounter";
 
@@ -50,6 +53,16 @@ export const encounterApi = baseApi.injectEndpoints({
       },
       providesTags: [TAG_GET_ENCOUNTER],
     }),
+
+    getAllEncounterDetails: builder.query<IGetEncounterDetails, string>({
+      query: (id) => {
+        const url = `/encounters/${id}`;
+        return {
+          url: url,
+          method: "GET",
+        };
+      },
+    }),
   }),
 });
 
@@ -58,4 +71,5 @@ export const {
   useCreateEncounterMutation,
   useGetEncounteredProductsQuery,
   useGetAllEncounterQuery,
+  useGetAllEncounterDetailsQuery,
 } = encounterApi;

@@ -82,11 +82,10 @@ export function encounterColumns(): ColumnDef<Encounter>[] {
     {
       accessorKey: "id",
       header: "Action",
-      cell: () => {
+      cell: ({ row }) => {
         return (
           <Link
-            to={"#"}
-            // to={`/org/order/${row.getValue("id")}`}
+            to={`/org/encounter/${row.getValue("id")}`}
             className="flex justify-center items-center py-1 px-5 w-[85px] h-[36px] rounded-[50px] border border-primary-foreground "
           >
             View
