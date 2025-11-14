@@ -84,6 +84,7 @@ import SubOrganization from "./pages/Organization/SubOrganization/Create";
 import AddProductForm from "./pages/CTRLAdmin/Encountered/AddProductForm/AddProductForm";
 import ActiveOrgDetails from "./pages/Pharmacy/Organization/Active/details";
 import EncounterPage from "./pages/Organization/Encounter";
+import EncounterDetails from "./pages/Organization/Encounter/Detail";
 
 const router = createBrowserRouter([
   {
@@ -264,6 +265,10 @@ const router = createBrowserRouter([
       {
         path: ROUTES.ORG_ENCOUNTER,
         element: <EncounterPage />,
+      },
+      {
+        path: ROUTES.ORG_ENCOUNTER_DETAILS,
+        element: <EncounterDetails />,
       },
 
       {

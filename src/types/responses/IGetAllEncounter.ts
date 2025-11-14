@@ -1,3 +1,4 @@
+import type { Address, Patient } from "../global/commonTypes";
 import type { PaginationMeta } from "./pagination";
 
 export type EncounterStatus =
@@ -21,8 +22,34 @@ export interface Encounter {
   updatedAt: string;
 }
 
+export interface EncounterDetails {
+  encounterId: string;
+  status: EncounterStatus;
+  notes?: string;
+  createdAt: string;
+  updatedAt: string;
+  id: string;
+  encounterProduct: {
+    id: string;
+    name: string;
+  }[];
+  timeline: {
+    status: EncounterStatus;
+    timestamp: string;
+  }[];
+  patient: Omit<Patient, "addresses"> & {
+    address: Address;
+  };
+}
+
 export interface IGetAllEncounter {
   data: Encounter[];
   meta: PaginationMeta;
   code: string;
+}
+
+export interface IGetEncounterDetails {
+  message: string;
+  code: string;
+  data: EncounterDetails;
 }
