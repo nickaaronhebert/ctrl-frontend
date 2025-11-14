@@ -12,6 +12,7 @@ export interface Address {
 }
 
 export interface SubOrganizationDetails {
+  id?: string;
   name: string;
   email: string;
   phoneNumber: string;
@@ -30,11 +31,13 @@ export interface CreateSubOrganizationState {
   currentStep: number;
   stepOne: SubOrganizationDetails;
   stepTwo: BillingDetails;
+  isDirectToStepTwo: boolean;
 }
 
 const initialState: CreateSubOrganizationState = {
   currentStep: 0,
   stepOne: {
+    id: "",
     name: "",
     email: "",
     phoneNumber: "",
@@ -55,6 +58,7 @@ const initialState: CreateSubOrganizationState = {
     cvc: "",
     billingZipCode: "",
   },
+  isDirectToStepTwo: false,
 };
 
 const createSubOrganizationSlice = createSlice({
@@ -77,11 +81,30 @@ const createSubOrganizationSlice = createSlice({
       state.stepTwo = action.payload;
       state.currentStep += 1;
     },
+    setSubOrgId: (state, action: PayloadAction<string>) => {
+      state.stepOne.id = action.payload;
+    },
+    // setCurrentStep: (state, action: PayloadAction<number>) => {
+    //   state.currentStep = action.payload;
+    // },
+    setDirectToStepTwo: (state, action: PayloadAction<boolean>) => {
+      state.isDirectToStepTwo = action.payload;
+      if (action.payload) {
+        state.currentStep = 1;
+      }
+    },
     resetForm: () => initialState,
   },
 });
 
-export const { nextStep, prevStep, updateStepOne, updateStepTwo, resetForm } =
-  createSubOrganizationSlice.actions;
+export const {
+  nextStep,
+  prevStep,
+  updateStepOne,
+  updateStepTwo,
+  resetForm,
+  setSubOrgId,
+  setDirectToStepTwo,
+} = createSubOrganizationSlice.actions;
 
 export default createSubOrganizationSlice.reducer;

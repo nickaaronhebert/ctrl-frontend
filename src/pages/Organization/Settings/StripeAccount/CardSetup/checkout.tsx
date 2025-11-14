@@ -13,10 +13,15 @@ import { Button } from "@/components/ui/button";
 import { useGetAttachPaymentMethodMutation } from "@/redux/services/stripe";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import { useAppDispatch } from "@/redux/store";
+import { prevStep, resetForm } from "@/redux/slices/sub-org";
+import { useAppSelector } from "@/hooks/useAppSelector";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   clientSecret: string; // Pass this from backend
   hideCard: React.Dispatch<React.SetStateAction<boolean>>; // to hide card form on success
+  entityType: "org" | "subOrg";
 }
 
 interface StripeWrapperProps {
@@ -76,14 +81,25 @@ const StripeCardField: React.FC<StripeWrapperProps> = ({
   );
 };
 
-const CustomCardForm = ({ clientSecret, hideCard }: Props) => {
+const CustomCardForm = ({ clientSecret, hideCard, entityType }: Props) => {
   const [triggerAttachPaymentMethod] = useGetAttachPaymentMethodMutation();
+  const navigate = useNavigate();
+  const subOrganization = useAppSelector((state) => state.subOrg.stepOne.id);
+  console.log("Sub Organization", subOrganization);
   const stripe = useStripe();
   const elements = useElements();
+  const dispatch = useAppDispatch();
   const [defaultCardChecked, setDefaultCardChecked] = useState(false);
   const [cardholderName, setCardholderName] = useState("");
   const [zip, setZip] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const handleCancelOrBack = () => {
+    if (entityType === "subOrg") {
+      dispatch(prevStep());
+    }
+    hideCard?.(false);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -130,34 +146,41 @@ const CustomCardForm = ({ clientSecret, hideCard }: Props) => {
         throw new Error("Failed to retrieve payment method ID");
       }
 
-      // Attach payment method to backend
-      await triggerAttachPaymentMethod({
+      const attachPaymentMethodPayload: {
+        payment_method_id: string;
+        isDefault: boolean;
+        subOrganization?: string;
+      } = {
         payment_method_id: paymentMethodId,
         isDefault: defaultCardChecked,
-      })
-        .unwrap()
-        .then((res) => {
-          toast.success(res?.data?.message || "Card Saved Successfully", {
-            duration: 1500,
-          });
-          setCardholderName("");
-          setZip("");
-          setDefaultCardChecked(false);
+      };
 
-          // Reset Stripe Elements (optional)
-          elements.getElement(CardNumberElement)?.clear();
-          elements.getElement(CardExpiryElement)?.clear();
-          elements.getElement(CardCvcElement)?.clear();
-          hideCard(false); // hide card form
-        })
-        .catch((err) => {
-          toast.error(
-            err?.data?.message || "Error attaching payment method. ",
-            {
-              duration: 1500,
-            }
-          );
-        });
+      if (subOrganization) {
+        attachPaymentMethodPayload.subOrganization = subOrganization;
+      }
+
+      // Attach payment method to backend
+      const res = await triggerAttachPaymentMethod(
+        attachPaymentMethodPayload
+      ).unwrap();
+      toast.success(res.data?.message || "Card Saved Successfully", {
+        duration: 1500,
+      });
+
+      setCardholderName("");
+      setZip("");
+      setDefaultCardChecked(false);
+
+      elements.getElement(CardNumberElement)?.clear();
+      elements.getElement(CardExpiryElement)?.clear();
+      elements.getElement(CardCvcElement)?.clear();
+
+      dispatch(resetForm());
+      if (entityType === "subOrg") {
+        navigate("/org/sub-orgs");
+      } else {
+        hideCard(false);
+      }
     } catch (err: any) {
       console.error("Error during card setup:", err);
       toast.error(err?.message || "Error during card setup. ", {
@@ -256,9 +279,9 @@ const CustomCardForm = ({ clientSecret, hideCard }: Props) => {
         <Button
           variant={"transparent"}
           size={"xl"}
-          onClick={() => hideCard(false)}
+          onClick={handleCancelOrBack}
         >
-          Cancel
+          {entityType === "subOrg" ? "Back" : "Cancel"}
         </Button>
         <Button
           type="submit"
@@ -266,7 +289,11 @@ const CustomCardForm = ({ clientSecret, hideCard }: Props) => {
           variant={"ctrl"}
           size={"xl"}
         >
-          {loading ? "Processing..." : "Add Payment Method"}
+          {loading
+            ? "Processing..."
+            : entityType === "subOrg"
+            ? "Create SubOrganization"
+            : "Add Payment Method"}
         </Button>
       </div>
     </form>

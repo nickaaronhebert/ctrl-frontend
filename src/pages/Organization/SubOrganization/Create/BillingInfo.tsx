@@ -1,12 +1,11 @@
-import type { BillingDetails } from "@/redux/slices/sub-org";
+import StripeTest from "../../Settings/StripeAccount/CardSetup";
 
-interface BillingInfoProps {
-  billingInfo: BillingDetails;
-}
-
-const BillingInfo = ({ billingInfo }: BillingInfoProps) => {
-  console.log("BillingInfo", billingInfo);
-  return <div>Billing Info</div>;
+const BillingInfo = () => {
+  return (
+    <>
+      <StripeTest entityType="subOrg" />
+    </>
+  );
 };
 
 export default BillingInfo;

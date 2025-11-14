@@ -7,6 +7,7 @@ import BillingInfo from "./BillingInfo";
 
 const SubOrganization = () => {
   const subOrg = useAppSelector((state) => state.subOrg);
+
   return (
     <>
       <div className=" bg-[#EFE8F5] py-3 px-12">
@@ -51,9 +52,7 @@ const SubOrganization = () => {
           <CreateSubOrganization organizationDetails={subOrg.stepOne} />
         )}
 
-        {subOrg.currentStep === 1 && (
-          <BillingInfo billingInfo={subOrg.stepTwo} />
-        )}
+        {subOrg.currentStep === 1 && <BillingInfo />}
       </div>
     </>
   );

@@ -1,8 +1,14 @@
 import { Badge } from "@/components/ui/badge";
 import type { SubOrganization } from "@/types/responses/IGetAllSuborganization";
 import type { ColumnDef } from "@tanstack/react-table";
+import { Link } from "react-router-dom";
+// import { useAppDispatch } from "@/redux/store";
+// import { setDirectToStepTwo } from "@/redux/slices/sub-org";
+// import { useNavigate } from "react-router-dom";
 
 export function ctrlSubOrganizationColumns(): ColumnDef<SubOrganization>[] {
+  // const navigate = useNavigate();
+  // const dispatch = useAppDispatch();
   return [
     {
       accessorKey: "name",
@@ -40,19 +46,33 @@ export function ctrlSubOrganizationColumns(): ColumnDef<SubOrganization>[] {
       },
     },
 
-    // {
-    //   accessorKey: "id",
-    //   header: "Action",
-    //   cell: ({ row }) => {
-    //     return (
-    //       <Link
-    //         to={`/org/patient/${row.getValue("id")}`}
-    //         className="flex justify-center items-center py-1 px-5 w-[85px] h-[36px] rounded-[50px] border border-primary-foreground "
-    //       >
-    //         View
-    //       </Link>
-    //     );
-    //   },
-    // },
+    {
+      accessorKey: "id",
+      header: "Action",
+      cell: ({ row }) => {
+        const isConfigured = row.original.isSubOrgPaymentMethodConfigured;
+
+        return (
+          <div className="flex flex-col gap-2 items-center">
+            {isConfigured ? (
+              <span className="text-green-600 font-medium">
+                Payment Method Configured
+              </span>
+            ) : (
+              <Link
+                to={"/org/create-suborganization"}
+                // onClick={() => {
+                //   dispatch(setDirectToStepTwo(true));
+                //   navigate("/org/create-suborganization");
+                // }}
+                className="flex justify-center items-center py-1 px-5 min-w-[85px] h-[36px] rounded-[50px] border border-primary-foreground "
+              >
+                Configure Method
+              </Link>
+            )}
+          </div>
+        );
+      },
+    },
   ];
 }

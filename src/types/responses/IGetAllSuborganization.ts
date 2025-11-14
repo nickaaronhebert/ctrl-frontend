@@ -13,6 +13,7 @@ export type SubOrganization = {
   parentOrganization?: string;
   organizationId?: string;
   invoiceFrequency?: BillingFrequency;
+  isSubOrgPaymentMethodConfigured?: boolean;
 };
 
 export interface IGetAllSubOrganization {
