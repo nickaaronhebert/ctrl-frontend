@@ -20,6 +20,8 @@ import {
   TAG_GET_CREDENTIALS,
   TAG_GET_ENCOUNTERED,
   TAG_GET_ENCOUNTER,
+  TAG_LINKED_ORG,
+  TAG_ORG_SUB_ORGS,
 } from "@/types/baseApiTags";
 
 export const baseApi = createApi({
@@ -44,6 +46,8 @@ export const baseApi = createApi({
     TAG_GET_CREDENTIALS,
     TAG_GET_ENCOUNTERED,
     TAG_GET_ENCOUNTER,
+    TAG_LINKED_ORG,
+    TAG_ORG_SUB_ORGS,
   ],
   baseQuery: fetchBaseQuery({
     baseUrl:

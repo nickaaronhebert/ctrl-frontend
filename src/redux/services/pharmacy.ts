@@ -2,13 +2,19 @@ import type { PharmacyInvoiceResponse } from "@/types/responses/invoices";
 import {
   TAG_GET_CONNECTED_ORGANIZATION,
   TAG_GET_PHARMACY_CATALOGUE,
+  TAG_GET_SUB_ORGANIZATION,
   TAG_GET_USER_PROFILE,
   TAG_GLOBAL_PHARMACIES,
+  TAG_LINKED_ORG,
+  TAG_ORG_SUB_ORGS,
 } from "@/types/baseApiTags";
 import { baseApi } from ".";
 import type { IGetPharmacyInvoicesDetailsResponse } from "@/types/responses/IGetPharmacyInvoicesDetail";
 import type { ICommonSearchQuery } from "@/types/requests/search";
-import type { IConnectedOrganizationResponse } from "@/types/responses/IConnectedOrganization";
+import type {
+  IConnectedOrganizationResponse,
+  OrganizationResponse,
+} from "@/types/responses/IConnectedOrganization";
 
 export const pharmacyApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -49,6 +55,14 @@ export const pharmacyApi = baseApi.injectEndpoints({
         method: "GET",
       }),
       providesTags: [TAG_GET_CONNECTED_ORGANIZATION],
+    }),
+
+    // Get organization by id
+
+    getLinkedOrganization: builder.query<OrganizationResponse, string>({
+      query: (organizationId) =>
+        `/pharmacy/linked-organization/${organizationId}`,
+      providesTags: [TAG_LINKED_ORG],
     }),
 
     getPharmacyInvoicesDetails: builder.query<
@@ -154,7 +168,7 @@ export const pharmacyApi = baseApi.injectEndpoints({
         method: "PUT",
         body,
       }),
-      invalidatesTags: [TAG_GET_CONNECTED_ORGANIZATION],
+      invalidatesTags: [TAG_GET_CONNECTED_ORGANIZATION, TAG_LINKED_ORG],
     }),
     editPharmacyCatalogue: builder.mutation({
       query: ({ id, ...body }) => ({
@@ -163,6 +177,22 @@ export const pharmacyApi = baseApi.injectEndpoints({
         body,
       }),
       invalidatesTags: [TAG_GET_PHARMACY_CATALOGUE],
+    }),
+    createSubOrgCreds: builder.mutation({
+      query: (body) => ({
+        url: `/pharmacy/suborg-creds`,
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: [TAG_GET_SUB_ORGANIZATION, TAG_ORG_SUB_ORGS],
+    }),
+    updateOrgBilling: builder.mutation({
+      query: (body) => ({
+        url: `/pharmacy/update-org-billing`,
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: [TAG_LINKED_ORG],
     }),
   }),
 });
@@ -185,4 +215,7 @@ export const {
   useCreatePharmacyCredsMutation,
   useUpdatePharmacyCredsMutation,
   useEditPharmacyCatalogueMutation,
+  useCreateSubOrgCredsMutation,
+  useGetLinkedOrganizationQuery,
+  useUpdateOrgBillingMutation,
 } = pharmacyApi;

@@ -4,7 +4,8 @@ import { useGetSetupIntentQuery } from "@/redux/services/stripe";
 import { loadStripe } from "@stripe/stripe-js";
 
 interface Props {
-  hideCard: React.Dispatch<React.SetStateAction<boolean>>;
+  hideCard?: React.Dispatch<React.SetStateAction<boolean>>;
+  entityType?: "org" | "subOrg";
 }
 
 const stripePromise = loadStripe(
@@ -61,7 +62,7 @@ const stripePromise = loadStripe(
 //   },
 // };
 
-export default function StripeTest({ hideCard }: Props) {
+export default function StripeTest({ hideCard, entityType }: Props) {
   const { data, isFetching } = useGetSetupIntentQuery();
 
   if (isFetching) return <div>Loading...</div>;
@@ -76,7 +77,8 @@ export default function StripeTest({ hideCard }: Props) {
     >
       <PaymentForm
         clientSecret={data.data.setupIntent.client_secret}
-        hideCard={hideCard}
+        hideCard={hideCard!}
+        entityType={entityType as "org" | "subOrg"}
       />
       {/* <PaymentElementForm /> */}
     </Elements>

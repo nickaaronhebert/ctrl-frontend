@@ -8,14 +8,13 @@ import PhoneInputElement from "@/components/Form/phone-input-element";
 import { toast } from "sonner";
 import { createOrganizationSchema } from "@/schemas/createOrganizationSchema";
 // import { useCreateOrganizationMutation } from "@/redux/services/admin";
-// import { updateStepOne } from "@/redux/slices/sub-org";
+import { setSubOrgId, updateStepOne } from "@/redux/slices/sub-org";
 import { CenteredRow } from "@/components/ui/centered-row";
 import SelectElement from "@/components/Form/select-element";
 import { USA_STATES } from "@/constants";
-import { useNavigate } from "react-router-dom";
 import { useCreateSubOrganizationMutation } from "@/redux/services/admin";
 import type { SubOrganizationDetails } from "@/redux/slices/sub-org";
-// import { useAppDispatch } from "@/redux/store";
+import { useAppDispatch } from "@/redux/store";
 
 interface CreateSubOrganizationProps {
   organizationDetails: SubOrganizationDetails;
@@ -24,9 +23,8 @@ interface CreateSubOrganizationProps {
 export default function CreateSubOrganization({
   organizationDetails,
 }: CreateSubOrganizationProps) {
-  const navigate = useNavigate();
   const [createOrg] = useCreateSubOrganizationMutation();
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
   const form = useForm<z.infer<typeof createOrganizationSchema>>({
     mode: "onChange",
@@ -48,23 +46,23 @@ export default function CreateSubOrganization({
   });
 
   async function onSubmit(data: z.infer<typeof createOrganizationSchema>) {
-    // dispatch(updateStepOne(data));
     console.log("first step data", data);
-    await createOrg(data)
-      .unwrap()
-      .then(() => {
-        form.reset();
-        toast.success("Sub-Organization created successfully", {
-          duration: 1500,
-        });
-        navigate("/org/sub-orgs");
-      })
-      .catch((err) => {
-        console.log("error", err);
-        toast.error(err?.data?.message ?? "Something went wrong", {
-          duration: 1500,
-        });
+
+    try {
+      const response = await createOrg(data).unwrap();
+      console.log("Response>>", response);
+      console.log("createOrg response", response.data.id);
+      dispatch(updateStepOne(data));
+      if (response.data.id) dispatch(setSubOrgId(response.data.id));
+      toast.success("Sub-Organization created successfully", {
+        duration: 1500,
       });
+    } catch (err: any) {
+      console.log("error", err);
+      toast.error(err?.data?.message ?? "Something went wrong", {
+        duration: 1500,
+      });
+    }
   }
 
   return (

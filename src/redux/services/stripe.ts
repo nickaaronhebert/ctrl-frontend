@@ -1,4 +1,4 @@
-import { TAG_GET_CARDS } from "@/types/baseApiTags";
+import { TAG_GET_CARDS, TAG_GET_SUB_ORGANIZATION } from "@/types/baseApiTags";
 import { baseApi } from ".";
 import type { IViewAllInvoices } from "@/types/responses/IViewOrganizationInvoices";
 import type { ICommonSearchQuery } from "@/types/requests/search";
@@ -13,7 +13,11 @@ export const stripeApi = baseApi.injectEndpoints({
 
     getAttachPaymentMethod: builder.mutation<
       any,
-      { isDefault: boolean; payment_method_id: string }
+      {
+        isDefault: boolean;
+        payment_method_id: string;
+        subOrganization?: string;
+      }
     >({
       query: (body) => ({
         url: `/payment/attach-payment-method`,
@@ -25,7 +29,7 @@ export const stripeApi = baseApi.injectEndpoints({
 
     getAdminCards: builder.query<any, void>({
       query: () => "/payment/cards", // GET request
-      providesTags: [TAG_GET_CARDS],
+      providesTags: [TAG_GET_CARDS, TAG_GET_SUB_ORGANIZATION],
     }),
 
     getOrganizationInvoices: builder.query<
