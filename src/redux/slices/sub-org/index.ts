@@ -84,15 +84,15 @@ const createSubOrganizationSlice = createSlice({
     setSubOrgId: (state, action: PayloadAction<string>) => {
       state.stepOne.id = action.payload;
     },
-    // setCurrentStep: (state, action: PayloadAction<number>) => {
-    //   state.currentStep = action.payload;
-    // },
-    setDirectToStepTwo: (state, action: PayloadAction<boolean>) => {
-      state.isDirectToStepTwo = action.payload;
-      if (action.payload) {
-        state.currentStep = 1;
-      }
+    setCurrentStep: (state, action: PayloadAction<number>) => {
+      state.currentStep = action.payload;
     },
+    // setDirectToStepTwo: (state, action: PayloadAction<boolean>) => {
+    //   state.isDirectToStepTwo = action.payload;
+    //   if (action.payload) {
+    //     state.currentStep = 1;
+    //   }
+    // },
     resetForm: () => initialState,
   },
 });
@@ -104,7 +104,8 @@ export const {
   updateStepTwo,
   resetForm,
   setSubOrgId,
-  setDirectToStepTwo,
+  // setDirectToStepTwo,
+  setCurrentStep,
 } = createSubOrganizationSlice.actions;
 
 export default createSubOrganizationSlice.reducer;

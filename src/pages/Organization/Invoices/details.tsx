@@ -213,14 +213,20 @@ export default function ViewInvoiceDetails() {
     isLoading: isInvoiceLoading,
     refetch,
   } = useGetInvoiceByIdQuery(id as string);
-  const { data: userCards } = useGetAdminCardsQuery(undefined, {
-    selectFromResult: ({ data, isFetching }) => {
-      return {
-        data: data?.data,
-        isFetching: isFetching,
-      };
-    },
-  });
+
+  const { data: userCards } = useGetAdminCardsQuery(
+    invoiceData?.data?.subOrganization
+      ? { subOrganization: invoiceData.data?.subOrganization }
+      : {},
+    {
+      selectFromResult: ({ data, isFetching }) => {
+        return {
+          data: data?.data,
+          isFetching: isFetching,
+        };
+      },
+    }
+  );
 
   console.log("Saved Card>>> ", userCards);
 

@@ -4,9 +4,22 @@ import { cn } from "@/lib/utils";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import CreateSubOrganization from "./CreateSubOrganization";
 import BillingInfo from "./BillingInfo";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { useAppDispatch } from "@/redux/store";
+import { setCurrentStep, setSubOrgId } from "@/redux/slices/sub-org";
 
 const SubOrganization = () => {
   const subOrg = useAppSelector((state) => state.subOrg);
+  const location = useLocation();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (location.state?.goToStep === 1) {
+      dispatch(setCurrentStep(1));
+      dispatch(setSubOrgId(location.state.subOrganization));
+    }
+  }, [location.state]);
 
   return (
     <>
