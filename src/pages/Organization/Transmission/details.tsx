@@ -1,22 +1,33 @@
 import { Link, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useState, type ComponentProps } from "react";
 import { useViewTransmissionByIdQuery } from "@/redux/services/transmission";
 import PharmacyCard from "@/components/common/Card/pharmacy";
 import PrescriptionCard from "@/components/common/Card/prescription";
 import TransmissionOverviewCard from "@/components/common/Card/transmission-overview";
+import PatientCard from "@/components/common/Card/patient";
 import Pharmacies from "@/assets/mainlayouticons/Pharmacies";
 import ZigZag from "@/assets/mainlayouticons/ZigZag";
 import Medications from "@/assets/mainlayouticons/Medications";
 import SecondaryOverview from "@/assets/mainlayouticons/SecondaryOverview";
+import Profile from "@/assets/icons/Profile";
 import { useLazyTransmitTransmissionQuery } from "@/redux/services/transmission";
 import { toast } from "sonner";
+
+const PatientMenuIcon = (props: ComponentProps<typeof Profile>) => (
+  <Profile width={30} height={30} {...props} />
+);
 
 const menuItems = [
   {
     title: "Overview",
     scrollToId: "transmissionOverview",
     icon: ZigZag,
+  },
+  {
+    title: "Patient Information",
+    scrollToId: "patientInformation",
+    icon: PatientMenuIcon,
   },
 
   {
@@ -43,24 +54,37 @@ export default function TransmissionDetails() {
   };
 
   const [activeTab, setActiveTab] = useState<
-    "transmissionOverview" | "pharmacyInformation" | "medicationInformation"
+    | "transmissionOverview"
+    | "patientInformation"
+    | "pharmacyInformation"
+    | "medicationInformation"
   >("transmissionOverview");
 
-  const { data, pharmacy, prescriptions, transmissionDetails, refetch } =
-    useViewTransmissionByIdQuery(params.id as string, {
-      selectFromResult: ({ data, isLoading, isError }) => ({
-        data: data?.data,
-        pharmacy: data?.data?.pharmacy,
-        prescriptions: data?.data?.prescriptions,
-        transmissionDetails: {
-          amount: data?.data?.amount || 0,
-          createdAt: data?.data?.createdAt || "-",
-          status: data?.data?.status || "-",
-        },
-        isLoading: isLoading,
-        isError: isError,
-      }),
-    });
+  const {
+    data,
+    pharmacy,
+    prescriptions,
+    transmissionDetails,
+    patient,
+    externalOrderId,
+    refetch,
+  } = useViewTransmissionByIdQuery(params.id as string, {
+    selectFromResult: ({ data, isLoading, isError }) => ({
+      data: data?.data,
+      pharmacy: data?.data?.pharmacy,
+      prescriptions: data?.data?.prescriptions,
+      patient: data?.data?.patient ?? data?.data?.order?.patient,
+      externalOrderId:
+        data?.data?.order?.externalOrderId ?? data?.data?.externalOrderId,
+      transmissionDetails: {
+        amount: data?.data?.amount || 0,
+        createdAt: data?.data?.createdAt || "-",
+        status: data?.data?.status || "-",
+      },
+      isLoading: isLoading,
+      isError: isError,
+    }),
+  });
 
   const [transmit] = useLazyTransmitTransmissionQuery();
 
@@ -177,8 +201,11 @@ export default function TransmissionDetails() {
             <TransmissionOverviewCard
               transmission={transmissionDetails}
               uniqueId={uniqueId}
+              externalOrderId={externalOrderId}
             />
           )}
+
+          {patient && <PatientCard patient={patient} />}
 
           {pharmacy && <PharmacyCard pharmacy={pharmacy} />}
 

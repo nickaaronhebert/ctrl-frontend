@@ -49,10 +49,28 @@ const orderDisplayFields: {
 export default function TransmissionOverviewCard({
   transmission,
   uniqueId,
+  externalOrderId,
 }: {
   transmission: TransmissionDetails;
   uniqueId: string;
+  externalOrderId?: string;
 }) {
+  const overviewFields: { label: string; getValue?: (t: TransmissionDetails) => ReactNode; content?: ReactNode }[] =
+    [
+      ...orderDisplayFields.map(({ label, getValue }) => ({
+        label,
+        getValue,
+      })),
+      {
+        label: "External Order Id",
+        content: externalOrderId ?? "-",
+      },
+      {
+        label: "Pharmacy Order Id",
+        content: uniqueId || "-",
+      },
+    ];
+
   return (
     <div
       className="bg-white rounded-[10px] shadow-[0px_2px_40px_0px_#00000014]"
@@ -63,25 +81,16 @@ export default function TransmissionOverviewCard({
         <h2 className="text-base font-semibold ">Overview</h2>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7 p-5">
-        {orderDisplayFields.map(({ label, getValue }) => (
+        {overviewFields.map(({ label, getValue, content }) => (
           <div key={label}>
             <h4 className="text-sm font-normal text-muted-foreground ">
               {label}
             </h4>
             <span className="capitalize font-medium text-primary-foreground text-sm mt-2">
-              {getValue(transmission as TransmissionDetails)}
+              {getValue ? getValue(transmission as TransmissionDetails) : content}
             </span>
           </div>
         ))}
-
-        <div>
-          <h4 className="text-sm font-normal text-muted-foreground ">
-            {"Pharmacy Order Id"}
-          </h4>
-          <span className="capitalize font-medium text-primary-foreground text-sm mt-2">
-            {uniqueId}
-          </span>
-        </div>
       </div>
     </div>
   );
