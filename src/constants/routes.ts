@@ -37,6 +37,7 @@ export const ROUTES = {
   CREATE_MEDICATION: "create-medication",
   EDIT_MEDICATION: "edit-medication/:id",
   ORG_DASHBOARD: "dashboard",
+  ORG_WEBHOOK: "webhook",
   ORG_TRANSMISSIONS: "transmissions",
   ORG_ORDERS: "orders",
   VIEW_SUB_ORGANIZATION: "sub-orgs",

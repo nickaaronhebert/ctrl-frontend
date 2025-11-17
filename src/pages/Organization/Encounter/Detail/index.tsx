@@ -3,9 +3,10 @@ import { useGetAllEncounterDetailsQuery } from "@/redux/services/encounter";
 import { format } from "date-fns";
 import { Link, useParams } from "react-router-dom";
 import { CircleCheck } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, isISODateString } from "@/lib/utils";
 import { FileText } from "lucide-react";
 import { Download } from "lucide-react";
+import { useMemo } from "react";
 // const EncounterStatusMapper = {
 //   started: 0,
 //   in_review: 1,
@@ -35,6 +36,14 @@ function EncounterStatusDetails({
   subtitle,
   date,
 }: EncounterStatusDetailProps) {
+  const formatted = isISODateString(date)
+    ? new Date(date).toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      })
+    : "-";
+
   return (
     <div className="w-full flex justify-between items-center px-2">
       <div className="flex gap-2.5 items-center ">
@@ -52,7 +61,7 @@ function EncounterStatusDetails({
         </div>
       </div>
 
-      <p className="text-xs font-medium text-[#64748B]">{date}</p>
+      <p className="text-xs font-medium text-[#64748B]">{formatted}</p>
     </div>
   );
 }
@@ -96,6 +105,12 @@ export default function EncounterDetails() {
       isError,
     }),
   });
+
+  const timeLineMap = useMemo(() => {
+    return new Map(
+      data?.timeline?.map((item) => [item.status, item.timestamp])
+    );
+  }, [data]);
 
   if (isLoading) {
     return (
@@ -170,36 +185,36 @@ export default function EncounterDetails() {
               <EncounterStatusDetails
                 title="Encounter created"
                 subtitle="Intake link not yet sent."
-                date="Nov 11, 2025"
-                active={false}
+                date={timeLineMap.get("started") || "-"}
+                active={timeLineMap.has("started")}
               />
-              <div className="min-h-[30px] border-l border-l-black border-dotted ml-[30px]" />
+              {/* <div className="min-h-[30px] border-l border-l-black border-dotted ml-[30px]" />
               <EncounterStatusDetails
                 title="Intake Sent"
                 subtitle="Link generated, sent via SMS/email, awaiting patient."
                 date="Nov 11, 2025"
-                active={true}
-              />
-              <div className="min-h-[30px] border-l border-l-black border-dotted ml-[30px]" />
+                active={timeLineMap.has("")}
+              /> */}
+              {/* <div className="min-h-[30px] border-l border-l-black border-dotted ml-[30px]" />
               <EncounterStatusDetails
                 title="Intake in Progress"
                 subtitle="Patient has started but not submitted."
                 date="Nov 11, 2025"
                 active={false}
-              />
+              /> */}
               <div className="min-h-[30px] border-l border-l-black border-dotted ml-[30px]" />
               <EncounterStatusDetails
                 title="Provider Queue"
                 subtitle="Patient submitted intake, awaiting provider review."
-                date="Nov 11, 2025"
-                active={false}
+                date={timeLineMap.get("in_review") || "-"}
+                active={timeLineMap.has("in_review")}
               />
               <div className="min-h-[30px] border-l border-l-black border-dotted ml-[30px]" />
               <EncounterStatusDetails
                 title="Completed"
                 subtitle="Provider finalized encounter; ready for order submission."
-                date="Nov 11, 2025"
-                active={false}
+                date={timeLineMap.get("completed") || "-"}
+                active={timeLineMap.has("completed")}
               />
             </div>
           </div>

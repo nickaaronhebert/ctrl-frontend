@@ -50,6 +50,7 @@ export const organisationAdminItems = [
   { title: "Dashboard", url: "/org/dashboard", icon: Dashboard },
   { title: "Orders", url: "/org/orders", icon: Orders },
   { title: "Transmissions", url: "/org/transmissions", icon: Transmission },
+  { title: "Encounter", url: "/org/encounter", icon: Affiliation },
   { title: "Invoices", url: "/org/transactions", icon: Transactions },
   { title: "Patients", url: "/org/patients", icon: PatientIcon },
   { title: "Sub-organizations", url: "/org/sub-orgs", icon: Home },
@@ -110,6 +111,10 @@ export const nestedOrgItems = [
   {
     title: "Medication Library",
     url: "/org/medications",
+  },
+  {
+    title: "Webhooks",
+    url: "/org/webhook",
   },
   {
     title: "Pharmacy Assignment",

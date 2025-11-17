@@ -111,3 +111,8 @@ export function toEndOfDayUTC(date: Date) {
     )
   ).toISOString();
 }
+
+export function isISODateString(str: string) {
+  const isoRegex = /^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}:\d{2}(\.\d+)?Z?)?$/;
+  return isoRegex.test(str);
+}
