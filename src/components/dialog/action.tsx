@@ -50,6 +50,7 @@ export default function OrganizationConnectActionDialog({
   const [rejectInvitation] = useRejectConnectionInviteMutation();
   const [acceptInvitation] = useAcceptConnectionInviteMutation();
   const [selected, setSelected] = useState<BillingFrequency>("daily");
+  const [checked, setChecked] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<
     "affiliatedProviders" | "billing" | "subOrgs"
   >("billing");
@@ -67,6 +68,7 @@ export default function OrganizationConnectActionDialog({
     await acceptInvitation({
       invitation: invitationId,
       invoiceFrequency: selected,
+      generateExternalInvoice: checked,
     })
       .unwrap()
       .then(() => {
@@ -212,6 +214,8 @@ export default function OrganizationConnectActionDialog({
             <BillingFrequencySelector
               selected={selected}
               setSelected={setSelected}
+              checked={checked}
+              setChecked={setChecked}
             />
           )}
 
@@ -249,3 +253,4 @@ export default function OrganizationConnectActionDialog({
     </>
   );
 }
+// phm::bb68a627-ce0f-477d-866f-8106a8aeb928

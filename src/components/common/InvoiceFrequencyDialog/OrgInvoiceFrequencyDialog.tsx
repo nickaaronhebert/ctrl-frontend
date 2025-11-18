@@ -52,7 +52,6 @@ export function OrgInvoiceFrequencyDialog({
             Pick how often you want invoices to be generated.
           </DialogDescription>
         </DialogHeader>
-
         <BillingFrequencySelector
           selected={selected}
           setSelected={setSelected}

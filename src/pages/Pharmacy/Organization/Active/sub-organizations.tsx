@@ -9,10 +9,12 @@ import { useSearchParams } from "react-router-dom";
 
 interface OrgProps {
   organization: string;
+  invitation: string;
 }
 
 export default function ViewPharmacySubOrganization({
   organization,
+  invitation,
 }: OrgProps) {
   const [searchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1", 10);
@@ -30,7 +32,7 @@ export default function ViewPharmacySubOrganization({
   );
 
   const columns = useMemo(
-    () => pharmacysubOrganizationColumns(organization),
+    () => pharmacysubOrganizationColumns(organization, invitation),
     [organization]
   );
 

@@ -8,7 +8,8 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
 
 export function pharmacysubOrganizationColumns(
-  organization: string
+  organization: string,
+  invitation: string
 ): ColumnDef<OrgSubOrgs>[] {
   return [
     {
@@ -52,12 +53,14 @@ export function pharmacysubOrganizationColumns(
       accessorKey: "id",
       header: "Actions",
       cell: ({ row }) => {
+        console.log(">>>", row.original);
         const [openBillingModal, setOpenBillingModal] =
           useState<boolean>(false);
         const [openCredentialsModal, setOpenCredentialsModal] = useState(false);
         const [selected, setSelected] = useState<BillingFrequency>(
           (row.original.invoiceFrequency || "daily") as BillingFrequency
         );
+        const [isEditing, setIsEditing] = useState<boolean>(false);
         const isConfigured = !!row.original.invoiceFrequency;
 
         const handleFirstTimeSetup = () => {
@@ -66,10 +69,12 @@ export function pharmacysubOrganizationColumns(
 
         const handleModifyCredentials = () => {
           setOpenCredentialsModal(true);
+          setIsEditing(true);
         };
 
         const handleManageBilling = () => {
           setOpenBillingModal(true);
+          setIsEditing(true);
         };
 
         return (
@@ -116,6 +121,7 @@ export function pharmacysubOrganizationColumns(
                   setOpenCredentialsModal(true);
                 }
               }}
+              isEditing={isEditing}
             />
             {openCredentialsModal && (
               <CreateSubOrgCredentialsModal
@@ -125,6 +131,8 @@ export function pharmacysubOrganizationColumns(
                 organization={organization}
                 subOrganization={row.original.id}
                 invoiceFrequency={selected}
+                isEditing={isEditing}
+                invitation={invitation}
               />
             )}
           </>

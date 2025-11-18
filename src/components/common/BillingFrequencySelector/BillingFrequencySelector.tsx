@@ -17,6 +17,8 @@ interface BillingOption {
 interface BillingFrequencySelectorProps {
   selected: BillingFrequency;
   setSelected: (value: BillingFrequency) => void;
+  checked?: boolean;
+  setChecked?: (value: boolean) => void;
 }
 
 const billingOptions: BillingOption[] = [
@@ -43,6 +45,8 @@ const billingOptions: BillingOption[] = [
 export function BillingFrequencySelector({
   selected,
   setSelected,
+  checked,
+  setChecked,
 }: BillingFrequencySelectorProps) {
   return (
     <div className="px-5 pt-4">
@@ -99,6 +103,18 @@ export function BillingFrequencySelector({
             </div>
           </div>
         ))}
+        {/* Generate external innvoice checkbox  */}
+        <div className="flex items-center gap-3 p-4 rounded-lg border border-gray-200 bg-white hover:border-gray-300 transition-all">
+          <Checkbox
+            checked={checked}
+            onCheckedChange={setChecked}
+            className={`w-6 h-6 ${
+              checked
+                ? "bg-[#F7F1FD] border-primary"
+                : "bg-white border-gray-300"
+            }`}
+          />
+        </div>
       </div>
     </div>
   );

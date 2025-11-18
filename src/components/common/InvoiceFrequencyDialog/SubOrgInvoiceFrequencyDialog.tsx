@@ -20,6 +20,7 @@ interface BillingFrequencySelectorProps {
   organization: string;
   onUpdate?: () => void;
   isConfigured: boolean;
+  isEditing: boolean;
 }
 
 export function SubOrgInvoiceFrequencyDialog({
@@ -30,18 +31,21 @@ export function SubOrgInvoiceFrequencyDialog({
   subOrganization,
   organization,
   onUpdate,
+  isEditing,
 }: BillingFrequencySelectorProps) {
+  console.log("Is Editing>>", isEditing);
   const [updateOrgBilling] = useUpdateOrgBillingMutation();
 
   const handleUpdate = async () => {
     try {
-      await updateOrgBilling({
-        organization: organization,
-        invoiceFrequency: selected,
-        subOrganization: subOrganization,
-      }).unwrap();
-
-      toast.success("Invoice frequency updated successfully!");
+      if (isEditing) {
+        await updateOrgBilling({
+          organization: organization,
+          invoiceFrequency: selected,
+          subOrganization: subOrganization,
+        }).unwrap();
+        toast.success("Invoice frequency updated successfully!");
+      }
       setOpen(false);
     } catch (error: any) {
       toast.error(

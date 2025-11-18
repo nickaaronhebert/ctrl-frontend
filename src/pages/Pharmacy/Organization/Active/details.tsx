@@ -139,7 +139,10 @@ const ActiveOrgDetails = () => {
           {activeStatus === "affiliates" ? (
             <PharmacyOrgAffiliateProviders organization={id as string} />
           ) : (
-            <ViewPharmacySubOrganization organization={id as string} />
+            <ViewPharmacySubOrganization
+              organization={id as string}
+              invitation={data?.data?.invitation as string}
+            />
           )}
         </div>
       </div>

@@ -25,6 +25,7 @@ import type z from "zod";
 import { toast } from "sonner";
 import type { BillingFrequency } from "../BillingFrequencySelector/BillingFrequencySelector";
 import { useCreateSubOrgCredsMutation } from "@/redux/services/pharmacy";
+import { useUpdatePharmacyCredsMutation } from "@/redux/services/pharmacy";
 
 interface SubCreateOrganizationCredentialsModalProps {
   open: boolean;
@@ -35,6 +36,7 @@ interface SubCreateOrganizationCredentialsModalProps {
   update?: boolean;
   subOrganization: string;
   invoiceFrequency: BillingFrequency;
+  isEditing: boolean;
 }
 
 export function CreateSubOrgCredentialsModal({
@@ -45,6 +47,7 @@ export function CreateSubOrgCredentialsModal({
   subOrganization,
   invoiceFrequency,
   invitation,
+  isEditing,
 }: SubCreateOrganizationCredentialsModalProps) {
   const form = useForm<z.infer<typeof orgCredentialSchema>>({
     resolver: zodResolver(orgCredentialSchema),
@@ -59,6 +62,7 @@ export function CreateSubOrgCredentialsModal({
   });
 
   const [createSubOrgCreds, { isLoading }] = useCreateSubOrgCredsMutation();
+  const [updateSubOrgCreds] = useUpdatePharmacyCredsMutation();
   const platformType = form.watch("platformType");
 
   console.log("Errors", form.formState.errors);
@@ -98,13 +102,24 @@ export function CreateSubOrgCredentialsModal({
               token: data.accessToken!,
             };
 
-      await createSubOrgCreds(payload).unwrap();
+      let finalPayload = payload;
+      if (isEditing) {
+        const { invoiceFrequency, ...rest } = payload as any;
+        finalPayload = rest;
+      }
 
-      console.log("Payload", payload);
+      if (isEditing) {
+        await updateSubOrgCreds(finalPayload).unwrap();
+        toast.success("Organizations credentials updated successfully", {
+          duration: 1500,
+        });
+      } else {
+        await createSubOrgCreds(finalPayload).unwrap();
+        toast.success("Organization credentials created successfully!", {
+          duration: 1500,
+        });
+      }
 
-      toast.success("Organization credentials created successfully!", {
-        duration: 1500,
-      });
       setOpen(false);
     } catch (error) {
       if (error && typeof error === "object" && "data" in error) {
