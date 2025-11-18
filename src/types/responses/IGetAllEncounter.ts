@@ -40,6 +40,10 @@ export interface EncounterDetails {
   patient: Omit<Patient, "addresses"> & {
     address: Address;
   };
+  ctrlOrder?: {
+    id: string;
+    orderId: string;
+  };
 }
 
 export interface IGetAllEncounter {

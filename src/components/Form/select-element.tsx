@@ -31,6 +31,7 @@ interface SelectElementProps
   description?: string;
   isOptional?: boolean;
   isRequired?: boolean;
+  labelClassName?: string;
   errorClassName?: string;
   placeholder?: string;
   options: BaseOption[];
@@ -47,6 +48,7 @@ interface SelectElementProps
 const SelectElement: React.FC<SelectElementProps> = ({
   name,
   label,
+  labelClassName = "",
   placeholder = "",
   description,
   isOptional,
@@ -80,7 +82,7 @@ const SelectElement: React.FC<SelectElementProps> = ({
       render={({ field }) => (
         <FormItem className={cn("", props.className)}>
           {label && (
-            <FormLabel>
+            <FormLabel className={cn(labelClassName)}>
               {label}
               {isOptional && (
                 <span className="text-neutral-400"> (optional)</span>
@@ -130,6 +132,11 @@ const SelectElement: React.FC<SelectElementProps> = ({
                 //     onSearch(query);
                 //   }}
                 // />
+              )}
+              {options && options?.length === 0 && (
+                <div className="flex justify-center p-5 text-sm text-[#9EA5AB]">
+                  No Records Found
+                </div>
               )}
               {options.map((option) => (
                 <SelectItem key={option.value} value={`${option.value}`}>
