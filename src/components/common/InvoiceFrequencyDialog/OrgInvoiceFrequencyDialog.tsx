@@ -17,6 +17,7 @@ interface BillingFrequencySelectorProps {
   open: boolean;
   setOpen: (value: boolean) => void;
   organization: string;
+  isEditing?: boolean;
 }
 
 export function OrgInvoiceFrequencyDialog({
@@ -25,6 +26,7 @@ export function OrgInvoiceFrequencyDialog({
   open,
   setOpen,
   organization,
+  isEditing,
 }: BillingFrequencySelectorProps) {
   const [updateOrgBilling] = useUpdateOrgBillingMutation();
 
@@ -55,6 +57,7 @@ export function OrgInvoiceFrequencyDialog({
         <BillingFrequencySelector
           selected={selected}
           setSelected={setSelected}
+          isEditing={isEditing}
         />
         <div className="mt-4 flex justify-end gap-2">
           <Button variant="outline" onClick={() => console.log("Cancelled")}>

@@ -27,6 +27,7 @@ const ActiveOrgDetails = () => {
   const [selected, setSelected] = useState<BillingFrequency>(
     (data?.data?.invoiceFrequency as BillingFrequency) || "daily"
   );
+  const [isEditing, setIsEditing] = useState<boolean>(false);
 
   useEffect(() => {
     if (data?.data?.invoiceFrequency) {
@@ -63,7 +64,10 @@ const ActiveOrgDetails = () => {
             Modify Credential
           </Button>
           <Button
-            onClick={() => setOpenBillingModal(true)}
+            onClick={() => {
+              setOpenBillingModal(true);
+              setIsEditing(true);
+            }}
             className="bg-primary text-white rounded-full hover:bg-primary cursor-pointer py-2.5 px-7 h-12"
           >
             Manage Status & Billing
@@ -164,6 +168,7 @@ const ActiveOrgDetails = () => {
           selected={selected}
           setSelected={setSelected}
           organization={data?.data?.id as string}
+          isEditing={isEditing}
         />
       )}
     </>

@@ -37,6 +37,7 @@ interface SubCreateOrganizationCredentialsModalProps {
   subOrganization: string;
   invoiceFrequency: BillingFrequency;
   isEditing: boolean;
+  checked: boolean;
 }
 
 export function CreateSubOrgCredentialsModal({
@@ -48,6 +49,7 @@ export function CreateSubOrgCredentialsModal({
   invoiceFrequency,
   invitation,
   isEditing,
+  checked,
 }: SubCreateOrganizationCredentialsModalProps) {
   const form = useForm<z.infer<typeof orgCredentialSchema>>({
     resolver: zodResolver(orgCredentialSchema),
@@ -60,6 +62,8 @@ export function CreateSubOrgCredentialsModal({
       headers: "",
     },
   });
+
+  console.log(">>>checked", checked);
 
   const [createSubOrgCreds, { isLoading }] = useCreateSubOrgCredsMutation();
   const [updateSubOrgCreds] = useUpdatePharmacyCredsMutation();
@@ -90,6 +94,7 @@ export function CreateSubOrgCredentialsModal({
               authenticationType: "basic",
               username: data.username!,
               password: data.password!,
+              generateExternalInvoice: checked,
             }
           : {
               organization: organization,
@@ -100,11 +105,13 @@ export function CreateSubOrgCredentialsModal({
               headers: parsedHeaders,
               authenticationType: "token",
               token: data.accessToken!,
+              generateExternalInvoice: checked,
             };
 
       let finalPayload = payload;
       if (isEditing) {
-        const { invoiceFrequency, ...rest } = payload as any;
+        const { invoiceFrequency, generateExternalInvoice, ...rest } =
+          payload as any;
         finalPayload = rest;
       }
 

@@ -21,6 +21,8 @@ interface BillingFrequencySelectorProps {
   onUpdate?: () => void;
   isConfigured: boolean;
   isEditing: boolean;
+  checked?: boolean;
+  setChecked?: (value: boolean) => void;
 }
 
 export function SubOrgInvoiceFrequencyDialog({
@@ -32,6 +34,8 @@ export function SubOrgInvoiceFrequencyDialog({
   organization,
   onUpdate,
   isEditing,
+  checked,
+  setChecked,
 }: BillingFrequencySelectorProps) {
   console.log("Is Editing>>", isEditing);
   const [updateOrgBilling] = useUpdateOrgBillingMutation();
@@ -66,6 +70,9 @@ export function SubOrgInvoiceFrequencyDialog({
         <BillingFrequencySelector
           selected={selected}
           setSelected={setSelected}
+          checked={checked}
+          setChecked={setChecked}
+          isEditing={isEditing}
         />
 
         <div className="mt-4 flex justify-end gap-2">

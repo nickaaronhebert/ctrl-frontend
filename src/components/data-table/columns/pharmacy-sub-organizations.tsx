@@ -57,6 +57,7 @@ export function pharmacysubOrganizationColumns(
         const [openBillingModal, setOpenBillingModal] =
           useState<boolean>(false);
         const [openCredentialsModal, setOpenCredentialsModal] = useState(false);
+        const [checked, setChecked] = useState<boolean>(false);
         const [selected, setSelected] = useState<BillingFrequency>(
           (row.original.invoiceFrequency || "daily") as BillingFrequency
         );
@@ -116,6 +117,8 @@ export function pharmacysubOrganizationColumns(
               subOrganization={row.original.id}
               organization={organization}
               isConfigured={isConfigured}
+              checked={checked}
+              setChecked={setChecked}
               onUpdate={() => {
                 if (!isConfigured) {
                   setOpenCredentialsModal(true);
@@ -133,6 +136,7 @@ export function pharmacysubOrganizationColumns(
                 invoiceFrequency={selected}
                 isEditing={isEditing}
                 invitation={invitation}
+                checked={checked}
               />
             )}
           </>
