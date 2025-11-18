@@ -8,6 +8,8 @@ import {
 import { BillingFrequencySelector } from "../BillingFrequencySelector/BillingFrequencySelector";
 import { Button } from "@/components/ui/button";
 import type { BillingFrequency } from "@/components/dialog/action";
+import { useUpdateOrgBillingMutation } from "@/redux/services/pharmacy";
+import { toast } from "sonner";
 
 interface BillingFrequencySelectorProps {
   selected: BillingFrequency;
@@ -25,11 +27,28 @@ export function SubOrgInvoiceFrequencyDialog({
   setSelected,
   open,
   setOpen,
-  //   subOrganization,
-  //   organization,
+  subOrganization,
+  organization,
   onUpdate,
-  isConfigured,
 }: BillingFrequencySelectorProps) {
+  const [updateOrgBilling] = useUpdateOrgBillingMutation();
+
+  const handleUpdate = async () => {
+    try {
+      await updateOrgBilling({
+        organization: organization,
+        invoiceFrequency: selected,
+        subOrganization: subOrganization,
+      }).unwrap();
+
+      toast.success("Invoice frequency updated successfully!");
+      setOpen(false);
+    } catch (error: any) {
+      toast.error(
+        error?.data?.message || "Failed to update invoice frequency."
+      );
+    }
+  };
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="sm:max-w-2xl p-5">
@@ -44,22 +63,22 @@ export function SubOrgInvoiceFrequencyDialog({
           selected={selected}
           setSelected={setSelected}
         />
-        {!isConfigured && (
-          <div className="mt-4 flex justify-end gap-2">
-            <Button variant="outline" onClick={() => setOpen(false)}>
-              Cancel
-            </Button>
-            <Button
-              className="text-white cursor-pointer"
-              onClick={() => {
-                if (onUpdate) onUpdate();
-                setOpen(false);
-              }}
-            >
-              Update
-            </Button>
-          </div>
-        )}
+
+        <div className="mt-4 flex justify-end gap-2">
+          <Button variant="outline" onClick={() => setOpen(false)}>
+            Cancel
+          </Button>
+          <Button
+            className="text-white cursor-pointer"
+            onClick={() => {
+              if (onUpdate) onUpdate();
+              setOpen(false);
+              handleUpdate();
+            }}
+          >
+            Update
+          </Button>
+        </div>
       </DialogContent>
     </Dialog>
   );

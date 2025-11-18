@@ -1,5 +1,6 @@
 import type { InvoiceDetail } from "@/types/responses/invoice";
 import { DescriptionList, type DescriptionItem } from "./description-list";
+import { format } from "date-fns";
 
 type InvoiceDetailsCardProps = {
   data: InvoiceDetail;
@@ -33,17 +34,11 @@ export default function InvoiceDetailsCard({
     {
       label: "Period",
       value:
-        new Date(data?.startDate).toLocaleDateString("en-US", {
-          month: "short",
-          day: "numeric",
-          timeZone: "UTC",
-        }) +
+        (data?.startDate
+          ? format(new Date(data.startDate), "MMM d, yyyy")
+          : "") +
         " - " +
-        new Date(data?.endDate).toLocaleDateString("en-US", {
-          month: "short",
-          day: "numeric",
-          timeZone: "UTC",
-        }),
+        (data?.endDate ? format(new Date(data.endDate), "MMM d, yyyy") : ""),
     },
   ];
 
