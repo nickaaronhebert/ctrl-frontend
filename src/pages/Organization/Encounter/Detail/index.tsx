@@ -4,15 +4,9 @@ import { format } from "date-fns";
 import { Link, useParams } from "react-router-dom";
 import { CircleCheck } from "lucide-react";
 import { cn, isISODateString } from "@/lib/utils";
-import { FileText } from "lucide-react";
-import { Download } from "lucide-react";
+// import { FileText } from "lucide-react";
+// import { Download } from "lucide-react";
 import { useMemo } from "react";
-// const EncounterStatusMapper = {
-//   started: 0,
-//   in_review: 1,
-//   completed: 2,
-//   cancelled: 3,
-// };
 
 interface EntityDetailProps {
   title: string;
@@ -137,7 +131,7 @@ export default function EncounterDetails() {
         </div>
       </div>
 
-      <div className="w-full flex gap-8">
+      <div className="w-full flex gap-8 p-7.5">
         <div className=" w-5xl">
           <div className="space-y-12">
             <EntityDetail
@@ -221,7 +215,7 @@ export default function EncounterDetails() {
         </div>
 
         <div>
-          <div className=" bg-white rounded-[10px] shadow-[0px_2px_40px_0px_#00000014] min-w-[350px] ">
+          {/* <div className=" bg-white rounded-[10px] shadow-[0px_2px_40px_0px_#00000014] min-w-[350px] ">
             <p className="text-[16px] font-semibold border-b border-card-border p-5 ">
               Attachments
             </p>
@@ -242,7 +236,22 @@ export default function EncounterDetails() {
                 <Download />
               </div>
             </div>
-          </div>
+          </div> */}
+          {data?.ctrlOrder && (
+            <div className=" bg-white rounded-[10px] shadow-[0px_2px_40px_0px_#00000014] min-w-[350px] ">
+              <p className="text-[16px] font-semibold border-b border-card-border p-5 ">
+                Linked Order
+              </p>
+              <div className="p-5">
+                <Link
+                  to={`/org/order/${data?.ctrlOrder?.id}` || "#"}
+                  className=" block bg-primary  py-2.5 px-6 rounded-[5px] text-white w-full text-center "
+                >
+                  {data?.ctrlOrder?.orderId}
+                </Link>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
