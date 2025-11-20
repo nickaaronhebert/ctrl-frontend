@@ -1,4 +1,4 @@
-import { webhookLogsColumns } from "@/components/data-table/columns/webhook/logs";
+import { webhookLogsColumns } from "@/components/data-table/columns/webhook/logsColumn";
 import { useMemo } from "react";
 import { useDataTable } from "@/hooks/use-data-table";
 import { DataTablePagination } from "@/components/data-table/data-table-pagination";
