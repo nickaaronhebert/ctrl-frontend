@@ -57,7 +57,7 @@ export function pharmacysubOrganizationColumns(
         const [openBillingModal, setOpenBillingModal] =
           useState<boolean>(false);
         const [openCredentialsModal, setOpenCredentialsModal] = useState(false);
-        const [checked, setChecked] = useState<boolean>(false);
+        const [checked, setChecked] = useState<boolean>(true);
         const [selected, setSelected] = useState<BillingFrequency>(
           (row.original.invoiceFrequency || "daily") as BillingFrequency
         );

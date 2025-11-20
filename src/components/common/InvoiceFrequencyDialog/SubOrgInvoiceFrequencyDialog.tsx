@@ -47,10 +47,12 @@ export function SubOrgInvoiceFrequencyDialog({
           organization: organization,
           invoiceFrequency: selected,
           subOrganization: subOrganization,
+          generateExternalInvoice: checked,
         }).unwrap();
         toast.success("Invoice frequency updated successfully!");
       }
       setOpen(false);
+      if (setChecked) setChecked(true);
     } catch (error: any) {
       toast.error(
         error?.data?.message || "Failed to update invoice frequency."
@@ -72,7 +74,6 @@ export function SubOrgInvoiceFrequencyDialog({
           setSelected={setSelected}
           checked={checked}
           setChecked={setChecked}
-          isEditing={isEditing}
         />
 
         <div className="mt-4 flex justify-end gap-2">

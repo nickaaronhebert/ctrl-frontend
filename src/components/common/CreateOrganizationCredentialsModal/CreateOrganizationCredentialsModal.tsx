@@ -27,6 +27,7 @@ import {
   useUpdatePharmacyCredsMutation,
 } from "@/redux/services/pharmacy";
 import { toast } from "sonner";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 interface CreateOrganizationCredentialsModalProps {
   open: boolean;
@@ -57,7 +58,7 @@ export function CreateOrganizationCredentialsModal({
     },
   });
 
-  const [createPharmacyCreds, { isLoading }] = useCreatePharmacyCredsMutation();
+  const [createPharmacyCreds] = useCreatePharmacyCredsMutation();
   const [updatePharmacyCreds] = useUpdatePharmacyCredsMutation();
 
   const platformType = form.watch("platformType");
@@ -284,15 +285,19 @@ export function CreateOrganizationCredentialsModal({
               <Button
                 variant="outline"
                 onClick={() => setOpen(false)}
-                className="rounded-lg"
+                className="rounded-lg cursor-pointer"
               >
                 Back
               </Button>
               <Button
                 type="submit"
-                className="bg-green-600 hover:bg-green-700 text-white rounded-lg"
+                className="bg-green-600 hover:bg-green-700 text-white rounded-lg cursor-pointer"
               >
-                {isLoading ? "Saving.." : "Confirm & Accept"}
+                {form.formState.isSubmitting ? (
+                  <LoadingSpinner />
+                ) : (
+                  "Confirm & Accept"
+                )}
               </Button>
             </DialogFooter>
           </form>
