@@ -1,5 +1,5 @@
 import { ArrowLeft } from "lucide-react";
-import Logs from "./Logs";
+import Logs from "./LogDetail";
 
 export default function ConfiguredWebhookDetails() {
   return (
