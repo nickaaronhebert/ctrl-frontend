@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import type { BillingFrequency } from "@/components/dialog/action";
 import { useUpdateOrgBillingMutation } from "@/redux/services/pharmacy";
 import { toast } from "sonner";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 interface BillingFrequencySelectorProps {
   selected: BillingFrequency;
@@ -18,6 +19,8 @@ interface BillingFrequencySelectorProps {
   setOpen: (value: boolean) => void;
   organization: string;
   isEditing?: boolean;
+  checked: boolean;
+  setChecked: (value: boolean) => void;
 }
 
 export function OrgInvoiceFrequencyDialog({
@@ -26,19 +29,22 @@ export function OrgInvoiceFrequencyDialog({
   open,
   setOpen,
   organization,
-  isEditing,
+  checked,
+  setChecked,
 }: BillingFrequencySelectorProps) {
-  const [updateOrgBilling] = useUpdateOrgBillingMutation();
+  const [updateOrgBilling, { isLoading }] = useUpdateOrgBillingMutation();
 
   const handleUpdate = async () => {
     try {
       await updateOrgBilling({
         organization: organization,
         invoiceFrequency: selected,
+        generateExternalInvoice: checked,
       }).unwrap();
 
       toast.success("Invoice frequency updated successfully!");
       setOpen(false);
+      setChecked(true);
     } catch (error: any) {
       toast.error(
         error?.data?.message || "Failed to update invoice frequency."
@@ -57,14 +63,19 @@ export function OrgInvoiceFrequencyDialog({
         <BillingFrequencySelector
           selected={selected}
           setSelected={setSelected}
-          isEditing={isEditing}
+          checked={checked}
+          setChecked={setChecked}
         />
         <div className="mt-4 flex justify-end gap-2">
-          <Button variant="outline" onClick={() => console.log("Cancelled")}>
+          <Button
+            variant="outline"
+            className="cursor-pointer"
+            onClick={() => setOpen(false)}
+          >
             Cancel
           </Button>
           <Button className="text-white cursor-pointer" onClick={handleUpdate}>
-            Update
+            {isLoading ? <LoadingSpinner /> : "Update"}
           </Button>
         </div>
       </DialogContent>

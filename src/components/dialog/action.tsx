@@ -50,7 +50,7 @@ export default function OrganizationConnectActionDialog({
   const [rejectInvitation] = useRejectConnectionInviteMutation();
   const [acceptInvitation] = useAcceptConnectionInviteMutation();
   const [selected, setSelected] = useState<BillingFrequency>("daily");
-  const [checked, setChecked] = useState<boolean>(false);
+  const [checked, setChecked] = useState<boolean>(true);
   const [activeTab, setActiveTab] = useState<
     "affiliatedProviders" | "billing" | "subOrgs"
   >("billing");

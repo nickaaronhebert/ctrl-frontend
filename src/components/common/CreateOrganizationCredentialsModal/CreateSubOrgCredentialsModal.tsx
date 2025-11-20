@@ -26,6 +26,7 @@ import { toast } from "sonner";
 import type { BillingFrequency } from "../BillingFrequencySelector/BillingFrequencySelector";
 import { useCreateSubOrgCredsMutation } from "@/redux/services/pharmacy";
 import { useUpdatePharmacyCredsMutation } from "@/redux/services/pharmacy";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 interface SubCreateOrganizationCredentialsModalProps {
   open: boolean;
@@ -65,7 +66,7 @@ export function CreateSubOrgCredentialsModal({
 
   console.log(">>>checked", checked);
 
-  const [createSubOrgCreds, { isLoading }] = useCreateSubOrgCredsMutation();
+  const [createSubOrgCreds] = useCreateSubOrgCredsMutation();
   const [updateSubOrgCreds] = useUpdatePharmacyCredsMutation();
   const platformType = form.watch("platformType");
 
@@ -311,7 +312,11 @@ export function CreateSubOrgCredentialsModal({
                 type="submit"
                 className="bg-green-600 hover:bg-green-700 text-white rounded-lg"
               >
-                {isLoading ? "Saving.." : "Confirm & Accept"}
+                {form.formState.isSubmitting ? (
+                  <LoadingSpinner />
+                ) : (
+                  "Confirm & Accept"
+                )}
               </Button>
             </DialogFooter>
           </form>

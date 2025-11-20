@@ -10,15 +10,17 @@ import { useSearchParams } from "react-router-dom";
 interface OrgProps {
   organization: string;
   invitation: string;
+  activeStatus?: string;
 }
 
 export default function ViewPharmacySubOrganization({
   organization,
   invitation,
+  activeStatus,
 }: OrgProps) {
   const [searchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1", 10);
-  const perPage = parseInt(searchParams.get("per_page") ?? "100", 10);
+  const perPage = parseInt(searchParams.get("per_page") ?? "1000", 10);
   const { data: subOrgData, meta } = useGetOrgSubOrganizationsQuery(
     { page, perPage, q: "", organizationId: organization },
     {
@@ -31,13 +33,27 @@ export default function ViewPharmacySubOrganization({
     }
   );
 
+  const filteredData = useMemo(() => {
+    if (activeStatus === "sharedSubOrgs") {
+      return subOrgData?.filter(
+        (org) => !org.invoiceFrequency || org.invoiceFrequency === null
+      );
+    }
+    return (
+      subOrgData?.filter(
+        (org) =>
+          org.invoiceFrequency !== null && org.invoiceFrequency !== undefined
+      ) || []
+    );
+  }, [subOrgData, activeStatus]);
+
   const columns = useMemo(
     () => pharmacysubOrganizationColumns(organization, invitation),
     [organization]
   );
 
   const { table } = useDataTable({
-    data: subOrgData || [],
+    data: filteredData || [],
     columns,
     pageCount: meta?.pageCount ?? -1,
   });

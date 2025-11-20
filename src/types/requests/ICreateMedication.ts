@@ -17,6 +17,7 @@ export interface MedicationCatalogue {
     strength: string;
     quantityType: string;
     containerQuantity: number;
+    telegraProductVariant?: string;
   }[];
   // availableQuantities: (number | undefined)[];
 }

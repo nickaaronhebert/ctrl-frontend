@@ -9,10 +9,10 @@ export const createWebhookSchema = z
     password: z.string().optional(),
     header: z.string().optional(),
 
-    subOrganization: z.string().optional(),
+    subOrganization: z.string().min(1, "Sub-Organization is"),
   })
   .superRefine((data, ctx) => {
-    if (data.authenticationType === "Basic Authentication") {
+    if (data.authenticationType === "basic_auth") {
       if (!data.userName || data.userName.trim().length == 0) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
@@ -30,7 +30,7 @@ export const createWebhookSchema = z
       }
     }
 
-    if (data.authenticationType === "Header Authentication") {
+    if (data.authenticationType === "header_auth") {
       // Required check
       if (!data.header || data.header.trim() === "") {
         ctx.addIssue({

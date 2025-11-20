@@ -96,7 +96,7 @@ export default function EncounteredForm() {
             placeholder="Type variant and press Enter"
             isRequired={false}
             type="text"
-            width={"500"}
+            width={"500px"}
           />
         </div>
 
