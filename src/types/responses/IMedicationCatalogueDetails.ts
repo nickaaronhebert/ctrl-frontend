@@ -20,6 +20,7 @@ export interface MedicationCatalogueDetails {
     quantityType: string;
     containerQuantity: number;
     id: string;
+    telegraProductVariant?: string;
   }[];
 }
 
