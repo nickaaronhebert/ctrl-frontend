@@ -21,6 +21,9 @@ import SelectElement from "@/components/Form/select-element";
 import { SelectSubOrganization } from "@/components/Form/SelectSubOrganization";
 import { useState } from "react";
 import TextAreaElement from "@/components/Form/textarea-elements";
+import { useCreateWebhookMutation } from "@/redux/services/webhook";
+import type { Auth } from "@/types/requests/ICreateWebhook";
+import { toast } from "sonner";
 
 interface CreateWebhookProps {
   open?: boolean;
@@ -30,18 +33,18 @@ interface CreateWebhookProps {
 const authenticationType = [
   {
     label: "Basic Authentication",
-    value: "Basic Authentication",
+    value: "basic_auth",
   },
   {
     label: "Header Authentication",
-    value: "Header Authentication",
+    value: "header_auth",
   },
 ];
 
 export function CreateWebhook({ open, onOpenChange }: CreateWebhookProps) {
   const [status, setStatus] = useState(true);
   const [tracking, setTracking] = useState(false);
-
+  const [createWebhook] = useCreateWebhookMutation();
   const form = useForm<z.infer<typeof createWebhookSchema>>({
     mode: "onTouched",
     resolver: zodResolver(createWebhookSchema),
@@ -55,11 +58,43 @@ export function CreateWebhook({ open, onOpenChange }: CreateWebhookProps) {
       authenticationType: "",
     },
   });
-
+  const { reset } = form;
   const authType = form.watch("authenticationType");
 
   async function onSubmit(values: z.infer<typeof createWebhookSchema>) {
     console.log("values", values);
+    const eventTypes = [];
+    if (status) eventTypes.push("status_update");
+    if (tracking) eventTypes.push("tracking_received");
+
+    const auth: Auth =
+      values.authenticationType === "header_auth"
+        ? {
+            headers: values.header,
+          }
+        : {
+            username: values.userName,
+            password: values.password,
+          };
+
+    await createWebhook({
+      name: values.name,
+      targetUrl: values.targetUrl,
+      targetOrganization: values.subOrganization,
+      authType: values.authenticationType,
+      authConfig: auth,
+      eventTypes: eventTypes,
+    })
+      .unwrap()
+      .then((data) => {
+        toast.success(data?.message || "Webhook  Created Successfully");
+        reset();
+        onOpenChange?.(false);
+      })
+      .catch((err) => {
+        console.log("error", err);
+        toast.error(err?.data?.message ?? "Something went wrong");
+      });
   }
 
   return (
@@ -106,7 +141,7 @@ export function CreateWebhook({ open, onOpenChange }: CreateWebhookProps) {
                 triggerClassName="border-[#9EA5AB]"
               />
 
-              {authType === "Basic Authentication" && (
+              {authType === "basic_auth" && (
                 <>
                   <InputElement
                     name="userName"
@@ -127,7 +162,7 @@ export function CreateWebhook({ open, onOpenChange }: CreateWebhookProps) {
                 </>
               )}
 
-              {authType === "Header Authentication" && (
+              {authType === "header_auth" && (
                 <TextAreaElement
                   name="header"
                   label="Headers (JSON)"
