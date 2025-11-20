@@ -86,6 +86,7 @@ import ActiveOrgDetails from "./pages/Pharmacy/Organization/Active/details";
 import EncounterPage from "./pages/Organization/Encounter";
 import EncounterDetails from "./pages/Organization/Encounter/Detail";
 import Webhook from "./pages/Organization/Webhook";
+import ConfiguredWebhookDetails from "./pages/Organization/Webhook/Configured/Details";
 
 const router = createBrowserRouter([
   {
@@ -279,6 +280,10 @@ const router = createBrowserRouter([
       {
         path: ROUTES.ORG_WEBHOOK,
         element: <Webhook />,
+      },
+      {
+        path: ROUTES.ORG_WEBHOOK_DETAILS,
+        element: <ConfiguredWebhookDetails />,
       },
       {
         path: ROUTES.ORG_VIEW_PATIENT,
