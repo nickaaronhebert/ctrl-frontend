@@ -36,6 +36,7 @@ export function SelectSubOrganization() {
         onSearch={handleSubOrganization}
         searchValue={subOrgQuery}
         errorClassName="text-right"
+        labelClassName="text-sm font-semibold"
       />
     </div>
   );

@@ -105,7 +105,7 @@ export function MedicationFields({ state = "" }: MedicationFieldsProps) {
                   type="number"
                   label="Quantity"
                   isRequired={true}
-                  inputClassName="max-w-[100px]"
+                  inputClassName="max-w-[120px]"
                   placeholder="30"
                 />
 
@@ -114,7 +114,7 @@ export function MedicationFields({ state = "" }: MedicationFieldsProps) {
                   label="Unit"
                   isRequired={true}
                   placeholder="Tablet"
-                  inputClassName="max-w-[120px]"
+                  inputClassName="max-w-[100px]"
                   disabled={true}
                 />
               </div>
@@ -141,6 +141,7 @@ export function MedicationFields({ state = "" }: MedicationFieldsProps) {
 
               <div className="mt-2">
                 <TextAreaElement
+                  messageClassName="text-right"
                   inputClassName="w-full"
                   placeholder="Eg. Take 1 tablet by mouth twice daily with meals"
                   name={`medications.${index}.sigInstructions`}

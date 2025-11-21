@@ -9,6 +9,9 @@ export default function SidebarLayout() {
   const isTransmissionDetailRoute = /^\/org\/transmissions\/[^/]+$/.test(
     location.pathname
   );
+  const isEncounterDetailRoute = /^\/org\/encounter\/[^/]+$/.test(
+    location.pathname
+  );
   const isOrderDetailRoute = /^\/org\/order\/[^/]+$/.test(location.pathname);
   const isViewPatientPatientDetailsRoute = /^\/org\/patient\/[^/]+$/.test(
     location.pathname
@@ -38,7 +41,8 @@ export default function SidebarLayout() {
               isOrderDetailRoute ||
               isViewPatientPatientDetailsRoute ||
               isCreateOrderRoute ||
-              isCreatePatientRoute
+              isCreatePatientRoute ||
+              isEncounterDetailRoute
                 ? ""
                 : "p-7.5"
             }`

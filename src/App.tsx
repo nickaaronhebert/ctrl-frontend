@@ -85,6 +85,8 @@ import AddProductForm from "./pages/CTRLAdmin/Encountered/AddProductForm/AddProd
 import ActiveOrgDetails from "./pages/Pharmacy/Organization/Active/details";
 import EncounterPage from "./pages/Organization/Encounter";
 import EncounterDetails from "./pages/Organization/Encounter/Detail";
+import Webhook from "./pages/Organization/Webhook";
+import ConfiguredWebhookDetails from "./pages/Organization/Webhook/Configured/Details";
 
 const router = createBrowserRouter([
   {
@@ -276,6 +278,14 @@ const router = createBrowserRouter([
         element: <OrganizationAffiliatedProvider />,
       },
       {
+        path: ROUTES.ORG_WEBHOOK,
+        element: <Webhook />,
+      },
+      {
+        path: ROUTES.ORG_WEBHOOK_DETAILS,
+        element: <ConfiguredWebhookDetails />,
+      },
+      {
         path: ROUTES.ORG_VIEW_PATIENT,
         element: <PatientList />,
       },
@@ -342,7 +352,6 @@ const router = createBrowserRouter([
       },
       {
         path: ROUTES.CREATE_SUB_ORGANIZATION,
-
         element: <SubOrganization />,
       },
       {
