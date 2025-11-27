@@ -78,11 +78,17 @@ const medicationApi = baseApi.injectEndpoints({
 
     getAllProductVariants: builder.query<
       IGetAllProductVariantsResponse,
-      ICommonSearchQuery
+      ICommonSearchQuery & { includeTelegraMap?: string }
     >({
-      query: ({ page, perPage, q = "", state = "" }) => {
+      query: ({ page, perPage, q = "", state = "", includeTelegraMap }) => {
+        let url = `/product-variants?page=${page}&limit=${perPage}&state=${state}&q=${q}`;
+
+        if (includeTelegraMap) {
+          url += `&includeTelegraMap=${includeTelegraMap}`;
+        }
+
         return {
-          url: `/product-variants?page=${page}&limit=${perPage}&state=${state}&q=${q}`,
+          url,
           method: "GET",
         };
       },
