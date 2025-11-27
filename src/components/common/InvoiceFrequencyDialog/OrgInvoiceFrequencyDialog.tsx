@@ -55,7 +55,9 @@ export function OrgInvoiceFrequencyDialog({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="sm:max-w-2xl p-5">
         <DialogHeader className="px-5">
-          <DialogTitle>Manage Status and Billing Cycle</DialogTitle>
+          <DialogTitle className="mb-3">
+            Manage Status and Billing Cycle
+          </DialogTitle>
           <DialogDescription className="sr-only">
             Pick how often you want invoices to be generated.
           </DialogDescription>
