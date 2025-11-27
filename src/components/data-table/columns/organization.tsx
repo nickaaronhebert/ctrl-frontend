@@ -82,8 +82,6 @@ export function ctrlOrganizationColumns(): ColumnDef<CtrlOrganization>[] {
           }
         };
 
-        console.log("Trusted status:", trusted);
-
         return (
           <>
             <Switch
