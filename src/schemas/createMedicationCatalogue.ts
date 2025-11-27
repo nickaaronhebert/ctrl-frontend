@@ -26,6 +26,7 @@ const variantSchema = z.object({
   //   })
   //   .int("Invalid Number")
   //   .positive("Invalid Number"),
+  telegraProductVariant: z.string().optional(),
 });
 
 const editVariantSchema = z.object({
@@ -44,6 +45,7 @@ const editVariantSchema = z.object({
   //   .int("Invalid Number")
   //   .positive("Invalid Number"),
   id: z.string().optional(),
+  telegraProductVariant: z.string().optional(),
 });
 
 export const createMedicationCatalogueSchema = z.object({

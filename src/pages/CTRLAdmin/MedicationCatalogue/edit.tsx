@@ -116,10 +116,12 @@ function MedicationCatalogue({ data, id }: MedicationCatalogueProps) {
       dosageForm: data?.dosageForm || "",
       route: data?.route || "",
       variants: data?.productVariants?.map((item) => {
+        console.log(item);
         return {
           strength: item.strength,
           quantityType: item.quantityType,
           containerQuantity: item.containerQuantity,
+          telegraProductVariant: item.telegraProductVariant,
           id: item.id,
         };
       }) || [
@@ -373,16 +375,16 @@ function MedicationCatalogue({ data, id }: MedicationCatalogueProps) {
                   ADD VARIANT
                 </Button>
               </div>
-              <div className=" flex flex-col gap-2">
+              <div className=" flex flex-col  gap-2">
                 {fields.map((field, index) => {
                   return (
                     <div
-                      className="bg-secondary relative flex w-[620px] rounded-[5px] p-5 border border-border-secondary  gap-[20px]"
+                      className="bg-secondary relative flex w-[620px] justify-center  flex-wrap rounded-[5px] p-5 border border-border-secondary  gap-[10px]"
                       key={field.id}
                     >
                       <InputElement
                         name={`variants.${index}.strength`}
-                        className="w-[200px]"
+                        className="w-[250px]"
                         label="Strength"
                         messageClassName="text-right"
                         placeholder="15mg"
@@ -405,19 +407,30 @@ function MedicationCatalogue({ data, id }: MedicationCatalogueProps) {
                         label="Quantity Type"
                         options={units}
                         placeholder="Enter quantity type"
-                        className="w-[200px] min-h-[56px]"
+                        className="w-[250px] min-h-[56px]"
                         isRequired={true}
                       />
 
                       <InputElement
                         name={`variants.${index}.containerQuantity`}
-                        className="w-[200px]"
+                        className="w-[250px]"
                         label="Container Quantity"
                         messageClassName="text-right"
                         placeholder="Enter container quantity"
                         inputClassName="bg-white"
                         isRequired={true}
                         type="number"
+                      />
+
+                      <InputElement
+                        name={`variants.${index}.telegraProductVariant`}
+                        className="w-[250px]"
+                        label="Telegra Product Variant"
+                        messageClassName="text-right"
+                        placeholder="Enter telegra product variant"
+                        inputClassName="bg-white"
+                        isRequired={false}
+                        type="string"
                       />
 
                       <button

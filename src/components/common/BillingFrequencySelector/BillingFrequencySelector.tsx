@@ -4,6 +4,7 @@ import {
   CalendarMinus as CalendarMonth,
 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@radix-ui/react-label";
 
 export type BillingFrequency = "daily" | "weekly" | "monthly";
 
@@ -17,6 +18,8 @@ interface BillingOption {
 interface BillingFrequencySelectorProps {
   selected: BillingFrequency;
   setSelected: (value: BillingFrequency) => void;
+  checked?: boolean;
+  setChecked?: (value: boolean) => void;
 }
 
 const billingOptions: BillingOption[] = [
@@ -43,9 +46,40 @@ const billingOptions: BillingOption[] = [
 export function BillingFrequencySelector({
   selected,
   setSelected,
+  checked,
+  setChecked,
 }: BillingFrequencySelectorProps) {
+  console.log("checked>>", checked);
   return (
     <div className="px-5 pt-4">
+      <div
+        className="flex items-center mb-5 justify-between gap-3 p-4 rounded-lg border border-gray-200 bg-white hover:border-gray-300 transition-all cursor-pointer"
+        role="button"
+        tabIndex={0}
+        onClick={() => setChecked?.(!checked)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            setChecked?.(!checked);
+          }
+        }}
+      >
+        <Label className="font-semibold text-gray-500">
+          Generate External Invoice
+        </Label>
+        <div onClick={(e) => e.stopPropagation()}>
+          <Checkbox
+            checked={checked}
+            onCheckedChange={setChecked}
+            className={`w-6 h-6 ${
+              checked
+                ? "bg-[#F7F1FD] border-primary"
+                : "bg-white border-gray-300"
+            }`}
+          />
+        </div>
+      </div>
+
       <div className="space-y-3">
         {billingOptions.map((option) => (
           <div
@@ -99,6 +133,21 @@ export function BillingFrequencySelector({
             </div>
           </div>
         ))}
+        {/* Generate external innvoice checkbox  */}
+        {/* <div className="flex items-center justify-between gap-3 p-4 rounded-lg border border-gray-200 bg-white hover:border-gray-300 transition-all">
+          <Label className="font-semibold text-gray-500">
+            Generate External Invoice
+          </Label>
+          <Checkbox
+            checked={checked}
+            onCheckedChange={setChecked}
+            className={`w-6 h-6 ${
+              checked
+                ? "bg-[#F7F1FD] border-primary"
+                : "bg-white border-gray-300"
+            }`}
+          />
+        </div> */}
       </div>
     </div>
   );

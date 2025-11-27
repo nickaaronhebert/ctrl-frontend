@@ -11,6 +11,11 @@ import { CreateOrganizationCredentialsModal } from "@/components/common/CreateOr
 import type { BillingFrequency } from "@/components/dialog/action";
 import { OrgInvoiceFrequencyDialog } from "@/components/common/InvoiceFrequencyDialog/OrgInvoiceFrequencyDialog";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const ActiveOrgDetails = () => {
   const { id } = useParams<{ id: string }>();
@@ -19,14 +24,16 @@ const ActiveOrgDetails = () => {
     skip: !id,
   });
 
-  const [activeStatus, setActiveStatus] = useState<"affiliates" | "subOrgs">(
-    "affiliates"
-  );
+  const [activeStatus, setActiveStatus] = useState<
+    "affiliates" | "sharedSubOrgs" | "independentsubOrgs"
+  >("affiliates");
   const [openCredentialsForm, setOpenCredentialsForm] = useState(false);
   const [openBillingModal, setOpenBillingModal] = useState<boolean>(false);
   const [selected, setSelected] = useState<BillingFrequency>(
     (data?.data?.invoiceFrequency as BillingFrequency) || "daily"
   );
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [checked, setChecked] = useState<boolean>(true);
 
   useEffect(() => {
     if (data?.data?.invoiceFrequency) {
@@ -63,7 +70,10 @@ const ActiveOrgDetails = () => {
             Modify Credential
           </Button>
           <Button
-            onClick={() => setOpenBillingModal(true)}
+            onClick={() => {
+              setOpenBillingModal(true);
+              setIsEditing(true);
+            }}
             className="bg-primary text-white rounded-full hover:bg-primary cursor-pointer py-2.5 px-7 h-12"
           >
             Manage Status & Billing
@@ -120,26 +130,61 @@ const ActiveOrgDetails = () => {
             </span>
           </Button>
 
-          <Button
-            size={"xxl"}
-            variant={"tabs"}
-            className={cn(
-              activeStatus === "subOrgs"
-                ? "bg-primary text-white"
-                : "bg-slate-background text-secondary-foreground hover:bg-slate-background",
-              "p-[30px]"
-            )}
-            onClick={() => setActiveStatus("subOrgs")}
-          >
-            Sub-Organizations
-          </Button>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                size={"xxl"}
+                variant={"tabs"}
+                className={cn(
+                  activeStatus === "sharedSubOrgs"
+                    ? "bg-primary text-white"
+                    : "bg-slate-background text-secondary-foreground hover:bg-slate-background",
+                  "p-[30px]"
+                )}
+                onClick={() => setActiveStatus("sharedSubOrgs")}
+              >
+                Shared Sub Organizations
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="bottom">
+              <p>
+                Shared organizations utlilize the settings of the parent
+                organization
+              </p>
+            </TooltipContent>
+          </Tooltip>
+
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                size={"xxl"}
+                variant={"tabs"}
+                className={cn(
+                  activeStatus === "independentsubOrgs"
+                    ? "bg-primary text-white"
+                    : "bg-slate-background text-secondary-foreground hover:bg-slate-background",
+                  "p-[30px]"
+                )}
+                onClick={() => setActiveStatus("independentsubOrgs")}
+              >
+                Independent Sub Organizations
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="bottom">
+              <p>Configured and managed independently.</p>
+            </TooltipContent>
+          </Tooltip>
         </div>
 
         <div className="pb-[12px] px-3.5">
           {activeStatus === "affiliates" ? (
             <PharmacyOrgAffiliateProviders organization={id as string} />
           ) : (
-            <ViewPharmacySubOrganization organization={id as string} />
+            <ViewPharmacySubOrganization
+              organization={id as string}
+              invitation={data?.data?.invitation as string}
+              activeStatus={activeStatus}
+            />
           )}
         </div>
       </div>
@@ -161,6 +206,9 @@ const ActiveOrgDetails = () => {
           selected={selected}
           setSelected={setSelected}
           organization={data?.data?.id as string}
+          isEditing={isEditing}
+          checked={checked}
+          setChecked={setChecked}
         />
       )}
     </>
