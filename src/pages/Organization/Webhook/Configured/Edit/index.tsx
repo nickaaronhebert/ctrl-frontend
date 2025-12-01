@@ -14,21 +14,26 @@ import { Label } from "@/components/ui/label";
 import { useForm } from "react-hook-form";
 import type z from "zod";
 
-import { createWebhookSchema } from "@/schemas/createWebhook";
 import InputElement from "@/components/Form/input-element";
 import PasswordInputElement from "@/components/Form/password-element";
 import SelectElement from "@/components/Form/select-element";
-import { SelectSubOrganization } from "@/components/Form/SelectSubOrganization";
 import { useState } from "react";
 import TextAreaElement from "@/components/Form/textarea-elements";
-import { useCreateWebhookMutation } from "@/redux/services/webhook";
+import {
+  useDeleteWebhookMutation,
+  useEditWebhookMutation,
+} from "@/redux/services/webhook";
 import type { Auth } from "@/types/requests/ICreateWebhook";
 import { toast } from "sonner";
-import useAuthentication from "@/hooks/use-authentication";
+import { editWebhookSchema } from "@/schemas/createWebhook";
+import type { WebhookDetails } from "@/types/responses/IGetAllWebhook";
+import { useNavigate } from "react-router-dom";
 
 interface CreateWebhookProps {
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
+  values?: WebhookDetails;
+  id: string;
 }
 
 const authenticationType = [
@@ -42,30 +47,42 @@ const authenticationType = [
   },
 ];
 
-export function CreateWebhook({ open, onOpenChange }: CreateWebhookProps) {
-  const [status, setStatus] = useState(false);
-  const [tracking, setTracking] = useState(false);
-  const [createWebhook] = useCreateWebhookMutation();
-  const { user } = useAuthentication();
+export function EditWebhook({
+  open,
+  onOpenChange,
+  values,
+  id,
+}: CreateWebhookProps) {
+  const navigate = useNavigate();
+  const [status, setStatus] = useState(
+    values?.eventTypes?.indexOf("status_update") !== -1 ? true : false
+  );
+  const [tracking, setTracking] = useState(
+    values?.eventTypes?.indexOf("tracking_received") !== -1 ? true : false
+  );
+  const [editWebhook] = useEditWebhookMutation();
+  const [deleteWebhook] = useDeleteWebhookMutation();
 
-  const form = useForm<z.infer<typeof createWebhookSchema>>({
+  const form = useForm<z.infer<typeof editWebhookSchema>>({
     mode: "onTouched",
-    resolver: zodResolver(createWebhookSchema),
+    resolver: zodResolver(editWebhookSchema),
     defaultValues: {
-      name: "",
-      targetUrl: "",
-      userName: "",
-      password: "",
-      header: "",
-      subOrganization: "",
-      authenticationType: "",
+      name: values?.name || "",
+      targetUrl: values?.targetUrl || "",
+      userName: values?.authConfig?.username || "",
+      password: values?.authConfig?.password || "",
+      header:
+        values?.authType === "header_auth"
+          ? JSON.stringify(values?.authConfig)
+          : "",
+      //   subOrganization: values?.targetOrganization || "",
+      authenticationType: values?.authType || "",
     },
   });
-  const { reset } = form;
+
   const authType = form.watch("authenticationType");
 
-  async function onSubmit(values: z.infer<typeof createWebhookSchema>) {
-    console.log("values", values);
+  async function onSubmit(values: z.infer<typeof editWebhookSchema>) {
     const eventTypes = [];
     if (status) eventTypes.push("status_update");
     if (tracking) eventTypes.push("tracking_received");
@@ -80,18 +97,19 @@ export function CreateWebhook({ open, onOpenChange }: CreateWebhookProps) {
             password: values.password,
           };
 
-    await createWebhook({
+    await editWebhook({
       name: values.name,
       targetUrl: values.targetUrl,
-      targetOrganization: values.subOrganization || user?.organization?._id,
+      targetOrganization: values.subOrganization,
       authType: values.authenticationType,
       authConfig: auth,
       eventTypes: eventTypes,
+      id: id,
     })
       .unwrap()
       .then((data) => {
-        toast.success(data?.message || "Webhook  Created Successfully");
-        reset();
+        toast.success(data?.message || "Webhook  Edited Successfully");
+
         onOpenChange?.(false);
       })
       .catch((err) => {
@@ -100,17 +118,30 @@ export function CreateWebhook({ open, onOpenChange }: CreateWebhookProps) {
       });
   }
 
+  async function handleDelete() {
+    await deleteWebhook(id)
+      .unwrap()
+      .then((data) => {
+        toast.error(data?.message || "Webhook Deleted Successfully");
+        onOpenChange?.(false);
+        navigate("/org/webhook");
+      })
+      .catch((err) => {
+        console.log("error", err);
+      });
+  }
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
-        <Button variant={"ctrl"} size={"xl"} className="">
-          Create Webhook
+        <Button variant={"ctrl"} size={"lg"} className="rounded-[12px]">
+          Modify Webhook
         </Button>
       </DialogTrigger>
       <DialogContent className="min-w-xl ">
         <DialogHeader className="flex-col border-b border-[#D9D9D9] px-5 py-1.5">
           <DialogTitle className="text-lg font-semibold p-2">
-            Create Webhook
+            Modify Webhook
           </DialogTitle>
         </DialogHeader>
 
@@ -210,17 +241,7 @@ export function CreateWebhook({ open, onOpenChange }: CreateWebhookProps) {
                 </div>
               </div>
 
-              <SelectSubOrganization />
-
-              <p className="text-sm border-l-4 border-primary p-3 bg-white shadow-[0px_2px_40px_0px_#00000014]">
-                If No sub-organization is selected. This Webhook will be created
-                for{" "}
-                <span className="font-medium underline underline-offset-2">
-                  {user?.organization?.name}
-                </span>
-              </p>
-
-              <div className="flex items-center justify-end gap-2.5 mt-10 pb-4 px-4">
+              <div className="flex items-center justify-end gap-2.5 mt-5 pb-4 px-4 mb-4">
                 <Button
                   onClick={() => {
                     form.reset();
@@ -228,11 +249,20 @@ export function CreateWebhook({ open, onOpenChange }: CreateWebhookProps) {
                   }}
                   variant={"transparent"}
                   type="button"
-                  // to={"#"}
                   className="rounded-full border border-[#3E4D61] text-center py-2.5 px-6 min-h-12 min-w-32"
                 >
                   Cancel
                 </Button>
+
+                <Button
+                  onClick={handleDelete}
+                  variant={"transparent"}
+                  type="button"
+                  className="rounded-full border border-[#E31010] text-center text-[#E31010] py-2.5 px-6 min-h-12 min-w-32"
+                >
+                  Delete
+                </Button>
+
                 <Button
                   type="submit"
                   //   disabled={}

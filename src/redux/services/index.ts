@@ -22,6 +22,7 @@ import {
   TAG_GET_ENCOUNTER,
   TAG_LINKED_ORG,
   TAG_ORG_SUB_ORGS,
+  TAG_WEBHOOK,
 } from "@/types/baseApiTags";
 
 export const baseApi = createApi({
@@ -48,6 +49,7 @@ export const baseApi = createApi({
     TAG_GET_ENCOUNTER,
     TAG_LINKED_ORG,
     TAG_ORG_SUB_ORGS,
+    TAG_WEBHOOK,
   ],
   baseQuery: fetchBaseQuery({
     baseUrl:

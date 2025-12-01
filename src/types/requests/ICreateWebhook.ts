@@ -9,6 +9,10 @@ export interface ICreateWebhookRequest {
   authType: string;
   authConfig: Auth;
   targetUrl: string;
-  targetOrganization: string;
+  targetOrganization?: string;
   eventTypes: string[];
+}
+
+export interface IEditWebhookRequest extends ICreateWebhookRequest {
+  id: string;
 }
