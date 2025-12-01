@@ -105,6 +105,7 @@ export default function CreateMedicationCatalogue() {
           strength: "",
           quantityType: "",
           containerQuantity: 1,
+          telegraProductVariant: "",
         },
       ],
     },
@@ -365,12 +366,12 @@ export default function CreateMedicationCatalogue() {
                 {fields.map((field, index) => {
                   return (
                     <div
-                      className="bg-secondary relative flex w-[620px] rounded-[5px] p-5 border border-border-secondary  gap-[20px]"
+                      className="bg-secondary relative flex flex-wrap w-[620px] rounded-[5px] p-5 border border-border-secondary gap-[10px]"
                       key={field.id}
                     >
                       <InputElement
                         name={`variants.${index}.strength`}
-                        className="w-[200px]"
+                        className="w-[270px]"
                         label="Strength"
                         messageClassName="text-right"
                         placeholder="15mg"
@@ -393,19 +394,29 @@ export default function CreateMedicationCatalogue() {
                         label="Quantity Type"
                         options={units}
                         placeholder="Enter quantity type"
-                        className="w-[200px] min-h-[56px]"
+                        className="w-[270px] min-h-[56px]"
                         isRequired={true}
                       />
 
                       <InputElement
                         name={`variants.${index}.containerQuantity`}
-                        className="w-[200px]"
+                        className="w-[270px]"
                         label="Container Quantity"
                         messageClassName="text-right"
                         placeholder="Enter container quantity"
                         inputClassName="bg-white"
                         isRequired={true}
                         type="number"
+                      />
+                      <InputElement
+                        name={`variants.${index}.telegraProductVariant`}
+                        className="w-[270px]"
+                        label="Telegra Product Variant"
+                        messageClassName="text-right"
+                        placeholder="Enter telegra product variant"
+                        inputClassName="bg-white"
+                        isRequired={false}
+                        type="string"
                       />
 
                       <button

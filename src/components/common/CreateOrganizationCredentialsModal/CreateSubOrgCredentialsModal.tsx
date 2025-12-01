@@ -25,6 +25,8 @@ import type z from "zod";
 import { toast } from "sonner";
 import type { BillingFrequency } from "../BillingFrequencySelector/BillingFrequencySelector";
 import { useCreateSubOrgCredsMutation } from "@/redux/services/pharmacy";
+import { useUpdatePharmacyCredsMutation } from "@/redux/services/pharmacy";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 interface SubCreateOrganizationCredentialsModalProps {
   open: boolean;
@@ -35,6 +37,8 @@ interface SubCreateOrganizationCredentialsModalProps {
   update?: boolean;
   subOrganization: string;
   invoiceFrequency: BillingFrequency;
+  isEditing: boolean;
+  checked: boolean;
 }
 
 export function CreateSubOrgCredentialsModal({
@@ -45,6 +49,8 @@ export function CreateSubOrgCredentialsModal({
   subOrganization,
   invoiceFrequency,
   invitation,
+  isEditing,
+  checked,
 }: SubCreateOrganizationCredentialsModalProps) {
   const form = useForm<z.infer<typeof orgCredentialSchema>>({
     resolver: zodResolver(orgCredentialSchema),
@@ -58,7 +64,10 @@ export function CreateSubOrgCredentialsModal({
     },
   });
 
-  const [createSubOrgCreds, { isLoading }] = useCreateSubOrgCredsMutation();
+  console.log(">>>checked", checked);
+
+  const [createSubOrgCreds] = useCreateSubOrgCredsMutation();
+  const [updateSubOrgCreds] = useUpdatePharmacyCredsMutation();
   const platformType = form.watch("platformType");
 
   console.log("Errors", form.formState.errors);
@@ -86,6 +95,7 @@ export function CreateSubOrgCredentialsModal({
               authenticationType: "basic",
               username: data.username!,
               password: data.password!,
+              generateExternalInvoice: checked,
             }
           : {
               organization: organization,
@@ -96,15 +106,28 @@ export function CreateSubOrgCredentialsModal({
               headers: parsedHeaders,
               authenticationType: "token",
               token: data.accessToken!,
+              generateExternalInvoice: checked,
             };
 
-      await createSubOrgCreds(payload).unwrap();
+      let finalPayload = payload;
+      if (isEditing) {
+        const { invoiceFrequency, generateExternalInvoice, ...rest } =
+          payload as any;
+        finalPayload = rest;
+      }
 
-      console.log("Payload", payload);
+      if (isEditing) {
+        await updateSubOrgCreds(finalPayload).unwrap();
+        toast.success("Organizations credentials updated successfully", {
+          duration: 1500,
+        });
+      } else {
+        await createSubOrgCreds(finalPayload).unwrap();
+        toast.success("Organization credentials created successfully!", {
+          duration: 1500,
+        });
+      }
 
-      toast.success("Organization credentials created successfully!", {
-        duration: 1500,
-      });
       setOpen(false);
     } catch (error) {
       if (error && typeof error === "object" && "data" in error) {
@@ -289,7 +312,11 @@ export function CreateSubOrgCredentialsModal({
                 type="submit"
                 className="bg-green-600 hover:bg-green-700 text-white rounded-lg"
               >
-                {isLoading ? "Saving.." : "Confirm & Accept"}
+                {form.formState.isSubmitting ? (
+                  <LoadingSpinner />
+                ) : (
+                  "Confirm & Accept"
+                )}
               </Button>
             </DialogFooter>
           </form>

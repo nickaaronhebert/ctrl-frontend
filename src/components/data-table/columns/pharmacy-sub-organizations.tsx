@@ -8,7 +8,8 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
 
 export function pharmacysubOrganizationColumns(
-  organization: string
+  organization: string,
+  invitation: string
 ): ColumnDef<OrgSubOrgs>[] {
   return [
     {
@@ -50,43 +51,80 @@ export function pharmacysubOrganizationColumns(
     },
     {
       accessorKey: "id",
-      header: "Action",
+      header: "Actions",
       cell: ({ row }) => {
-        console.log(">myRowwwwwwww", row.original);
-        const [openConnectionRequest, setOpenConnectionRequest] =
-          useState(false);
+        console.log(">>>", row.original);
+        const [openBillingModal, setOpenBillingModal] =
+          useState<boolean>(false);
         const [openCredentialsModal, setOpenCredentialsModal] = useState(false);
+        const [checked, setChecked] = useState<boolean>(true);
         const [selected, setSelected] = useState<BillingFrequency>(
           (row.original.invoiceFrequency || "daily") as BillingFrequency
         );
+        const [isEditing, setIsEditing] = useState<boolean>(false);
         const isConfigured = !!row.original.invoiceFrequency;
+
+        const handleFirstTimeSetup = () => {
+          setOpenBillingModal(true);
+        };
+
+        const handleModifyCredentials = () => {
+          setOpenCredentialsModal(true);
+          setIsEditing(true);
+        };
+
+        const handleManageBilling = () => {
+          setOpenBillingModal(true);
+          setIsEditing(true);
+        };
+
         return (
           <>
-            <Button
-              variant={"outline"}
-              className={cn(
-                "min-w-28 py-2.5 rounded-full",
-                isConfigured
-                  ? "text-primary border-primary hover:bg-primary/5"
-                  : "text-black"
-              )}
-              onClick={() =>
-                isConfigured
-                  ? setOpenConnectionRequest(true)
-                  : setOpenConnectionRequest(true)
-              }
-            >
-              {isConfigured ? "View Credential" : "Set Credential"}
-            </Button>
+            {!isConfigured && (
+              <Button
+                variant="outline"
+                className="min-w-28 py-2.5 rounded-full text-black"
+                onClick={handleFirstTimeSetup}
+              >
+                Set Credentials
+              </Button>
+            )}
+
+            {isConfigured && (
+              <div className="flex  gap-2">
+                <Button
+                  variant="outline"
+                  className="min-w-28 py-2.5 rounded-full text-primary border-primary hover:bg-primary/5"
+                  onClick={handleModifyCredentials}
+                >
+                  Modify Credential
+                </Button>
+
+                <Button
+                  variant="outline"
+                  className="min-w-28 py-2.5 rounded-full text-primary border-primary hover:bg-primary/5"
+                  onClick={handleManageBilling}
+                >
+                  Manage Billing Status
+                </Button>
+              </div>
+            )}
             <SubOrgInvoiceFrequencyDialog
-              open={openConnectionRequest}
-              setOpen={setOpenConnectionRequest}
+              open={openBillingModal}
+              setOpen={setOpenBillingModal}
               selected={selected}
               setSelected={setSelected}
               subOrganization={row.original.id}
               organization={organization}
               isConfigured={isConfigured}
-              onUpdate={() => setOpenCredentialsModal(true)}
+              checked={checked}
+              setChecked={setChecked}
+              onUpdate={() => {
+                if (!isConfigured) {
+                  setOpenCredentialsModal(true);
+                }
+              }}
+              isEditing={isEditing}
             />
             {openCredentialsModal && (
               <CreateSubOrgCredentialsModal
@@ -96,6 +134,9 @@ export function pharmacysubOrganizationColumns(
                 organization={organization}
                 subOrganization={row.original.id}
                 invoiceFrequency={selected}
+                isEditing={isEditing}
+                invitation={invitation}
+                checked={checked}
               />
             )}
           </>

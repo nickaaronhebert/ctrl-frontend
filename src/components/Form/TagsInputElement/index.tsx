@@ -24,7 +24,7 @@ const TagsInputElement: React.FC<TagsInputProps> = ({
   isRequired,
   type,
   placeholder,
-  width = "w-[620px]",
+  width = "620px",
 }) => {
   const { control } = useFormContext();
   return (
@@ -45,7 +45,7 @@ const TagsInputElement: React.FC<TagsInputProps> = ({
               value={field.value}
               onChange={field.onChange}
               placeholder={placeholder}
-              width={`w-[${width}]`}
+              width={`${width}`}
               inputType={type}
             />
           </FormControl>

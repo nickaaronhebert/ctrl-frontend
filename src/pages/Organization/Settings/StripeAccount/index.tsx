@@ -66,14 +66,17 @@ const CreditCard: React.FC<CardProps> = ({
 
 export default function OrgStripeAccount() {
   const [addNewCard, setAddNewCard] = useState(false);
-  const { data, isFetching } = useGetAdminCardsQuery(undefined, {
-    selectFromResult: ({ data, isFetching }) => {
-      return {
-        data: data?.data,
-        isFetching: isFetching,
-      };
-    },
-  });
+  const { data, isFetching } = useGetAdminCardsQuery(
+    {},
+    {
+      selectFromResult: ({ data, isFetching }) => {
+        return {
+          data: data?.data,
+          isFetching: isFetching,
+        };
+      },
+    }
+  );
 
   return (
     <div className="w-full flex justify-center py-8">

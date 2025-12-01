@@ -192,7 +192,7 @@ export const pharmacyApi = baseApi.injectEndpoints({
         method: "POST",
         body,
       }),
-      invalidatesTags: [TAG_LINKED_ORG],
+      invalidatesTags: [TAG_LINKED_ORG, TAG_ORG_SUB_ORGS],
     }),
   }),
 });

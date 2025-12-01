@@ -31,7 +31,9 @@ export function PayInvoiceDialog({
   const [method, setMethod] = useState<"card" | "stripe-link">("card");
   const [isWaitingForWebhook, setIsWaitingForWebhook] = useState(false);
 
-  const defaultCard = cards.find((card: any) => card.isDefault);
+  const defaultCard = data?.subOrganization
+    ? cards[0]
+    : cards.find((card: any) => card.isDefault);
 
   const handleCardPayment = async () => {
     if (!defaultCard || !data?.invoiceId) return;
@@ -113,8 +115,7 @@ export function PayInvoiceDialog({
           >
             {!defaultCard ? (
               <p className="text-sm text-red-600">
-                No default payment method found. Please add a payment method to
-                proceed.
+                No card available. You can still pay via Stripe link.
               </p>
             ) : (
               <label

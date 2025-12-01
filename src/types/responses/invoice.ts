@@ -49,4 +49,5 @@ export type InvoiceDetail = {
   medicationFee: number;
   transactions: Transaction[];
   stripeHostedInvoiceUrl: string;
+  subOrganization?: string;
 };

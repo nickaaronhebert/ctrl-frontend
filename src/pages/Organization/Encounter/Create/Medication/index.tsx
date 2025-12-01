@@ -28,6 +28,7 @@ export function MedicationFields({ state = "" }: MedicationFieldsProps) {
       perPage: 100,
       q: debounceSearchParams,
       state: state,
+      includeTelegraMap: "true",
     },
     {
       selectFromResult: ({ data }) => ({

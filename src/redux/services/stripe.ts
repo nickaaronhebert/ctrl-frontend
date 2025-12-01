@@ -27,9 +27,15 @@ export const stripeApi = baseApi.injectEndpoints({
       invalidatesTags: [TAG_GET_CARDS],
     }),
 
-    getAdminCards: builder.query<any, void>({
-      query: () => "/payment/cards", // GET request
+    getAdminCards: builder.query<any, { subOrganization?: string }>({
+      query: ({ subOrganization }) => {
+        const url = subOrganization
+          ? `/payment/cards?subOrganization=${subOrganization}`
+          : "/payment/cards";
+        return { url };
+      },
       providesTags: [TAG_GET_CARDS, TAG_GET_SUB_ORGANIZATION],
+      keepUnusedDataFor: 0,
     }),
 
     getOrganizationInvoices: builder.query<

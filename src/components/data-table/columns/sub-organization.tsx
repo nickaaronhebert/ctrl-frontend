@@ -61,10 +61,10 @@ export function ctrlSubOrganizationColumns(): ColumnDef<SubOrganization>[] {
             ) : (
               <Link
                 to={"/org/create-suborganization"}
-                // onClick={() => {
-                //   dispatch(setDirectToStepTwo(true));
-                //   navigate("/org/create-suborganization");
-                // }}
+                state={{
+                  goToStep: 1,
+                  subOrganization: row.original.id,
+                }}
                 className="flex justify-center items-center py-1 px-5 min-w-[85px] h-[36px] rounded-[50px] border border-primary-foreground "
               >
                 Configure Method
