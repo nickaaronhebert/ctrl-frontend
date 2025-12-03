@@ -2,16 +2,14 @@ import type {
   MedicationCatalogueCardProps,
   PharmacyCatalogue,
 } from "@/types/responses/medication";
-import { MedicationRow } from "../MedicationRow/MedicationRow";
+import { PlanRow } from "../PlanRow/PlanRow";
 
-export function MedicationCatalogueCard({
-  data,
-}: MedicationCatalogueCardProps) {
+export function PlanCatalogueCard({ data }: MedicationCatalogueCardProps) {
   return (
     <div className="p-6">
       <div className="space-y-6">
         {data?.data?.map((medication: PharmacyCatalogue) => {
-          return <MedicationRow key={medication._id} medication={medication} />;
+          return <PlanRow key={medication._id} medication={medication} />;
         })}
       </div>
     </div>

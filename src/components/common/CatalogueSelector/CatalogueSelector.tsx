@@ -1,11 +1,11 @@
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { MedicationCard } from "../MedicationCard/MedicationCard";
 import { useMedication } from "@/context/ApplicationUser/MedicationContext";
 import type { useSearchParams } from "react-router-dom";
+import { CatalogueCard } from "../CatalogueCard/CatalogueCard";
 
-function MedicationSelector({
+function CatalogueSelector({
   searchParam,
   setSearchParams,
 }: {
@@ -15,19 +15,19 @@ function MedicationSelector({
   const {
     selectedVariants,
     searchQuery,
-    selectAll,
+    allCatalogues,
     clearAll,
-    getFilteredMedications,
+    getFilteredCatalogues,
   } = useMedication();
 
-  const filteredMedications = getFilteredMedications();
+  const filteredCatalogues = getFilteredCatalogues();
   const hasSelections = selectedVariants?.length > 0;
 
   const handleSelectAll = () => {
     if (hasSelections) {
       clearAll();
     } else {
-      selectAll();
+      allCatalogues();
     }
   };
 
@@ -66,12 +66,12 @@ function MedicationSelector({
 
       {/* Medications List */}
       <div className="space-y-4">
-        {filteredMedications.map((medication) => (
-          <MedicationCard key={medication.id} medication={medication} />
+        {filteredCatalogues?.map((catalogue) => (
+          <CatalogueCard key={catalogue._id} catalogue={catalogue} />
         ))}
       </div>
 
-      {filteredMedications.length === 0 && searchQuery && (
+      {filteredCatalogues?.length === 0 && searchQuery && (
         <div className="text-center py-8 text-muted-foreground">
           No medications found matching "{searchQuery}"
         </div>
@@ -80,4 +80,4 @@ function MedicationSelector({
   );
 }
 
-export default MedicationSelector;
+export default CatalogueSelector;

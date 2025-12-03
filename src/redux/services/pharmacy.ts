@@ -1,5 +1,6 @@
 import type { PharmacyInvoiceResponse } from "@/types/responses/invoices";
 import {
+  TAG_GET_CATALOGUE_LIST,
   TAG_GET_CONNECTED_ORGANIZATION,
   TAG_GET_PHARMACY_CATALOGUE,
   TAG_GET_SUB_ORGANIZATION,
@@ -15,6 +16,9 @@ import type {
   IConnectedOrganizationResponse,
   OrganizationResponse,
 } from "@/types/responses/IConnectedOrganization";
+import { type PharmacyCatalogueResponse } from "@/types/responses/IPharmacyCatalogueResponse";
+import type { CreateVariantResponse } from "@/types/responses/ICreateVariantResponse";
+import type { CreateVariantRequest } from "@/types/requests/ICreateVariantRequest";
 
 export const pharmacyApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -194,6 +198,41 @@ export const pharmacyApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [TAG_LINKED_ORG, TAG_ORG_SUB_ORGS],
     }),
+    getCatalogueList: builder.query<
+      PharmacyCatalogueResponse,
+      { page: number; perPage: number }
+    >({
+      query: ({ page, perPage }) => ({
+        url: `/pharmacy-catalogue/variant?page=${page}&limit=${perPage}`,
+        method: "GET",
+      }),
+      providesTags: [TAG_GET_CATALOGUE_LIST],
+    }),
+    createVariant: builder.mutation<
+      CreateVariantResponse,
+      CreateVariantRequest
+    >({
+      query: (body) => ({
+        url: "/pharmacy-catalogue/variant",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: [TAG_GET_CATALOGUE_LIST],
+    }),
+    createPharmacyCatalogueVariant: builder.mutation({
+      query: ({ phmCatalogueVariantId, config }) => ({
+        url: `/pharmacy-catalogue/variant/${phmCatalogueVariantId}/config`,
+        method: "POST",
+        body: { config },
+      }),
+      invalidatesTags: [TAG_GET_CATALOGUE_LIST],
+    }),
+    getCataloguePlan: builder.query({
+      query: (phmCatalogueVariantId: string) => ({
+        url: `/pharmacy-catalogue/variant/${phmCatalogueVariantId}/config`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -218,4 +257,8 @@ export const {
   useCreateSubOrgCredsMutation,
   useGetLinkedOrganizationQuery,
   useUpdateOrgBillingMutation,
+  useGetCatalogueListQuery,
+  useCreateVariantMutation,
+  useCreatePharmacyCatalogueVariantMutation,
+  useGetCataloguePlanQuery,
 } = pharmacyApi;

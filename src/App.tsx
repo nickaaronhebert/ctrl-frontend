@@ -54,7 +54,7 @@ import PharmacyMedicationsContent from "./pages/Pharmacy/Medications";
 import SetDefaultPrices from "./components/pharmacy/selectedMedications/SelectedMedications";
 // import CatalogueCreationCard from "./components/common/CatalogueCreationCard/CatalogueCreationCard";
 import ViewInvoiceDetails from "./pages/Organization/Invoices/details";
-import CatalogueCreationSuccess from "./components/common/CatalogueCreationSuccess/CatalogueCreationSuccess";
+// import CatalogueCreationSuccess from "./components/common/CatalogueCreationSuccess/CatalogueCreationSuccess";
 import PharmacySettings from "./pages/Pharmacy/Settings";
 import PharmacyDetailsPage from "./pages/Pharmacy/Medications/details";
 import ViewPharmacyInvoiceDetails from "./pages/Pharmacy/Invoices/detail";
@@ -87,6 +87,11 @@ import EncounterPage from "./pages/Organization/Encounter";
 import EncounterDetails from "./pages/Organization/Encounter/Detail";
 import Webhook from "./pages/Organization/Webhook";
 import ConfiguredWebhookDetails from "./pages/Organization/Webhook/Configured/Details";
+import GetCatalogueList from "./pages/Pharmacy/Catalogues";
+import GetAllCatalogues from "./components/common/Card/get-catalogue-card";
+// import SelectedCatalogues from "./components/pharmacy/selectedCatalogues/selectedCatalogues";
+import SelectedCatalogues from "./components/pharmacy/selectedCatalogues/SelectedCatalogues";
+import PharmacyCatalogueDetails from "./pages/Pharmacy/Catalogues/details";
 
 const router = createBrowserRouter([
   {
@@ -428,10 +433,6 @@ const router = createBrowserRouter([
         path: ROUTES.PHARMACY_INVOICES_DETAILS,
         element: <ViewPharmacyInvoiceDetails />,
       },
-      // {
-      //   path: ROUTES.CATALOGUE_CREATION,
-      //   element: <CatalogueCreationCard />,
-      // },
       {
         path: ROUTES.PHARMACY_MEDICATIONS,
         element: <PharmacyMedicationsLayout />,
@@ -449,12 +450,24 @@ const router = createBrowserRouter([
             element: <ModifyPrices />,
           },
           {
-            path: ROUTES.CATALOGUE_CREATION_SUCCESS,
-            element: <CatalogueCreationSuccess />,
+            path: `${ROUTES.VIEW_CATALOGUE}/:id?`,
+            element: <PharmacyDetailsPage />,
           },
           {
-            path: ROUTES.VIEW_CATALOGUE,
-            element: <PharmacyDetailsPage />,
+            path: ROUTES.PHARMACY_CATALOGUES,
+            element: <GetCatalogueList />,
+          },
+          {
+            path: ROUTES.GET_ALL_CATALOGUES,
+            element: <GetAllCatalogues />,
+          },
+          {
+            path: ROUTES.GET_SELECTED_CATALOGUES,
+            element: <SelectedCatalogues />,
+          },
+          {
+            path: `${ROUTES.PLAN_CATALOGUES}/:id`,
+            element: <PharmacyCatalogueDetails />,
           },
         ],
       },

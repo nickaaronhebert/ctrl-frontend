@@ -84,6 +84,10 @@ export const ROUTES = {
   PHARMACY_ACTIVE_ORGANIZATIONS: "organizations/active",
   ADMIN_ENCOUNTERED: "encountered",
   ADMIN_PRODUCT: "add-product",
+  PHARMACY_CATALOGUES: "catalogues",
+  GET_ALL_CATALOGUES: "all-catalogues",
+  GET_SELECTED_CATALOGUES: "selected-catalogues",
+  PLAN_CATALOGUES: "plan-catalogues",
 };
 
 export const STEPPER_FORM = {

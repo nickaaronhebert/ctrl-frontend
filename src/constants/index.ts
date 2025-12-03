@@ -127,7 +127,8 @@ export const nestedOrgItems = [
 export const nestedPharmacyItems = [
   {
     title: "Medication Library",
-    url: "/pharmacy/medications/view-catalogue",
+    // url: "/pharmacy/medications/view-catalogue",
+    url: "/pharmacy/medications/catalogues",
   },
   {
     title: "Organization",

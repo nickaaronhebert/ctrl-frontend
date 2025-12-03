@@ -36,6 +36,7 @@ export interface PharmacyMedicationCatalogue {
 export interface PharmacyProductVariant {
   _id: string;
   price: number;
+  defaultPrice?: number;
   pharmacyIdentifier?: string;
   primaryPharmacyIdentifier?: string;
   pharmacyDescriptor?: string;
