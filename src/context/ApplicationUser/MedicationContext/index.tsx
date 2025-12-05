@@ -34,6 +34,7 @@ interface MedicationContextType {
   setPharmacyCatalogueId: React.Dispatch<React.SetStateAction<string>>;
   setCatalogues: React.Dispatch<React.SetStateAction<PharmacyCatalogue[]>>;
   selectedVariants: SelectedVariant[];
+  setSelectedVariants: React.Dispatch<React.SetStateAction<SelectedVariant[]>>;
   searchQuery: string;
   setMedications: (medications: Medication[]) => void;
   setSearchQuery: (query: string) => void;
@@ -74,8 +75,6 @@ export function MedicationProvider({ children }: { children: ReactNode }) {
   const [pharmacyCatalogueId, setPharmacyCatalogueId] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [prices, setPrices] = useState<Record<string, string>>({});
-
-  console.log("prices", prices);
 
   const toggleVariant = (medication: Medication, variant: ProductVariant) => {
     setSelectedVariants((prev) => {
@@ -244,14 +243,6 @@ export function MedicationProvider({ children }: { children: ReactNode }) {
     );
   };
 
-  console.log("Pharmacy catalogue id", pharmacyCatalogueId);
-
-  console.log(">>>>catalogues", catalogues);
-
-  console.log("filteredCatalogues", getFilteredCatalogues());
-
-  console.log("selectedVariants", selectedVariants);
-
   const value: MedicationContextType = {
     medications,
     selectedVariants,
@@ -272,6 +263,7 @@ export function MedicationProvider({ children }: { children: ReactNode }) {
     isCatalogueVariantSelected,
     selectAllCatalogue,
     deselectAllCatalogue,
+    setSelectedVariants,
     catalogues,
     allCatalogues,
     setCatalogues,

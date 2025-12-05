@@ -5,12 +5,15 @@ import { useNavigate } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 import { PaginationWithLinks } from "@/components/common/PaginationLink/PaginationLink";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { useEffect } from "react";
+import { useMedication } from "@/context/ApplicationUser/MedicationContext";
 
 const PharmacyDetailsPage = () => {
   const [searchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1", 10);
   const perPage = parseInt(searchParams.get("per_page") ?? "100", 10);
   const navigate = useNavigate();
+  const { setPrices, setSelectedVariants } = useMedication();
 
   const {
     data: defaultCatalogue,
@@ -21,6 +24,11 @@ const PharmacyDetailsPage = () => {
     page,
     perPage,
   });
+
+  useEffect(() => {
+    setSelectedVariants([]);
+    setPrices({});
+  }, []);
 
   if (isLoading || isFetching) {
     return (

@@ -11,8 +11,6 @@ interface CatalogueCardProps {
 }
 
 export function CatalogueCard({ catalogue }: CatalogueCardProps) {
-  console.log("catalogueee>>>>", catalogue);
-
   const {
     getSelectedVariantsForMedication,
     isVariantSelected,
@@ -93,7 +91,6 @@ export function CatalogueCard({ catalogue }: CatalogueCardProps) {
           </div>
           <div className="space-y-2">
             {catalogue.productVariant.map((variant: any) => {
-              console.log("variant@@@", variant);
               return (
                 <div
                   key={variant._id}

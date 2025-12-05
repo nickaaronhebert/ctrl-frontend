@@ -100,7 +100,6 @@ export function CreateOrganizationCredentialsModal({
       } else {
         await createPharmacyCreds(payload).unwrap();
       }
-      console.log("Payload", payload);
 
       toast.success("Organization credentials created successfully!", {
         duration: 1500,

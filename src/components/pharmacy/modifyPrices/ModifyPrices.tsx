@@ -17,7 +17,7 @@ import type {
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 export default function ModifyPrices() {
-  const { prices, setPrices } = useMedication();
+  const { prices, setPrices, clearAll } = useMedication();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1", 10);
@@ -109,10 +109,11 @@ export default function ModifyPrices() {
 
     try {
       await bulkUpsertPharmacyCatalogue(payload).unwrap();
+      clearAll();
       navigate("/pharmacy/medications/view-catalogue", {
-        state: {
-          pricedVariants: items.length,
-        },
+        // state: {
+        //   pricedVariants: items.length,
+        // },
       });
       toast.success("Prices updated successfully", {
         duration: 1500,

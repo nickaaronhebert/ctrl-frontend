@@ -35,7 +35,6 @@ export default function EditVariantModal({
   mode = "default",
   id,
 }: EditVariantModalProps) {
-  console.log("Editing variant:", variant);
   const form = useForm<PharmacyMetaDataFormValues>({
     resolver: zodResolver(pharmacyMetadataSchema),
     defaultValues: {

@@ -22,8 +22,6 @@ const PharmacyCatalogueDetails = () => {
     skip: !id,
   });
 
-  console.log("Catalogue Plan: ", cataloguePlan);
-
   if (isCataloguePlanLoading) {
     return (
       <div className="flex justify-center items-center h-[80vh]">

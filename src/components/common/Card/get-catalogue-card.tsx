@@ -24,8 +24,6 @@ const GetAllCatalogues = () => {
   });
   const { setCatalogues } = useMedication();
 
-  console.log("q", q);
-
   useEffect(() => {
     if (data?.data) {
       setCatalogues(data?.data);

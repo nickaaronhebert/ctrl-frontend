@@ -54,7 +54,6 @@ export default function CatalogueVariantDialog({
 
   const onSubmit = async (data: CatalogueVariantFormValues) => {
     try {
-      console.log(data);
       createCatalogueVariant(data)
         .unwrap()
         .then((res) => {

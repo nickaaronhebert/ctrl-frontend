@@ -22,7 +22,6 @@ interface VariantProps {
 }
 
 const PlanVariantRow = ({ variant, drugName, onDelete, id }: VariantProps) => {
-  console.log("variant in plan row>>>", variant);
   const [isDeleteOpen, setIsDeleteOpen] = useState<boolean>(false);
   const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
 

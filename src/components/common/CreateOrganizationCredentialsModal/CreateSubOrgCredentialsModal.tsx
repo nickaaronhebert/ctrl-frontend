@@ -64,8 +64,6 @@ export function CreateSubOrgCredentialsModal({
     },
   });
 
-  console.log(">>>checked", checked);
-
   const [createSubOrgCreds] = useCreateSubOrgCredsMutation();
   const [updateSubOrgCreds] = useUpdatePharmacyCredsMutation();
   const platformType = form.watch("platformType");

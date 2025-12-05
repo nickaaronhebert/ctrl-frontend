@@ -31,8 +31,6 @@ export default function EncounteredForm() {
   const [createEncounterProduct] = useCreateEncounterProductMutation();
 
   const onSubmit = (data: EncounterProduct) => {
-    console.log("Form Data submitted ", data);
-
     createEncounterProduct(data)
       .unwrap()
       .then((response) => {

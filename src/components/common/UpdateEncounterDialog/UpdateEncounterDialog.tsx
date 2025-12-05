@@ -48,8 +48,6 @@ export default function UpdateEncounterDialog({
 
   const [updateEncounteredProduct] = useUpdateEncounteredProductMutation();
 
-  console.log("...", form.getValues());
-
   const onSubmit = async (data: UpdateEncounterProduct) => {
     try {
       await updateEncounteredProduct({

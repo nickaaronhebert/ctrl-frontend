@@ -18,8 +18,6 @@ function MedicationSelector() {
   const filteredMedications = getFilteredMedications();
   const hasSelections = selectedVariants?.length > 0;
 
-  console.log("filteredMedications", filteredMedications);
-
   const handleSelectAll = () => {
     if (hasSelections) {
       clearAll();

@@ -72,8 +72,6 @@ export default function ModifyPlanPrices() {
     setPharmacyIdentifiers((prev) => ({ ...prev, [variantId]: value }));
   };
 
-  console.log("allMedicationsss>>>", allMedications?.data);
-
   useEffect(() => {
     if (allMedications?.data) {
       const initialPrices: Record<string, string> = {};
@@ -109,8 +107,6 @@ export default function ModifyPlanPrices() {
       }));
 
     const payload = { config };
-
-    console.log("Payloadd", payload);
 
     try {
       await createPharmacyCatalogueVariant({

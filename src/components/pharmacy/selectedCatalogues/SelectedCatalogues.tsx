@@ -63,8 +63,6 @@ export default function SelectedCatalogues() {
 
     const payload = { config };
 
-    console.log("Payloadd", payload);
-
     try {
       await createPharmacyCatalogueVariant({
         phmCatalogueVariantId: id,
@@ -96,12 +94,6 @@ export default function SelectedCatalogues() {
       });
     }
   };
-
-  //   console.log("catalogues", catalogues);
-  console.log("totalVariants", totalVariants);
-  console.log("filteredCatalogues", filteredCatalogues);
-  console.log("pricedVariants", pricedVariants);
-  console.log("prices", prices);
 
   return (
     <div className="mb-5">

@@ -57,8 +57,6 @@ export default function SelectedPlanCatalogues() {
 
     const payload = { config };
 
-    console.log("Payloadd", payload);
-
     try {
       await createPharmacyCatalogueVariant({
         phmCatalogueVariantId: id!,

@@ -22,8 +22,6 @@ export default function PharmacyOrganizationStatus() {
     []
   );
 
-  console.log(">", counts.Requested);
-
   return (
     <div className="p-5">
       <div>

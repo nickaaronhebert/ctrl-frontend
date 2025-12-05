@@ -54,7 +54,6 @@ export function BillingFrequencySelector({
   checked,
   setChecked,
 }: BillingFrequencySelectorProps) {
-  console.log("checked>>", checked);
   return (
     <div className="px-5 pt-4">
       <Tooltip>
