@@ -58,8 +58,20 @@ const MedicationDetails = () => {
   const [activeTab, setActiveTab] = useState<TabKey>("medicationDetails");
   const variantColumn = useMemo(() => variantColumns(), []);
 
+  const sortedVariants = (singleMedDetail?.data?.productVariants || [])
+    .slice()
+    .sort((a, b) => {
+      const strengthA = parseInt(a.strength, 10);
+      const strengthB = parseInt(b.strength, 10);
+
+      if (strengthA < strengthB) return -1;
+      if (strengthA > strengthB) return 1;
+
+      return a.containerQuantity - b.containerQuantity;
+    });
+
   const { table: variantTable } = useDataTable({
-    data: singleMedDetail?.data?.productVariants || [],
+    data: sortedVariants || [],
     columns: variantColumn,
     pageCount: -1,
   });
@@ -110,13 +122,13 @@ const MedicationDetails = () => {
                 <h4 className="text-base font-medium text-black">
                   {singleMedDetail?.data?.drugName}
                 </h4>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap mt-2 gap-2">
                   {singleMedDetail?.data?.productVariants.map(
                     (variant: MedicationVariant) => {
                       return (
                         <span
                           key={variant.id}
-                          className="font-normal text-[12px] leading-[16px] text-slate"
+                          className="bg-slate-100 font-semibold text-[12px] leading-[16px] text-black rounded-[5px] py-[4px] px-[8px]"
                         >
                           {variant?.strength}
                         </span>
