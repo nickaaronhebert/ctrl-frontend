@@ -69,7 +69,6 @@ export default function MedDetails({
     if (strengthA > strengthB) return 1;
     return 0;
   });
-
   return (
     <div id="medicationDetails" className="bg-white rounded-[15px] ">
       {/* Header */}

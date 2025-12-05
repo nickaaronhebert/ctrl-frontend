@@ -544,11 +544,11 @@ export const organizations = [
 ];
 
 export const dosageFormOptions = [
-  { label: "Injectable", value: "injectable" },
-  { label: "Capsule", value: "capsule" },
-  { label: "Tablet", value: "tablet" },
-  { label: "Spray", value: "spray" },
-  { label: "Cream", value: "cream" },
-  { label: "Gel", value: "gel" },
-  { label: "Solution", value: "solution" },
+  { label: "Injectable", value: "Injectable" },
+  { label: "Capsule", value: "Capsule" },
+  { label: "Tablet", value: "Tablet" },
+  { label: "Spray", value: "Spray" },
+  { label: "Cream", value: "Cream" },
+  { label: "Gel", value: "Gel" },
+  { label: "Solution", value: "Solution" },
 ];

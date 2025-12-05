@@ -41,7 +41,7 @@ const MedicationDetails = () => {
   const location = useLocation();
   const { user } = useAuthentication();
 
-  const pathname = location.pathname.split("/").slice(0, 2).join("/");
+  const pathname = location.pathname.split("/")?.slice(0, 2)?.join("/");
 
   const { data: singleMedDetail, isLoading } =
     useGetSingleMedicationCatalogueDetailsQuery(id!, {
@@ -59,8 +59,8 @@ const MedicationDetails = () => {
   const variantColumn = useMemo(() => variantColumns(), []);
 
   const sortedVariants = (singleMedDetail?.data?.productVariants || [])
-    .slice()
-    .sort((a, b) => {
+    ?.slice()
+    ?.sort((a, b) => {
       const strengthA = parseInt(a.strength, 10);
       const strengthB = parseInt(b.strength, 10);
 
@@ -124,21 +124,17 @@ const MedicationDetails = () => {
                 <h4 className="text-base font-medium text-black">
                   {singleMedDetail?.data?.drugName}
                 </h4>
-                <div className="flex flex-wrap gap-2 mt-2">
-                  {singleMedDetail?.data?.productVariants.map(
-                    (variant: MedicationVariant) => {
-                      return (
-                        <div className="flex flex-wrap">
-                          <span
-                            key={variant.id}
-                            className="bg-slate-100 font-semibold text-[12px] leading-[16px] text-black rounded-[5px] py-[4px] px-[8px]"
-                          >
-                            {variant?.strength}
-                          </span>
-                        </div>
-                      );
-                    }
-                  )}
+                <div className="flex flex-wrap mt-2 gap-2">
+                  {sortedVariants?.map((variant: MedicationVariant) => {
+                    return (
+                      <span
+                        key={variant.id}
+                        className="bg-slate-100 font-semibold text-[12px] leading-[16px] text-black rounded-[5px] py-[4px] px-[8px]"
+                      >
+                        {variant?.strength}
+                      </span>
+                    );
+                  })}
                 </div>
               </div>
             </div>
