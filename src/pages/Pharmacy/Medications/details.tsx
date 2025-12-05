@@ -23,6 +23,7 @@ const PharmacyDetailsPage = () => {
   } = useGetPharmacyCatalogueQuery({
     page,
     perPage,
+    q: "",
   });
 
   useEffect(() => {

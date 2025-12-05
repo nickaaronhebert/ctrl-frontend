@@ -35,6 +35,7 @@ export default function ModifyPrices() {
   } = useGetPharmacyCatalogueQuery({
     page,
     perPage,
+    q: "",
   });
   const [bulkUpsertPharmacyCatalogue] =
     useBulkUpsertPharmacyCatalogueMutation();
