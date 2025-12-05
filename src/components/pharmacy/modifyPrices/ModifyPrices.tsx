@@ -52,8 +52,8 @@ export default function ModifyPrices() {
         acc +
         med.productVariant.filter(
           (variant: PharmacyProductVariant) =>
-            prices[variant.productVariant._id] &&
-            prices[variant.productVariant._id] !== "0.00"
+            prices[variant?.productVariant?._id] &&
+            prices[variant?.productVariant?._id] !== "0.00"
         ).length
       );
     },
@@ -73,16 +73,18 @@ export default function ModifyPrices() {
       const initialPrices: Record<string, string> = {};
       const initialIdentifiers: Record<string, string> = {};
       allMedications.data.forEach((medication: PharmacyCatalogue) => {
-        medication.productVariant.forEach((variant: PharmacyProductVariant) => {
-          if (!(variant.productVariant._id in prices)) {
-            initialPrices[variant.productVariant._id] =
-              variant.price.toString();
+        medication?.productVariant.forEach(
+          (variant: PharmacyProductVariant) => {
+            if (!(variant?.productVariant?._id in prices)) {
+              initialPrices[variant?.productVariant?._id] =
+                variant.price.toString();
+            }
+            if (variant?.pharmacyIdentifier) {
+              initialIdentifiers[variant?.productVariant?._id] =
+                variant?.pharmacyIdentifier;
+            }
           }
-          if (variant?.pharmacyIdentifier) {
-            initialIdentifiers[variant?.productVariant?._id] =
-              variant?.pharmacyIdentifier;
-          }
-        });
+        );
       });
       if (Object.keys(initialPrices).length > 0) {
         setPrices((prevPrices) => ({ ...prevPrices, ...initialPrices }));
@@ -214,19 +216,19 @@ export default function ModifyPrices() {
             const medicationVariants = medication.productVariant ?? [];
             return (
               <div
-                key={medication._id}
+                key={medication?._id}
                 className="bg-white rounded-lg border border-gray-200 p-6"
               >
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-3">
                     <MedicationLibrary color="#5354ac" />
                     <h3 className="text-lg font-medium text-gray-900">
-                      {medication.medicationCatalogue?.drugName}
+                      {medication?.medicationCatalogue?.drugName}
                     </h3>
                   </div>
                   <span className="text-sm text-gray-500">
                     {medication?.productVariant?.length} /{" "}
-                    {medicationVariants.length} variants
+                    {medicationVariants?.length} variants
                   </span>
                 </div>
 
@@ -246,7 +248,7 @@ export default function ModifyPrices() {
                   {medicationVariants.map((variant: PharmacyProductVariant) => {
                     return (
                       <div
-                        key={variant._id}
+                        key={variant?._id}
                         className="flex justify-between items-center py-3 px-4 bg-light-background border-b border-gray-200 last:border-b-0"
                       >
                         <div className="text-gray-900 w-1/2">
@@ -282,10 +284,10 @@ export default function ModifyPrices() {
                             step="0.01"
                             min="0"
                             placeholder="0"
-                            value={prices[variant.productVariant?._id] || ""}
+                            value={prices[variant?.productVariant?._id] || ""}
                             onChange={(e) => {
                               handlePriceChange(
-                                variant.productVariant?._id,
+                                variant?.productVariant?._id,
                                 e.target.value
                               );
                             }}
