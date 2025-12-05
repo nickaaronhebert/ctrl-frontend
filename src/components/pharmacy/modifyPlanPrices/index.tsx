@@ -215,7 +215,7 @@ export default function ModifyPlanPrices() {
             const medicationVariants = medication.productVariant ?? [];
             return (
               <div
-                key={medication._id}
+                key={medication?._id}
                 className="bg-white rounded-lg border border-gray-200 p-6"
               >
                 <div className="flex items-center justify-between mb-4">
@@ -247,7 +247,7 @@ export default function ModifyPlanPrices() {
                   {medicationVariants.map((variant: PharmacyProductVariant) => {
                     return (
                       <div
-                        key={variant._id}
+                        key={variant?._id}
                         className="flex justify-between items-center py-3 px-4 bg-light-background border-b border-gray-200 last:border-b-0"
                       >
                         <div className="text-gray-900 w-1/2">
