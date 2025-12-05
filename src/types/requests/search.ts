@@ -27,3 +27,7 @@ export interface ICommonSearchQuery {
   subOrganization?: string;
   organizationId?: string;
 }
+
+export interface IAvailablePlanCatalogueQuery extends ICommonSearchQuery {
+  phmCatalogueVariantId: string;
+}

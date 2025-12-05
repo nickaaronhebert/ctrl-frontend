@@ -3,6 +3,7 @@ import {
   TAG_GET_CATALOGUE_LIST,
   TAG_GET_CONNECTED_ORGANIZATION,
   TAG_GET_PHARMACY_CATALOGUE,
+  TAG_GET_PLAN_CATALOGUES,
   TAG_GET_SUB_ORGANIZATION,
   TAG_GET_USER_PROFILE,
   TAG_GLOBAL_PHARMACIES,
@@ -11,7 +12,10 @@ import {
 } from "@/types/baseApiTags";
 import { baseApi } from ".";
 import type { IGetPharmacyInvoicesDetailsResponse } from "@/types/responses/IGetPharmacyInvoicesDetail";
-import type { ICommonSearchQuery } from "@/types/requests/search";
+import type {
+  IAvailablePlanCatalogueQuery,
+  ICommonSearchQuery,
+} from "@/types/requests/search";
 import type {
   IConnectedOrganizationResponse,
   OrganizationResponse,
@@ -103,10 +107,10 @@ export const pharmacyApi = baseApi.injectEndpoints({
     }),
     getPharmacyCatalogue: builder.query({
       providesTags: [TAG_GET_PHARMACY_CATALOGUE],
-      query: ({ page, perPage, pharmacy }) => {
+      query: ({ page, perPage, pharmacy, q }) => {
         const isPharmacy = pharmacy ? `&pharmacy=${pharmacy}` : "";
         return {
-          url: `/pharmacy-catalogue?page=${page}&limit=${perPage}${isPharmacy}
+          url: `/pharmacy-catalogue?page=${page}&limit=${perPage}&q=${q}${isPharmacy}
           `,
           method: "GET",
         };
@@ -118,6 +122,7 @@ export const pharmacyApi = baseApi.injectEndpoints({
         url: `/pharmacy/available-medication?page=${page}&limit=${perPage}&q=${q}`,
         method: "GET",
       }),
+      keepUnusedDataFor: 0,
     }),
     getPharmacyMedicines: builder.query({
       query: ({ id, page, perPage, q }) => ({
@@ -221,17 +226,64 @@ export const pharmacyApi = baseApi.injectEndpoints({
     }),
     createPharmacyCatalogueVariant: builder.mutation({
       query: ({ phmCatalogueVariantId, config }) => ({
-        url: `/pharmacy-catalogue/variant/${phmCatalogueVariantId}/config`,
-        method: "POST",
+        url: `/pharmacy-catalogue/variant/${phmCatalogueVariantId}/configs`,
+        method: "PUT",
         body: { config },
       }),
-      invalidatesTags: [TAG_GET_CATALOGUE_LIST],
+      invalidatesTags: [TAG_GET_CATALOGUE_LIST, TAG_GET_PLAN_CATALOGUES],
     }),
     getCataloguePlan: builder.query({
       query: (phmCatalogueVariantId: string) => ({
         url: `/pharmacy-catalogue/variant/${phmCatalogueVariantId}/config`,
         method: "GET",
       }),
+      providesTags: [TAG_GET_PLAN_CATALOGUES],
+    }),
+    // get available medications for plan catalogue creation //
+
+    getAvailablePlanCatalogue: builder.query<any, IAvailablePlanCatalogueQuery>(
+      {
+        query: ({ page, perPage, phmCatalogueVariantId, q }) => ({
+          url: `/pharmacy-catalogue/variant/${phmCatalogueVariantId}/available-pharmacy-catalogue?page=${page}&limit=${perPage}&q=${q}`,
+          method: "GET",
+        }),
+        keepUnusedDataFor: 0,
+      }
+    ),
+
+    // update metadata for plan catalogue variant
+    updatePlanCatalogueVariant: builder.mutation({
+      query: ({
+        phmCatalogueVariantId,
+        configId,
+        body,
+      }: {
+        phmCatalogueVariantId: string;
+        configId: string;
+        [key: string]: any;
+      }) => ({
+        url: `/pharmacy-catalogue/variant/${phmCatalogueVariantId}/config/${configId}`,
+        method: "PATCH",
+        body,
+      }),
+      invalidatesTags: [TAG_GET_PLAN_CATALOGUES],
+    }),
+    deletePlanCatalogueVariant: builder.mutation({
+      query: ({
+        phmCatalogueVariantId,
+        configId,
+      }: {
+        phmCatalogueVariantId: string;
+        configId: string;
+      }) => ({
+        url: `/pharmacy-catalogue/variant/${phmCatalogueVariantId}/config/${configId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: [
+        TAG_GET_PLAN_CATALOGUES,
+        TAG_GET_CATALOGUE_LIST,
+        TAG_GET_PHARMACY_CATALOGUE,
+      ],
     }),
   }),
 });
@@ -261,4 +313,7 @@ export const {
   useCreateVariantMutation,
   useCreatePharmacyCatalogueVariantMutation,
   useGetCataloguePlanQuery,
+  useDeletePlanCatalogueVariantMutation,
+  useUpdatePlanCatalogueVariantMutation,
+  useGetAvailablePlanCatalogueQuery,
 } = pharmacyApi;

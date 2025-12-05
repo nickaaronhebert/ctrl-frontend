@@ -2,22 +2,26 @@ import type {
   PharmacyCatalogue,
   PharmacyProductVariant,
 } from "@/types/responses/medication";
-import VariantRow from "../VariantRow/VariantRow";
 import MedicationLibrary from "@/assets/icons/MedicationLibrary";
-import { useDeletePharmacyCatalogueMutation } from "@/redux/services/pharmacy";
 import { toast } from "sonner";
+import PlanVariantRow from "../VariantRow/PlanVariantRow";
+import { useDeletePlanCatalogueVariantMutation } from "@/redux/services/pharmacy";
 
 interface MedicationProps {
   medication: PharmacyCatalogue;
+  id?: string;
 }
 
-export function PlanRow({ medication }: MedicationProps) {
+export function PlanRow({ medication, id }: MedicationProps) {
   const variantCount = medication.productVariant.length;
-  const [deletePharmacyCatalogue] = useDeletePharmacyCatalogueMutation();
+  const [deletePlanCatalogueVariant] = useDeletePlanCatalogueVariantMutation();
 
   const handleDeleteVariant = async (variant: PharmacyProductVariant) => {
     try {
-      await deletePharmacyCatalogue({ id: variant._id }).unwrap();
+      await deletePlanCatalogueVariant({
+        phmCatalogueVariantId: id as string,
+        configId: variant._id,
+      });
       toast.success("Catalogue deleted successfully", {
         duration: 1500,
       });
@@ -46,16 +50,20 @@ export function PlanRow({ medication }: MedicationProps) {
       </div>
       <div className="space-y-0 rounded-[10px] border border-gray-200 overflow-hidden">
         <div className="grid grid-cols-12 bg-white py-[9px] px-4 border-b border-gray-200">
-          <div className="col-span-12 md:col-span-3 text-xs font-medium text-gray-500 uppercase">
+          <div className="col-span-12 md:col-span-2 text-xs font-medium text-gray-500 uppercase">
             VARIANTS
           </div>
-          <div className="col-span-12 md:col-span-3 text-xs font-medium text-gray-500 uppercase">
+          <div className="col-span-12 md:col-span-2 text-xs font-medium text-gray-500 uppercase">
             SKU(PRIMARY PHARMACY IDENTIFIER)
           </div>
-          <div className="col-span-6 md:col-span-3 md:text-right text-xs font-medium text-gray-500 uppercase">
+          <div className="col-span-6 md:col-span-2 md:text-right text-xs font-medium text-gray-500 uppercase">
             DEFAULT PRICE
           </div>
-          <div className="col-span-6 md:col-span-3 md:text-right text-xs font-medium text-gray-500 uppercase">
+          <div className="col-span-6 md:col-span-2 md:text-right text-xs font-medium text-gray-500 uppercase">
+            NEW PRICE
+          </div>
+
+          <div className="col-span-6 md:col-span-2 md:text-right text-xs font-medium text-gray-500 uppercase">
             ACTIONS
           </div>
         </div>
@@ -63,11 +71,12 @@ export function PlanRow({ medication }: MedicationProps) {
         <div className="border border-gray-200 overflow-hidden">
           {medication.productVariant.map((variant: PharmacyProductVariant) => {
             return (
-              <VariantRow
+              <PlanVariantRow
                 key={variant._id}
                 variant={variant}
                 drugName={medication.medicationCatalogue.drugName}
                 onDelete={handleDeleteVariant}
+                id={id}
               />
             );
           })}

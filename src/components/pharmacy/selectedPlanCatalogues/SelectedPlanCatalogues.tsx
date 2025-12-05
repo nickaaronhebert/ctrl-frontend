@@ -5,26 +5,20 @@ import { Search } from "lucide-react";
 import { useMedication } from "@/context/ApplicationUser/MedicationContext";
 import MedicationLibrary from "@/assets/icons/MedicationLibrary";
 import { toast } from "sonner";
-import { Link, useNavigate } from "react-router-dom";
-import type { ApiError } from "@/types/global/commonTypes";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useCreatePharmacyCatalogueVariantMutation } from "@/redux/services/pharmacy";
-import { useParams } from "react-router-dom";
-import { useSearchParams } from "react-router-dom";
-import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import type { ApiError } from "@/types/global/commonTypes";
 
-export default function SelectedCatalogues() {
-  const { selectedVariants, catalogues, clearAll } = useMedication();
-  const { id } = useParams();
-  const [searchParams] = useSearchParams();
+export default function SelectedPlanCatalogues() {
+  const { selectedVariants, catalogues } = useMedication();
   const [prices, setPrices] = useState<Record<string, string>>({});
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
-  const plan = searchParams.get("plan");
+  const { id } = useParams();
   const [pharmacyIdentifiers, setPharmacyIdentifiers] = useState<
     Record<string, string>
   >({});
-
-  const [createPharmacyCatalogueVariant, { isLoading }] =
+  const [createPharmacyCatalogueVariant] =
     useCreatePharmacyCatalogueVariantMutation();
 
   // Group selected variants by medication
@@ -67,10 +61,9 @@ export default function SelectedCatalogues() {
 
     try {
       await createPharmacyCatalogueVariant({
-        phmCatalogueVariantId: id,
+        phmCatalogueVariantId: id!,
         config,
       }).unwrap();
-      clearAll();
       navigate("/pharmacy/medications/catalogues");
       toast.success("Medications added successfully", {
         duration: 1500,
@@ -97,27 +90,18 @@ export default function SelectedCatalogues() {
     }
   };
 
-  //   console.log("catalogues", catalogues);
-  console.log("totalVariants", totalVariants);
-  console.log("filteredCatalogues", filteredCatalogues);
-  console.log("pricedVariants", pricedVariants);
-  console.log("prices", prices);
-
   return (
     <div className="mb-5">
       <div className="bg-lilac py-3 px-12 flex justify-between mb-4">
         <div>
           <Link
-            to={`/pharmacy/medications/all-catalogues/${id}?plan=${plan}`}
+            to={`/pharmacy/medications/configure-catalogues/${id}`}
             className="font-normal text-sm text text-muted-foreground"
           >
             {"<- Back to Medications"}
           </Link>
 
-          <h1 className="text-2xl font-bold mt-1">
-            {plan?.charAt(0).toUpperCase() + "" + plan?.slice(1)} - Set
-            Medication Price
-          </h1>
+          <h1 className="text-2xl font-bold mt-1">Set Default Prices</h1>
         </div>
         <div className="flex items-center gap-4">
           <span className="font-normal text-[14px] leading-[18px] text-black">
@@ -133,7 +117,7 @@ export default function SelectedCatalogues() {
             onClick={handleSaveCatalogue}
             className="bg-primary min-w-[110px] cursor-pointer min-h-[40px] rounded-[50px] hover:bg-primary text-white px-[20px] py-[5px]"
           >
-            {isLoading ? <LoadingSpinner size={18} /> : "Save Catalogue"}
+            Save Catalogue
           </Button>
         </div>
       </div>
@@ -152,7 +136,7 @@ export default function SelectedCatalogues() {
             <div className="text-right">
               <span className="font-normal text-[14px] leading-[18px] text-gray-400">
                 Showing {filteredCatalogues.length} of{" "}
-                {selectedCatalogues.length} medications
+                {filteredCatalogues.length} medications
               </span>
             </div>
           </div>
@@ -165,11 +149,11 @@ export default function SelectedCatalogues() {
         )}
         {/* Medications */}
         <div className="space-y-4">
-          {filteredCatalogues.map((catalogue) => {
+          {filteredCatalogues.map((catalogue: any) => {
             const catalogueVariants = selectedVariants.filter(
               (v) => v.medicationId === catalogue._id
             );
-            const medicationPricedCount = catalogueVariants?.filter(
+            const cataloguePricedCount = catalogueVariants.filter(
               (v) => prices[v.variantId] && prices[v.variantId] !== "0.00"
             ).length;
 
@@ -186,43 +170,34 @@ export default function SelectedCatalogues() {
                     </h3>
                   </div>
                   <span className="text-sm text-gray-500">
-                    {medicationPricedCount} / {catalogueVariants.length}{" "}
+                    {cataloguePricedCount} / {catalogueVariants?.length}{" "}
                     variants
                   </span>
                 </div>
 
                 <div className="space-y-0 rounded-[10px] border border-gray-200 overflow-hidden">
                   <div className="flex justify-between items-center bg-white py-[9px] px-4 border-b border-gray-200">
-                    <div className="text-xs font-medium text-gray-500 uppercase tracking-wide w-1/4">
+                    <div className="text-xs font-medium text-gray-500 uppercase tracking-wide w-1/2">
                       VARIANTS
                     </div>
-                    <div className="text-xs font-medium text-gray-500 uppercase tracking-wide w-1/4">
-                      DEFAULT PRICE
+                    <div className="text-xs font-medium text-gray-500 uppercase tracking-wide w-1/3 mr-[15px]">
+                      PHARMACY IDENTIFIER
                     </div>
-                    <div className="text-xs font-medium text-gray-500 uppercase tracking-wide w-1/4 ">
-                      SKU(Unique Product Code)
-                    </div>
-                    <div className="text-xs font-medium text-gray-500 uppercase tracking-wide ">
+                    <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">
                       SET PRICE
                     </div>
                   </div>
 
-                  {catalogueVariants?.map((variant: any) => {
-                    console.log("variant", variant);
+                  {catalogueVariants.map((variant) => {
                     return (
                       <div
                         key={variant.variantId}
                         className="flex justify-between items-center py-3 px-4 bg-light-background border-b border-gray-200 last:border-b-0 gap-4"
                       >
-                        <div className="text-gray-900 w-1/3">
+                        <div className="text-gray-900 w-1/2">
                           <span className="mt-[100px]">
-                            {variant?.variant?.productVariant?.name}
-                          </span>
-                        </div>
-
-                        <div className="text-gray-900 w-1/3 ml-5">
-                          <span className="mt-[100px]">
-                            ${variant?.variant?.price}
+                            {catalogue?.medicationCatalogue?.drugName}{" "}
+                            {variant.variant.strength}
                           </span>
                         </div>
                         <div className="w-1/3">
@@ -239,7 +214,7 @@ export default function SelectedCatalogues() {
                             className="w-full h-10 rounded-md px-3 py-2 border-gray-300 bg-white"
                           />
                         </div>
-                        <div className="relative ">
+                        <div className="relative">
                           <span className="absolute left-1 top-1/2 transform -translate-y-1/2 text-gray-500">
                             $
                           </span>

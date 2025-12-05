@@ -88,6 +88,9 @@ export const ROUTES = {
   GET_ALL_CATALOGUES: "all-catalogues",
   GET_SELECTED_CATALOGUES: "selected-catalogues",
   PLAN_CATALOGUES: "plan-catalogues",
+  CONFIGURE_CATALOGUES: "configure-catalogues",
+  GET_SELECTED_PLAN_CATALOGUES: "selected-plan-catalogues",
+  MODIFY_PLAN_PRICES: "modify-plan-prices",
 };
 
 export const STEPPER_FORM = {

@@ -19,7 +19,6 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import InputElement from "@/components/Form/input-element";
-import { useMedication } from "@/context/ApplicationUser/MedicationContext";
 import {
   catalogueVariantSchema,
   type CatalogueVariantFormValues,
@@ -28,6 +27,7 @@ import { useCreateVariantMutation } from "@/redux/services/pharmacy";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Textarea } from "@/components/ui/textarea";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 interface CatalogueVariantDialogProps {
   open: boolean;
@@ -38,7 +38,6 @@ export default function CatalogueVariantDialog({
   open,
   onOpenChange,
 }: CatalogueVariantDialogProps) {
-  const { setPharmacyCatalogueId } = useMedication();
   const [submitAction, setSubmitAction] = useState<"create" | "createAndAdd">(
     "create"
   );
@@ -51,7 +50,7 @@ export default function CatalogueVariantDialog({
     },
   });
 
-  const [createCatalogueVariant] = useCreateVariantMutation();
+  const [createCatalogueVariant, { isLoading }] = useCreateVariantMutation();
 
   const onSubmit = async (data: CatalogueVariantFormValues) => {
     try {
@@ -67,8 +66,11 @@ export default function CatalogueVariantDialog({
           form.reset();
 
           if (submitAction === "createAndAdd") {
-            setPharmacyCatalogueId(res.data.id);
-            navigate(`/pharmacy/medications/all-catalogues`);
+            navigate(
+              `/pharmacy/medications/all-catalogues/${
+                res?.data?.id
+              }?plan=${encodeURIComponent(res?.data?.name)}`
+            );
           }
         });
     } catch (error) {
@@ -135,25 +137,29 @@ export default function CatalogueVariantDialog({
                   type="button"
                   variant="outline"
                   onClick={() => onOpenChange(false)}
-                  className="px-4 py-2"
+                  className="px-4 py-2 cursor-pointer"
                 >
                   Cancel
                 </Button>
-                {/* <Button
+                <Button
                   type="submit"
                   onClick={() => setSubmitAction("create")}
                   disabled={form.formState.isSubmitting}
-                  className="px-4 py-2 bg-primary hover:bg-[#4243a0] text-white"
+                  className="px-4 py-2 bg-primary hover:bg-[#4243a0] text-white cursor-pointer"
                 >
                   Create Catalogue
-                </Button> */}
+                </Button>
                 <Button
                   onClick={() => setSubmitAction("createAndAdd")}
                   type="submit"
-                  disabled={form.formState.isSubmitting}
-                  className="px-4 py-2 bg-primary hover:bg-[#4243a0] text-white cursor-pointer"
+                  disabled={form.formState.isSubmitting || isLoading}
+                  className="px-4 py-2 bg-primary hover:bg-[#4243a0] text-white cursor-pointer flex items-center gap-2"
                 >
-                  Create & Add Medications
+                  {isLoading || form.formState.isSubmitting ? (
+                    <LoadingSpinner size={20} />
+                  ) : (
+                    "Create & Add Medications"
+                  )}
                 </Button>
               </div>
             </DialogFooter>

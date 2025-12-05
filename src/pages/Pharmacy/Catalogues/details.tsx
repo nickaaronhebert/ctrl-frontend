@@ -50,16 +50,18 @@ const PharmacyCatalogueDetails = () => {
           </div>
           <div className="flex gap-2 items-center">
             <Button
-              onClick={() => navigate("/pharmacy/medications/modify-prices")}
-              disabled={true}
-              className="w-[143px] min-w-[110px] min-h-[40px] rouned-[50px] bg-black px-[20px] py-[5px] text-white hover:bg-black cursor-pointer opacity-60"
+              onClick={() =>
+                navigate(`/pharmacy/medications/modify-plan-prices/${id}`)
+              }
+              className="w-[143px] min-w-[110px] min-h-[40px] rouned-[50px] bg-black px-[20px] py-[5px] text-white hover:bg-black cursor-pointer"
             >
               Modify Pricing
             </Button>
             <Button
-              onClick={() => navigate("/pharmacy/medications/configure")}
-              className="w-[143px] min-w-[110px] min-h-[40px] rouned-[50px] bg-primary px-[20px] py-[5px] text-white hover:bg-primary cursor-pointer opacity-60"
-              disabled={true}
+              onClick={() =>
+                navigate(`/pharmacy/medications/configure-catalogues/${id}`)
+              }
+              className="w-[143px] min-w-[110px] min-h-[40px] rouned-[50px] bg-primary px-[20px] py-[5px] text-white hover:bg-primary cursor-pointer"
             >
               Add Medications
             </Button>
@@ -76,7 +78,7 @@ const PharmacyCatalogueDetails = () => {
       ) : (
         <>
           <div className="mt-5">
-            <PlanCatalogueCard data={cataloguePlan} />
+            <PlanCatalogueCard data={cataloguePlan} id={id} />
           </div>
           <PaginationWithLinks
             page={page}

@@ -20,3 +20,4 @@ export const TAG_GET_ENCOUNTER = "Encounter" as const;
 export const TAG_LINKED_ORG = "LinkedOrg";
 export const TAG_ORG_SUB_ORGS = "OrgSubOrgs";
 export const TAG_GET_CATALOGUE_LIST = "CatalogueList";
+export const TAG_GET_PLAN_CATALOGUES = "PlanCatalogues";

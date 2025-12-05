@@ -18,9 +18,11 @@ interface VariantProps {
   drugName: string;
   variant: PharmacyProductVariant;
   onDelete?: (variant: PharmacyProductVariant) => void;
+  id?: string;
 }
 
-const PlanVariantRow = ({ variant, drugName, onDelete }: VariantProps) => {
+const PlanVariantRow = ({ variant, drugName, onDelete, id }: VariantProps) => {
+  console.log("variant in plan row>>>", variant);
   const [isDeleteOpen, setIsDeleteOpen] = useState<boolean>(false);
   const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
 
@@ -32,20 +34,20 @@ const PlanVariantRow = ({ variant, drugName, onDelete }: VariantProps) => {
   return (
     <>
       <div className="grid grid-cols-12 items-center py-3 px-4 bg-light-background  border-b border-gray-200 last:border-b-0 gap-4">
-        <p className="col-span-12 md:col-span-3 text-sm text-gray-900 font-medium">
+        <p className="col-span-12 md:col-span-2 text-sm text-gray-900 font-medium">
           {variant?.productVariant?.name ? variant?.productVariant?.name : "-"}
         </p>
-        {/* <p className="col-span-12 md:col-span-3 text-sm text-gray-900 font-medium">
-        -
-      </p> */}
-        <p className="col-span-12 md:col-span-3 text-sm text-gray-900 font-medium truncate">
+        <p className="col-span-12 md:col-span-2 text-sm text-gray-900 font-medium truncate">
           {variant?.primaryPharmacyIdentifier || "N/A"}
         </p>
-        <p className="col-span-6 md:col-span-3 text-sm text-gray-900 font-semibold md:text-right">
-          ${variant?.price?.toFixed(2)}
+        <p className="col-span-6 md:col-span-2 text-sm text-gray-900 font-semibold md:text-right">
+          ${variant?.defaultPrice?.toFixed(2)}
+        </p>
+        <p className="col-span-6 md:col-span-2 text-sm text-gray-900 font-semibold md:text-right">
+          ${variant?.newPrice?.toFixed(2)}
         </p>
 
-        <div className="col-span-6 md:col-span-3 flex justify-end items-center">
+        <div className="col-span-6 md:col-span-2 flex justify-end items-center">
           <AlertDialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
             <AlertDialogTrigger asChild>
               <button
@@ -101,6 +103,8 @@ const PlanVariantRow = ({ variant, drugName, onDelete }: VariantProps) => {
           open={isEditOpen}
           onOpenChange={setIsEditOpen}
           variant={variant}
+          mode="plan"
+          id={id}
         />
       )}
     </>

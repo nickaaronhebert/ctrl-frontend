@@ -1,30 +1,28 @@
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { useEffect } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { useMedication } from "@/context/ApplicationUser/MedicationContext";
 import BottomPopup from "@/components/common/BottomPopup/BottomPopup";
 import { useNavigate } from "react-router-dom";
-import { useGetPharmacyCatalogueQuery } from "@/redux/services/pharmacy";
-import CatalogueSelector from "../CatalogueSelector/CatalogueSelector";
-import { PaginationWithLinks } from "../PaginationLink/PaginationLink";
 import { useParams } from "react-router-dom";
+import { useGetAvailablePlanCatalogueQuery } from "@/redux/services/pharmacy";
+import CatalogueSelector from "@/components/common/CatalogueSelector/CatalogueSelector";
 
-const GetAllCatalogues = () => {
+const ConfigureCatalogues = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const { id } = useParams();
   const navigate = useNavigate();
   const page = parseInt(searchParams.get("page") || "1", 10);
   const perPage = parseInt(searchParams.get("per_page") ?? "100", 10);
-  const plan = searchParams.get("plan");
   const q = searchParams.get("q") || "";
-  const { id } = useParams();
-  const { data, isLoading } = useGetPharmacyCatalogueQuery({
+  const { data, isLoading } = useGetAvailablePlanCatalogueQuery({
     page,
     perPage,
     q,
+    phmCatalogueVariantId: id!,
   });
-  const { setCatalogues } = useMedication();
 
-  console.log("q", q);
+  const { setCatalogues } = useMedication();
 
   useEffect(() => {
     if (data?.data) {
@@ -33,7 +31,7 @@ const GetAllCatalogues = () => {
   }, [data, setCatalogues]);
 
   const handleCreateCatalogueFromPopup = () => {
-    navigate(`/pharmacy/medications/selected-catalogues/${id}?plan=${plan}`);
+    navigate(`/pharmacy/medications/selected-plan-catalogues/${id}`);
   };
 
   if (isLoading) {
@@ -50,16 +48,7 @@ const GetAllCatalogues = () => {
   return (
     <div className="mb-5">
       <div className="bg-lilac py-3 px-12">
-        <Link
-          to={"/pharmacy/medications/catalogues"}
-          className="font-normal text-sm text text-muted-foreground"
-        >
-          {"<- Back to Medications"}
-        </Link>
-        <h1 className="text-2xl font-bold mt-1">
-          {plan?.charAt(0).toUpperCase() + "" + plan?.slice(1)} - Add
-          Medications
-        </h1>
+        <h1 className="text-2xl font-bold mt-1">Select Your Medications</h1>
       </div>
       {data?.data?.length === 0 ? (
         <div className="flex flex-col justify-center h-[80vh] items-center mt-10 text-center px-4">
@@ -80,13 +69,8 @@ const GetAllCatalogues = () => {
           <BottomPopup onCreateCatalogue={handleCreateCatalogueFromPopup} />
         </div>
       )}
-      <PaginationWithLinks
-        page={page}
-        pageSize={perPage}
-        totalCount={data?.meta?.itemCount}
-      />
     </div>
   );
 };
 
-export default GetAllCatalogues;
+export default ConfigureCatalogues;

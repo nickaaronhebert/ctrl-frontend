@@ -18,18 +18,24 @@ import {
 import { useEditPharmacyCatalogueMutation } from "@/redux/services/pharmacy";
 import type { PharmacyProductVariant } from "@/types/responses/medication";
 import InputElement from "@/components/Form/input-element";
+import { useUpdatePlanCatalogueVariantMutation } from "@/redux/services/pharmacy";
 
 interface EditVariantModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   variant?: PharmacyProductVariant;
+  mode?: "default" | "plan";
+  id?: string;
 }
 
 export default function EditVariantModal({
   open,
   onOpenChange,
   variant,
+  mode = "default",
+  id,
 }: EditVariantModalProps) {
+  console.log("Editing variant:", variant);
   const form = useForm<PharmacyMetaDataFormValues>({
     resolver: zodResolver(pharmacyMetadataSchema),
     defaultValues: {
@@ -43,19 +49,38 @@ export default function EditVariantModal({
     },
   });
   const [updatePharmacyCatalogue] = useEditPharmacyCatalogueMutation();
+  const [updatePlanCatalogueVariantMutation] =
+    useUpdatePlanCatalogueVariantMutation();
 
   const onSubmit = async (data: PharmacyMetaDataFormValues) => {
     try {
-      await updatePharmacyCatalogue({
-        id: variant?._id,
-        pharmacyDescriptor: data?.pharmacyDescriptor,
-        primaryPharmacyIdentifier: data?.primaryPharmacyIdentifier,
-        secondaryPharmacyIdentifier: data?.secondaryPharmacyIdentifier,
-        drugStrength: data?.drugStrength,
-        drugForm: data?.drugForm,
-        scheduleCode: data?.scheduleCode,
-        shippingClass: data?.shippingClass,
-      }).unwrap();
+      if (mode === "plan") {
+        await updatePlanCatalogueVariantMutation({
+          phmCatalogueVariantId: id as string,
+          configId: variant?._id || "",
+          body: {
+            pharmacyDescriptor: data?.pharmacyDescriptor,
+            primaryPharmacyIdentifier: data?.primaryPharmacyIdentifier,
+            secondaryPharmacyIdentifier: data?.secondaryPharmacyIdentifier,
+            drugStrength: data?.drugStrength,
+            drugForm: data?.drugForm,
+            scheduleCode: data?.scheduleCode,
+            shippingClass: data?.shippingClass,
+          },
+        }).unwrap();
+      } else {
+        await updatePharmacyCatalogue({
+          id: variant?._id,
+          pharmacyDescriptor: data?.pharmacyDescriptor,
+          primaryPharmacyIdentifier: data?.primaryPharmacyIdentifier,
+          secondaryPharmacyIdentifier: data?.secondaryPharmacyIdentifier,
+          drugStrength: data?.drugStrength,
+          drugForm: data?.drugForm,
+          scheduleCode: data?.scheduleCode,
+          shippingClass: data?.shippingClass,
+        }).unwrap();
+      }
+
       toast.success("Pharmacy catalogue updated successfully", {
         duration: 1500,
       });

@@ -23,6 +23,7 @@ import {
   TAG_LINKED_ORG,
   TAG_ORG_SUB_ORGS,
   TAG_GET_CATALOGUE_LIST,
+  TAG_GET_PLAN_CATALOGUES,
 } from "@/types/baseApiTags";
 
 export const baseApi = createApi({
@@ -50,6 +51,7 @@ export const baseApi = createApi({
     TAG_LINKED_ORG,
     TAG_ORG_SUB_ORGS,
     TAG_GET_CATALOGUE_LIST,
+    TAG_GET_PLAN_CATALOGUES,
   ],
   baseQuery: fetchBaseQuery({
     baseUrl:
