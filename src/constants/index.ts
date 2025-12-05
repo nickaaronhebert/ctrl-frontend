@@ -542,3 +542,13 @@ export const organizations = [
   { id: "org-9", value: "Redcorp" },
   { id: "org-10", value: "Spectre Enterprises" },
 ];
+
+export const dosageFormOptions = [
+  { label: "Injectable", value: "injectable" },
+  { label: "Capsule", value: "capsule" },
+  { label: "Tablet", value: "tablet" },
+  { label: "Spray", value: "spray" },
+  { label: "Cream", value: "cream" },
+  { label: "Gel", value: "gel" },
+  { label: "Solution", value: "solution" },
+];

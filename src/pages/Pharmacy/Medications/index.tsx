@@ -9,15 +9,15 @@ import { useNavigate } from "react-router-dom";
 import { useGetAvailableMedicationQuery } from "@/redux/services/pharmacy";
 
 const PharmacyMedicationsContent = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const page = parseInt(searchParams.get("page") || "1", 10);
   const perPage = parseInt(searchParams.get("per_page") ?? "100", 10);
-  const q = searchParams.get("q") || "";
+  // const q = searchParams.get("q") || "";
   const { data, isLoading } = useGetAvailableMedicationQuery({
     page,
     perPage,
-    q,
+    q: "",
   });
   const { setMedications } = useMedication();
 
@@ -67,8 +67,8 @@ const PharmacyMedicationsContent = () => {
       ) : (
         <div className="mt-5">
           <MedicationSelector
-            searchParam={q}
-            setSearchParams={setSearchParams}
+          // searchParam={q}
+          // setSearchParams={setSearchParams}
           />
           <BottomPopup onCreateCatalogue={handleCreateCatalogueFromPopup} />
         </div>

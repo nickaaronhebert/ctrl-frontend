@@ -21,6 +21,7 @@ export interface MedicationCatalogueDetails {
     containerQuantity: number;
     id: string;
     telegraProductVariant?: string;
+    name?: string;
   }[];
 }
 

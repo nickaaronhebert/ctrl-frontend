@@ -3,25 +3,22 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { MedicationCard } from "../MedicationCard/MedicationCard";
 import { useMedication } from "@/context/ApplicationUser/MedicationContext";
-import type { useSearchParams } from "react-router-dom";
+// import type { useSearchParams } from "react-router-dom";
 
-function MedicationSelector({
-  searchParam,
-  setSearchParams,
-}: {
-  searchParam: string;
-  setSearchParams: ReturnType<typeof useSearchParams>[1];
-}) {
+function MedicationSelector() {
   const {
     selectedVariants,
     searchQuery,
     selectAll,
     clearAll,
     getFilteredMedications,
+    setSearchQuery,
   } = useMedication();
 
   const filteredMedications = getFilteredMedications();
   const hasSelections = selectedVariants?.length > 0;
+
+  console.log("filteredMedications", filteredMedications);
 
   const handleSelectAll = () => {
     if (hasSelections) {
@@ -39,18 +36,22 @@ function MedicationSelector({
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             placeholder="Search medications by name"
-            value={searchParam}
+            // value={searchParam}
+            // onChange={(e) => {
+            //   const query = e.target.value;
+            //   setSearchParams((prev) => {
+            //     const newParams = new URLSearchParams(prev);
+            //     if (query) {
+            //       newParams.set("q", query);
+            //     } else {
+            //       newParams.delete("q");
+            //     }
+            //     return newParams;
+            //   });
+            // }}
+            value={searchQuery}
             onChange={(e) => {
-              const query = e.target.value;
-              setSearchParams((prev) => {
-                const newParams = new URLSearchParams(prev);
-                if (query) {
-                  newParams.set("q", query);
-                } else {
-                  newParams.delete("q");
-                }
-                return newParams;
-              });
+              setSearchQuery(e.target.value);
             }}
             className="w-[380px] h-[44px] rounded-[6px] pl-10 pr-[15px] py-[12px] bg-white border-card-border "
           />
