@@ -41,7 +41,7 @@ const MedicationDetails = () => {
   const location = useLocation();
   const { user } = useAuthentication();
 
-  const pathname = location.pathname.split("/").slice(0, 2).join("/");
+  const pathname = location.pathname.split("/")?.slice(0, 2)?.join("/");
 
   const { data: singleMedDetail, isLoading } =
     useGetSingleMedicationCatalogueDetailsQuery(id!, {
@@ -59,8 +59,8 @@ const MedicationDetails = () => {
   const variantColumn = useMemo(() => variantColumns(), []);
 
   const sortedVariants = (singleMedDetail?.data?.productVariants || [])
-    .slice()
-    .sort((a, b) => {
+    ?.slice()
+    ?.sort((a, b) => {
       const strengthA = parseInt(a.strength, 10);
       const strengthB = parseInt(b.strength, 10);
 

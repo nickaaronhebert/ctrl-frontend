@@ -264,7 +264,7 @@ function MedicationCatalogue({ data, id }: MedicationCatalogueProps) {
                 placeholder="Select Dosage Form "
                 errorClassName="text-right"
                 labelClassName="font-semibold text-sm"
-                defaultValue={dosageFormOptions[0]?.value}
+                defaultValue={data?.dosageForm}
               />
 
               <SelectElement
