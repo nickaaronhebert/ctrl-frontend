@@ -33,14 +33,6 @@ export const orgCredentialSchema = z
           path: ["password"],
         });
       }
-    } else if (data.platformType === "token") {
-      if (!data.accessToken || data.accessToken.trim() === "") {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "Access Token is required for token authentication",
-          path: ["accessToken"],
-        });
-      }
     }
   });
 

@@ -3,19 +3,26 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { MedicationCard } from "../MedicationCard/MedicationCard";
 import { useMedication } from "@/context/ApplicationUser/MedicationContext";
-// import type { useSearchParams } from "react-router-dom";
+import type { useSearchParams } from "react-router-dom";
 
-function MedicationSelector() {
+function MedicationSelector({
+  searchParam,
+  setSearchParams,
+  medications,
+}: {
+  searchParam: string;
+  setSearchParams: ReturnType<typeof useSearchParams>[1];
+  medications: any;
+}) {
   const {
     selectedVariants,
-    searchQuery,
+    // searchQuery,
     selectAll,
     clearAll,
-    getFilteredMedications,
-    setSearchQuery,
+    // getFilteredMedications,
   } = useMedication();
 
-  const filteredMedications = getFilteredMedications();
+  // const filteredMedications = getFilteredMedications();
   const hasSelections = selectedVariants?.length > 0;
 
   const handleSelectAll = () => {
@@ -34,22 +41,18 @@ function MedicationSelector() {
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             placeholder="Search medications by name"
-            // value={searchParam}
-            // onChange={(e) => {
-            //   const query = e.target.value;
-            //   setSearchParams((prev) => {
-            //     const newParams = new URLSearchParams(prev);
-            //     if (query) {
-            //       newParams.set("q", query);
-            //     } else {
-            //       newParams.delete("q");
-            //     }
-            //     return newParams;
-            //   });
-            // }}
-            value={searchQuery}
+            value={searchParam}
             onChange={(e) => {
-              setSearchQuery(e.target.value);
+              const query = e.target.value;
+              setSearchParams((prev) => {
+                const newParams = new URLSearchParams(prev);
+                if (query) {
+                  newParams.set("q", query);
+                } else {
+                  newParams.delete("q");
+                }
+                return newParams;
+              });
             }}
             className="w-[380px] h-[44px] rounded-[6px] pl-10 pr-[15px] py-[12px] bg-white border-card-border "
           />
@@ -65,14 +68,14 @@ function MedicationSelector() {
 
       {/* Medications List */}
       <div className="space-y-4">
-        {filteredMedications.map((medication) => (
+        {medications?.map((medication: any) => (
           <MedicationCard key={medication.id} medication={medication} />
         ))}
       </div>
 
-      {filteredMedications.length === 0 && searchQuery && (
+      {medications?.length === 0 && searchParam && (
         <div className="text-center py-8 text-muted-foreground">
-          No medications found matching "{searchQuery}"
+          No medications found matching "{searchParam}"
         </div>
       )}
     </div>

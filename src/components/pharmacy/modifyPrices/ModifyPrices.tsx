@@ -8,6 +8,7 @@ import { useBulkUpsertPharmacyCatalogueMutation } from "@/redux/services/pharmac
 import { toast } from "sonner";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import type { ApiError } from "@/types/global/commonTypes";
+import { useDebounce } from "@/hooks/use-debounce";
 import { useGetPharmacyCatalogueQuery } from "@/redux/services/pharmacy";
 import { PaginationWithLinks } from "@/components/common/PaginationLink/PaginationLink";
 import type {
@@ -26,16 +27,16 @@ export default function ModifyPrices() {
   // const [pharmacyIdentifiers, setPharmacyIdentifiers] = useState<
   //   Record<string, string>
   // >({});
+  const debouncedSearch = useDebounce(searchTerm, 400);
 
   const {
     data: allMedications,
     error,
     isLoading,
-    isFetching,
   } = useGetPharmacyCatalogueQuery({
     page,
     perPage,
-    q: "",
+    q: debouncedSearch,
   });
   const [bulkUpsertPharmacyCatalogue] =
     useBulkUpsertPharmacyCatalogueMutation();
@@ -142,14 +143,14 @@ export default function ModifyPrices() {
     }
   };
 
-  const filteredMedications = allMedicationVariants.filter(
-    (med: PharmacyCatalogue) =>
-      med.medicationCatalogue?.drugName
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase())
-  );
+  // const filteredMedications = allMedicationVariants.filter(
+  //   (med: PharmacyCatalogue) =>
+  //     med.medicationCatalogue?.drugName
+  //       .toLowerCase()
+  //       .includes(searchTerm.toLowerCase())
+  // );
 
-  if (isLoading || isFetching) {
+  if (isLoading) {
     return (
       <div className="flex justify-center items-center h-[80vh]">
         <LoadingSpinner />
@@ -166,10 +167,10 @@ export default function ModifyPrices() {
       <div className="bg-lilac py-3 px-12 flex justify-between mb-4">
         <div>
           <Link
-            to={"/pharmacy/medications/configure"}
+            to={"/pharmacy/medications/view-catalogue"}
             className="font-normal text-sm text text-muted-foreground"
           >
-            {"<- Back to Medications"}
+            {"<- Back to Catalogue"}
           </Link>
 
           <h1 className="text-2xl font-bold mt-1">Modify Prices</h1>
@@ -205,15 +206,15 @@ export default function ModifyPrices() {
           </div>
           <div className="text-right ">
             <span className="font-normal  text-[14px] leading-[18px] text-gray-400">
-              Showing {filteredMedications.length} of{" "}
-              {filteredMedications.length} medications
+              Showing {allMedications?.data?.length} of{" "}
+              {allMedications?.data?.length} medications
             </span>
           </div>
         </div>
 
         {/* Medications */}
         <div className="space-y-4">
-          {filteredMedications.map((medication: PharmacyCatalogue) => {
+          {allMedications?.data?.map((medication: PharmacyCatalogue) => {
             const medicationVariants = medication.productVariant ?? [];
             return (
               <div

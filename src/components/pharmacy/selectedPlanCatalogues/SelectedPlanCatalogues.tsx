@@ -10,7 +10,7 @@ import { useCreatePharmacyCatalogueVariantMutation } from "@/redux/services/phar
 import type { ApiError } from "@/types/global/commonTypes";
 
 export default function SelectedPlanCatalogues() {
-  const { selectedVariants, catalogues } = useMedication();
+  const { selectedVariants, catalogues, clearAll } = useMedication();
   const [prices, setPrices] = useState<Record<string, string>>({});
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
@@ -62,6 +62,7 @@ export default function SelectedPlanCatalogues() {
         phmCatalogueVariantId: id!,
         config,
       }).unwrap();
+      clearAll();
       navigate("/pharmacy/medications/catalogues");
       toast.success("Medications added successfully", {
         duration: 1500,

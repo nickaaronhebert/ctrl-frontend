@@ -89,7 +89,7 @@ export const pharmacyApi = baseApi.injectEndpoints({
         method: "POST",
         body,
       }),
-      invalidatesTags: [TAG_GET_PHARMACY_CATALOGUE],
+      invalidatesTags: [TAG_GET_PHARMACY_CATALOGUE, TAG_GET_CATALOGUE_LIST],
     }),
 
     setActiveStates: builder.mutation<
@@ -135,7 +135,7 @@ export const pharmacyApi = baseApi.injectEndpoints({
         url: `/pharmacy-catalogue/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: [TAG_GET_PHARMACY_CATALOGUE],
+      invalidatesTags: [TAG_GET_PHARMACY_CATALOGUE, TAG_GET_CATALOGUE_LIST],
     }),
 
     sendConnectionInvite: builder.mutation({
@@ -185,7 +185,7 @@ export const pharmacyApi = baseApi.injectEndpoints({
         method: "PATCH",
         body,
       }),
-      invalidatesTags: [TAG_GET_PHARMACY_CATALOGUE],
+      invalidatesTags: [TAG_GET_PHARMACY_CATALOGUE, TAG_GET_CATALOGUE_LIST],
     }),
     createSubOrgCreds: builder.mutation({
       query: (body) => ({
