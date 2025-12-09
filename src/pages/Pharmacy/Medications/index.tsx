@@ -31,7 +31,7 @@ const PharmacyMedicationsContent = () => {
     navigate("/pharmacy/medications/selected-medications");
   };
 
-  if (isLoading || isFetching) {
+  if (isLoading) {
     return (
       <div className="flex flex-col justify-center items-center min-h-screen ">
         <LoadingSpinner />
