@@ -59,7 +59,7 @@ const GetAllCatalogues = () => {
           Medications
         </h1>
       </div>
-      {data?.data?.length === 0 && !q ? (
+      {!isLoading && data?.data?.length === 0 && !q ? (
         <div className="flex flex-col justify-center h-[80vh] items-center mt-10 text-center px-4">
           <h2 className="text-xl font-semibold text-gray-700">
             Catalogue Already Created
