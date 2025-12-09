@@ -32,12 +32,12 @@ export function pharmacyCatalogueColumns(): ColumnDef<PharmacyCatalogue>[] {
       },
     },
     {
-      accessorKey: "medications",
+      accessorKey: "variants",
       header: "Medications",
 
       cell: ({ row }) => {
         return (
-          <p className="text-sm font-medium">{row.getValue("medications")}</p>
+          <p className="text-sm font-medium">{row.getValue("variants")}</p>
         );
       },
     },

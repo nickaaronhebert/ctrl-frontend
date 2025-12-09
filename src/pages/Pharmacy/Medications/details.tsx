@@ -5,8 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 import { PaginationWithLinks } from "@/components/common/PaginationLink/PaginationLink";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useMedication } from "@/context/ApplicationUser/MedicationContext";
+import { type PharmacyCatalogue } from "@/types/responses/medication";
+import { type Variant } from "@/types/global/commonTypes";
 
 const PharmacyDetailsPage = () => {
   const [searchParams] = useSearchParams();
@@ -19,7 +21,6 @@ const PharmacyDetailsPage = () => {
     data: defaultCatalogue,
     error,
     isLoading,
-    isFetching,
   } = useGetPharmacyCatalogueQuery({
     page,
     perPage,
@@ -31,7 +32,37 @@ const PharmacyDetailsPage = () => {
     setPrices({});
   }, []);
 
-  if (isLoading || isFetching) {
+  const sortedCatalogue = useMemo(() => {
+    if (!defaultCatalogue?.data) return [];
+
+    return defaultCatalogue.data
+      .slice()
+      .map((item: PharmacyCatalogue) => ({
+        ...item,
+        productVariant: item.productVariant
+          ?.slice()
+          ?.sort((a: Variant, b: Variant) => {
+            console.log("a", a);
+            return a.productVariant.name!.localeCompare(
+              b.productVariant.name!,
+              undefined,
+              {
+                numeric: true,
+                sensitivity: "base",
+              }
+            );
+          }),
+      }))
+      .sort((a: Variant, b: Variant) =>
+        a?.medicationCatalogue?.drugName.localeCompare(
+          b?.medicationCatalogue?.drugName!,
+          undefined,
+          { sensitivity: "base" }
+        )
+      );
+  }, [defaultCatalogue?.data]);
+
+  if (isLoading) {
     return (
       <div className="flex justify-center items-center h-[80vh]">
         <LoadingSpinner />
@@ -81,7 +112,9 @@ const PharmacyDetailsPage = () => {
       ) : (
         <>
           <div className="mt-5">
-            <MedicationCatalogueCard data={defaultCatalogue} />
+            <MedicationCatalogueCard
+              data={{ ...defaultCatalogue, data: sortedCatalogue }}
+            />
           </div>
           <PaginationWithLinks
             page={page}

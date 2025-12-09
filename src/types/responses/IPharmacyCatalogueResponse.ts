@@ -4,6 +4,7 @@ export interface PharmacyCatalogue {
   description: string;
   createdAt: string;
   medications: number;
+  variants: number;
 }
 
 export interface PharmacyCatalogueResponse {

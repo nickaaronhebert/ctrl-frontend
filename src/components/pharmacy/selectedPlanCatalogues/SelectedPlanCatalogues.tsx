@@ -187,7 +187,8 @@ export default function SelectedPlanCatalogues() {
                     </div>
                   </div>
 
-                  {catalogueVariants.map((variant) => {
+                  {catalogueVariants.map((variant: any) => {
+                    console.log("variantttt", variant);
                     return (
                       <div
                         key={variant.variantId}
@@ -195,8 +196,9 @@ export default function SelectedPlanCatalogues() {
                       >
                         <div className="text-gray-900 w-1/2">
                           <span className="mt-[100px]">
-                            {catalogue?.medicationCatalogue?.drugName}{" "}
-                            {variant.variant.strength}
+                            {/* {catalogue?.medicationCatalogue?.drugName}{" "}
+                            {variant.variant.strength} */}
+                            {variant?.variant?.productVariant?.name}
                           </span>
                         </div>
                         <div className="w-1/3">

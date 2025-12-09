@@ -144,21 +144,6 @@ export function BillingFrequencySelector({
             </div>
           </div>
         ))}
-        {/* Generate external innvoice checkbox  */}
-        {/* <div className="flex items-center justify-between gap-3 p-4 rounded-lg border border-gray-200 bg-white hover:border-gray-300 transition-all">
-          <Label className="font-semibold text-gray-500">
-            Generate External Invoice
-          </Label>
-          <Checkbox
-            checked={checked}
-            onCheckedChange={setChecked}
-            className={`w-6 h-6 ${
-              checked
-                ? "bg-[#F7F1FD] border-primary"
-                : "bg-white border-gray-300"
-            }`}
-          />
-        </div> */}
       </div>
     </div>
   );

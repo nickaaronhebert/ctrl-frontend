@@ -12,13 +12,8 @@ function CatalogueSelector({
   searchParam: string;
   setSearchParams: ReturnType<typeof useSearchParams>[1];
 }) {
-  const {
-    selectedVariants,
-    searchQuery,
-    allCatalogues,
-    clearAll,
-    getFilteredCatalogues,
-  } = useMedication();
+  const { selectedVariants, allCatalogues, clearAll, getFilteredCatalogues } =
+    useMedication();
 
   const filteredCatalogues = getFilteredCatalogues();
   const hasSelections = selectedVariants?.length > 0;
@@ -42,15 +37,20 @@ function CatalogueSelector({
             value={searchParam}
             onChange={(e) => {
               const query = e.target.value;
-              setSearchParams((prev) => {
-                const newParams = new URLSearchParams(prev);
-                if (query) {
-                  newParams.set("q", query);
-                } else {
-                  newParams.delete("q");
+              setSearchParams(
+                (prev) => {
+                  const newParams = new URLSearchParams(prev);
+                  if (query) {
+                    newParams.set("q", query);
+                  } else {
+                    newParams.delete("q");
+                  }
+                  return newParams;
+                },
+                {
+                  replace: true,
                 }
-                return newParams;
-              });
+              );
             }}
             className="w-[380px] h-[44px] rounded-[6px] pl-10 pr-[15px] py-[12px] bg-white border-card-border "
           />
@@ -71,9 +71,9 @@ function CatalogueSelector({
         ))}
       </div>
 
-      {filteredCatalogues?.length === 0 && searchQuery && (
+      {filteredCatalogues?.length === 0 && searchParam && (
         <div className="text-center py-8 text-muted-foreground">
-          No medications found matching "{searchQuery}"
+          No medications found matching "{searchParam}"
         </div>
       )}
     </div>

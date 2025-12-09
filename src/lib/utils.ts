@@ -116,3 +116,26 @@ export function isISODateString(str: string) {
   const isoRegex = /^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}:\d{2}(\.\d+)?Z?)?$/;
   return isoRegex.test(str);
 }
+
+export function sortMedicationCatalogue(data: any[]) {
+  if (!Array.isArray(data)) return [];
+
+  return [...data]
+    .sort((a, b) =>
+      a.medicationCatalogue.drugName.localeCompare(
+        b.medicationCatalogue.drugName,
+        undefined,
+        { numeric: true, sensitivity: "base" }
+      )
+    )
+    .map((item) => ({
+      ...item,
+      productVariant: [...item.productVariant].sort((a, b) =>
+        a.productVariant?.name?.localeCompare(
+          b.productVariant?.name,
+          undefined,
+          { numeric: true, sensitivity: "base" }
+        )
+      ),
+    }));
+}

@@ -44,15 +44,20 @@ function MedicationSelector({
             value={searchParam}
             onChange={(e) => {
               const query = e.target.value;
-              setSearchParams((prev) => {
-                const newParams = new URLSearchParams(prev);
-                if (query) {
-                  newParams.set("q", query);
-                } else {
-                  newParams.delete("q");
+              setSearchParams(
+                (prev) => {
+                  const newParams = new URLSearchParams(prev);
+                  if (query) {
+                    newParams.set("q", query);
+                  } else {
+                    newParams.delete("q");
+                  }
+                  return newParams;
+                },
+                {
+                  replace: true,
                 }
-                return newParams;
-              });
+              );
             }}
             className="w-[380px] h-[44px] rounded-[6px] pl-10 pr-[15px] py-[12px] bg-white border-card-border "
           />

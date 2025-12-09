@@ -233,8 +233,14 @@ export const pharmacyApi = baseApi.injectEndpoints({
       invalidatesTags: [TAG_GET_CATALOGUE_LIST, TAG_GET_PLAN_CATALOGUES],
     }),
     getCataloguePlan: builder.query({
-      query: (phmCatalogueVariantId: string) => ({
-        url: `/pharmacy-catalogue/variant/${phmCatalogueVariantId}/config`,
+      query: ({
+        phmCatalogueVariantId,
+        q,
+      }: {
+        phmCatalogueVariantId: string;
+        q?: string;
+      }) => ({
+        url: `/pharmacy-catalogue/variant/${phmCatalogueVariantId}/config?q=${q}`,
         method: "GET",
       }),
       providesTags: [TAG_GET_PLAN_CATALOGUES],
@@ -285,6 +291,36 @@ export const pharmacyApi = baseApi.injectEndpoints({
         TAG_GET_PHARMACY_CATALOGUE,
       ],
     }),
+    // Assign catalogue to organization //
+    assignPharmacyCatalogue: builder.mutation({
+      query: ({
+        organization,
+        pharmacyCatalogueVariant,
+        subOrganization,
+      }: {
+        organization: string;
+        pharmacyCatalogueVariant: string;
+        subOrganization?: string;
+      }) => {
+        const body: {
+          organization: string;
+          pharmacyCatalogueVariant: string;
+          subOrganization?: string;
+        } = {
+          organization,
+          pharmacyCatalogueVariant,
+        };
+        if (subOrganization) {
+          body.subOrganization = subOrganization;
+        }
+
+        return {
+          url: `pharmacy/organization/assign-pharmacy-catalogue`,
+          method: "PATCH",
+          body,
+        };
+      },
+    }),
   }),
 });
 
@@ -316,4 +352,5 @@ export const {
   useDeletePlanCatalogueVariantMutation,
   useUpdatePlanCatalogueVariantMutation,
   useGetAvailablePlanCatalogueQuery,
+  useAssignPharmacyCatalogueMutation,
 } = pharmacyApi;

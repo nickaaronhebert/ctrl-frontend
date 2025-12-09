@@ -6,6 +6,9 @@ import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { useGetCataloguePlanQuery } from "@/redux/services/pharmacy";
 import { useParams } from "react-router-dom";
 import { PlanCatalogueCard } from "@/components/common/Card/plan-catalogue-card";
+import { useMemo } from "react";
+import { type Variant } from "@/types/global/commonTypes";
+import type { PharmacyCatalogue } from "@/types/responses/medication";
 
 const PharmacyCatalogueDetails = () => {
   const [searchParams] = useSearchParams();
@@ -18,9 +21,45 @@ const PharmacyCatalogueDetails = () => {
     data: cataloguePlan,
     isLoading: isCataloguePlanLoading,
     error,
-  } = useGetCataloguePlanQuery(id!, {
-    skip: !id,
-  });
+  } = useGetCataloguePlanQuery(
+    {
+      phmCatalogueVariantId: id!,
+      q: "",
+    },
+    {
+      skip: !id,
+    }
+  );
+
+  const sortedCatalogue = useMemo(() => {
+    if (!cataloguePlan?.data) return [];
+
+    return cataloguePlan?.data
+      .slice()
+      .map((item: PharmacyCatalogue) => ({
+        ...item,
+        productVariant: item.productVariant
+          ?.slice()
+          ?.sort((a: Variant, b: Variant) => {
+            console.log("a", a);
+            return a.productVariant.name!.localeCompare(
+              b.productVariant.name!,
+              undefined,
+              {
+                numeric: true,
+                sensitivity: "base",
+              }
+            );
+          }),
+      }))
+      .sort((a: Variant, b: Variant) =>
+        a?.medicationCatalogue?.drugName.localeCompare(
+          b?.medicationCatalogue?.drugName!,
+          undefined,
+          { sensitivity: "base" }
+        )
+      );
+  }, [cataloguePlan?.data]);
 
   if (isCataloguePlanLoading) {
     return (
@@ -76,7 +115,10 @@ const PharmacyCatalogueDetails = () => {
       ) : (
         <>
           <div className="mt-5">
-            <PlanCatalogueCard data={cataloguePlan} id={id} />
+            <PlanCatalogueCard
+              data={{ ...cataloguePlan, data: sortedCatalogue }}
+              id={id}
+            />
           </div>
           <PaginationWithLinks
             page={page}
