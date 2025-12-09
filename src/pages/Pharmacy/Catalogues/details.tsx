@@ -6,9 +6,10 @@ import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { useGetCataloguePlanQuery } from "@/redux/services/pharmacy";
 import { useParams } from "react-router-dom";
 import { PlanCatalogueCard } from "@/components/common/Card/plan-catalogue-card";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { type Variant } from "@/types/global/commonTypes";
 import type { PharmacyCatalogue } from "@/types/responses/medication";
+import { useMedication } from "@/context/ApplicationUser/MedicationContext";
 
 const PharmacyCatalogueDetails = () => {
   const [searchParams] = useSearchParams();
@@ -16,6 +17,12 @@ const PharmacyCatalogueDetails = () => {
   const perPage = parseInt(searchParams.get("per_page") ?? "100", 10);
   const { id } = useParams();
   const navigate = useNavigate();
+  const { clearAll, setPrices } = useMedication();
+
+  useEffect(() => {
+    clearAll();
+    setPrices({});
+  }, []);
 
   const {
     data: cataloguePlan,

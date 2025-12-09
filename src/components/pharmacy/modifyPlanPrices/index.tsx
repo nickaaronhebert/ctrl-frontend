@@ -132,6 +132,7 @@ export default function ModifyPlanPrices() {
         config,
       }).unwrap();
       clearAll();
+      setPrices({});
       navigate("/pharmacy/medications/catalogues");
       toast.success("Medications added successfully", {
         duration: 1500,
