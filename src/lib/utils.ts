@@ -122,7 +122,7 @@ export function sortMedicationCatalogue(data: any[]) {
 
   return [...data]
     .sort((a, b) =>
-      a.medicationCatalogue.drugName.localeCompare(
+      a.medicationCatalogue.drugName?.localeCompare(
         b.medicationCatalogue.drugName,
         undefined,
         { numeric: true, sensitivity: "base" }

@@ -42,7 +42,7 @@ const PharmacyCatalogueDetails = () => {
           ?.slice()
           ?.sort((a: Variant, b: Variant) => {
             console.log("a", a);
-            return a?.productVariant?.name!.localeCompare(
+            return a?.productVariant?.name!?.localeCompare(
               b?.productVariant?.name!,
               undefined,
               {
@@ -53,7 +53,7 @@ const PharmacyCatalogueDetails = () => {
           }),
       }))
       .sort((a: Variant, b: Variant) =>
-        a?.medicationCatalogue?.drugName.localeCompare(
+        a?.medicationCatalogue?.drugName?.localeCompare(
           b?.medicationCatalogue?.drugName!,
           undefined,
           { sensitivity: "base" }
