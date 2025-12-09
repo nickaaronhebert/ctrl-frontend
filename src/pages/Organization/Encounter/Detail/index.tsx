@@ -24,6 +24,19 @@ interface EncounterStatusDetailProps {
   date: string;
 }
 
+function transformStatus(status: string) {
+  switch (status) {
+    case "started":
+      return "Started";
+    case "in_review":
+      return "In Review";
+    case "completed":
+      return "Completed";
+    default:
+      return "-";
+  }
+}
+
 function EncounterStatusDetails({
   active,
   title,
@@ -114,6 +127,8 @@ export default function EncounterDetails() {
     );
   }
 
+  console.log("data", data?.telegraProvider);
+
   return (
     <div className="space-y-8">
       <div className="bg-lilac py-3 px-12 flex justify-between items-center">
@@ -157,6 +172,10 @@ export default function EncounterDetails() {
                   label: "Phone Number",
                   value: data?.patient.phoneNumber || "-",
                 },
+                {
+                  label: "Status",
+                  value: transformStatus(data?.status || "-"),
+                },
               ]}
             />
 
@@ -169,6 +188,22 @@ export default function EncounterDetails() {
                 },
               ]}
             />
+
+            {data?.telegraProvider && (
+              <EntityDetail
+                title="Assigned Provider"
+                fields={[
+                  {
+                    label: "Provider Name",
+                    value: data?.telegraProvider?.name || "-",
+                  },
+                  {
+                    label: "Provider NPI",
+                    value: data?.telegraProvider?.npi || "-",
+                  },
+                ]}
+              />
+            )}
           </div>
 
           <div className=" bg-white rounded-[10px] shadow-[0px_2px_40px_0px_#00000014] mt-12">
@@ -237,17 +272,17 @@ export default function EncounterDetails() {
               </div>
             </div>
           </div> */}
-          {data?.ctrlOrder && (
+          {data?.telegraOrder && data?.telegraOrder?.visitLink && (
             <div className=" bg-white rounded-[10px] shadow-[0px_2px_40px_0px_#00000014] min-w-[350px] ">
               <p className="text-[16px] font-semibold border-b border-card-border p-5 ">
                 Linked Order
               </p>
               <div className="p-5">
                 <Link
-                  to={`/org/order/${data?.ctrlOrder?.id}` || "#"}
+                  to={data.telegraOrder?.visitLink || "#"}
                   className=" block bg-primary  py-2.5 px-6 rounded-[5px] text-white w-full text-center "
                 >
-                  {data?.ctrlOrder?.orderId}
+                  View
                 </Link>
               </div>
             </div>

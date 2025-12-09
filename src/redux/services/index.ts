@@ -22,6 +22,7 @@ import {
   TAG_GET_ENCOUNTER,
   TAG_LINKED_ORG,
   TAG_ORG_SUB_ORGS,
+  TAG_WEBHOOK,
   TAG_GET_CATALOGUE_LIST,
   TAG_GET_PLAN_CATALOGUES,
 } from "@/types/baseApiTags";
@@ -50,6 +51,7 @@ export const baseApi = createApi({
     TAG_GET_ENCOUNTER,
     TAG_LINKED_ORG,
     TAG_ORG_SUB_ORGS,
+    TAG_WEBHOOK,
     TAG_GET_CATALOGUE_LIST,
     TAG_GET_PLAN_CATALOGUES,
   ],

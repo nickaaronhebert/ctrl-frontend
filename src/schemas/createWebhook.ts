@@ -9,7 +9,7 @@ export const createWebhookSchema = z
     password: z.string().optional(),
     header: z.string().optional(),
 
-    subOrganization: z.string().min(1, "Sub-Organization is"),
+    subOrganization: z.string().optional(),
   })
   .superRefine((data, ctx) => {
     if (data.authenticationType === "basic_auth") {
@@ -66,3 +66,5 @@ export const createWebhookSchema = z
       }
     }
   });
+
+export const editWebhookSchema = createWebhookSchema;
