@@ -29,6 +29,9 @@ export interface EncounterDetails {
   createdAt: string;
   updatedAt: string;
   id: string;
+  telegraOrder?: {
+    visitLink: string;
+  };
   encounterProduct: {
     id: string;
     name: string;
@@ -43,6 +46,10 @@ export interface EncounterDetails {
   ctrlOrder?: {
     id: string;
     orderId: string;
+  };
+  telegraProvider?: {
+    name: string;
+    npi: string;
   };
 }
 
