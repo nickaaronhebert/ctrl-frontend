@@ -15,7 +15,7 @@ const ConfigureCatalogues = () => {
   const page = parseInt(searchParams.get("page") || "1", 10);
   const perPage = parseInt(searchParams.get("per_page") ?? "100", 10);
   const q = searchParams.get("q") || "";
-  const { data, isLoading } = useGetAvailablePlanCatalogueQuery({
+  const { data, isLoading, isFetching } = useGetAvailablePlanCatalogueQuery({
     page,
     perPage,
     q,
@@ -50,7 +50,7 @@ const ConfigureCatalogues = () => {
       <div className="bg-lilac py-3 px-12">
         <h1 className="text-2xl font-bold mt-1">Select Your Medications</h1>
       </div>
-      {!isLoading && data?.data?.length === 0 && !q ? (
+      {!isLoading && !isFetching && data?.data?.length === 0 && !q ? (
         <div className="flex flex-col justify-center h-[80vh] items-center mt-10 text-center px-4">
           <h2 className="text-xl font-semibold text-gray-700">
             Catalogue Already Created
