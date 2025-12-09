@@ -48,6 +48,7 @@ export default function ModifyPlanPrices() {
     },
     {
       skip: !id,
+      refetchOnMountOrArgChange: true,
     }
   );
   const sortedMedications = useMemo(() => {
