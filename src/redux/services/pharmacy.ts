@@ -243,6 +243,7 @@ export const pharmacyApi = baseApi.injectEndpoints({
         url: `/pharmacy-catalogue/variant/${phmCatalogueVariantId}/config?q=${q}`,
         method: "GET",
       }),
+      keepUnusedDataFor: 0,
       providesTags: [TAG_GET_PLAN_CATALOGUES],
     }),
     // get available medications for plan catalogue creation //
