@@ -41,7 +41,7 @@ const MedicationDetails = () => {
   const location = useLocation();
   const { user } = useAuthentication();
 
-  const pathname = location.pathname.split("/").slice(0, 2).join("/");
+  const pathname = location.pathname.split("/")?.slice(0, 2)?.join("/");
 
   const { data: singleMedDetail, isLoading } =
     useGetSingleMedicationCatalogueDetailsQuery(id!, {
@@ -58,11 +58,25 @@ const MedicationDetails = () => {
   const [activeTab, setActiveTab] = useState<TabKey>("medicationDetails");
   const variantColumn = useMemo(() => variantColumns(), []);
 
+  const sortedVariants = (singleMedDetail?.data?.productVariants || [])
+    ?.slice()
+    ?.sort((a, b) => {
+      const strengthA = parseInt(a.strength, 10);
+      const strengthB = parseInt(b.strength, 10);
+
+      if (strengthA < strengthB) return -1;
+      if (strengthA > strengthB) return 1;
+
+      return a.containerQuantity - b.containerQuantity;
+    });
+
   const { table: variantTable } = useDataTable({
-    data: singleMedDetail?.data?.productVariants || [],
+    data: sortedVariants || [],
     columns: variantColumn,
     pageCount: -1,
   });
+
+  console.log("variantTable", singleMedDetail?.data?.productVariants);
 
   if (isLoading) {
     return (
@@ -102,27 +116,25 @@ const MedicationDetails = () => {
          rounded-[10px] shadow-[0px_2px_40px_0px_#00000014] h-fit"
         >
           <div className="p-3">
-            <div className="flex gap-3.5 items-center ">
+            <div className="flex gap-3.5  ">
               <div className="w-[50px] h-[50px] flex justify-center items-center bg-secondary rounded-[8px]">
                 <MedicationLibrary color="#5354ac" />
               </div>
-              <div>
+              <div className="w-full">
                 <h4 className="text-base font-medium text-black">
                   {singleMedDetail?.data?.drugName}
                 </h4>
-                <div className="flex gap-2">
-                  {singleMedDetail?.data?.productVariants.map(
-                    (variant: MedicationVariant) => {
-                      return (
-                        <span
-                          key={variant.id}
-                          className="font-normal text-[12px] leading-[16px] text-slate"
-                        >
-                          {variant?.strength}
-                        </span>
-                      );
-                    }
-                  )}
+                <div className="flex flex-wrap mt-2 gap-2">
+                  {sortedVariants?.map((variant: MedicationVariant) => {
+                    return (
+                      <span
+                        key={variant.id}
+                        className="bg-slate-100 font-semibold text-[12px] leading-[16px] text-black rounded-[5px] py-[4px] px-[8px]"
+                      >
+                        {variant?.strength}
+                      </span>
+                    );
+                  })}
                 </div>
               </div>
             </div>

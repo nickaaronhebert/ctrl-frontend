@@ -118,8 +118,6 @@ export default function Invoices() {
     }
   );
 
-  console.log("subOrgsData", subOrgsData);
-
   const { data: invoiceData, meta } = useGetInvoicesQuery(
     {
       page,

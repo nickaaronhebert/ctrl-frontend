@@ -5,19 +5,64 @@ import { useNavigate } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 import { PaginationWithLinks } from "@/components/common/PaginationLink/PaginationLink";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { useEffect, useMemo } from "react";
+import { useMedication } from "@/context/ApplicationUser/MedicationContext";
+import { type PharmacyCatalogue } from "@/types/responses/medication";
+import { type Variant } from "@/types/global/commonTypes";
 
 const PharmacyDetailsPage = () => {
   const [searchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1", 10);
   const perPage = parseInt(searchParams.get("per_page") ?? "100", 10);
   const navigate = useNavigate();
+  const { setPrices, setSelectedVariants } = useMedication();
 
-  const { data, error, isLoading, isFetching } = useGetPharmacyCatalogueQuery({
+  const {
+    data: defaultCatalogue,
+    error,
+    isLoading,
+  } = useGetPharmacyCatalogueQuery({
     page,
     perPage,
+    q: "",
   });
 
-  if (isLoading || isFetching) {
+  useEffect(() => {
+    setSelectedVariants([]);
+    setPrices({});
+  }, []);
+
+  const sortedCatalogue = useMemo(() => {
+    if (!defaultCatalogue?.data) return [];
+
+    return defaultCatalogue.data
+      .slice()
+      .map((item: PharmacyCatalogue) => ({
+        ...item,
+        productVariant: item.productVariant
+          ?.slice()
+          ?.sort((a: Variant, b: Variant) => {
+            console.log("a", a);
+            return a?.productVariant?.name!?.localeCompare(
+              b?.productVariant?.name!,
+              undefined,
+              {
+                numeric: true,
+                sensitivity: "base",
+              }
+            );
+          }),
+      }))
+      .sort((a: Variant, b: Variant) =>
+        a?.medicationCatalogue?.drugName?.localeCompare(
+          b?.medicationCatalogue?.drugName!,
+          undefined,
+          { sensitivity: "base" }
+        )
+      );
+  }, [defaultCatalogue?.data]);
+
+  if (isLoading) {
     return (
       <div className="flex justify-center items-center h-[80vh]">
         <LoadingSpinner />
@@ -57,7 +102,7 @@ const PharmacyDetailsPage = () => {
           </div>
         </div>
       </div>
-      {data?.data?.length === 0 ? (
+      {defaultCatalogue?.data?.length === 0 ? (
         <div className="flex justify-center items-center h-[50vh] mt-10 max-w-[500px] mx-auto">
           <p className="text-center text-gray-500 text-lg">
             No medications available in the pharmacy catalogue at the moment.
@@ -67,12 +112,14 @@ const PharmacyDetailsPage = () => {
       ) : (
         <>
           <div className="mt-5">
-            <MedicationCatalogueCard data={data} />
+            <MedicationCatalogueCard
+              data={{ ...defaultCatalogue, data: sortedCatalogue }}
+            />
           </div>
           <PaginationWithLinks
             page={page}
             pageSize={perPage}
-            totalCount={data?.meta?.itemCount}
+            totalCount={defaultCatalogue?.meta?.itemCount}
           />
         </>
       )}

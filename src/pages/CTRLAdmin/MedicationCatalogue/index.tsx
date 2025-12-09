@@ -18,6 +18,7 @@ import { useCreateMedicationMutation } from "@/redux/services/medication";
 import { toast } from "sonner";
 import SelectElement from "@/components/Form/select-element";
 import { Link, useNavigate } from "react-router-dom";
+import { dosageFormOptions } from "@/constants";
 
 const units = [
   { label: "Each", value: "each" },
@@ -38,6 +39,10 @@ const routeTypes = [
   {
     label: "Topical",
     value: "Topical",
+  },
+  {
+    label: "Nasal",
+    value: "Nasal",
   },
 ];
 
@@ -238,26 +243,16 @@ export default function CreateMedicationCatalogue() {
             />
 
             <CenteredRow>
-              <InputElement
+              <SelectElement
                 name="dosageForm"
-                className="w-[190px]"
+                options={dosageFormOptions}
                 label="Dosage Form"
-                messageClassName="text-right"
                 isRequired={true}
-                placeholder="Injectable/Capsule"
-                inputClassName="border border-[#9EA5AB]"
+                className="w-[196px] min-h-[56px] border-[#9EA5AB] mb-0.5"
+                placeholder="Select Dosage Form"
+                errorClassName="text-right"
+                labelClassName="font-semibold text-sm"
               />
-
-              {/* <InputElement
-                name="route"
-                className="w-[198px]"
-                label="Route"
-                messageClassName="text-right"
-                isRequired={true}
-                placeholder="Enter route"
-                inputClassName="border border-[#9EA5AB]"
-              /> */}
-
               <SelectElement
                 errorClassName="text-right"
                 name={`route`}

@@ -25,6 +25,7 @@ import {
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import type { MedicationCatalogueDetails } from "@/types/responses/IMedicationCatalogueDetails";
 import { toast } from "sonner";
+import { dosageFormOptions } from "@/constants";
 
 const units = [
   { label: "Each", value: "each" },
@@ -81,6 +82,10 @@ const routeTypes = [
   {
     label: "Topical",
     value: "Topical",
+  },
+  {
+    label: "Nasal",
+    value: "Nasal",
   },
 ];
 
@@ -250,25 +255,17 @@ function MedicationCatalogue({ data, id }: MedicationCatalogueProps) {
             />
 
             <CenteredRow>
-              <InputElement
+              <SelectElement
                 name="dosageForm"
-                className="w-[190px]"
+                options={dosageFormOptions}
                 label="Dosage Form"
-                messageClassName="text-right"
                 isRequired={true}
-                placeholder="Injectable/Capsule"
-                inputClassName="border border-[#9EA5AB]"
+                className="w-[196px] min-h-[56px] border-[#9EA5AB] mb-0.5"
+                placeholder="Select Dosage Form "
+                errorClassName="text-right"
+                labelClassName="font-semibold text-sm"
+                defaultValue={data?.dosageForm}
               />
-
-              {/* <InputElement
-                name="route"
-                className="w-[198px]"
-                label="Route"
-                messageClassName="text-right"
-                isRequired={true}
-                placeholder="Enter route"
-                inputClassName="border border-[#9EA5AB]"
-              /> */}
 
               <SelectElement
                 errorClassName="text-right"

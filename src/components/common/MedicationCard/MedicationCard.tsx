@@ -67,7 +67,7 @@ export function MedicationCard({ medication }: MedicationCardProps) {
               <MedicationLibrary color="#5354ac" />
             </div>
             <span className="font-medium text-foreground">
-              {medication.drugName}
+              {medication?.drugName}
             </span>
             <span className="text-sm text-muted-foreground">
               {selectedCount} / {totalVariants}

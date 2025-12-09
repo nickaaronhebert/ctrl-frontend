@@ -105,9 +105,15 @@ const ActiveOrgDetails = () => {
               <StatusBadge status={data?.data?.status as string} />
             </div>
             <div className="flex justify-between">
-              <p className="text-sm font-normal">Billing</p>
+              <p className="text-sm font-normal">Billing Cycle</p>
               <p className="text-sm font-medium">
                 {data?.data?.invoiceFrequency?.toUpperCase()}
+              </p>
+            </div>
+            <div className="flex justify-between">
+              <p className="text-sm font-normal">Assigned Catalogue</p>
+              <p className="text-sm font-semibold  underline">
+                {data?.data?.catalogueVariant?.name}
               </p>
             </div>
           </div>

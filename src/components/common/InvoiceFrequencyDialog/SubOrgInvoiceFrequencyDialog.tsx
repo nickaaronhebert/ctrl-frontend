@@ -37,7 +37,6 @@ export function SubOrgInvoiceFrequencyDialog({
   checked,
   setChecked,
 }: BillingFrequencySelectorProps) {
-  console.log("Is Editing>>", isEditing);
   const [updateOrgBilling] = useUpdateOrgBillingMutation();
 
   const handleUpdate = async () => {

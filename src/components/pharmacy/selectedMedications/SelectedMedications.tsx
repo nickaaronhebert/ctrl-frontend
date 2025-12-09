@@ -106,12 +106,12 @@ export default function SetDefaultPrices() {
             {pricedVariants} of {totalVariants} variants priced
           </span>
           <Button
-            disabled={
-              pricedVariants !== totalVariants ||
-              Object.values(prices).some(
-                (price) => price === "0" || price === "0.00"
-              )
-            }
+            // disabled={
+            //   pricedVariants !== totalVariants ||
+            //   Object.values(prices).some(
+            //     (price) => price === "0" || price === "0.00"
+            //   )
+            // }
             onClick={handleSaveCatalogue}
             className="bg-primary min-w-[110px] cursor-pointer min-h-[40px] rounded-[50px] hover:bg-primary text-white px-[20px] py-[5px]"
           >
@@ -147,57 +147,62 @@ export default function SetDefaultPrices() {
         )}
         {/* Medications */}
         <div className="space-y-4">
-          {filteredMedications.map((medication) => {
-            const medicationVariants = selectedVariants.filter(
-              (v) => v.medicationId === medication.id
-            );
-            const medicationPricedCount = medicationVariants.filter(
-              (v) => prices[v.variantId] && prices[v.variantId] !== "0.00"
-            ).length;
+          {filteredMedications.length === 0 ? (
+            <div className="text-center py-20 text-gray-500 text-lg font-medium">
+              No medications match your search.
+            </div>
+          ) : (
+            filteredMedications.map((medication) => {
+              const medicationVariants = selectedVariants.filter(
+                (v) => v.medicationId === medication.id
+              );
+              const medicationPricedCount = medicationVariants.filter(
+                (v) => prices[v.variantId] && prices[v.variantId] !== "0.00"
+              ).length;
 
-            return (
-              <div
-                key={medication.id}
-                className="bg-white rounded-lg border border-gray-200 p-6"
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <MedicationLibrary color="#5354ac" />
-                    <h3 className="text-lg font-medium text-gray-900">
-                      {medication.drugName}
-                    </h3>
-                  </div>
-                  <span className="text-sm text-gray-500">
-                    {medicationPricedCount} / {medicationVariants.length}{" "}
-                    variants
-                  </span>
-                </div>
-
-                <div className="space-y-0 rounded-[10px] border border-gray-200 overflow-hidden">
-                  <div className="flex justify-between items-center bg-white py-[9px] px-4 border-b border-gray-200">
-                    <div className="text-xs font-medium text-gray-500 uppercase tracking-wide w-1/2">
-                      VARIANTS
+              return (
+                <div
+                  key={medication.id}
+                  className="bg-white rounded-lg border border-gray-200 p-6"
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                      <MedicationLibrary color="#5354ac" />
+                      <h3 className="text-lg font-medium text-gray-900">
+                        {medication.drugName}
+                      </h3>
                     </div>
-                    {/* <div className="text-xs font-medium text-gray-500 uppercase tracking-wide w-1/3 mr-[15px]">
+                    <span className="text-sm text-gray-500">
+                      {medicationPricedCount} / {medicationVariants.length}{" "}
+                      variants
+                    </span>
+                  </div>
+
+                  <div className="space-y-0 rounded-[10px] border border-gray-200 overflow-hidden">
+                    <div className="flex justify-between items-center bg-white py-[9px] px-4 border-b border-gray-200">
+                      <div className="text-xs font-medium text-gray-500 uppercase tracking-wide w-1/2">
+                        VARIANTS
+                      </div>
+                      {/* <div className="text-xs font-medium text-gray-500 uppercase tracking-wide w-1/3 mr-[15px]">
                       PHARMACY IDENTIFIER
                     </div> */}
-                    <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">
-                      DEFAULT PRICE
+                      <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">
+                        DEFAULT PRICE
+                      </div>
                     </div>
-                  </div>
 
-                  {medicationVariants.map((variant) => {
-                    return (
-                      <div
-                        key={variant.variantId}
-                        className="flex justify-between items-center py-3 px-4 bg-light-background border-b border-gray-200 last:border-b-0 gap-4"
-                      >
-                        <div className="text-gray-900 w-1/2">
-                          <span className="mt-[100px]">
-                            {medication.drugName} {variant.variant.strength}
-                          </span>
-                        </div>
-                        {/* <div className="w-1/3">
+                    {medicationVariants.map((variant) => {
+                      return (
+                        <div
+                          key={variant.variantId}
+                          className="flex justify-between items-center py-3 px-4 bg-light-background border-b border-gray-200 last:border-b-0 gap-4"
+                        >
+                          <div className="text-gray-900 w-1/2">
+                            <span className="mt-[100px]">
+                              {variant?.variant?.name}
+                            </span>
+                          </div>
+                          {/* <div className="w-1/3">
                           <Input
                             type="text"
                             placeholder="e.g., SKU-12345"
@@ -211,32 +216,33 @@ export default function SetDefaultPrices() {
                             className="w-full h-10 rounded-md px-3 py-2 border-gray-300 bg-white"
                           />
                         </div> */}
-                        <div className="relative">
-                          <span className="absolute left-1 top-1/2 transform -translate-y-1/2 text-gray-500">
-                            $
-                          </span>
-                          <Input
-                            type="number"
-                            step="0.01"
-                            min="0"
-                            placeholder="0"
-                            value={prices[variant.variantId] || ""}
-                            onChange={(e) =>
-                              handlePriceChange(
-                                variant.variantId,
-                                e.target.value
-                              )
-                            }
-                            className="w-[115px] h-[38px] rounded-[6px] px-[12px] py-[10px] border-card-border bg-white text-right"
-                          />
+                          <div className="relative">
+                            <span className="absolute left-1 top-1/2 transform -translate-y-1/2 text-gray-500">
+                              $
+                            </span>
+                            <Input
+                              type="number"
+                              step="0.01"
+                              min="0"
+                              placeholder="0"
+                              value={prices[variant.variantId] || ""}
+                              onChange={(e) =>
+                                handlePriceChange(
+                                  variant.variantId,
+                                  e.target.value
+                                )
+                              }
+                              className="w-[115px] h-[38px] rounded-[6px] px-[12px] py-[10px] border-card-border bg-white text-right"
+                            />
+                          </div>
                         </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })
+          )}
         </div>
       </div>
     </div>

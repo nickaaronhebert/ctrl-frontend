@@ -1,7 +1,9 @@
 import type { PharmacyInvoiceResponse } from "@/types/responses/invoices";
 import {
+  TAG_GET_CATALOGUE_LIST,
   TAG_GET_CONNECTED_ORGANIZATION,
   TAG_GET_PHARMACY_CATALOGUE,
+  TAG_GET_PLAN_CATALOGUES,
   TAG_GET_SUB_ORGANIZATION,
   TAG_GET_USER_PROFILE,
   TAG_GLOBAL_PHARMACIES,
@@ -10,11 +12,17 @@ import {
 } from "@/types/baseApiTags";
 import { baseApi } from ".";
 import type { IGetPharmacyInvoicesDetailsResponse } from "@/types/responses/IGetPharmacyInvoicesDetail";
-import type { ICommonSearchQuery } from "@/types/requests/search";
+import type {
+  IAvailablePlanCatalogueQuery,
+  ICommonSearchQuery,
+} from "@/types/requests/search";
 import type {
   IConnectedOrganizationResponse,
   OrganizationResponse,
 } from "@/types/responses/IConnectedOrganization";
+import { type PharmacyCatalogueResponse } from "@/types/responses/IPharmacyCatalogueResponse";
+import type { CreateVariantResponse } from "@/types/responses/ICreateVariantResponse";
+import type { CreateVariantRequest } from "@/types/requests/ICreateVariantRequest";
 
 export const pharmacyApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -81,7 +89,7 @@ export const pharmacyApi = baseApi.injectEndpoints({
         method: "POST",
         body,
       }),
-      invalidatesTags: [TAG_GET_PHARMACY_CATALOGUE],
+      invalidatesTags: [TAG_GET_PHARMACY_CATALOGUE, TAG_GET_CATALOGUE_LIST],
     }),
 
     setActiveStates: builder.mutation<
@@ -99,10 +107,10 @@ export const pharmacyApi = baseApi.injectEndpoints({
     }),
     getPharmacyCatalogue: builder.query({
       providesTags: [TAG_GET_PHARMACY_CATALOGUE],
-      query: ({ page, perPage, pharmacy }) => {
+      query: ({ page, perPage, pharmacy, q }) => {
         const isPharmacy = pharmacy ? `&pharmacy=${pharmacy}` : "";
         return {
-          url: `/pharmacy-catalogue?page=${page}&limit=${perPage}${isPharmacy}
+          url: `/pharmacy-catalogue?page=${page}&limit=${perPage}&q=${q}${isPharmacy}
           `,
           method: "GET",
         };
@@ -114,6 +122,7 @@ export const pharmacyApi = baseApi.injectEndpoints({
         url: `/pharmacy/available-medication?page=${page}&limit=${perPage}&q=${q}`,
         method: "GET",
       }),
+      keepUnusedDataFor: 0,
     }),
     getPharmacyMedicines: builder.query({
       query: ({ id, page, perPage, q }) => ({
@@ -126,7 +135,7 @@ export const pharmacyApi = baseApi.injectEndpoints({
         url: `/pharmacy-catalogue/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: [TAG_GET_PHARMACY_CATALOGUE],
+      invalidatesTags: [TAG_GET_PHARMACY_CATALOGUE, TAG_GET_CATALOGUE_LIST],
     }),
 
     sendConnectionInvite: builder.mutation({
@@ -176,7 +185,7 @@ export const pharmacyApi = baseApi.injectEndpoints({
         method: "PATCH",
         body,
       }),
-      invalidatesTags: [TAG_GET_PHARMACY_CATALOGUE],
+      invalidatesTags: [TAG_GET_PHARMACY_CATALOGUE, TAG_GET_CATALOGUE_LIST],
     }),
     createSubOrgCreds: builder.mutation({
       query: (body) => ({
@@ -193,6 +202,124 @@ export const pharmacyApi = baseApi.injectEndpoints({
         body,
       }),
       invalidatesTags: [TAG_LINKED_ORG, TAG_ORG_SUB_ORGS],
+    }),
+    getCatalogueList: builder.query<
+      PharmacyCatalogueResponse,
+      { page: number; perPage: number }
+    >({
+      query: ({ page, perPage }) => ({
+        url: `/pharmacy-catalogue/variant?page=${page}&limit=${perPage}`,
+        method: "GET",
+      }),
+      providesTags: [TAG_GET_CATALOGUE_LIST],
+    }),
+    createVariant: builder.mutation<
+      CreateVariantResponse,
+      CreateVariantRequest
+    >({
+      query: (body) => ({
+        url: "/pharmacy-catalogue/variant",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: [TAG_GET_CATALOGUE_LIST],
+    }),
+    createPharmacyCatalogueVariant: builder.mutation({
+      query: ({ phmCatalogueVariantId, config }) => ({
+        url: `/pharmacy-catalogue/variant/${phmCatalogueVariantId}/configs`,
+        method: "PUT",
+        body: { config },
+      }),
+      invalidatesTags: [TAG_GET_CATALOGUE_LIST, TAG_GET_PLAN_CATALOGUES],
+    }),
+    getCataloguePlan: builder.query({
+      query: ({
+        phmCatalogueVariantId,
+        q,
+      }: {
+        phmCatalogueVariantId: string;
+        q?: string;
+      }) => ({
+        url: `/pharmacy-catalogue/variant/${phmCatalogueVariantId}/config?q=${q}`,
+        method: "GET",
+      }),
+      providesTags: [TAG_GET_PLAN_CATALOGUES],
+    }),
+    // get available medications for plan catalogue creation //
+
+    getAvailablePlanCatalogue: builder.query<any, IAvailablePlanCatalogueQuery>(
+      {
+        query: ({ page, perPage, phmCatalogueVariantId, q }) => ({
+          url: `/pharmacy-catalogue/variant/${phmCatalogueVariantId}/available-pharmacy-catalogue?page=${page}&limit=${perPage}&q=${q}`,
+          method: "GET",
+        }),
+        keepUnusedDataFor: 0,
+      }
+    ),
+
+    // update metadata for plan catalogue variant
+    updatePlanCatalogueVariant: builder.mutation({
+      query: ({
+        phmCatalogueVariantId,
+        configId,
+        body,
+      }: {
+        phmCatalogueVariantId: string;
+        configId: string;
+        [key: string]: any;
+      }) => ({
+        url: `/pharmacy-catalogue/variant/${phmCatalogueVariantId}/config/${configId}`,
+        method: "PATCH",
+        body,
+      }),
+      invalidatesTags: [TAG_GET_PLAN_CATALOGUES],
+    }),
+    deletePlanCatalogueVariant: builder.mutation({
+      query: ({
+        phmCatalogueVariantId,
+        configId,
+      }: {
+        phmCatalogueVariantId: string;
+        configId: string;
+      }) => ({
+        url: `/pharmacy-catalogue/variant/${phmCatalogueVariantId}/config/${configId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: [
+        TAG_GET_PLAN_CATALOGUES,
+        TAG_GET_CATALOGUE_LIST,
+        TAG_GET_PHARMACY_CATALOGUE,
+      ],
+    }),
+    // Assign catalogue to organization //
+    assignPharmacyCatalogue: builder.mutation({
+      query: ({
+        organization,
+        pharmacyCatalogueVariant,
+        subOrganization,
+      }: {
+        organization: string;
+        pharmacyCatalogueVariant: string;
+        subOrganization?: string;
+      }) => {
+        const body: {
+          organization: string;
+          pharmacyCatalogueVariant: string;
+          subOrganization?: string;
+        } = {
+          organization,
+          pharmacyCatalogueVariant,
+        };
+        if (subOrganization) {
+          body.subOrganization = subOrganization;
+        }
+
+        return {
+          url: `pharmacy/organization/assign-pharmacy-catalogue`,
+          method: "PATCH",
+          body,
+        };
+      },
     }),
   }),
 });
@@ -218,4 +345,12 @@ export const {
   useCreateSubOrgCredsMutation,
   useGetLinkedOrganizationQuery,
   useUpdateOrgBillingMutation,
+  useGetCatalogueListQuery,
+  useCreateVariantMutation,
+  useCreatePharmacyCatalogueVariantMutation,
+  useGetCataloguePlanQuery,
+  useDeletePlanCatalogueVariantMutation,
+  useUpdatePlanCatalogueVariantMutation,
+  useGetAvailablePlanCatalogueQuery,
+  useAssignPharmacyCatalogueMutation,
 } = pharmacyApi;

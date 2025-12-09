@@ -40,10 +40,11 @@ export function activeOrganizationColumns(): ColumnDef<ConnectedOrganization>[] 
       header: "Billing Cycle",
       cell: ({ row }) => {
         // const { organization } = row.original;
+        const invoiceFrequency = row.original?.invoiceFrequency;
         return (
           <>
             <span className="text-sm font-medium px-3 py-1 rounded-sm bg-[#E5F3FC]">
-              {row.original?.invoiceFrequency?.toUpperCase()}
+              {invoiceFrequency ? invoiceFrequency.toUpperCase() : "N/A"}
             </span>
           </>
         );
