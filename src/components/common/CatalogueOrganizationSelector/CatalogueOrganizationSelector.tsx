@@ -23,12 +23,12 @@ export function CatalogueOrganizationSelector({
   };
 
   return (
-    <div className="px-5">
-      <div className="bg-[#E5F3FC] rounded-[10px] p-[14px] h-[60px] text-[#008CE3] leading-[16px]  text-[13px] font-normal mb-4">
+    <div className="">
+      <div className="bg-[#E5F3FC] rounded-[10px] p-[14px] h-[60px] m-4 text-[#008CE3]  leading-[16px]  text-[13px] font-normal mb-4">
         If you don't assign a catalogue, the Default Catalogue will be
         automatically assigned.
       </div>
-      <div className="space-y-2 max-h-[200px] overflow-y-scroll">
+      <div className="space-y-2 max-h-[200px] overflow-y-scroll m-4">
         {data?.data
           ?.filter((option) => option.name !== "Standard Catalogue")
           .map((option) => {

@@ -255,6 +255,8 @@ const ActiveOrgDetails = () => {
               organization={id as string}
               invitation={data?.data?.invitation as string}
               activeStatus={activeStatus}
+              // data={data?.data}
+              // setSelected={setSelected}
             />
           )}
         </div>
@@ -284,7 +286,7 @@ const ActiveOrgDetails = () => {
       )}
       {openCatalogueModal && (
         <Dialog open={openCatalogueModal} onOpenChange={setOpenCatalogueModal}>
-          <DialogContent className="sm:max-w-[600px] min-h-[350px] p-4">
+          <DialogContent className="sm:max-w-[600px] min-h-[400px] p-4">
             <DialogHeader className="">
               <DialogTitle>Manage Catalogue</DialogTitle>
             </DialogHeader>
