@@ -61,19 +61,51 @@ export function CreateWebhook({ open, onOpenChange }: CreateWebhookProps) {
       authenticationType: "",
     },
   });
-  const { reset } = form;
+  const { reset, setError, clearErrors } = form;
   const authType = form.watch("authenticationType");
+
+  const handleCheckboxChange = (checkboxType: "status" | "tracking") => {
+    if (checkboxType === "status") {
+      setStatus(!status);
+    } else {
+      setTracking(!tracking);
+    }
+    if (status || tracking) {
+      clearErrors("root");
+    }
+  };
 
   async function onSubmit(values: z.infer<typeof createWebhookSchema>) {
     console.log("values", values);
+
+    if (!status && !tracking) {
+      setError("root", {
+        message: "At least one webhook type must be selected",
+      });
+      return;
+    }
+
     const eventTypes = [];
     if (status) eventTypes.push("status_update");
     if (tracking) eventTypes.push("tracking_received");
 
+    let parsedHeaders = {};
+    if (values.authenticationType === "header_auth") {
+      if (values.header) {
+        try {
+          parsedHeaders = JSON.parse(values.header);
+        } catch (error) {
+          setError("header", { message: "Invalid JSON format for headers" });
+          toast.error("Invalid JSON format for headers");
+          return;
+        }
+      }
+    }
+
     const auth: Auth =
       values.authenticationType === "header_auth"
         ? {
-            headers: values.header,
+            headers: parsedHeaders,
           }
         : {
             username: values.userName,
@@ -184,7 +216,7 @@ export function CreateWebhook({ open, onOpenChange }: CreateWebhookProps) {
                     id="status"
                     className="border-[#9EA5AB]"
                     checked={status}
-                    onCheckedChange={() => setStatus(!status)}
+                    onCheckedChange={() => handleCheckboxChange("status")}
                   />
                   <div className="grid gap-2">
                     <Label htmlFor="status">Status Changed at Pharmacy</Label>
@@ -199,7 +231,7 @@ export function CreateWebhook({ open, onOpenChange }: CreateWebhookProps) {
                     id="tracking"
                     className="border-[#9EA5AB]"
                     checked={tracking}
-                    onCheckedChange={() => setTracking(!tracking)}
+                    onCheckedChange={() => handleCheckboxChange("tracking")}
                   />
                   <div className="grid gap-2">
                     <Label htmlFor="tracking">Tracking Received</Label>
@@ -208,6 +240,11 @@ export function CreateWebhook({ open, onOpenChange }: CreateWebhookProps) {
                     </p>
                   </div>
                 </div>
+                {form.formState.errors.root && (
+                  <p className="text-sm text-red-500">
+                    {form.formState.errors.root.message}
+                  </p>
+                )}
               </div>
 
               <SelectSubOrganization />
