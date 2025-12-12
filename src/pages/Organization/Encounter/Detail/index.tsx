@@ -272,14 +272,14 @@ export default function EncounterDetails() {
               </div>
             </div>
           </div> */}
-          {data?.telegraOrder && data?.telegraOrder?.visitLink && (
+          {data?.telegraOrder && data?.telegraOrder?.pdfLink && (
             <div className=" bg-white rounded-[10px] shadow-[0px_2px_40px_0px_#00000014] min-w-[350px] ">
               <p className="text-[16px] font-semibold border-b border-card-border p-5 ">
                 Linked Order
               </p>
               <div className="p-5">
                 <Link
-                  to={data.telegraOrder?.visitLink || "#"}
+                  to={data.telegraOrder?.pdfLink || "#"}
                   className=" block bg-primary  py-2.5 px-6 rounded-[5px] text-white w-full text-center "
                 >
                   View
