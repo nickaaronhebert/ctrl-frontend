@@ -228,8 +228,6 @@ export default function ViewInvoiceDetails() {
     }
   );
 
-  console.log("Saved Card>>> ", userCards);
-
   const columns = useMemo(() => organizationInvoiceColumns(), []);
 
   const { table } = useDataTable({

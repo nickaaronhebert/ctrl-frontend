@@ -11,24 +11,50 @@ import { CreateOrganizationCredentialsModal } from "@/components/common/CreateOr
 import type { BillingFrequency } from "@/components/dialog/action";
 import { OrgInvoiceFrequencyDialog } from "@/components/common/InvoiceFrequencyDialog/OrgInvoiceFrequencyDialog";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { useGetCatalogueListQuery } from "@/redux/services/pharmacy";
+import { useSearchParams } from "react-router-dom";
+import { useAssignPharmacyCatalogueMutation } from "@/redux/services/pharmacy";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { SquarePen } from "lucide-react";
+import { CatalogueOrganizationSelector } from "@/components/common/CatalogueOrganizationSelector/CatalogueOrganizationSelector";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { toast } from "sonner";
 
 const ActiveOrgDetails = () => {
   const { id } = useParams<{ id: string }>();
+  const [searchParams] = useSearchParams();
+  const page = parseInt(searchParams.get("page") || "1", 10);
+  const perPage = parseInt(searchParams.get("per_page") ?? "100", 10);
+  const [assignPharmacyCatalogue, { isLoading: isAssigning }] =
+    useAssignPharmacyCatalogueMutation();
 
   const { data, isLoading } = useGetLinkedOrganizationQuery(id ?? "", {
     skip: !id,
+  });
+
+  const { data: catalogueList } = useGetCatalogueListQuery({
+    page,
+    perPage,
   });
 
   const [activeStatus, setActiveStatus] = useState<
     "affiliates" | "sharedSubOrgs" | "independentsubOrgs"
   >("affiliates");
   const [openCredentialsForm, setOpenCredentialsForm] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<string>("");
   const [openBillingModal, setOpenBillingModal] = useState<boolean>(false);
+  const [openCatalogueModal, setOpenCatalogueModal] = useState<boolean>(false);
   const [selected, setSelected] = useState<BillingFrequency>(
     (data?.data?.invoiceFrequency as BillingFrequency) || "daily"
   );
@@ -39,7 +65,36 @@ const ActiveOrgDetails = () => {
     if (data?.data?.invoiceFrequency) {
       setSelected(data?.data?.invoiceFrequency as BillingFrequency);
     }
+    if (data?.data?.catalogueVariant?.name) {
+      setSelectedPlan(data?.data?.catalogueVariant?.id);
+    }
   }, [data?.data]);
+
+  const handleCatalogueChange = async (plan: string) => {
+    setSelectedPlan(plan);
+    try {
+      await assignPharmacyCatalogue({
+        organization: id as string,
+        pharmacyCatalogueVariant: plan,
+      }).unwrap();
+
+      toast.success("Catalogue Plan Updated Successfully", {
+        duration: 1500,
+      });
+
+      setOpenCatalogueModal(false);
+    } catch (error) {
+      console.error("Error updating catalogue plan:", error);
+      const err = error as { data?: { message?: string } };
+      const message =
+        err?.data?.message ||
+        "Failed to update pharmacy catalogue. Please try again.";
+      toast.error(message, {
+        duration: 1500,
+      });
+      setSelectedPlan(data?.data?.catalogueVariant?.id || selectedPlan);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -48,6 +103,8 @@ const ActiveOrgDetails = () => {
       </div>
     );
   }
+
+  console.log("selectedPlan", selectedPlan);
 
   return (
     <>
@@ -105,10 +162,24 @@ const ActiveOrgDetails = () => {
               <StatusBadge status={data?.data?.status as string} />
             </div>
             <div className="flex justify-between">
-              <p className="text-sm font-normal">Billing</p>
+              <p className="text-sm font-normal">Billing Cycle</p>
               <p className="text-sm font-medium">
                 {data?.data?.invoiceFrequency?.toUpperCase()}
               </p>
+            </div>
+            <div className="flex justify-between">
+              <p className="text-sm font-normal">Assigned Catalogue</p>
+              <div className="flex gap-2 items-center">
+                <p className="text-sm font-semibold  underline">
+                  {data?.data?.catalogueVariant?.name}
+                </p>
+                <SquarePen
+                  onClick={() => setOpenCatalogueModal(true)}
+                  color="grey"
+                  className="cursor-pointer"
+                  size={16}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -184,6 +255,8 @@ const ActiveOrgDetails = () => {
               organization={id as string}
               invitation={data?.data?.invitation as string}
               activeStatus={activeStatus}
+              // data={data?.data}
+              // setSelected={setSelected}
             />
           )}
         </div>
@@ -210,6 +283,33 @@ const ActiveOrgDetails = () => {
           checked={checked}
           setChecked={setChecked}
         />
+      )}
+      {openCatalogueModal && (
+        <Dialog open={openCatalogueModal} onOpenChange={setOpenCatalogueModal}>
+          <DialogContent className="sm:max-w-[600px] min-h-[400px] p-4">
+            <DialogHeader className="">
+              <DialogTitle>Manage Catalogue</DialogTitle>
+            </DialogHeader>
+            <CatalogueOrganizationSelector
+              data={catalogueList!}
+              selectedPlan={selectedPlan}
+              setSelectedPlan={setSelectedPlan}
+            />
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button variant="outline">Cancel</Button>
+              </DialogClose>
+              <Button
+                disabled={isAssigning}
+                onClick={() => handleCatalogueChange(selectedPlan)}
+                className="text-white cursor-pointer"
+                type="submit"
+              >
+                Update
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       )}
     </>
   );

@@ -8,20 +8,22 @@ import type { useSearchParams } from "react-router-dom";
 function MedicationSelector({
   searchParam,
   setSearchParams,
+  medications,
 }: {
   searchParam: string;
   setSearchParams: ReturnType<typeof useSearchParams>[1];
+  medications: any;
 }) {
   const {
     selectedVariants,
-    searchQuery,
+    // searchQuery,
     selectAll,
     clearAll,
-    getFilteredMedications,
+    // getFilteredMedications,
   } = useMedication();
 
-  const filteredMedications = getFilteredMedications();
-  const hasSelections = selectedVariants.length > 0;
+  // const filteredMedications = getFilteredMedications();
+  const hasSelections = selectedVariants?.length > 0;
 
   const handleSelectAll = () => {
     if (hasSelections) {
@@ -42,15 +44,20 @@ function MedicationSelector({
             value={searchParam}
             onChange={(e) => {
               const query = e.target.value;
-              setSearchParams((prev) => {
-                const newParams = new URLSearchParams(prev);
-                if (query) {
-                  newParams.set("q", query);
-                } else {
-                  newParams.delete("q");
+              setSearchParams(
+                (prev) => {
+                  const newParams = new URLSearchParams(prev);
+                  if (query) {
+                    newParams.set("q", query);
+                  } else {
+                    newParams.delete("q");
+                  }
+                  return newParams;
+                },
+                {
+                  replace: true,
                 }
-                return newParams;
-              });
+              );
             }}
             className="w-[380px] h-[44px] rounded-[6px] pl-10 pr-[15px] py-[12px] bg-white border-card-border "
           />
@@ -66,14 +73,14 @@ function MedicationSelector({
 
       {/* Medications List */}
       <div className="space-y-4">
-        {filteredMedications.map((medication) => (
+        {medications?.map((medication: any) => (
           <MedicationCard key={medication.id} medication={medication} />
         ))}
       </div>
 
-      {filteredMedications.length === 0 && searchQuery && (
+      {medications?.length === 0 && searchParam && (
         <div className="text-center py-8 text-muted-foreground">
-          No medications found matching "{searchQuery}"
+          No medications found matching "{searchParam}"
         </div>
       )}
     </div>

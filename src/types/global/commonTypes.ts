@@ -1,5 +1,6 @@
 import type { MedicationVariant } from "@/components/data-table/columns/medication-library";
 import { type Permission } from "@/components/Permissions/permissions";
+import type { PharmacyMedicationCatalogue } from "../responses/medication";
 
 export type Period = "day" | "week" | "month";
 
@@ -344,3 +345,17 @@ export type OrganizationMeds = {
     productVariants: MedicationVariant;
   };
 };
+
+export interface Variant {
+  medicationCatalogue?: PharmacyMedicationCatalogue;
+  price: number;
+  productVariant: {
+    _id: string;
+    strength: string;
+    containerQuantity: number;
+    quantityType: string;
+    name?: string;
+    medicationCatalogue?: string;
+    telegraProductVariant?: string;
+  };
+}

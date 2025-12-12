@@ -100,7 +100,6 @@ export function CreateOrganizationCredentialsModal({
       } else {
         await createPharmacyCreds(payload).unwrap();
       }
-      console.log("Payload", payload);
 
       toast.success("Organization credentials created successfully!", {
         duration: 1500,
@@ -155,31 +154,27 @@ export function CreateOrganizationCredentialsModal({
                   </p>
                 )}
               </div>
-
-              {/* API Base URL */}
-              {platformType === "basic" && (
-                <div className="space-y-2">
-                  <FormField
-                    name="apiBaseUrl"
-                    control={form.control}
-                    render={({ field }) => (
-                      <div className="space-y-2">
-                        <Label htmlFor="api-base-url">API Base URL</Label>
-                        <Input
-                          id="api-base-url"
-                          placeholder="e.g. https://host27a.diffe.net:1085/api/v1/27"
-                          {...field}
-                        />
-                        {form.formState.errors.apiBaseUrl && (
-                          <p className="text-red-500">
-                            {form.formState.errors.apiBaseUrl?.message}
-                          </p>
-                        )}
-                      </div>
-                    )}
-                  />
-                </div>
-              )}
+              <div className="space-y-2">
+                <FormField
+                  name="apiBaseUrl"
+                  control={form.control}
+                  render={({ field }) => (
+                    <div className="space-y-2">
+                      <Label htmlFor="api-base-url">API Base URL</Label>
+                      <Input
+                        id="api-base-url"
+                        placeholder="e.g. https://host27a.diffe.net:1085/api/v1/27"
+                        {...field}
+                      />
+                      {form.formState.errors.apiBaseUrl && (
+                        <p className="text-red-500">
+                          {form.formState.errors.apiBaseUrl?.message}
+                        </p>
+                      )}
+                    </div>
+                  )}
+                />
+              </div>
 
               {/* Basic Authentication Fields */}
               {platformType === "basic" && (

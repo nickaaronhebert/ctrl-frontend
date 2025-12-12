@@ -5,7 +5,7 @@ export interface Webhook {
   webhookId: string;
   eventTypes: string[];
   targetUrl: string;
-  authTye: "basic_auth" | "header_auth";
+  authType: "basic_auth" | "header_auth";
   lastTriggered?: string;
   targetOrganization: string;
   createdAt: string;
@@ -13,8 +13,18 @@ export interface Webhook {
   id: string;
 }
 
+export interface WebhookDetails extends Webhook {
+  authConfig: Record<string, string>;
+}
+
 export interface IGetAllWebhookResponse {
   data: Webhook[];
   code: string;
   meta: PaginationMeta;
+}
+
+export interface IGetWebhookDetailsResponse {
+  message: string;
+  code: string;
+  data: WebhookDetails;
 }

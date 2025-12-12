@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
@@ -8,6 +8,7 @@ import { useBulkUpsertPharmacyCatalogueMutation } from "@/redux/services/pharmac
 import { toast } from "sonner";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import type { ApiError } from "@/types/global/commonTypes";
+import { useDebounce } from "@/hooks/use-debounce";
 import { useGetPharmacyCatalogueQuery } from "@/redux/services/pharmacy";
 import { PaginationWithLinks } from "@/components/common/PaginationLink/PaginationLink";
 import type {
@@ -15,9 +16,10 @@ import type {
   PharmacyProductVariant,
 } from "@/types/responses/medication";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { sortMedicationCatalogue } from "@/lib/utils";
 
 export default function ModifyPrices() {
-  const { prices, setPrices } = useMedication();
+  const { prices, setPrices, clearAll } = useMedication();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1", 10);
@@ -26,20 +28,26 @@ export default function ModifyPrices() {
   // const [pharmacyIdentifiers, setPharmacyIdentifiers] = useState<
   //   Record<string, string>
   // >({});
+  const debouncedSearch = useDebounce(searchTerm, 400);
 
   const {
     data: allMedications,
     error,
     isLoading,
-    isFetching,
   } = useGetPharmacyCatalogueQuery({
     page,
     perPage,
+    q: debouncedSearch,
   });
   const [bulkUpsertPharmacyCatalogue] =
     useBulkUpsertPharmacyCatalogueMutation();
 
-  const allMedicationVariants = allMedications?.data ?? [];
+  const sortedMedications = useMemo(() => {
+    if (!allMedications?.data) return [];
+    return sortMedicationCatalogue(allMedications.data);
+  }, [allMedications?.data]);
+
+  const allMedicationVariants = sortedMedications ?? [];
 
   const totalVariants = allMedicationVariants.reduce(
     (acc: number, med: PharmacyCatalogue) => acc + med.productVariant.length,
@@ -52,8 +60,8 @@ export default function ModifyPrices() {
         acc +
         med.productVariant.filter(
           (variant: PharmacyProductVariant) =>
-            prices[variant.productVariant._id] &&
-            prices[variant.productVariant._id] !== "0.00"
+            prices[variant?.productVariant?._id] &&
+            prices[variant?.productVariant?._id] !== "0.00"
         ).length
       );
     },
@@ -73,16 +81,18 @@ export default function ModifyPrices() {
       const initialPrices: Record<string, string> = {};
       const initialIdentifiers: Record<string, string> = {};
       allMedications.data.forEach((medication: PharmacyCatalogue) => {
-        medication.productVariant.forEach((variant: PharmacyProductVariant) => {
-          if (!(variant.productVariant._id in prices)) {
-            initialPrices[variant.productVariant._id] =
-              variant.price.toString();
+        medication?.productVariant.forEach(
+          (variant: PharmacyProductVariant) => {
+            if (!(variant?.productVariant?._id in prices)) {
+              initialPrices[variant?.productVariant?._id] =
+                variant.price.toString();
+            }
+            if (variant?.pharmacyIdentifier) {
+              initialIdentifiers[variant?.productVariant?._id] =
+                variant?.pharmacyIdentifier;
+            }
           }
-          if (variant?.pharmacyIdentifier) {
-            initialIdentifiers[variant?.productVariant?._id] =
-              variant?.pharmacyIdentifier;
-          }
-        });
+        );
       });
       if (Object.keys(initialPrices).length > 0) {
         setPrices((prevPrices) => ({ ...prevPrices, ...initialPrices }));
@@ -109,11 +119,8 @@ export default function ModifyPrices() {
 
     try {
       await bulkUpsertPharmacyCatalogue(payload).unwrap();
-      navigate("/pharmacy/medications/view-catalogue", {
-        state: {
-          pricedVariants: items.length,
-        },
-      });
+      clearAll();
+      navigate("/pharmacy/medications/view-catalogue", {});
       toast.success("Prices updated successfully", {
         duration: 1500,
       });
@@ -138,14 +145,7 @@ export default function ModifyPrices() {
     }
   };
 
-  const filteredMedications = allMedicationVariants.filter(
-    (med: PharmacyCatalogue) =>
-      med.medicationCatalogue?.drugName
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase())
-  );
-
-  if (isLoading || isFetching) {
+  if (isLoading) {
     return (
       <div className="flex justify-center items-center h-[80vh]">
         <LoadingSpinner />
@@ -162,10 +162,10 @@ export default function ModifyPrices() {
       <div className="bg-lilac py-3 px-12 flex justify-between mb-4">
         <div>
           <Link
-            to={"/pharmacy/medications/configure"}
+            to={"/pharmacy/medications/view-catalogue"}
             className="font-normal text-sm text text-muted-foreground"
           >
-            {"<- Back to Medications"}
+            {"<- Back to Catalogue"}
           </Link>
 
           <h1 className="text-2xl font-bold mt-1">Modify Prices</h1>
@@ -201,60 +201,66 @@ export default function ModifyPrices() {
           </div>
           <div className="text-right ">
             <span className="font-normal  text-[14px] leading-[18px] text-gray-400">
-              Showing {filteredMedications.length} of{" "}
-              {filteredMedications.length} medications
+              Showing {allMedications?.data?.length} of{" "}
+              {allMedications?.data?.length} medications
             </span>
           </div>
         </div>
 
         {/* Medications */}
         <div className="space-y-4">
-          {filteredMedications.map((medication: PharmacyCatalogue) => {
-            const medicationVariants = medication.productVariant ?? [];
-            return (
-              <div
-                key={medication._id}
-                className="bg-white rounded-lg border border-gray-200 p-6"
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <MedicationLibrary color="#5354ac" />
-                    <h3 className="text-lg font-medium text-gray-900">
-                      {medication.medicationCatalogue?.drugName}
-                    </h3>
-                  </div>
-                  <span className="text-sm text-gray-500">
-                    {medication?.productVariant?.length} /{" "}
-                    {medicationVariants.length} variants
-                  </span>
-                </div>
-
-                <div className="space-y-0 rounded-[10px] border border-gray-200 overflow-hidden">
-                  <div className="flex justify-between items-center bg-white py-[9px] px-4 border-b border-gray-200">
-                    <div className="text-xs font-medium text-gray-500 uppercase tracking-wide w-1/2">
-                      VARIANTS
+          {sortedMedications.length === 0 ? (
+            <div className="text-center py-20 text-gray-500 text-lg font-medium">
+              No medications match your search.
+            </div>
+          ) : (
+            sortedMedications?.map((medication: PharmacyCatalogue) => {
+              const medicationVariants = medication.productVariant ?? [];
+              return (
+                <div
+                  key={medication?._id}
+                  className="bg-white rounded-lg border border-gray-200 p-6"
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                      <MedicationLibrary color="#5354ac" />
+                      <h3 className="text-lg font-medium text-gray-900">
+                        {medication?.medicationCatalogue?.drugName}
+                      </h3>
                     </div>
-                    {/* <div className="text-xs font-medium text-gray-500 uppercase w-1/3 ">
+                    <span className="text-sm text-gray-500">
+                      {medication?.productVariant?.length} /{" "}
+                      {medicationVariants?.length} variants
+                    </span>
+                  </div>
+
+                  <div className="space-y-0 rounded-[10px] border border-gray-200 overflow-hidden">
+                    <div className="flex justify-between items-center bg-white py-[9px] px-4 border-b border-gray-200">
+                      <div className="text-xs font-medium text-gray-500 uppercase tracking-wide w-1/2">
+                        VARIANTS
+                      </div>
+                      {/* <div className="text-xs font-medium text-gray-500 uppercase w-1/3 ">
                       PHARMACY IDENTIFIER
                     </div> */}
-                    <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">
-                      DEFAULT PRICE
+                      <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">
+                        DEFAULT PRICE
+                      </div>
                     </div>
-                  </div>
 
-                  {medicationVariants.map((variant: PharmacyProductVariant) => {
-                    return (
-                      <div
-                        key={variant._id}
-                        className="flex justify-between items-center py-3 px-4 bg-light-background border-b border-gray-200 last:border-b-0"
-                      >
-                        <div className="text-gray-900 w-1/2">
-                          <span className="mt-[100px]">
-                            {/* {medication?.medicationCatalogue?.drugName}{" "} */}
-                            {variant?.productVariant?.strength}
-                          </span>
-                        </div>
-                        {/* <div className="w-1/3">
+                    {medicationVariants.map(
+                      (variant: PharmacyProductVariant) => {
+                        console.log("variant", variant);
+                        return (
+                          <div
+                            key={variant?._id}
+                            className="flex justify-between items-center py-3 px-4 bg-light-background border-b border-gray-200 last:border-b-0"
+                          >
+                            <div className="text-gray-900 w-1/2">
+                              <span className="mt-[100px]">
+                                {variant?.productVariant?.name}
+                              </span>
+                            </div>
+                            {/* <div className="w-1/3">
                           <Input
                             type="text"
                             placeholder="e.g., SKU-12345"
@@ -272,39 +278,47 @@ export default function ModifyPrices() {
                             className="w-full h-10 rounded-md px-3 py-2 border-gray-300 bg-white"
                           />
                         </div> */}
-                        <div className="relative">
-                          <span className="absolute left-1 top-1/2 transform -translate-y-1/2 text-gray-500">
-                            $
-                          </span>
-                          <Input
-                            type="number"
-                            step="0.01"
-                            min="0"
-                            placeholder="0"
-                            value={prices[variant.productVariant?._id] || ""}
-                            onChange={(e) => {
-                              handlePriceChange(
-                                variant.productVariant?._id,
-                                e.target.value
-                              );
-                            }}
-                            className="w-[115px] h-[38px] rounded-[6px] px-[12px] py-[10px] border-card-border bg-white text-right"
-                          />
-                        </div>
-                      </div>
-                    );
-                  })}
+                            <div className="relative">
+                              <span className="absolute left-1 top-1/2 transform -translate-y-1/2 text-gray-500">
+                                $
+                              </span>
+                              <Input
+                                type="number"
+                                step="0.01"
+                                min="0"
+                                placeholder="0"
+                                value={
+                                  prices[variant?.productVariant?._id] || ""
+                                }
+                                onChange={(e) => {
+                                  handlePriceChange(
+                                    variant?.productVariant?._id,
+                                    e.target.value
+                                  );
+                                }}
+                                className="w-[115px] h-[38px] rounded-[6px] px-[12px] py-[10px] border-card-border bg-white text-right"
+                              />
+                            </div>
+                          </div>
+                        );
+                      }
+                    )}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })
+          )}
         </div>
         <div className="mt-3">
-          <PaginationWithLinks
-            page={page}
-            pageSize={perPage}
-            totalCount={allMedications?.meta?.itemCount}
-          />
+          {sortedMedications.length > 0 && (
+            <div className="mt-3">
+              <PaginationWithLinks
+                page={page}
+                pageSize={perPage}
+                totalCount={allMedications?.meta?.itemCount}
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -127,7 +127,8 @@ export const nestedOrgItems = [
 export const nestedPharmacyItems = [
   {
     title: "Medication Library",
-    url: "/pharmacy/medications/view-catalogue",
+    // url: "/pharmacy/medications/view-catalogue",
+    url: "/pharmacy/medications/catalogues",
   },
   {
     title: "Organization",
@@ -540,4 +541,14 @@ export const organizations = [
   { id: "org-8", value: "Oscorp" },
   { id: "org-9", value: "Redcorp" },
   { id: "org-10", value: "Spectre Enterprises" },
+];
+
+export const dosageFormOptions = [
+  { label: "Injectable", value: "Injectable" },
+  { label: "Capsule", value: "Capsule" },
+  { label: "Tablet", value: "Tablet" },
+  { label: "Spray", value: "Spray" },
+  { label: "Cream", value: "Cream" },
+  { label: "Gel", value: "Gel" },
+  { label: "Solution", value: "Solution" },
 ];

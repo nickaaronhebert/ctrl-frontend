@@ -30,7 +30,7 @@ export function SelectSubOrganization() {
         name="subOrganization"
         options={subOrgOptions}
         label="Sub-Organization"
-        isRequired={true}
+        // isRequired={true}
         className="w-full min-h-[56px]"
         placeholder="Select an Sub-Organization"
         onSearch={handleSubOrganization}

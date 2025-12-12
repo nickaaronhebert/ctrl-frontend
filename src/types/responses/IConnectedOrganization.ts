@@ -32,5 +32,9 @@ export interface OrganizationResponse {
     status: string;
     invoiceFrequency: BillingFrequency;
     invitation: string;
+    catalogueVariant?: {
+      id: string;
+      name: string;
+    };
   };
 }

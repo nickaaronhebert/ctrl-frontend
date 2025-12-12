@@ -24,6 +24,7 @@ import TextAreaElement from "@/components/Form/textarea-elements";
 import { useCreateWebhookMutation } from "@/redux/services/webhook";
 import type { Auth } from "@/types/requests/ICreateWebhook";
 import { toast } from "sonner";
+import useAuthentication from "@/hooks/use-authentication";
 
 interface CreateWebhookProps {
   open?: boolean;
@@ -42,9 +43,11 @@ const authenticationType = [
 ];
 
 export function CreateWebhook({ open, onOpenChange }: CreateWebhookProps) {
-  const [status, setStatus] = useState(true);
+  const [status, setStatus] = useState(false);
   const [tracking, setTracking] = useState(false);
   const [createWebhook] = useCreateWebhookMutation();
+  const { user } = useAuthentication();
+
   const form = useForm<z.infer<typeof createWebhookSchema>>({
     mode: "onTouched",
     resolver: zodResolver(createWebhookSchema),
@@ -58,19 +61,51 @@ export function CreateWebhook({ open, onOpenChange }: CreateWebhookProps) {
       authenticationType: "",
     },
   });
-  const { reset } = form;
+  const { reset, setError, clearErrors } = form;
   const authType = form.watch("authenticationType");
+
+  const handleCheckboxChange = (checkboxType: "status" | "tracking") => {
+    if (checkboxType === "status") {
+      setStatus(!status);
+    } else {
+      setTracking(!tracking);
+    }
+    if (status || tracking) {
+      clearErrors("root");
+    }
+  };
 
   async function onSubmit(values: z.infer<typeof createWebhookSchema>) {
     console.log("values", values);
+
+    if (!status && !tracking) {
+      setError("root", {
+        message: "At least one webhook type must be selected",
+      });
+      return;
+    }
+
     const eventTypes = [];
     if (status) eventTypes.push("status_update");
     if (tracking) eventTypes.push("tracking_received");
 
+    let parsedHeaders = {};
+    if (values.authenticationType === "header_auth") {
+      if (values.header) {
+        try {
+          parsedHeaders = JSON.parse(values.header);
+        } catch (error) {
+          setError("header", { message: "Invalid JSON format for headers" });
+          toast.error("Invalid JSON format for headers");
+          return;
+        }
+      }
+    }
+
     const auth: Auth =
       values.authenticationType === "header_auth"
         ? {
-            headers: values.header,
+            headers: parsedHeaders,
           }
         : {
             username: values.userName,
@@ -80,7 +115,7 @@ export function CreateWebhook({ open, onOpenChange }: CreateWebhookProps) {
     await createWebhook({
       name: values.name,
       targetUrl: values.targetUrl,
-      targetOrganization: values.subOrganization,
+      targetOrganization: values.subOrganization || user?.organization?._id,
       authType: values.authenticationType,
       authConfig: auth,
       eventTypes: eventTypes,
@@ -181,7 +216,7 @@ export function CreateWebhook({ open, onOpenChange }: CreateWebhookProps) {
                     id="status"
                     className="border-[#9EA5AB]"
                     checked={status}
-                    onCheckedChange={() => setStatus(!status)}
+                    onCheckedChange={() => handleCheckboxChange("status")}
                   />
                   <div className="grid gap-2">
                     <Label htmlFor="status">Status Changed at Pharmacy</Label>
@@ -196,7 +231,7 @@ export function CreateWebhook({ open, onOpenChange }: CreateWebhookProps) {
                     id="tracking"
                     className="border-[#9EA5AB]"
                     checked={tracking}
-                    onCheckedChange={() => setTracking(!tracking)}
+                    onCheckedChange={() => handleCheckboxChange("tracking")}
                   />
                   <div className="grid gap-2">
                     <Label htmlFor="tracking">Tracking Received</Label>
@@ -205,9 +240,22 @@ export function CreateWebhook({ open, onOpenChange }: CreateWebhookProps) {
                     </p>
                   </div>
                 </div>
+                {form.formState.errors.root && (
+                  <p className="text-sm text-red-500">
+                    {form.formState.errors.root.message}
+                  </p>
+                )}
               </div>
 
               <SelectSubOrganization />
+
+              <p className="text-sm border-l-4 border-primary p-3 bg-white shadow-[0px_2px_40px_0px_#00000014]">
+                If No sub-organization is selected. This Webhook will be created
+                for{" "}
+                <span className="font-medium underline underline-offset-2">
+                  {user?.organization?.name}
+                </span>
+              </p>
 
               <div className="flex items-center justify-end gap-2.5 mt-10 pb-4 px-4">
                 <Button

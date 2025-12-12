@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import { useViewAffiliateProvidersQuery } from "@/redux/services/provider";
 import {
   useAcceptConnectionInviteMutation,
+  useGetCatalogueListQuery,
   useRejectConnectionInviteMutation,
 } from "@/redux/services/pharmacy";
 import { cn } from "@/lib/utils";
@@ -21,6 +22,8 @@ import { BillingFrequencySelector } from "../common/BillingFrequencySelector/Bil
 import { CreateOrganizationCredentialsModal } from "../common/CreateOrganizationCredentialsModal/CreateOrganizationCredentialsModal";
 import { useViewAllSubOrganizationQuery } from "@/redux/services/admin";
 import { SubOrganizations } from "../common/SubOrganizations/SubOrganizations";
+import { useSearchParams } from "react-router-dom";
+import { CatalogueOrganizationSelector } from "../common/CatalogueOrganizationSelector/CatalogueOrganizationSelector";
 
 interface PharmacyConnectDialogProps {
   id: string;
@@ -47,12 +50,16 @@ export default function OrganizationConnectActionDialog({
   status,
   isAffiliationActive,
 }: PharmacyConnectDialogProps) {
+  const [searchParams] = useSearchParams();
+  const page = parseInt(searchParams.get("page") || "1", 10);
+  const perPage = parseInt(searchParams.get("per_page") ?? "100", 10);
   const [rejectInvitation] = useRejectConnectionInviteMutation();
   const [acceptInvitation] = useAcceptConnectionInviteMutation();
   const [selected, setSelected] = useState<BillingFrequency>("daily");
   const [checked, setChecked] = useState<boolean>(true);
+  const [selectedPlan, setSelectedPlan] = useState("");
   const [activeTab, setActiveTab] = useState<
-    "affiliatedProviders" | "billing" | "subOrgs"
+    "affiliatedProviders" | "billing" | "subOrgs" | "assignCatalogue"
   >("billing");
   const [showCredentialsModal, setShowCredentailsModal] =
     useState<boolean>(false);
@@ -69,6 +76,7 @@ export default function OrganizationConnectActionDialog({
       invitation: invitationId,
       invoiceFrequency: selected,
       generateExternalInvoice: checked,
+      ...(selectedPlan && { pharmacyCatalogueVariant: selectedPlan }),
     })
       .unwrap()
       .then(() => {
@@ -130,10 +138,17 @@ export default function OrganizationConnectActionDialog({
     }
   );
 
+  const { data: catalogueList } = useGetCatalogueListQuery({
+    page,
+    perPage,
+  });
+
+  console.log("selectedPlan", selectedPlan);
+
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="min-w-[700px] ">
+        <DialogContent className="min-w-[1100px] ">
           <DialogTitle className="pt-4 pb-2 px-5 border-b  ">
             Request Details
           </DialogTitle>
@@ -167,7 +182,7 @@ export default function OrganizationConnectActionDialog({
                 activeTab === "billing"
                   ? "bg-primary text-white"
                   : "bg-slate-background text-secondary-foreground hover:bg-slate-background",
-                "p-[30px] w-[33%]"
+                "p-[30px] w-[24%]"
               )}
               onClick={() => setActiveTab("billing")}
             >
@@ -182,7 +197,7 @@ export default function OrganizationConnectActionDialog({
                 activeTab === "affiliatedProviders"
                   ? "bg-primary text-white"
                   : "bg-slate-background text-secondary-foreground hover:bg-slate-background",
-                "p-[30px] w-[33%]"
+                "p-[30px] w-[24%]"
               )}
               onClick={() => setActiveTab("affiliatedProviders")}
             >
@@ -197,12 +212,27 @@ export default function OrganizationConnectActionDialog({
                 activeTab === "subOrgs"
                   ? "bg-primary text-white"
                   : "bg-slate-background text-secondary-foreground hover:bg-slate-background",
-                "p-[30px] w-[33%]"
+                "p-[30px] w-[25%]"
               )}
               onClick={() => setActiveTab("subOrgs")}
             >
               <span className=" font-medium text-base mx-2.5">
                 Sub-Organizations
+              </span>
+            </Button>
+            <Button
+              size={"xxl"}
+              variant={"tabs"}
+              className={cn(
+                activeTab === "assignCatalogue"
+                  ? "bg-primary text-white"
+                  : "bg-slate-background text-secondary-foreground hover:bg-slate-background",
+                "p-[30px] w-[25%]"
+              )}
+              onClick={() => setActiveTab("assignCatalogue")}
+            >
+              <span className=" font-medium text-base mx-2.5">
+                Assign Catalogue
               </span>
             </Button>
           </div>
@@ -220,6 +250,14 @@ export default function OrganizationConnectActionDialog({
           )}
 
           {activeTab === "subOrgs" && <SubOrganizations data={subOrgData} />}
+
+          {activeTab === "assignCatalogue" && (
+            <CatalogueOrganizationSelector
+              data={catalogueList!}
+              selectedPlan={selectedPlan}
+              setSelectedPlan={setSelectedPlan}
+            />
+          )}
 
           <DialogFooter className="p-5">
             <Button

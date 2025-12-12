@@ -61,6 +61,14 @@ export default function MedDetails({
   variants,
   form,
 }: MedDetailsProps) {
+  const sortedVariants = variants.slice().sort((a, b) => {
+    const strengthA = parseInt(a.strength, 10);
+    const strengthB = parseInt(b.strength, 10);
+
+    if (strengthA < strengthB) return -1;
+    if (strengthA > strengthB) return 1;
+    return 0;
+  });
   return (
     <div id="medicationDetails" className="bg-white rounded-[15px] ">
       {/* Header */}
@@ -86,8 +94,8 @@ export default function MedDetails({
             <CustomBadge variant="purple">{category}</CustomBadge>
           </InfoRow>
           <InfoRow label="Strength">
-            <div className="flex gap-2">
-              {variants?.map((variant) => {
+            <div className="flex flex-wrap gap-2">
+              {sortedVariants?.map((variant) => {
                 return (
                   <span
                     key={variant.id}

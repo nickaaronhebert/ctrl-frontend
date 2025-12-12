@@ -1,7 +1,7 @@
 export type Auth = {
   username?: string;
   password?: string;
-  headers?: string;
+  headers?: { [key: string]: string };
 };
 
 export interface ICreateWebhookRequest {
@@ -9,6 +9,10 @@ export interface ICreateWebhookRequest {
   authType: string;
   authConfig: Auth;
   targetUrl: string;
-  targetOrganization: string;
+  targetOrganization?: string;
   eventTypes: string[];
+}
+
+export interface IEditWebhookRequest extends ICreateWebhookRequest {
+  id: string;
 }
