@@ -30,7 +30,7 @@ export interface EncounterDetails {
   updatedAt: string;
   id: string;
   telegraOrder?: {
-    visitLink: string;
+    pdfLink: string;
   };
   encounterProduct: {
     id: string;
