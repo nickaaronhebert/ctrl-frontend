@@ -23,6 +23,7 @@ export type TransmissionDetails = Transmission & {
 
 interface IndividualTranmissionDetails extends Transmission {
   createdAt: string;
+  order: any
 }
 
 export interface IViewAllTransmissionsResponse {

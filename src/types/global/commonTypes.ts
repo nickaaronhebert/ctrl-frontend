@@ -206,6 +206,7 @@ export interface Order {
   id: string;
   createdAt: string;
   transmissionMethod: string;
+  encounter: any;
 }
 
 export interface CardDetails {

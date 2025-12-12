@@ -38,8 +38,13 @@ const prescriptionDisplayFields: {
 
 export default function PrescriptionCard({
   prescriptions,
+  telegraProvider,
 }: {
   prescriptions: Prescription[];
+  telegraProvider?: {
+    name: string;
+    npi: string;
+  };
 }) {
   return (
     <div className=" p-5 border border-card-border rounded-bl-[10px] rounded-br-[10px] ">
@@ -59,8 +64,16 @@ export default function PrescriptionCard({
               </div>
 
               <div>
-                <h4 className="text-sm font-semibold text-[#3E4D61]">{`${prescription.provider.firstName} ${prescription.provider.lastName}`}</h4>
-                <h6 className="text-[10px] font-medium text-[#47499A]">{`(NPI: ${prescription.provider.npi})`}</h6>
+                {prescription?.provider?.firstName ? (
+                  <h4 className="text-sm font-semibold text-[#3E4D61]">{`${prescription?.provider?.firstName} ${prescription?.provider?.lastName}`}</h4>
+                ) : (
+                  <h4 className="text-sm font-semibold text-[#3E4D61]">
+                    {telegraProvider?.name}
+                  </h4>
+                )}
+                <h6 className="text-[10px] font-medium text-[#47499A]">{`(NPI: ${
+                  prescription?.provider?.npi ?? telegraProvider?.npi
+                })`}</h6>
               </div>
             </div>
 

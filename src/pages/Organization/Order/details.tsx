@@ -49,12 +49,14 @@ export default function ViewOrderDetails() {
     transmissionsLength,
     medicationsLength,
     order,
+    encounter
   } = useViewOrderByIdQuery(id as string, {
     selectFromResult: ({ data, isLoading, isError }) => ({
       data: data?.data,
       patient: data?.data?.patient,
       transmissions: data?.data?.transmissions,
       transmissionsLength: data?.data?.transmissions?.length,
+      encounter: data?.data?.encounter,
       isLoading: isLoading,
       isError: isError,
       medicationsLength:
@@ -178,7 +180,7 @@ export default function ViewOrderDetails() {
             order={{ ...order, medicationCatalogueLength: medicationsLength }}
           />
           <PatientCard patient={patient} />
-          <TransmissionCard transmissions={transmissions} />
+          <TransmissionCard transmissions={transmissions} telegraProvider={encounter?.telegraProvider} />
         </div>
       </div>
     </div>
