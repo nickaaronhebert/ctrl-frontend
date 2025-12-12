@@ -27,8 +27,9 @@ export function organizationPatientColumns(): ColumnDef<PatientDetails>[] {
       header: "Demographics",
 
       cell: ({ row }) => {
-        const { gender, createdAt } = row.original;
-        const formattedDate = new Date(createdAt).toLocaleDateString("en-US");
+        const { gender, dob } = row.original;
+        const formattedDate = new Date(dob).toLocaleDateString("en-US");
+
         return (
           <p className="text-xs font-medium">{`${gender}, ${formattedDate}`}</p>
         );
