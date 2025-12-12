@@ -63,6 +63,17 @@ const medicationApi = baseApi.injectEndpoints({
           : [{ type: "Medication_Catalogue", id: "LIST" }];
       },
     }),
+    getLinkedCatalogue: builder.query<
+      MedicationCatalogueResponse,
+      ICommonSearchQuery
+    >({
+      query: ({ page, perPage, q }) => {
+        return {
+          url: `/organization/available-medications?page=${page}&limit=${perPage}&q=${q}`,
+          method: "GET",
+        };
+      },
+    }),
     getSingleMedicationCatalogueDetails: builder.query<
       IGetMedicationCatalogueDetailsResponse,
       string
@@ -109,6 +120,7 @@ export const {
   useCreateMedicationMutation,
   useGetMedicationDetailsByOrgQuery,
   useEditMedicationMutation,
+  useGetLinkedCatalogueQuery,
 } = medicationApi;
 
 export default medicationApi;

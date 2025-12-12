@@ -3,7 +3,9 @@ import { z } from "zod";
 export const orgCredentialSchema = z
   .object({
     platformType: z.enum(["basic", "token"]),
-    apiBaseUrl: z.string().optional(),
+    apiBaseUrl: z.string().min(1, {
+      message: "API base url is required",
+    }),
     username: z.string().optional(),
     password: z.string().optional(),
     accessToken: z.string().optional(),
@@ -31,6 +33,15 @@ export const orgCredentialSchema = z
           message:
             "Password must be at least 8 characters for basic authentication",
           path: ["password"],
+        });
+      }
+    }
+    if (data.platformType === "token") {
+      if (!data.apiBaseUrl || data.apiBaseUrl.trim() === "") {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "API Base URL is required for token authentication",
+          path: ["apiBaseUrl"],
         });
       }
     }

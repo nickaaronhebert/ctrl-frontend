@@ -11,8 +11,9 @@ import {
   type Medication,
   type Variant,
 } from "@/pages/Organization/AccessControl/AccessDetail";
-import { useGetMedicationCatalogueQuery } from "@/redux/services/medication";
 import { useState } from "react";
+import { useGetLinkedCatalogueQuery } from "@/redux/services/medication";
+
 type MedicationSelectionProps = {
   selectedMedication: Medication | null;
   setSelectedMedication: (med: Medication) => void;
@@ -28,7 +29,7 @@ export function MedicationSelection({
 }: MedicationSelectionProps) {
   const [open, setOpen] = useState<boolean>(false);
 
-  const { data, isError, isLoading } = useGetMedicationCatalogueQuery(
+  const { data, isError, isLoading } = useGetLinkedCatalogueQuery(
     {
       page: 1,
       perPage: 100,

@@ -11,13 +11,17 @@ interface OrgProps {
   organization: string;
   invitation: string;
   activeStatus?: string;
+  data?: any;
+  setSelected?: any;
 }
 
 export default function ViewPharmacySubOrganization({
   organization,
   invitation,
   activeStatus,
-}: OrgProps) {
+}: // data,
+// setSelected,
+OrgProps) {
   const [searchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1", 10);
   const perPage = parseInt(searchParams.get("per_page") ?? "1000", 10);
@@ -32,6 +36,12 @@ export default function ViewPharmacySubOrganization({
       }),
     }
   );
+
+  // useEffect(() => {
+  //   if (data?.data?.invoiceFrequency) {
+  //     setSelected(data?.data?.invoiceFrequency as any);
+  //   }
+  // }, [data?.data]);
 
   const filteredData = useMemo(() => {
     if (activeStatus === "sharedSubOrgs") {
