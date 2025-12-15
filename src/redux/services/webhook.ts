@@ -8,6 +8,7 @@ import type {
   IGetWebhookDetailsResponse,
 } from "@/types/responses/IGetAllWebhook";
 import type { ICommonSearchQuery } from "@/types/requests/search";
+import type { WebhookEventResponse } from "@/types/responses/IEventLog";
 
 const webhookApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -72,6 +73,23 @@ const webhookApi = baseApi.injectEndpoints({
       invalidatesTags: (result) =>
         result ? [{ type: "Webhook", id: "LIST" }] : [],
     }),
+
+    getEventLogs: builder.query<
+      WebhookEventResponse,
+      ICommonSearchQuery & { webhookConfigId?: string }
+    >({
+      query: ({ page, perPage, startDate, endDate, webhookConfigId }) => ({
+        url: webhookConfigId
+          ? `/webhook/${webhookConfigId}/events`
+          : `/webhook/events`,
+        params: {
+          page,
+          limit: perPage,
+          ...(startDate && { startDate }),
+          ...(endDate && { endDate }),
+        },
+      }),
+    }),
   }),
 });
 
@@ -81,6 +99,7 @@ export const {
   useGetWebhookDetailsQuery,
   useEditWebhookMutation,
   useDeleteWebhookMutation,
+  useGetEventLogsQuery,
 } = webhookApi;
 
 export default webhookApi;

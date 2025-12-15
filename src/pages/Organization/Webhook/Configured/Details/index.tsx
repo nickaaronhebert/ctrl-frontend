@@ -6,10 +6,10 @@ import { useGetWebhookDetailsQuery } from "@/redux/services/webhook";
 import { Link, useParams } from "react-router-dom";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { convertExtendedDate } from "@/lib/utils";
+import { useGetEventLogsQuery } from "@/redux/services/webhook";
 
 export default function ConfiguredWebhookDetails() {
   const { id } = useParams();
-  console.log(id);
   const [openEditWebhook, setOpenEditWebhook] = useState(false);
   const { data, isLoading } = useGetWebhookDetailsQuery(id!, {
     skip: !id,
@@ -19,7 +19,17 @@ export default function ConfiguredWebhookDetails() {
     }),
   });
 
-  if (!id || isLoading) {
+  const { data: eventDetail, isLoading: eventsLoading } = useGetEventLogsQuery(
+    {
+      page: 1,
+      perPage: 10,
+      webhookConfigId: id,
+    },
+    {
+      skip: !id,
+    }
+  );
+  if (!id || isLoading || eventsLoading) {
     return (
       <div className="h-screen justify-center items-center">
         <LoadingSpinner />
@@ -88,7 +98,7 @@ export default function ConfiguredWebhookDetails() {
             </div>
           </div>
 
-          <Logs />
+          <Logs data={eventDetail} />
         </div>
       </div>
     </div>

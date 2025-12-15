@@ -4,7 +4,44 @@ import type { WebhookEvent } from "@/types/responses/IEventLog";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
 
-export function webhookLogsColumns(): ColumnDef<WebhookEvent>[] {
+// export interface EventLog {
+//   _id: string;
+//   eventId: string;
+
+//   direction: "outbound" | "inbound";
+
+//   eventType: string;
+//   subEventType: string;
+
+//   webhookStatus: "success" | "failed";
+
+//   transmission: {
+//     _id: string;
+//     transmissionId: string;
+//   };
+
+//   webhook: {
+//     _id: string;
+//     name: string;
+//   };
+
+//   pharmacy: {
+//     _id: string;
+//     name: string;
+//   };
+
+//   requestPayload: {
+//     transmission: string;
+//     status: string | null;
+//     trackingUrl: string;
+//   };
+
+//   createdAt: string; // ISO string
+//   updatedAt: string; // ISO string
+//   __v: number;
+// }
+
+export function eventLogColumns(): ColumnDef<WebhookEvent>[] {
   return [
     {
       accessorKey: "eventId",

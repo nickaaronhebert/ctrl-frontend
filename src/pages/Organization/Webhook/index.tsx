@@ -2,6 +2,7 @@ import { CreateWebhook } from "./Create";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import ConfiguredWebhooks from "./Configured";
+import EventLogs from "./EventLogs";
 
 export default function Webhook() {
   const [openCreateWebhook, setOpenCreateWebhook] = useState(false);
@@ -54,7 +55,7 @@ export default function Webhook() {
         </div>
         <div className="">
           {activeState === "configured_webhook" && <ConfiguredWebhooks />}
-          {activeState === "event_logs" && <div>Event Logs</div>}
+          {activeState === "event_logs" && <EventLogs />}
         </div>
       </div>
     </div>
