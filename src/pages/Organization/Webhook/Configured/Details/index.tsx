@@ -23,7 +23,7 @@ export default function ConfiguredWebhookDetails() {
     {
       page: 1,
       perPage: 10,
-      webhookConfigId: id,
+      webhook: id,
     },
     {
       skip: !id,

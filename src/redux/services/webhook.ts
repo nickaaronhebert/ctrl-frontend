@@ -76,17 +76,16 @@ const webhookApi = baseApi.injectEndpoints({
 
     getEventLogs: builder.query<
       WebhookEventResponse,
-      ICommonSearchQuery & { webhookConfigId?: string }
+      ICommonSearchQuery & { webhook?: string }
     >({
-      query: ({ page, perPage, startDate, endDate, webhookConfigId }) => ({
-        url: webhookConfigId
-          ? `/webhook/${webhookConfigId}/events`
-          : `/webhook/events`,
+      query: ({ page, perPage, startDate, endDate, webhook }) => ({
+        url: "/webhook/events",
         params: {
           page,
           limit: perPage,
           ...(startDate && { startDate }),
           ...(endDate && { endDate }),
+          ...(webhook && { webhook }),
         },
       }),
     }),
