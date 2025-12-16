@@ -1,4 +1,3 @@
-import { convertExtendedDate } from "@/lib/utils";
 import type { Webhook } from "@/types/responses/IGetAllWebhook";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Link } from "react-router-dom";
@@ -85,14 +84,19 @@ export function webhookColumns(): ColumnDef<Webhook>[] {
     // },
     {
       accessorKey: "createdAt",
-      header: "Created On",
+      header: "Created At",
       cell: ({ row }) => {
-        const formattedDate = convertExtendedDate(row?.getValue("createdAt"));
-        return (
-          <>
-            <p className="text-[14px] font-medium">{formattedDate}</p>
-          </>
-        );
+        const formattedDate = new Date(
+          row.original.createdAt
+        ).toLocaleDateString("en-US", {
+          month: "short",
+          day: "2-digit",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: true,
+        });
+        return <p className="text-sm">{formattedDate}</p>;
       },
     },
 

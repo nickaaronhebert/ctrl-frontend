@@ -88,7 +88,14 @@ export function webhookLogsColumns(): ColumnDef<WebhookEvent>[] {
       cell: ({ row }) => {
         const formattedDate = new Date(
           row.original.createdAt
-        ).toLocaleDateString("en-US");
+        ).toLocaleDateString("en-US", {
+          month: "short",
+          day: "2-digit",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: true,
+        });
         return <p className="text-sm">{formattedDate}</p>;
       },
     },
