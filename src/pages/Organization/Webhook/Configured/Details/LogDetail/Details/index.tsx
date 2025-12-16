@@ -4,11 +4,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import type { WebhookEvent } from "@/types/responses/IEventLog";
 
 interface CreateWebhookProps {
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
-  data?: any;
+  data?: WebhookEvent;
 }
 
 export function WebHookLogDetails({
@@ -85,16 +86,18 @@ export function WebHookLogDetails({
               <div>
                 <div className="text-sm text-gray-500 mb-1">Date Created</div>
                 <div className="text-base font-semibold">
-                  {new Date(data?.createdAt)
-                    .toLocaleString("en-US", {
-                      month: "short",
-                      day: "2-digit",
-                      year: "numeric",
-                      hour: "2-digit",
-                      minute: "2-digit",
-                      hour12: true,
-                    })
-                    .replace(",", "")}
+                  {data?.createdAt
+                    ? new Date(data.createdAt)
+                        .toLocaleString("en-US", {
+                          month: "short",
+                          day: "2-digit",
+                          year: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                          hour12: true,
+                        })
+                        .replace(",", "")
+                    : "-"}
                 </div>
               </div>
             </div>

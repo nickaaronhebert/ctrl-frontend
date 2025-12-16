@@ -78,7 +78,16 @@ const webhookApi = baseApi.injectEndpoints({
       WebhookEventResponse,
       ICommonSearchQuery & { webhook?: string }
     >({
-      query: ({ page, perPage, startDate, endDate, webhook }) => ({
+      query: ({
+        page,
+        perPage,
+        startDate,
+        endDate,
+        webhook,
+        q = "",
+        direction = "",
+        webhookStatus = "",
+      }) => ({
         url: "/webhook/events",
         params: {
           page,
@@ -86,6 +95,9 @@ const webhookApi = baseApi.injectEndpoints({
           ...(startDate && { startDate }),
           ...(endDate && { endDate }),
           ...(webhook && { webhook }),
+          ...(q && { q }),
+          ...(direction && { direction }),
+          ...(webhookStatus && { webhookStatus }),
         },
       }),
     }),

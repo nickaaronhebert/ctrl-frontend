@@ -37,6 +37,8 @@ export default function ConfiguredWebhookDetails() {
     );
   }
 
+  console.log("data>>>]>", data);
+
   return (
     <div>
       <div className="flex justify-between bg-[#EFE8F5] p-5">
@@ -49,10 +51,7 @@ export default function ConfiguredWebhookDetails() {
               Back to Webhooks
             </p>
           </Link>
-          <h6 className="text-2xl font-semibold mt-1">
-            {" "}
-            Patient Portal Webhook
-          </h6>
+          <h6 className="text-2xl font-semibold mt-1">{data?.name}</h6>
         </div>
         <EditWebhook
           open={openEditWebhook}
@@ -60,10 +59,6 @@ export default function ConfiguredWebhookDetails() {
           values={data}
           id={id}
         />
-        {/* <CreateWebhook
-                  open={openCreateWebhook}
-                  onOpenChange={setOpenCreateWebhook}
-        /> */}
       </div>
 
       <div className="p-8">
@@ -98,7 +93,7 @@ export default function ConfiguredWebhookDetails() {
             </div>
           </div>
 
-          <Logs data={eventDetail} />
+          <Logs response={eventDetail} />
         </div>
       </div>
     </div>

@@ -25,6 +25,7 @@ export interface WebhookEvent {
   webhook: {
     _id: string;
     name: string;
+    targetUrl?: string;
   };
 
   requestPayload: {
@@ -32,6 +33,7 @@ export interface WebhookEvent {
     status: string | null;
     trackingUrl: string;
   };
+  responsePayload: any;
 
   createdAt: string;
   updatedAt: string;

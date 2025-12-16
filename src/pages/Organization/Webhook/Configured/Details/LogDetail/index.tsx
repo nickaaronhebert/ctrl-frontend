@@ -3,12 +3,16 @@ import { useMemo } from "react";
 import { useDataTable } from "@/hooks/use-data-table";
 import { DataTablePagination } from "@/components/data-table/data-table-pagination";
 import { DataTable } from "@/components/data-table/data-table";
+import type { WebhookEventResponse } from "@/types/responses/IEventLog";
 
-export default function Logs({ data }: any) {
+interface LogsProps {
+  response?: WebhookEventResponse;
+}
+
+export default function Logs({ response }: LogsProps) {
   const columns = useMemo(() => webhookLogsColumns(), []);
-  console.log("data>>>>>>", data);
   const { table } = useDataTable({
-    data: data?.data || [],
+    data: response?.data || [],
     columns,
     // filterFields,
     pageCount: 1,
