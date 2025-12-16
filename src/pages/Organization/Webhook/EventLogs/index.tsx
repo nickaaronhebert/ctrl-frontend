@@ -85,6 +85,16 @@ export default function EventLogs() {
     },
   ];
 
+  const handleClearFilters = () => {
+    setValue("");
+    setDirection("");
+    setStatus("");
+    setDateRange(undefined);
+    table.resetColumnFilters();
+    table.resetGlobalFilter();
+    window.history.replaceState(null, "", window.location.pathname);
+  };
+
   const { table } = useDataTable({
     data: data || [],
     columns,
@@ -123,6 +133,13 @@ export default function EventLogs() {
             setValue={setDirection}
             placeholder="Directions"
           />
+          <Button
+            variant="outline"
+            onClick={handleClearFilters}
+            className="mb-2 h-[45px]"
+          >
+            Clear Filters
+          </Button>
         </div>
         <DataTable table={table} headerClass={false} />
         <DataTablePagination table={table} />

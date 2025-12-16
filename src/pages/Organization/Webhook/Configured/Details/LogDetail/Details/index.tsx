@@ -1,10 +1,15 @@
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
 import type { WebhookEvent } from "@/types/responses/IEventLog";
+import { useReplayWebhookServiceMutation } from "@/redux/services/webhook";
+import { toast } from "sonner";
 
 interface CreateWebhookProps {
   open?: boolean;
@@ -17,10 +22,24 @@ export function WebHookLogDetails({
   onOpenChange,
   data,
 }: CreateWebhookProps) {
-  console.log("Data>", data);
+  const [replayWebhook, { isLoading }] = useReplayWebhookServiceMutation();
+
+  const handleReplay = async () => {
+    if (!data?._id) return;
+    try {
+      await replayWebhook({ eventId: data._id }).unwrap();
+      toast.success("Webhook replay triggered successfully");
+      onOpenChange?.(false);
+    } catch (error: any) {
+      toast.error(
+        error?.data?.message ?? "Failed to replay webhook. Please try again."
+      );
+    }
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="min-w-2xl max-h-[800px] overflow-y-scroll">
+      <DialogContent className="min-w-3xl max-h-[800px] overflow-y-scroll ">
         <DialogHeader className="flex-col border-b border-[#D9D9D9] px-5 py-1.5">
           <DialogTitle className="text-lg font-semibold p-2">
             Webhook Event Details
@@ -120,6 +139,21 @@ export function WebHookLogDetails({
             </div>
           </div>
         </div>
+        <DialogFooter className="p-2">
+          <DialogClose asChild>
+            <Button variant="outline">Close</Button>
+          </DialogClose>
+          {!data?.parentEventId && (
+            <Button
+              disabled={isLoading}
+              onClick={handleReplay}
+              className="text-white"
+              type="submit"
+            >
+              Replay
+            </Button>
+          )}
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

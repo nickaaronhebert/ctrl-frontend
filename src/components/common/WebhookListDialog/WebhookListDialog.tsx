@@ -36,7 +36,6 @@ const WebhookListDialog = ({
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          <SelectLabel>Organizations</SelectLabel>
           {data?.map((webhook: Webhook) => (
             <SelectItem key={webhook.id} value={webhook.id}>
               {webhook?.name}

@@ -9,6 +9,7 @@ import type {
 } from "@/types/responses/IGetAllWebhook";
 import type { ICommonSearchQuery } from "@/types/requests/search";
 import type { WebhookEventResponse } from "@/types/responses/IEventLog";
+import { TAG_GET_EVENTS } from "@/types/baseApiTags";
 
 const webhookApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -100,6 +101,14 @@ const webhookApi = baseApi.injectEndpoints({
           ...(webhookStatus && { webhookStatus }),
         },
       }),
+      providesTags: [TAG_GET_EVENTS],
+    }),
+    replayWebhookService: builder.mutation({
+      query: ({ eventId }: { eventId: string }) => ({
+        url: `/webhook/${eventId}/replay`,
+        method: "POST",
+      }),
+      invalidatesTags: [TAG_GET_EVENTS],
     }),
   }),
 });
@@ -111,6 +120,7 @@ export const {
   useEditWebhookMutation,
   useDeleteWebhookMutation,
   useGetEventLogsQuery,
+  useReplayWebhookServiceMutation,
 } = webhookApi;
 
 export default webhookApi;

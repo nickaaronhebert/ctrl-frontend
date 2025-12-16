@@ -25,6 +25,7 @@ import {
   TAG_WEBHOOK,
   TAG_GET_CATALOGUE_LIST,
   TAG_GET_PLAN_CATALOGUES,
+  TAG_GET_EVENTS,
 } from "@/types/baseApiTags";
 
 export const baseApi = createApi({
@@ -54,6 +55,7 @@ export const baseApi = createApi({
     TAG_WEBHOOK,
     TAG_GET_CATALOGUE_LIST,
     TAG_GET_PLAN_CATALOGUES,
+    TAG_GET_EVENTS,
   ],
   baseQuery: fetchBaseQuery({
     baseUrl:

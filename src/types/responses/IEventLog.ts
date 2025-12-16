@@ -34,7 +34,7 @@ export interface WebhookEvent {
     trackingUrl: string;
   };
   responsePayload: any;
-
+  parentEventId?: string;
   createdAt: string;
   updatedAt: string;
   __v: number;

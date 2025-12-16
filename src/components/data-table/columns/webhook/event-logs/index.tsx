@@ -92,6 +92,19 @@ export function eventLogColumns(): ColumnDef<WebhookEvent>[] {
       },
     },
     {
+      accessorKey: "pharmacy",
+      header: "Source",
+      cell: ({ row }) => {
+        const pharmacy = row.original.pharmacy;
+
+        return (
+          <div>
+            <p className="text-[14px] font-medium">{pharmacy?.name ?? "-"}</p>
+          </div>
+        );
+      },
+    },
+    {
       accessorKey: "direction",
       header: "Direction",
 
