@@ -48,6 +48,8 @@ const ActiveOrgDetails = () => {
     perPage,
   });
 
+  console.log("Catalogue List", catalogueList);
+
   const [activeStatus, setActiveStatus] = useState<
     "affiliates" | "sharedSubOrgs" | "independentsubOrgs"
   >("affiliates");
@@ -65,9 +67,9 @@ const ActiveOrgDetails = () => {
     if (data?.data?.invoiceFrequency) {
       setSelected(data?.data?.invoiceFrequency as BillingFrequency);
     }
-    if (data?.data?.catalogueVariant?.name) {
-      setSelectedPlan(data?.data?.catalogueVariant?.id);
-    }
+    // if (data?.data?.catalogueVariant?.name) {
+    //   setSelectedPlan(data?.data?.catalogueVariant?.id);
+    // }
   }, [data?.data]);
 
   const handleCatalogueChange = async (plan: string) => {
@@ -75,7 +77,7 @@ const ActiveOrgDetails = () => {
     try {
       await assignPharmacyCatalogue({
         organization: id as string,
-        pharmacyCatalogueVariant: plan,
+        pharmacyCatalogueVariant: plan || "",
       }).unwrap();
 
       toast.success("Catalogue Plan Updated Successfully", {
@@ -96,6 +98,13 @@ const ActiveOrgDetails = () => {
     }
   };
 
+  const nonStandardCataloguesCount =
+    catalogueList?.data?.filter((c) => c.name !== "Standard Catalogue")
+      .length ?? 0;
+
+  const dialogMinHeight =
+    nonStandardCataloguesCount > 0 ? "min-h-[400px]" : "min-h-[100px]";
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -103,8 +112,6 @@ const ActiveOrgDetails = () => {
       </div>
     );
   }
-
-  console.log("selectedPlan", selectedPlan);
 
   return (
     <>
@@ -286,8 +293,10 @@ const ActiveOrgDetails = () => {
       )}
       {openCatalogueModal && (
         <Dialog open={openCatalogueModal} onOpenChange={setOpenCatalogueModal}>
-          <DialogContent className="sm:max-w-[600px] min-h-[400px] p-4">
-            <DialogHeader className="">
+          <DialogContent
+            className={cn("sm:max-w-[600px] p-4", dialogMinHeight)}
+          >
+            <DialogHeader>
               <DialogTitle>Manage Catalogue</DialogTitle>
             </DialogHeader>
             <CatalogueOrganizationSelector

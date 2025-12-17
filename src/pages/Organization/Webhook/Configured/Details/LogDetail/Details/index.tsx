@@ -143,7 +143,7 @@ export function WebHookLogDetails({
           <DialogClose asChild>
             <Button variant="outline">Close</Button>
           </DialogClose>
-          {!data?.parentEventId && (
+          {!data?.parentEventId && data?.webhookStatus === "failed" && (
             <Button
               disabled={isLoading}
               onClick={handleReplay}

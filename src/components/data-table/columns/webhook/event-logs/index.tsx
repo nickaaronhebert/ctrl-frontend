@@ -92,10 +92,10 @@ export function eventLogColumns(): ColumnDef<WebhookEvent>[] {
       },
     },
     {
-      accessorKey: "pharmacy",
-      header: "Source",
+      accessorKey: "organization",
+      header: "Organization",
       cell: ({ row }) => {
-        const pharmacy = row.original.pharmacy;
+        const pharmacy = row.original.organization;
 
         return (
           <div>

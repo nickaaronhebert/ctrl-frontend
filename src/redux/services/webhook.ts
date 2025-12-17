@@ -77,7 +77,7 @@ const webhookApi = baseApi.injectEndpoints({
 
     getEventLogs: builder.query<
       WebhookEventResponse,
-      ICommonSearchQuery & { webhook?: string }
+      ICommonSearchQuery & { webhook?: string; organization?: string }
     >({
       query: ({
         page,
@@ -88,6 +88,7 @@ const webhookApi = baseApi.injectEndpoints({
         q = "",
         direction = "",
         webhookStatus = "",
+        organization = "",
       }) => ({
         url: "/webhook/events",
         params: {
@@ -99,6 +100,7 @@ const webhookApi = baseApi.injectEndpoints({
           ...(q && { q }),
           ...(direction && { direction }),
           ...(webhookStatus && { webhookStatus }),
+          ...(organization && { organization }),
         },
       }),
       providesTags: [TAG_GET_EVENTS],
@@ -109,6 +111,17 @@ const webhookApi = baseApi.injectEndpoints({
         method: "POST",
       }),
       invalidatesTags: [TAG_GET_EVENTS],
+    }),
+
+    getOrgsAndSubOrgs: builder.query<any, ICommonSearchQuery>({
+      query: ({ page, perPage }) => ({
+        url: `/organization/accessible?page=${page}&limit=${perPage}`,
+        method: "GET",
+        params: {
+          page,
+          limit: perPage,
+        },
+      }),
     }),
   }),
 });
@@ -121,6 +134,7 @@ export const {
   useDeleteWebhookMutation,
   useGetEventLogsQuery,
   useReplayWebhookServiceMutation,
+  useGetOrgsAndSubOrgsQuery,
 } = webhookApi;
 
 export default webhookApi;

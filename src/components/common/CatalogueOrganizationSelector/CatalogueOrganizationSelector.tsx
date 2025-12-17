@@ -22,16 +22,18 @@ export function CatalogueOrganizationSelector({
     }
   };
 
+  const nonStandardCatalogues =
+    data?.data?.filter((option) => option.name !== "Standard Catalogue") ?? [];
+
   return (
-    <div className="">
+    <>
       <div className="bg-[#E5F3FC] rounded-[10px] p-[14px] h-[60px] m-4 text-[#008CE3]  leading-[16px]  text-[13px] font-normal mb-4">
         If you don't assign a catalogue, the Default Catalogue will be
         automatically assigned.
       </div>
-      <div className="space-y-2 max-h-[200px] overflow-y-scroll m-4">
-        {data?.data
-          ?.filter((option) => option.name !== "Standard Catalogue")
-          .map((option) => {
+      {nonStandardCatalogues.length > 0 && (
+        <div className="space-y-2 max-h-[200px] overflow-y-scroll m-4">
+          {nonStandardCatalogues?.map((option) => {
             return (
               <div
                 key={option.id}
@@ -59,8 +61,6 @@ export function CatalogueOrganizationSelector({
                     </p>
                   </div>
                 </div>
-
-                {/* <RadioGroupItem id={option.id} value={option.id} /> */}
                 <Checkbox
                   id={option.id}
                   checked={selectedPlan === option.id}
@@ -69,7 +69,8 @@ export function CatalogueOrganizationSelector({
               </div>
             );
           })}
-      </div>
-    </div>
+        </div>
+      )}
+    </>
   );
 }

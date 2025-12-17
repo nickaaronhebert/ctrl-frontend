@@ -21,6 +21,8 @@ import { toEndOfDayUTC, toStartOfDayUTC } from "@/lib/utils";
 import WebhookListDialog from "@/components/common/WebhookListDialog/WebhookListDialog";
 import DirectionDialog from "@/components/common/DirectionDialog/DirectionDialog";
 import WebhookStatusDialog from "@/components/common/WebhookStatusDialog/WebhookStatusDialog";
+import { useGetOrgsAndSubOrgsQuery } from "@/redux/services/webhook";
+import OrgSubOrgDialog from "@/components/common/OrgSubOrgDialog/OrgSubOrgDialog";
 
 export type WebhookColumns = {
   name: string;
@@ -36,6 +38,7 @@ export default function EventLogs() {
   const page = parseInt(searchParams.get("page") || "1", 10);
   const perPage = parseInt(searchParams.get("per_page") ?? "100", 10);
   const [value, setValue] = useState<string>("");
+  const [organization, setOrganization] = useState<string>("");
   const [direction, setDirection] = useState<"inbound" | "outbound" | "">("");
   const [status, setStatus] = useState<"success" | "failed" | "">("");
   const eventId = searchParams.get("eventId") ?? "";
@@ -52,6 +55,7 @@ export default function EventLogs() {
       webhook: value,
       direction: direction,
       webhookStatus: status,
+      organization: organization,
     },
     {
       selectFromResult: ({ data, isLoading, isError }) => ({
@@ -64,6 +68,18 @@ export default function EventLogs() {
   );
 
   const { data: webhookData } = useGetAllWebhookQuery(
+    { page, perPage },
+    {
+      selectFromResult: ({ data, isLoading, isError }) => ({
+        data: data?.data,
+        meta: data?.meta,
+        isLoading: isLoading,
+        isError: isError,
+      }),
+    }
+  );
+
+  const { data: orgData } = useGetOrgsAndSubOrgsQuery(
     { page, perPage },
     {
       selectFromResult: ({ data, isLoading, isError }) => ({
@@ -90,6 +106,7 @@ export default function EventLogs() {
     setDirection("");
     setStatus("");
     setDateRange(undefined);
+    setOrganization("");
     table.resetColumnFilters();
     table.resetGlobalFilter();
     window.history.replaceState(null, "", window.location.pathname);
@@ -101,6 +118,23 @@ export default function EventLogs() {
     filterFields,
     pageCount: meta?.pageCount ?? -1,
   });
+
+  const transformed = [
+    ...(orgData?.parentOrganization
+      ? [
+          {
+            id: orgData.parentOrganization.id,
+            name: orgData.parentOrganization.name,
+          },
+        ]
+      : []),
+
+    ...(orgData?.subOrganization?.map((org: { id: string; name: string }) => ({
+      id: org.id,
+      name: org.name,
+    })) ?? []),
+  ];
+
   return (
     <div className="p-2.5 bg-white shadow-[0px_2px_40px_0px_#00000014] pb-[12px]">
       <div>
@@ -133,10 +167,16 @@ export default function EventLogs() {
             setValue={setDirection}
             placeholder="Directions"
           />
+          <OrgSubOrgDialog
+            value={organization}
+            setValue={setOrganization}
+            data={transformed}
+            placeholder="Organizations"
+          />
           <Button
             variant="outline"
             onClick={handleClearFilters}
-            className="mb-2 h-[45px]"
+            className="mb-2 h-[45px] border border-gray-300"
           >
             Clear Filters
           </Button>

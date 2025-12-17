@@ -20,6 +20,11 @@ export interface WebhookEvent {
     name: string;
   };
 
+  organization: {
+    _id: string;
+    name: string;
+  };
+
   webhookStatus: "success" | "failed";
 
   webhook: {
