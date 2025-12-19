@@ -77,6 +77,13 @@ export default function ConfiguredWebhookDetails() {
             </div>
 
             <div className="flex justify-between">
+              <p className="text-sm font-normal">Organization</p>
+              <p className="text-sm  text-black font-semibold">
+                {data?.targetOrganization?.name}
+              </p>
+            </div>
+
+            <div className="flex justify-between">
               <p className="text-sm font-normal">Authentication</p>
               <p className="text-sm font-medium">
                 {data?.authType === "basic_auth"

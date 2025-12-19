@@ -7,7 +7,10 @@ export interface Webhook {
   targetUrl: string;
   authType: "basic_auth" | "header_auth";
   lastTriggered?: string;
-  targetOrganization: string;
+  targetOrganization: {
+    id: string;
+    name: string;
+  };
   createdAt: string;
   updatedAt: string;
   id: string;
