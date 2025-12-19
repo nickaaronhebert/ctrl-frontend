@@ -94,7 +94,6 @@ const ActiveOrgDetails = () => {
       toast.error(message, {
         duration: 1500,
       });
-      setSelectedPlan(data?.data?.catalogueVariant?.id || selectedPlan);
     }
   };
 
@@ -104,6 +103,8 @@ const ActiveOrgDetails = () => {
 
   const dialogMinHeight =
     nonStandardCataloguesCount > 0 ? "min-h-[400px]" : "min-h-[100px]";
+
+  console.log("selectedPlan", selectedPlan);
 
   if (isLoading) {
     return (

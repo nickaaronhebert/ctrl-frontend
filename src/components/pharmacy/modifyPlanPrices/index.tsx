@@ -65,7 +65,6 @@ export default function ModifyPlanPrices() {
 
   const pricedVariants = allMedicationVariants.reduce(
     (acc: number, med: PharmacyCatalogue) => {
-      console.log("med", med);
       return (
         acc +
         med.productVariant.filter(
@@ -77,10 +76,6 @@ export default function ModifyPlanPrices() {
     },
     0
   );
-
-  console.log("totalVariants", totalVariants);
-  console.log("pricedVariants", pricedVariants);
-  console.log("prices", prices);
 
   const handlePriceChange = (variantId: string, value: string) => {
     setPrices((prev) => ({ ...prev, [variantId]: value }));

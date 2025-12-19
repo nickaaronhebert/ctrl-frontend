@@ -39,7 +39,7 @@ export function WebHookLogDetails({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="min-w-3xl max-h-[800px] overflow-y-scroll ">
+      <DialogContent className="min-w-3xl max-h-[800px] overflow-y-auto">
         <DialogHeader className="flex-col border-b border-[#D9D9D9] px-5 py-1.5">
           <DialogTitle className="text-lg font-semibold p-2">
             Webhook Event Details

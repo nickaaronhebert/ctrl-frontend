@@ -70,8 +70,6 @@ export function encounterProductColumns(): ColumnDef<EncounterProduct>[] {
           setOpen(true);
         };
 
-        console.log("selected Product", selectedProduct);
-
         return (
           <>
             <SquarePen

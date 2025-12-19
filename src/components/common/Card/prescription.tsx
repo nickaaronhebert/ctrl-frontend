@@ -59,7 +59,7 @@ export default function PrescriptionCard({
                 {/* <Medication color="purple" width={20} height={20} /> */}
                 <Medications color="purple" />
                 <h2 className="text-base font-semibold">
-                  {prescription.productVariant.medicationCatalogue?.drugName}
+                  {prescription?.productVariant?.name ?? "-"}
                 </h2>
               </div>
 

@@ -51,7 +51,7 @@ const webhookApi = baseApi.injectEndpoints({
       }),
 
       invalidatesTags: (result) =>
-        result ? [{ type: "Webhook", id: "LIST" }] : [],
+        result ? [{ type: "Webhook", id: "LIST" }, TAG_GET_EVENTS] : [],
     }),
 
     editWebhook: builder.mutation<any, IEditWebhookRequest>({
@@ -62,7 +62,7 @@ const webhookApi = baseApi.injectEndpoints({
       }),
 
       invalidatesTags: (result, _error, arg) =>
-        result ? [{ type: "Webhook", id: arg.id }] : [],
+        result ? [{ type: "Webhook", id: arg.id }, TAG_GET_EVENTS] : [],
     }),
 
     deleteWebhook: builder.mutation<{ message: string; code: string }, string>({
@@ -72,7 +72,7 @@ const webhookApi = baseApi.injectEndpoints({
       }),
 
       invalidatesTags: (result) =>
-        result ? [{ type: "Webhook", id: "LIST" }] : [],
+        result ? [{ type: "Webhook", id: "LIST" }, TAG_GET_EVENTS] : [],
     }),
 
     getEventLogs: builder.query<
@@ -110,7 +110,7 @@ const webhookApi = baseApi.injectEndpoints({
         url: `/webhook/${eventId}/replay`,
         method: "POST",
       }),
-      invalidatesTags: [TAG_GET_EVENTS],
+      invalidatesTags: [TAG_GET_EVENTS, { type: "Webhook", id: "LIST" }],
     }),
 
     getOrgsAndSubOrgs: builder.query<any, ICommonSearchQuery>({
@@ -121,6 +121,12 @@ const webhookApi = baseApi.injectEndpoints({
           page,
           limit: perPage,
         },
+      }),
+    }),
+    getPharmacyCredentials: builder.query<any, any>({
+      query: () => ({
+        url: "/pharmacy/webhook-credentials",
+        method: "GET",
       }),
     }),
   }),
@@ -135,6 +141,7 @@ export const {
   useGetEventLogsQuery,
   useReplayWebhookServiceMutation,
   useGetOrgsAndSubOrgsQuery,
+  useGetPharmacyCredentialsQuery,
 } = webhookApi;
 
 export default webhookApi;

@@ -17,7 +17,17 @@ const orderDisplayFields: {
   },
   {
     label: "Submitted",
-    getValue: (_transmission) => "Aug 10, 2025 8:02:15 AM",
+    getValue: (transmission) => {
+      const date = new Date(transmission.createdAt);
+      return date.toLocaleString("en-US", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      });
+    },
   },
 ];
 

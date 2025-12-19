@@ -3,9 +3,10 @@ import { useState } from "react";
 import SwitchForm from "./ServiceStates";
 import PharmacyProfileSettings from "./Profile";
 import Payout from "./Payouts";
+import ViewPharmacyCredentials from "./Credentials";
 
 const settingsMenu: {
-  name: "General" | "Service States" | "Payouts";
+  name: "General" | "Service States" | "Payouts" | "Webhook Credentials";
 }[] = [
   {
     name: "General",
@@ -16,10 +17,13 @@ const settingsMenu: {
   {
     name: "Payouts",
   },
+  {
+    name: "Webhook Credentials",
+  },
 ];
 export default function PharmacySettings() {
   const [activeTab, setActiveTab] = useState<
-    "General" | "Service States" | "Payouts"
+    "General" | "Service States" | "Payouts" | "Webhook Credentials"
   >("General");
   return (
     <div className="p-5">
@@ -50,6 +54,7 @@ export default function PharmacySettings() {
         {activeTab === "General" && <PharmacyProfileSettings />}
         {activeTab === "Service States" && <SwitchForm />}
         {activeTab === "Payouts" && <Payout />}
+        {activeTab === "Webhook Credentials" && <ViewPharmacyCredentials />}
       </div>
     </div>
   );

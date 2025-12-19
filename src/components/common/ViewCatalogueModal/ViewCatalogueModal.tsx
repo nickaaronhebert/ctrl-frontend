@@ -32,7 +32,7 @@ export function ViewCatalogueModal({ pharmacy, open, setOpen }: any) {
   if (isLoading || isFetching) {
     return (
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="min-w-6xl p-5 max-h-[80vh] overflow-y-scroll flex flex-col">
+        <DialogContent className="min-w-6xl p-5 max-h-[80vh] overflow-y-auto flex flex-col">
           <DialogHeader>
             <DialogTitle>Catalogue</DialogTitle>
           </DialogHeader>
@@ -54,7 +54,7 @@ export function ViewCatalogueModal({ pharmacy, open, setOpen }: any) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent
-        className={`min-w-6xl p-5 max-h-[80vh] overflow-y-scroll flex flex-col transition-all duration-300 ${
+        className={`min-w-6xl p-5 max-h-[80vh] overflow-y-auto flex flex-col transition-all duration-300 ${
           !hasItems ? "h-[250px]" : ""
         }`}
       >

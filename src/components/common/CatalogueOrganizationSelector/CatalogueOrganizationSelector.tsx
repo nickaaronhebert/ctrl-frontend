@@ -32,7 +32,7 @@ export function CatalogueOrganizationSelector({
         automatically assigned.
       </div>
       {nonStandardCatalogues.length > 0 && (
-        <div className="space-y-2 max-h-[200px] overflow-y-scroll m-4">
+        <div className="space-y-2 max-h-[200px] overflow-y-auto m-4">
           {nonStandardCatalogues?.map((option) => {
             return (
               <div

@@ -23,7 +23,6 @@ export function webhookLogsColumns(): ColumnDef<WebhookEvent>[] {
       header: "Transmission",
       accessorFn: (row) => row.transmission?.transmissionId ?? "-",
       cell: ({ getValue }) => {
-        console.log("row transmiion");
         return (
           <p className="text-[14px] font-medium text-primary underline underline-offset-2">
             {getValue<string>()}

@@ -88,7 +88,7 @@ export default function TransmissionDetails() {
     }),
   });
 
-  const [transmit] = useLazyTransmitTransmissionQuery();
+  const [transmit, { isLoading }] = useLazyTransmitTransmissionQuery();
 
   const status = data?.status?.toLowerCase();
   const bgColor = statusColorMap[status as string];
@@ -135,6 +135,7 @@ export default function TransmissionDetails() {
           {data?.order?.transmissionMethod === "manual" &&
             data?.status === "Queued" && (
               <Button
+                disabled={isLoading}
                 className="rounded-full cursor-pointer text-white p-5"
                 onClick={handleOrderTransmission}
               >
