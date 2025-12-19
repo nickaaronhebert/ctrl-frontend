@@ -87,24 +87,24 @@ export default function TransmissionOverviewCard({
         transmission?.organization?.name ||
         "-",
     },
-    ...(transmission?.tracking?.trackingUrl
-      ? [
-          {
-            label: "Tracking URL",
-            content: transmission?.tracking?.trackingUrl ? (
-              <a
-                href={transmission?.tracking?.trackingUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {transmission?.tracking?.trackingUrl}
-              </a>
-            ) : (
-              "-"
-            ),
-          },
-        ]
-      : []),
+    // ...(transmission?.tracking?.trackingUrl
+    //   ? [
+    //       {
+    //         label: "Tracking URL",
+    //         content: transmission?.tracking?.trackingUrl ? (
+    //           <a
+    //             href={transmission?.tracking?.trackingUrl}
+    //             target="_blank"
+    //             rel="noopener noreferrer"
+    //           >
+    //             {transmission?.tracking?.trackingUrl?.toLowerCase()}
+    //           </a>
+    //         ) : (
+    //           "-"
+    //         ),
+    //       },
+    //     ]
+    //   : []),
     ...(transmission?.tracking?.trackingNumber
       ? [
           {
@@ -137,6 +137,22 @@ export default function TransmissionOverviewCard({
             </span>
           </div>
         ))}
+        {transmission?.tracking?.trackingUrl && (
+          <div>
+            <h4 className="text-sm font-normal text-muted-foreground ">
+              Tracking URL
+            </h4>
+            <span className=" font-medium text-primary-foreground text-sm mt-2">
+              <a
+                href={transmission?.tracking?.trackingUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {transmission?.tracking?.trackingUrl?.toLowerCase()}
+              </a>
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );
