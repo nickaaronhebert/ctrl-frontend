@@ -761,7 +761,10 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  console.log("App running in live mode", import.meta.env.VITE_CTRL_FE_BUILD);
+  console.log(
+    "App running in live mode123",
+    import.meta.env.VITE_CTRL_FE_BUILD
+  );
   return <RouterProvider router={router} />;
 }
 
