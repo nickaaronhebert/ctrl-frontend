@@ -109,8 +109,9 @@ export const pharmacyApi = baseApi.injectEndpoints({
       providesTags: [TAG_GET_PHARMACY_CATALOGUE],
       query: ({ page, perPage, pharmacy, q }) => {
         const isPharmacy = pharmacy ? `&pharmacy=${pharmacy}` : "";
+        const queryParam = q ?? "";
         return {
-          url: `/pharmacy-catalogue?page=${page}&limit=${perPage}&q=${q}${isPharmacy}
+          url: `/pharmacy-catalogue?page=${page}&limit=${perPage}&q=${queryParam}${isPharmacy}
           `,
           method: "GET",
         };
@@ -321,6 +322,7 @@ export const pharmacyApi = baseApi.injectEndpoints({
           body,
         };
       },
+      invalidatesTags: [TAG_LINKED_ORG],
     }),
   }),
 });

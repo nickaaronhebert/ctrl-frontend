@@ -22,12 +22,12 @@ export const createOrgEncounterSchema = z
         });
       }
 
-      if (!data.selectProvider || data.selectProvider.trim() === "") {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "Provider selection is required",
-          path: ["selectProvider"],
-        });
-      }
+      // if (!data.selectProvider || data.selectProvider.trim() === "") {
+      //   ctx.addIssue({
+      //     code: z.ZodIssueCode.custom,
+      //     message: "Provider selection is required",
+      //     path: ["selectProvider"],
+      //   });
+      // }
     }
   });

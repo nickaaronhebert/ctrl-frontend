@@ -26,6 +26,8 @@ export interface ICommonSearchQuery {
   state?: string;
   subOrganization?: string;
   organizationId?: string;
+  direction?: string;
+  webhookStatus?: string;
 }
 
 export interface IAvailablePlanCatalogueQuery extends ICommonSearchQuery {

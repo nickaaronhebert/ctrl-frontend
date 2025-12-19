@@ -143,8 +143,6 @@ export default function OrganizationConnectActionDialog({
     perPage,
   });
 
-  console.log("selectedPlan", selectedPlan);
-
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>

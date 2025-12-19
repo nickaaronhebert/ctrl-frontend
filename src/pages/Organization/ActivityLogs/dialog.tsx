@@ -98,7 +98,7 @@ export default function ViewLogsDetail({
             <div className="flex justify-end px-4">
               <CopyComponent obj={data?.entity || {}} />
             </div>
-            <pre className="max-h-72 max-w-[600px] overflow-x-scroll overflow-y-scroll">
+            <pre className="max-h-72 max-w-[600px] overflow-x-scroll overflow-y-auto">
               {" "}
               {JSON.stringify(data?.entity, null, 2)}
             </pre>

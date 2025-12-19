@@ -144,6 +144,21 @@ export function organizationTransmissionColumns(): ColumnDef<TransmissionDetails
         return <p className="text-xs font-medium">${amount.toFixed(2)}</p>;
       },
     },
+    {
+      accessorKey: "createdAt",
+      header: "Created At",
+      cell: ({ row }) => {
+        const date = new Date(row.getValue("createdAt")).toLocaleDateString(
+          "en-US",
+          {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+          }
+        );
+        return <p className="text-sm">{date}</p>;
+      },
+    },
 
     {
       accessorKey: "id",

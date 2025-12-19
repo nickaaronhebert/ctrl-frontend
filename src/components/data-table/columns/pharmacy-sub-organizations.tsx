@@ -53,7 +53,6 @@ export function pharmacysubOrganizationColumns(
       accessorKey: "id",
       header: "Actions",
       cell: ({ row }) => {
-        console.log(">>>", row.original);
         const [openBillingModal, setOpenBillingModal] =
           useState<boolean>(false);
         const [openCredentialsModal, setOpenCredentialsModal] = useState(false);

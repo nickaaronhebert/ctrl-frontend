@@ -76,8 +76,6 @@ const MedicationDetails = () => {
     pageCount: -1,
   });
 
-  console.log("variantTable", singleMedDetail?.data?.productVariants);
-
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">

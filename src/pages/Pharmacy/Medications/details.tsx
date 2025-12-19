@@ -42,7 +42,6 @@ const PharmacyDetailsPage = () => {
         productVariant: item.productVariant
           ?.slice()
           ?.sort((a: Variant, b: Variant) => {
-            console.log("a", a);
             return a?.productVariant?.name!?.localeCompare(
               b?.productVariant?.name!,
               undefined,

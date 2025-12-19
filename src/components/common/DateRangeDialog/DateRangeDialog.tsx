@@ -17,6 +17,7 @@ interface DateFilterDialogProps {
   onOpenChange: (open: boolean) => void;
   dateRange: DateRange | undefined;
   onDateRangeChange: (dateRange: DateRange | undefined) => void;
+  className?: string;
 }
 
 export function DateFilterDialog({
@@ -45,7 +46,7 @@ export function DateFilterDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[400px] p-0">
+      <DialogContent className={"sm:max-w-[400px] p-0"}>
         <DialogHeader className="px-6 py-4 pb-0">
           <div className="flex items-center w-full justify-between">
             <DialogTitle className="text-lg font-semibold">

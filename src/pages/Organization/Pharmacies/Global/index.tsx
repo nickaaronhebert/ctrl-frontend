@@ -47,6 +47,7 @@ export default function GlobalOrgPharmacies() {
   } = useGetPharmacyCatalogueQuery({
     page,
     perPage,
+    q: "",
   });
 
   console.log("data>>", pharmacyData);

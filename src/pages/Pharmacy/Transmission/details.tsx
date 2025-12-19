@@ -157,7 +157,7 @@ export default function PharmacyTransmissionDetails() {
           {data && <PatientCard patient={data?.patient} />}
 
           {data?.prescriptions?.map((prescription, idx) => (
-            <ProviderCard key={idx} provider={prescription.provider} />
+            <ProviderCard key={idx} provider={prescription?.provider} />
           ))}
 
           <div

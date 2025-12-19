@@ -46,12 +46,8 @@ export default function CreateSubOrganization({
   });
 
   async function onSubmit(data: z.infer<typeof createOrganizationSchema>) {
-    console.log("first step data", data);
-
     try {
       const response = await createOrg(data).unwrap();
-      console.log("Response>>", response);
-      console.log("createOrg response", response.data.id);
       dispatch(updateStepOne(data));
       if (response.data.id) dispatch(setSubOrgId(response.data.id));
       toast.success("Sub-Organization created successfully", {

@@ -6,10 +6,10 @@ import { useGetWebhookDetailsQuery } from "@/redux/services/webhook";
 import { Link, useParams } from "react-router-dom";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { convertExtendedDate } from "@/lib/utils";
+import { useGetEventLogsQuery } from "@/redux/services/webhook";
 
 export default function ConfiguredWebhookDetails() {
   const { id } = useParams();
-  console.log(id);
   const [openEditWebhook, setOpenEditWebhook] = useState(false);
   const { data, isLoading } = useGetWebhookDetailsQuery(id!, {
     skip: !id,
@@ -19,13 +19,25 @@ export default function ConfiguredWebhookDetails() {
     }),
   });
 
-  if (!id || isLoading) {
+  const { data: eventDetail, isLoading: eventsLoading } = useGetEventLogsQuery(
+    {
+      page: 1,
+      perPage: 10,
+      webhook: id,
+    },
+    {
+      skip: !id,
+    }
+  );
+  if (!id || isLoading || eventsLoading) {
     return (
       <div className="h-screen justify-center items-center">
         <LoadingSpinner />
       </div>
     );
   }
+
+  console.log("data>>>]>", data);
 
   return (
     <div>
@@ -39,10 +51,7 @@ export default function ConfiguredWebhookDetails() {
               Back to Webhooks
             </p>
           </Link>
-          <h6 className="text-2xl font-semibold mt-1">
-            {" "}
-            Patient Portal Webhook
-          </h6>
+          <h6 className="text-2xl font-semibold mt-1">{data?.name}</h6>
         </div>
         <EditWebhook
           open={openEditWebhook}
@@ -50,10 +59,6 @@ export default function ConfiguredWebhookDetails() {
           values={data}
           id={id}
         />
-        {/* <CreateWebhook
-                  open={openCreateWebhook}
-                  onOpenChange={setOpenCreateWebhook}
-        /> */}
       </div>
 
       <div className="p-8">
@@ -68,6 +73,13 @@ export default function ConfiguredWebhookDetails() {
               <p className="text-sm font-normal">Target URL</p>
               <p className="text-sm font-medium text-primary">
                 {data?.targetUrl}
+              </p>
+            </div>
+
+            <div className="flex justify-between">
+              <p className="text-sm font-normal">Organization</p>
+              <p className="text-sm  text-black font-semibold">
+                {data?.targetOrganization?.name}
               </p>
             </div>
 
@@ -88,7 +100,7 @@ export default function ConfiguredWebhookDetails() {
             </div>
           </div>
 
-          <Logs />
+          <Logs response={eventDetail} />
         </div>
       </div>
     </div>

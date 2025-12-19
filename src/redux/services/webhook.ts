@@ -8,6 +8,8 @@ import type {
   IGetWebhookDetailsResponse,
 } from "@/types/responses/IGetAllWebhook";
 import type { ICommonSearchQuery } from "@/types/requests/search";
+import type { WebhookEventResponse } from "@/types/responses/IEventLog";
+import { TAG_GET_EVENTS } from "@/types/baseApiTags";
 
 const webhookApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -49,7 +51,7 @@ const webhookApi = baseApi.injectEndpoints({
       }),
 
       invalidatesTags: (result) =>
-        result ? [{ type: "Webhook", id: "LIST" }] : [],
+        result ? [{ type: "Webhook", id: "LIST" }, TAG_GET_EVENTS] : [],
     }),
 
     editWebhook: builder.mutation<any, IEditWebhookRequest>({
@@ -60,7 +62,7 @@ const webhookApi = baseApi.injectEndpoints({
       }),
 
       invalidatesTags: (result, _error, arg) =>
-        result ? [{ type: "Webhook", id: arg.id }] : [],
+        result ? [{ type: "Webhook", id: arg.id }, TAG_GET_EVENTS] : [],
     }),
 
     deleteWebhook: builder.mutation<{ message: string; code: string }, string>({
@@ -70,7 +72,62 @@ const webhookApi = baseApi.injectEndpoints({
       }),
 
       invalidatesTags: (result) =>
-        result ? [{ type: "Webhook", id: "LIST" }] : [],
+        result ? [{ type: "Webhook", id: "LIST" }, TAG_GET_EVENTS] : [],
+    }),
+
+    getEventLogs: builder.query<
+      WebhookEventResponse,
+      ICommonSearchQuery & { webhook?: string; organization?: string }
+    >({
+      query: ({
+        page,
+        perPage,
+        startDate,
+        endDate,
+        webhook,
+        q = "",
+        direction = "",
+        webhookStatus = "",
+        organization = "",
+      }) => ({
+        url: "/webhook/events",
+        params: {
+          page,
+          limit: perPage,
+          ...(startDate && { startDate }),
+          ...(endDate && { endDate }),
+          ...(webhook && { webhook }),
+          ...(q && { q }),
+          ...(direction && { direction }),
+          ...(webhookStatus && { webhookStatus }),
+          ...(organization && { organization }),
+        },
+      }),
+      providesTags: [TAG_GET_EVENTS],
+    }),
+    replayWebhookService: builder.mutation({
+      query: ({ eventId }: { eventId: string }) => ({
+        url: `/webhook/${eventId}/replay`,
+        method: "POST",
+      }),
+      invalidatesTags: [TAG_GET_EVENTS, { type: "Webhook", id: "LIST" }],
+    }),
+
+    getOrgsAndSubOrgs: builder.query<any, ICommonSearchQuery>({
+      query: ({ page, perPage }) => ({
+        url: `/organization/accessible?page=${page}&limit=${perPage}`,
+        method: "GET",
+        params: {
+          page,
+          limit: perPage,
+        },
+      }),
+    }),
+    getPharmacyCredentials: builder.query<any, any>({
+      query: () => ({
+        url: "/pharmacy/webhook-credentials",
+        method: "GET",
+      }),
     }),
   }),
 });
@@ -81,6 +138,10 @@ export const {
   useGetWebhookDetailsQuery,
   useEditWebhookMutation,
   useDeleteWebhookMutation,
+  useGetEventLogsQuery,
+  useReplayWebhookServiceMutation,
+  useGetOrgsAndSubOrgsQuery,
+  useGetPharmacyCredentialsQuery,
 } = webhookApi;
 
 export default webhookApi;

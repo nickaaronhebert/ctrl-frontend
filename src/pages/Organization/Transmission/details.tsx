@@ -66,6 +66,7 @@ export default function TransmissionDetails() {
     prescriptions,
     transmissionDetails,
     patient,
+    order,
     externalOrderId,
     refetch,
   } = useViewTransmissionByIdQuery(params.id as string, {
@@ -74,6 +75,7 @@ export default function TransmissionDetails() {
       pharmacy: data?.data?.pharmacy,
       prescriptions: data?.data?.prescriptions,
       patient: data?.data?.patient ?? data?.data?.order?.patient,
+      order: data?.data?.order,
       externalOrderId:
         data?.data?.order?.externalOrderId ?? data?.data?.externalOrderId,
       transmissionDetails: {
@@ -86,7 +88,7 @@ export default function TransmissionDetails() {
     }),
   });
 
-  const [transmit] = useLazyTransmitTransmissionQuery();
+  const [transmit, { isLoading }] = useLazyTransmitTransmissionQuery();
 
   const status = data?.status?.toLowerCase();
   const bgColor = statusColorMap[status as string];
@@ -133,6 +135,7 @@ export default function TransmissionDetails() {
           {data?.order?.transmissionMethod === "manual" &&
             data?.status === "Queued" && (
               <Button
+                disabled={isLoading}
                 className="rounded-full cursor-pointer text-white p-5"
                 onClick={handleOrderTransmission}
               >
@@ -218,7 +221,10 @@ export default function TransmissionDetails() {
               <h2 className="text-base font-semibold ">Medications</h2>
             </div>
             {prescriptions && (
-              <PrescriptionCard prescriptions={prescriptions} />
+              <PrescriptionCard
+                prescriptions={prescriptions}
+                telegraProvider={order?.encounter?.telegraProvider}
+              />
             )}
           </div>
         </div>

@@ -151,6 +151,21 @@ export function pharmacyTransmissionColumns(): ColumnDef<PharmacyTransmissionRow
         );
       },
     },
+    {
+      accessorKey: "createdAt",
+      header: "Date",
+      cell: ({ row }) => {
+        const date = new Date(row.getValue("createdAt")).toLocaleDateString(
+          "en-US",
+          {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+          }
+        );
+        return <p className="text-sm">{date}</p>;
+      },
+    },
 
     {
       accessorKey: "amount",

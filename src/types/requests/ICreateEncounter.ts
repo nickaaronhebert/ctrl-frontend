@@ -6,7 +6,7 @@ export interface ICreateEncounter {
   transmissionMethod?: string;
   prescriptions?: {
     quantity: number;
-    provider: string;
+    provider?: string;
     productVariant: string;
     pharmacy?: string;
     notes: string;

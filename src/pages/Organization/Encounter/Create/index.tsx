@@ -24,7 +24,7 @@ import { ServiceSearch } from "./SelectService";
 import { useCreateEncounterMutation } from "@/redux/services/encounter";
 import { toast } from "sonner";
 import { MedicationFields } from "./Medication";
-import { SelectProvider } from "@/components/Form/SelectProvider";
+// import { SelectProvider } from "@/components/Form/SelectProvider";
 import { SelectSubOrganization } from "@/components/Form/SelectSubOrganization";
 import { useCallback, useState } from "react";
 import type { Address } from "@/types/global/commonTypes";
@@ -74,7 +74,7 @@ export function CreateEncounter({ open, onOpenChange }: CreateEncounterProps) {
     const prescriptions = values?.medications?.map((item) => {
       return {
         quantity: item.quantity,
-        provider: values.selectProvider as string,
+        // provider: values.selectProvider as string,
         productVariant: item.selectMedication,
         notes: item.sigInstructions,
         instructions: item.sigInstructions,
@@ -309,7 +309,7 @@ export function CreateEncounter({ open, onOpenChange }: CreateEncounterProps) {
                   </div>
 
                   <MedicationFields state={completeAddress?.state} />
-                  <SelectProvider />
+                  {/* <SelectProvider /> */}
                   <SelectSubOrganization />
 
                   <div className="flex flex-col items-center mb-8">
