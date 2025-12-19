@@ -8,12 +8,12 @@ import TransmissionCard from "@/components/common/Card/transmission";
 import { Button } from "@/components/ui/button";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import {
-  useTransmitOrderMutation,
+  // useTransmitOrderMutation,
   useViewOrderByIdQuery,
 } from "@/redux/services/order";
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { toast } from "sonner";
+// import { toast } from "sonner";
 
 const menuItems = [
   {
@@ -40,7 +40,7 @@ export default function ViewOrderDetails() {
     "patientInformation" | "transmissionDetails" | "orderOverview"
   >("orderOverview");
 
-  const [transmitOrder] = useTransmitOrderMutation();
+  // const [transmitOrder] = useTransmitOrderMutation();
 
   const {
     data,
@@ -73,21 +73,21 @@ export default function ViewOrderDetails() {
     }),
   });
 
-  const handleOrderTransmission = async () => {
-    await transmitOrder(id as string)
-      .unwrap()
-      .then((data) => {
-        toast.success(data?.message || "Order Transmitted Successfully", {
-          duration: 1500,
-        });
-      })
-      .catch((err) => {
-        console.log("error", err);
-        toast.error(err?.data?.message ?? "Something went wrong", {
-          duration: 3000,
-        });
-      });
-  };
+  // const handleOrderTransmission = async () => {
+  //   await transmitOrder(id as string)
+  //     .unwrap()
+  //     .then((data) => {
+  //       toast.success(data?.message || "Order Transmitted Successfully", {
+  //         duration: 1500,
+  //       });
+  //     })
+  //     .catch((err) => {
+  //       console.log("error", err);
+  //       toast.error(err?.data?.message ?? "Something went wrong", {
+  //         duration: 3000,
+  //       });
+  //     });
+  // };
 
   if (!patient || !transmissions) {
     return (
