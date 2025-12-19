@@ -49,7 +49,7 @@ export default function ViewOrderDetails() {
     transmissionsLength,
     medicationsLength,
     order,
-    encounter
+    encounter,
   } = useViewOrderByIdQuery(id as string, {
     selectFromResult: ({ data, isLoading, isError }) => ({
       data: data?.data,
@@ -110,7 +110,7 @@ export default function ViewOrderDetails() {
 
           <h1 className="text-2xl font-bold mt-1">Order: {data?.orderId} </h1>
         </div>
-        {data?.transmissionMethod === "manual" &&
+        {/* {data?.transmissionMethod === "manual" &&
           data?.status === "Transmittable" && (
             <Button
               className="rounded-full cursor-pointer text-white p-5"
@@ -118,7 +118,7 @@ export default function ViewOrderDetails() {
             >
               Transmit Order
             </Button>
-          )}
+          )} */}
       </div>
 
       <div className="flex gap-8 px-14 mt-6">
@@ -180,7 +180,10 @@ export default function ViewOrderDetails() {
             order={{ ...order, medicationCatalogueLength: medicationsLength }}
           />
           <PatientCard patient={patient} />
-          <TransmissionCard transmissions={transmissions} telegraProvider={encounter?.telegraProvider} />
+          <TransmissionCard
+            transmissions={transmissions}
+            telegraProvider={encounter?.telegraProvider}
+          />
         </div>
       </div>
     </div>
