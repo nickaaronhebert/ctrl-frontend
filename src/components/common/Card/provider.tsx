@@ -7,11 +7,14 @@ const providerDisplayFields: {
 }[] = [
   {
     label: "Provider Name",
-    getValue: (provider) => provider.firstName + " " + provider.lastName,
+    getValue: (provider) =>
+      provider?.firstName || provider?.lastName
+        ? `${provider?.firstName ?? ""} ${provider?.lastName ?? ""}`.trim()
+        : "-",
   },
   {
     label: "Provider NPI",
-    getValue: (provider) => provider.npi,
+    getValue: (provider) => provider?.npi ?? "-",
   },
 ];
 

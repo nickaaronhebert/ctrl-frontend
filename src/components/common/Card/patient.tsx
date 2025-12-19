@@ -8,29 +8,29 @@ const patientDisplayFields: {
 }[] = [
   {
     label: "Patient Name",
-    getValue: (patient) => `${patient.firstName} ${patient.lastName}`,
+    getValue: (patient) => `${patient?.firstName} ${patient?.lastName}`,
   },
   {
     label: "Date of Birth",
     getValue: (patient) =>
-      patient.dob ? format(new Date(patient.dob), "MMM dd, yyyy") : "",
+      patient?.dob ? format(new Date(patient?.dob), "MMM dd, yyyy") : "",
   },
   {
     label: "Gender",
-    getValue: (patient) => patient.gender,
+    getValue: (patient) => patient?.gender,
   },
   {
     label: "Phone Number",
-    getValue: (patient) => patient.phoneNumber,
+    getValue: (patient) => patient?.phoneNumber,
   },
   {
     label: "Email",
-    getValue: (patient) => patient.email,
+    getValue: (patient) => patient?.email,
   },
 
   {
     label: "Zip Code",
-    getValue: (patient) => patient.zipcode,
+    getValue: (patient) => patient?.zipcode,
   },
 ];
 export default function PatientCard({ patient }: { patient: Patient }) {
@@ -44,7 +44,7 @@ export default function PatientCard({ patient }: { patient: Patient }) {
         Patient Information
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7 p-5">
-        {patientDisplayFields.map(({ label, getValue }) => (
+        {patientDisplayFields?.map(({ label, getValue }) => (
           <div key={label}>
             <h4 className="text-sm font-normal text-muted-foreground">
               {label}
