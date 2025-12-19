@@ -249,7 +249,6 @@ export default function ModifyPrices() {
 
                     {medicationVariants.map(
                       (variant: PharmacyProductVariant) => {
-                        console.log("variant", variant);
                         return (
                           <div
                             key={variant?._id}

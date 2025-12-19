@@ -48,8 +48,6 @@ const ActiveOrgDetails = () => {
     perPage,
   });
 
-  console.log("Catalogue List", catalogueList);
-
   const [activeStatus, setActiveStatus] = useState<
     "affiliates" | "sharedSubOrgs" | "independentsubOrgs"
   >("affiliates");
@@ -103,8 +101,6 @@ const ActiveOrgDetails = () => {
 
   const dialogMinHeight =
     nonStandardCataloguesCount > 0 ? "min-h-[400px]" : "min-h-[100px]";
-
-  console.log("selectedPlan", selectedPlan);
 
   if (isLoading) {
     return (

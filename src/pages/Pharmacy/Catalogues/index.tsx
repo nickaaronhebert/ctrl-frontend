@@ -8,12 +8,11 @@ import { Button } from "@/components/ui/button";
 import { pharmacyCatalogueColumns } from "@/components/data-table/columns/catalogue";
 import { useGetCatalogueListQuery } from "@/redux/services/pharmacy";
 import CatalogueVariantDialog from "@/components/common/CatalogueVariantDialog/CatalogueVariantDialog";
-import { useMedication } from "@/context/ApplicationUser/MedicationContext";
+// import { useMedication } from "@/context/ApplicationUser/MedicationContext";
 
 export default function GetCatalogueList() {
   const [searchParams] = useSearchParams();
   const [openCatalogueModal, setOpenCatalogueModal] = useState<boolean>(false);
-  const { selectedVariants } = useMedication();
   const page = parseInt(searchParams.get("page") || "1", 10);
   const perPage = parseInt(searchParams.get("per_page") ?? "100", 10);
   const { data, isLoading, isError } = useGetCatalogueListQuery({
@@ -27,8 +26,6 @@ export default function GetCatalogueList() {
     columns,
     pageCount: data?.meta?.pageCount ?? -1,
   });
-
-  console.log("selectedVariants", selectedVariants);
 
   return (
     <>

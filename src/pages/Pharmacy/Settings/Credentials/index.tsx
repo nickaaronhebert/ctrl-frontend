@@ -181,8 +181,6 @@ export default function ViewPharmacyCredentials() {
   const { data: pharmacyCredentials, isLoading } =
     useGetPharmacyCredentialsQuery({});
 
-  console.log("pharmacy Credentials", pharmacyCredentials);
-
   if (isLoading) {
     return (
       <div className="flex flex-col justify-center items-center min-h-screen ">

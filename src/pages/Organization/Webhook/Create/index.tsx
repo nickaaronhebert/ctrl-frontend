@@ -76,8 +76,6 @@ export function CreateWebhook({ open, onOpenChange }: CreateWebhookProps) {
   };
 
   async function onSubmit(values: z.infer<typeof createWebhookSchema>) {
-    console.log("values", values);
-
     if (!status && !tracking) {
       setError("root", {
         message: "At least one webhook type must be selected",

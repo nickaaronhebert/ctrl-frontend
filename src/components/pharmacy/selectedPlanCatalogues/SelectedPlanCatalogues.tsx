@@ -188,7 +188,6 @@ export default function SelectedPlanCatalogues() {
                   </div>
 
                   {catalogueVariants.map((variant: any) => {
-                    console.log("variantttt", variant);
                     return (
                       <div
                         key={variant.variantId}

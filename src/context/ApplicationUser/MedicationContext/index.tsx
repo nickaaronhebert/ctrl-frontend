@@ -243,8 +243,6 @@ export function MedicationProvider({ children }: { children: ReactNode }) {
     );
   };
 
-  console.log("selectedVariants", selectedVariants);
-
   const value: MedicationContextType = {
     medications,
     selectedVariants,
