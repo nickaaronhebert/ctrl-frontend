@@ -1,19 +1,52 @@
 // import { formatDateMMDDYYYY } from "@/lib/utils";
-import type { Organization, Transmission } from "@/types/global/commonTypes";
+import type {
+  // Organization,
+  Transmission,
+  OrganizationAddress,
+} from "@/types/global/commonTypes";
 import { Activity } from "lucide-react";
 import { StatusBadge } from "../StatusBadge/StatusBadge";
 import type { ReactNode } from "react";
 
 type TransmissionDetails = Pick<Transmission, "amount" | "status"> & {
   createdAt: string;
-  subOrganization?: Organization;
-  organization?: Organization;
+  subOrganization?: {
+    id: string;
+    name: string;
+    email: string;
+    phoneNumber: string;
+    status: string;
+    organizationPublicKey: string;
+    address: OrganizationAddress;
+    createdBy: string;
+    applicationFee: number;
+    parentOrganization: string;
+    isTelegraTrustedPartner: boolean;
+    isSubOrgPaymentMethodConfigured: boolean;
+    createdAt: string;
+    updatedAt: string;
+  } | null;
+  organization?: {
+    id: string;
+    name: string;
+    email: string;
+    phoneNumber: string;
+    status: string;
+    organizationPublicKey: string;
+    allowedStates: string[];
+    createdBy: string;
+    applicationFee: number;
+    address: OrganizationAddress;
+    isTelegraTrustedPartner: boolean;
+    createdAt: string;
+    updatedAt: string;
+  } | null;
   tracking: {
     trackingNumber: string;
     shippingCompany: string;
     trackingUrl: string;
     shipped: boolean;
-  };
+  } | null;
 };
 
 const orderDisplayFields: {

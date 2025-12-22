@@ -82,10 +82,9 @@ export default function TransmissionDetails() {
         amount: data?.data?.amount || 0,
         createdAt: data?.data?.createdAt || "-",
         status: data?.data?.status || "-",
-        organization: (data?.data as any)?.organization || null,
-        subOrganization: (data?.data as any)?.subOrganization || null,
-        tracking: (data?.data as any)?.shippingDetails || null,
-
+        organization: data?.data?.organization || null,
+        subOrganization: data?.data?.subOrganization || null,
+        tracking: data?.data?.shippingDetails || null,
       },
       isLoading: isLoading,
       isError: isError,
