@@ -91,6 +91,7 @@ export const ROUTES = {
   CONFIGURE_CATALOGUES: "configure-catalogues",
   GET_SELECTED_PLAN_CATALOGUES: "selected-plan-catalogues",
   MODIFY_PLAN_PRICES: "modify-plan-prices",
+  ORG_TRANSMISSION_TRACKING: "transmission-tracking",
 };
 
 export const STEPPER_FORM = {

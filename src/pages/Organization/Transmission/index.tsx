@@ -1,3 +1,4 @@
+import TrackingSquare from "@/assets/icons/TrackingSquare";
 import { organizationTransmissionColumns } from "@/components/data-table/columns/transmission";
 import { DataTable } from "@/components/data-table/data-table";
 import { DataTablePagination } from "@/components/data-table/data-table-pagination";
@@ -5,13 +6,13 @@ import { Button } from "@/components/ui/button";
 import { useDataTable } from "@/hooks/use-data-table";
 import { cn } from "@/lib/utils";
 import { useViewAllTransmissionsQuery } from "@/redux/services/transmission";
-
+import { useNavigate } from "react-router-dom";
 import { useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 export default function OrganizationTransmission() {
   const [searchParams] = useSearchParams();
-
+  const navigate = useNavigate();
   const page = parseInt(searchParams.get("page") || "1", 10);
   const perPage = parseInt(searchParams.get("per_page") ?? "100", 10);
 
@@ -83,10 +84,21 @@ export default function OrganizationTransmission() {
 
   return (
     <div className=" lg:p-3.5">
-      <h1 className="text-2xl font-bold">Transmissions</h1>
-      <h6 className="font-normal text-sm text text-slate">
-        Recent transmission volume and statistics
-      </h6>
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-2xl font-bold">Transmissions</h1>
+          <h6 className="font-normal text-sm text text-slate">
+            Recent transmission volume and statistics
+          </h6>
+        </div>
+        <Button
+          onClick={() => navigate("/org/transmission-tracking")}
+          className="w-[213px] h-[50px] rounded-[50px] px-[25px] py-[10px] flex gap-4 bg-[#081F3B] hover:bg-[#081F3B] cursor-pointer"
+        >
+          <TrackingSquare />{" "}
+          <span className="text-white">Fulfillment Tracking</span>
+        </Button>
+      </div>
       <div className="mt-3.5 ">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 mb-1">
           <Button
@@ -105,21 +117,6 @@ export default function OrganizationTransmission() {
               {getStatusCount("Created")}
             </span>
           </Button>
-          {/* <Button
-            size={"lg"}
-            className={cn(
-              activeStatus === "Processing"
-                ? "bg-primary text-white"
-                : "bg-slate-background text-secondary-foreground hover:bg-slate-background",
-              "p-[30px]"
-            )}
-            onClick={() => setActiveStatus("Processing")}
-          >
-            <span className=" font-medium text-base mx-2.5">Processing</span>
-            <span className="min-h-4 min-w-8 p-1 rounded-[8px] bg-white text-secondary-foreground mr-2.5">
-              {getStatusCount("Processing")}
-            </span>
-          </Button> */}
           <Button
             size={"xxl"}
             variant={"tabs"}

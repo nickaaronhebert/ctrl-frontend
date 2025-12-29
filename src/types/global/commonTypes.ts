@@ -407,3 +407,28 @@ export interface Variant {
     telegraProductVariant?: string;
   };
 }
+
+export interface FulfillmentData {
+  transmissionId: string;
+  pharmacy: {
+    name: string;
+    id: string;
+  };
+  patient: {
+    name: string;
+    id: string;
+  };
+  status: string;
+  statusColor: string;
+  prescriptionCount: number;
+  timeline: TimelineEvent[];
+}
+
+export interface TimelineEvent {
+  id: number;
+  status: string;
+  description: string;
+  timestamp: string;
+  icon: string;
+  trackingNumber?: string;
+}

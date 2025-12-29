@@ -7,6 +7,7 @@ interface StatusCardProps {
   icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   iconColor?: string;
   descriptionColor?: string;
+  iconWrapperClassName?: string;
   className?: string;
 }
 
@@ -17,6 +18,7 @@ export default function StatusCard({
   icon: Icon,
   descriptionColor = "text-green-600",
   className = "",
+  iconWrapperClassName,
 }: StatusCardProps) {
   return (
     <div
@@ -32,7 +34,9 @@ export default function StatusCard({
             </p>
           </div>
         </div>
-        <div className="ml-4">{Icon && <Icon />}</div>
+        <div className={`ml-4 ${iconWrapperClassName ?? ""}`}>
+          {Icon && <Icon />}
+        </div>
       </div>
     </div>
   );
