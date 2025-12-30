@@ -1,17 +1,18 @@
 import type { PharmacyProductVariant } from "@/types/responses/medication";
-import { SquarePen } from "lucide-react";
+import { SquarePen, Trash2 } from "lucide-react";
 import { useState } from "react";
-// import {
-//   AlertDialog,
-//   AlertDialogAction,
-//   AlertDialogCancel,
-//   AlertDialogContent,
-//   AlertDialogDescription,
-//   AlertDialogFooter,
-//   AlertDialogHeader,
-//   AlertDialogTitle,
-//   AlertDialogTrigger,
-// } from "@/components/ui/alert-dialog";
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import EditVariantModal from "../EditVariantModal/EditVariantModal";
 
 interface VariantProps {
@@ -20,14 +21,14 @@ interface VariantProps {
   onDelete?: (variant: PharmacyProductVariant) => void;
 }
 
-const VariantRow = ({ variant }: VariantProps) => {
-  // const [isDeleteOpen, setIsDeleteOpen] = useState<boolean>(false);
+const VariantRow = ({ variant, onDelete, drugName }: VariantProps) => {
+  const [isDeleteOpen, setIsDeleteOpen] = useState<boolean>(false);
   const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
 
-  // const handleDelete = () => {
-  //   onDelete?.(variant);
-  //   setIsDeleteOpen(false);
-  // };
+  const handleDelete = () => {
+    onDelete?.(variant);
+    setIsDeleteOpen(false);
+  };
 
   return (
     <>
@@ -46,7 +47,7 @@ const VariantRow = ({ variant }: VariantProps) => {
         </p>
 
         <div className="col-span-6 md:col-span-3 flex justify-end items-center">
-          {/* <AlertDialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
+          <AlertDialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
             <AlertDialogTrigger asChild>
               <button
                 className="hover:bg-red-50 flex items-center gap-3 rounded-full p-1 transition-colors duration-200"
@@ -83,7 +84,7 @@ const VariantRow = ({ variant }: VariantProps) => {
                 </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
-          </AlertDialog> */}
+          </AlertDialog>
           <button
             onClick={() => setIsEditOpen(true)}
             className="hover:bg-blue-50 p-1 rounded-full transition-colors duration-200"
