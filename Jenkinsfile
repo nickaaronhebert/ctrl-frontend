@@ -162,7 +162,7 @@ def notifySlack(String buildStatus) {
         color = '#FF9FA1'
     }
     // we pause on slack for current builds system before finalizing which notification setup to use.
-    // slackSend(channel: SLACK_CHANNEL, color: color, message: message)
+    slackSend(channel: SLACK_CHANNEL, color: color, message: message)
 }
 
 def notifyDiscord(String buildStatus) {

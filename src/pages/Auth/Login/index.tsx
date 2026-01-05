@@ -3,6 +3,7 @@ import LoginForm from "@/components/common/LoginForm";
 import { useNavigate } from "react-router-dom";
 import useAuthentication from "@/hooks/use-authentication";
 import { useEffect } from "react";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 const Login = () => {
   const { isLoadingUserDetails, isLoggedIn, user } = useAuthentication();
@@ -34,7 +35,7 @@ const Login = () => {
   if (isLoadingUserDetails) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-lg font-medium text-gray-700">Loading...</p>
+        <LoadingSpinner />
       </div>
     );
   }

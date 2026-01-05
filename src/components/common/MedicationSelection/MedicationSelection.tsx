@@ -1,18 +1,26 @@
 import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
   type Medication,
   type Variant,
 } from "@/pages/Organization/AccessControl/AccessDetail";
 import { useState } from "react";
 import { useGetLinkedCatalogueQuery } from "@/redux/services/medication";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { Check, ChevronsUpDown } from "lucide-react";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import { cn } from "@/lib/utils";
+import { useDebounce } from "@/hooks/use-debounce";
 
 type MedicationSelectionProps = {
   selectedMedication: Medication | null;
@@ -28,57 +36,85 @@ export function MedicationSelection({
   disabled,
 }: MedicationSelectionProps) {
   const [open, setOpen] = useState<boolean>(false);
+  const [search, setSearch] = useState<string>("");
+  const debouncedSearch = useDebounce(search, 400);
 
   const { data, isError, isLoading } = useGetLinkedCatalogueQuery(
     {
       page: 1,
-      perPage: 100,
-      q: "",
+      perPage: 300,
+      q: debouncedSearch,
     },
     {
-      skip: false,
+      skip: !open,
     }
   );
 
   const medicationOptions = data?.data;
 
   return (
-    <Select
-      disabled={disabled}
-      open={open}
-      onOpenChange={setOpen}
-      onValueChange={(value) => {
-        const selected = medicationOptions?.find(
-          (m) => m.id.toString() === value
-        );
-        if (selected) {
-          setSelectedMedication({
-            id: selected?.id.toString(),
-            name: selected?.drugName,
-          });
-          setSelectedVariant(null);
-        }
-      }}
-      value={selectedMedication?.id ?? ""}
-    >
-      <SelectTrigger className="w-full">
-        <SelectValue placeholder="Select Medication" />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectGroup>
-          <SelectLabel>Available Medications</SelectLabel>
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant={"outline"}
+          role="combobox"
+          disabled={disabled}
+          aria-expanded={open}
+          className="w-full justify-between"
+        >
+          {selectedMedication ? selectedMedication?.name : "Select Medication"}
+          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-[350px] p-0">
+        <Command>
+          <CommandInput
+            placeholder="Search medication..."
+            value={search}
+            onValueChange={setSearch}
+          />
 
-          {isLoading && <div>Loading</div>}
+          <CommandList>
+            {isLoading && <CommandEmpty>Loading medications...</CommandEmpty>}
 
-          {isError && <div>Error loading medications</div>}
+            {isError && <CommandEmpty>Failed to load medications</CommandEmpty>}
 
-          {medicationOptions?.map((med) => (
-            <SelectItem key={med.id} value={med.id.toString()}>
-              {med.drugName}
-            </SelectItem>
-          ))}
-        </SelectGroup>
-      </SelectContent>
-    </Select>
+            {!isLoading && !isError && medicationOptions?.length === 0 && (
+              <CommandEmpty>No medication found.</CommandEmpty>
+            )}
+            <CommandGroup>
+              {medicationOptions?.map((med) => {
+                const value = med.id.toString();
+
+                return (
+                  <CommandItem
+                    key={value}
+                    value={med.drugName}
+                    onSelect={() => {
+                      setSelectedMedication({
+                        id: value,
+                        name: med.drugName,
+                      });
+                      setSelectedVariant(null);
+                      setOpen(false);
+                    }}
+                  >
+                    <Check
+                      className={cn(
+                        "mr-2 h-4 w-4",
+                        selectedMedication?.id === value
+                          ? "opacity-100"
+                          : "opacity-0"
+                      )}
+                    />
+                    {med.drugName}
+                  </CommandItem>
+                );
+              })}
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </PopoverContent>
+    </Popover>
   );
 }
