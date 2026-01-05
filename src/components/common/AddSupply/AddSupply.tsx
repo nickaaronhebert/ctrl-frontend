@@ -13,7 +13,6 @@ import {
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import InputElement from "@/components/Form/input-element";
-import { useCreateVariantMutation } from "@/redux/services/pharmacy";
 import {
   supplyItemSchema,
   type SupplyFormValues,
@@ -21,23 +20,28 @@ import {
 import SelectElement from "@/components/Form/select-element";
 import { QuantityType } from "@/schemas/supplySchema";
 import { SupplyConfigMode } from "@/schemas/supplySchema";
+import { useCreateSupplyMutation } from "@/redux/services/supplies";
+import { useEditSupplyMutation } from "@/redux/services/supplies";
+import { useEffect } from "react";
 
 interface SupplyDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   supplyItemToEdit?: SupplyFormValues;
+  isEditing?: boolean;
 }
 
 export default function AddSupply({
   open,
   onOpenChange,
   supplyItemToEdit,
+  isEditing,
 }: SupplyDialogProps) {
   const form = useForm<SupplyFormValues>({
     resolver: zodResolver(supplyItemSchema),
     defaultValues: {
       name: supplyItemToEdit?.name || "",
-      itemType: supplyItemToEdit?.itemType || "Capsule",
+      itemType: supplyItemToEdit?.itemType || "CAPSULE",
       quantity: supplyItemToEdit?.quantity || 0,
       quantityType: supplyItemToEdit?.quantityType || "mg",
       price: supplyItemToEdit?.price || 0,
@@ -47,31 +51,22 @@ export default function AddSupply({
     },
   });
 
-  const [createCatalogueVariant, { isLoading }] = useCreateVariantMutation();
+  console.log("form values", form.getValues());
 
-  const onSubmit = async (data: SupplyFormValues) => {
-    try {
-      createCatalogueVariant(data)
-        .unwrap()
-        .then(() => {
-          toast.success("Catalogue Variant created successfully", {
-            duration: 1500,
-          });
-
-          onOpenChange(false);
-          form.reset();
-        });
-    } catch (error) {
-      console.error("Error updating variant:", error);
-      const err = error as { data?: { message?: string } };
-      const message =
-        err?.data?.message ||
-        "Failed to update pharmacy catalogue. Please try again.";
-      toast.error(message, {
-        duration: 1500,
+  useEffect(() => {
+    if (supplyItemToEdit) {
+      form.reset({
+        name: supplyItemToEdit.name || "",
+        itemType: supplyItemToEdit.itemType || "CAPSULE",
+        quantity: supplyItemToEdit.quantity || 0,
+        quantityType: supplyItemToEdit.quantityType || "mg",
+        price: supplyItemToEdit.price || 0,
+        defaultUnitCount: supplyItemToEdit.defaultUnitCount || 1,
+        sku: supplyItemToEdit.sku || "",
+        configMode: supplyItemToEdit.configMode || "FIXED",
       });
     }
-  };
+  }, [supplyItemToEdit, form]);
 
   const outputOptions = Object.values(SupplyItem).map((value) => ({
     label: value.toUpperCase(),
@@ -88,12 +83,65 @@ export default function AddSupply({
     value: value,
   }));
 
+  console.log("SupplyItemToEdit:>>", supplyItemToEdit);
+
+  const [createSupply, { isLoading }] = useCreateSupplyMutation();
+  const [editSupply, { isLoading: editLoading }] = useEditSupplyMutation();
+
+  const onSubmit = async (data: SupplyFormValues) => {
+    try {
+      if (isEditing && supplyItemToEdit?.id) {
+        await editSupply({
+          supplyId: supplyItemToEdit.id,
+          name: data?.name,
+          itemType: data?.itemType,
+          quantity: data?.quantity,
+          quantityType: data?.quantityType,
+          price: data?.price,
+          sku: data?.sku,
+          configMode: data?.configMode,
+        }).unwrap();
+        toast.success("Supply updated successfully", {
+          duration: 1500,
+        });
+      } else {
+        await createSupply({
+          name: data?.name,
+          itemType: data?.itemType,
+          quantity: data?.quantity,
+          quantityType: data?.quantityType,
+          price: data?.price,
+          sku: data?.sku,
+          configMode: data?.configMode,
+        })
+          .unwrap()
+          .then(() => {
+            toast.success("Supply created successfully", {
+              duration: 1500,
+            });
+          });
+      }
+
+      onOpenChange(false);
+      form.reset();
+    } catch (error) {
+      console.error("Error updating variant:", error);
+      const err = error as { data?: { message?: string } };
+      const message =
+        err?.data?.message ||
+        "Failed to update pharmacy catalogue. Please try again.";
+      toast.error(message, {
+        duration: 1500,
+      });
+    }
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto ">
         <DialogHeader className="flex flex-col gap-2 ">
           <DialogTitle className="text-xl font-semibold p-3 text-gray-900 border border-b-gray-300 border-t-0 border-l-0 border-r-0">
-            Add New Supply
+            {isEditing ? "Edit Supply" : "Add New Supply"}
           </DialogTitle>
           <DialogDescription className="p-3">
             Add a new item to your pharmacy supplies catalogue
@@ -146,23 +194,23 @@ export default function AddSupply({
 
             <div className="flex gap-2 items-center ">
               <SelectElement
-                name={"quantity"}
+                name={"quantityType"}
                 options={quantityOptions ?? []}
                 label="Quantity Type"
                 isRequired={true}
-                defaultValue={quantityOptions[0]?.value}
+                // defaultValue={quantityOptions[0]?.value}
                 placeholder="Select quantity type"
                 className="w-[280px] min-h-[56px] "
                 triggerClassName="border border-slate-300 placeholder:text-slate-400"
                 errorClassName="text-right"
               />
               <SelectElement
-                name={"supplyConfig"}
+                name={"configMode"}
                 options={supplyConfigOptions ?? []}
                 label="Supply Config"
                 isRequired={true}
                 placeholder="Choose supply config option"
-                className="w-[280px] min-h-[56px] "
+                className="w-[280px] min-h-[56px]"
                 triggerClassName="border border-slate-300 "
                 errorClassName="text-right"
               />
@@ -170,7 +218,7 @@ export default function AddSupply({
 
             <div className="flex gap-2 items-center w-full">
               <SelectElement
-                name={"output"}
+                name={"itemType"}
                 options={outputOptions ?? []}
                 label="Select Output Value"
                 isRequired={true}
@@ -194,10 +242,10 @@ export default function AddSupply({
                 <Button
                   type="submit"
                   onClick={() => console.log("Supply added")}
-                  disabled={isLoading}
+                  disabled={isLoading || editLoading}
                   className="px-4 py-2 bg-primary hover:bg-[#4243a0] text-white cursor-pointer"
                 >
-                  Add Supply
+                  {isEditing ? "Edit Supply" : "Add Supply"}
                 </Button>
               </div>
             </DialogFooter>

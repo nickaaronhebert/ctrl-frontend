@@ -1,13 +1,13 @@
 export interface ICreateSupplyRequest {
   name: string;
   itemType:
-    | "Injectable"
-    | "Capsule"
-    | "Tablet"
-    | "Spray"
-    | "Cream"
-    | "Gel"
-    | "Solution"
+    | "INJECTABLE"
+    | "CAPSULE"
+    | "TABLET"
+    | "SPRAY"
+    | "CREAM"
+    | "GEL"
+    | "SOLUTION"
     | "PAD"
     | "OTHER";
   quantity: number;
@@ -15,4 +15,8 @@ export interface ICreateSupplyRequest {
   price: number;
   sku: string;
   configMode: "FIXED" | "CONFIGURABLE";
+}
+
+export interface IEditSupplyRequest extends ICreateSupplyRequest {
+  supplyId: string;
 }

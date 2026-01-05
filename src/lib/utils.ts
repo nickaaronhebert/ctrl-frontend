@@ -3,6 +3,7 @@ import { twMerge } from "tailwind-merge";
 import { z } from "zod";
 import { subDays, subWeeks, subMonths, format } from "date-fns";
 import type { Period } from "@/types/global/commonTypes";
+import type { SupplyFormValues } from "@/schemas/supplySchema";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -138,4 +139,18 @@ export function sortMedicationCatalogue(data: any[]) {
         )
       ),
     }));
+}
+
+export function toSupplyFormValues(supply: any): SupplyFormValues {
+  return {
+    id: supply.id,
+    name: supply.name,
+    sku: supply.sku,
+    price: supply.price,
+    itemType: supply.itemType,
+    quantity: supply.quantity,
+    quantityType: supply.quantityType,
+    defaultUnitCount: supply.defaultUnitCount,
+    configMode: supply.configMode,
+  };
 }

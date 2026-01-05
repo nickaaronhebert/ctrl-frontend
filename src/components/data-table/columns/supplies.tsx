@@ -1,6 +1,9 @@
+import AddSupply from "@/components/common/AddSupply/AddSupply";
+import { Button } from "@/components/ui/button";
+import { toSupplyFormValues } from "@/lib/utils";
 import type { Supply } from "@/types/responses/supplies";
 import type { ColumnDef } from "@tanstack/react-table";
-import { Link } from "react-router-dom";
+import { useState } from "react";
 
 export function suppliesColumns(): ColumnDef<Supply>[] {
   return [
@@ -27,20 +30,31 @@ export function suppliesColumns(): ColumnDef<Supply>[] {
       header: "Price",
       cell: ({ row }) => {
         const { price } = row.original;
-        return <p className="text-sm font-medium">{price}</p>;
+        return <p className="text-sm font-medium">${price}</p>;
       },
     },
     {
       accessorKey: "id",
       header: "Action",
-      cell: () => {
+      cell: ({ row }) => {
+        const [openShippingModal, setOpenShippingModal] =
+          useState<boolean>(false);
+
         return (
-          <Link
-            to={``}
-            className="flex justify-center items-center py-1 px-5 w-[85px] h-[36px] rounded-[50px] border border-primary-foreground "
-          >
-            Modify
-          </Link>
+          <>
+            <Button
+              onClick={() => setOpenShippingModal(true)}
+              className="flex justify-center items-center py-1 bg-transparent hover:bg-transparent cursor-pointer px-5 w-[85px] h-[36px] rounded-[50px] border border-primary-foreground "
+            >
+              Modify
+            </Button>
+            <AddSupply
+              open={openShippingModal}
+              onOpenChange={setOpenShippingModal}
+              supplyItemToEdit={toSupplyFormValues(row.original)}
+              isEditing={true}
+            />
+          </>
         );
       },
     },
