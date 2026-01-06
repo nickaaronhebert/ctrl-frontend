@@ -1,11 +1,52 @@
 // import { formatDateMMDDYYYY } from "@/lib/utils";
-import type { Transmission } from "@/types/global/commonTypes";
+import type {
+  // Organization,
+  Transmission,
+  OrganizationAddress,
+} from "@/types/global/commonTypes";
 import { Activity } from "lucide-react";
 import { StatusBadge } from "../StatusBadge/StatusBadge";
 import type { ReactNode } from "react";
 
 type TransmissionDetails = Pick<Transmission, "amount" | "status"> & {
   createdAt: string;
+  subOrganization?: {
+    id: string;
+    name: string;
+    email: string;
+    phoneNumber: string;
+    status: string;
+    organizationPublicKey: string;
+    address: OrganizationAddress;
+    createdBy: string;
+    applicationFee: number;
+    parentOrganization: string;
+    isTelegraTrustedPartner: boolean;
+    isSubOrgPaymentMethodConfigured: boolean;
+    createdAt: string;
+    updatedAt: string;
+  } | null;
+  organization?: {
+    id: string;
+    name: string;
+    email: string;
+    phoneNumber: string;
+    status: string;
+    organizationPublicKey: string;
+    allowedStates: string[];
+    createdBy: string;
+    applicationFee: number;
+    address: OrganizationAddress;
+    isTelegraTrustedPartner: boolean;
+    createdAt: string;
+    updatedAt: string;
+  } | null;
+  tracking: {
+    trackingNumber: string;
+    shippingCompany: string;
+    trackingUrl: string;
+    shipped: boolean;
+  } | null;
 };
 
 const orderDisplayFields: {
@@ -55,21 +96,57 @@ export default function TransmissionOverviewCard({
   uniqueId: string;
   externalOrderId?: string;
 }) {
-  const overviewFields: { label: string; getValue?: (t: TransmissionDetails) => ReactNode; content?: ReactNode }[] =
-    [
-      ...orderDisplayFields.map(({ label, getValue }) => ({
-        label,
-        getValue,
-      })),
-      {
-        label: "External Order Id",
-        content: externalOrderId ?? "-",
-      },
-      {
-        label: "Pharmacy Order Id",
-        content: uniqueId || "-",
-      },
-    ];
+  const overviewFields: {
+    label: string;
+    getValue?: (t: TransmissionDetails) => ReactNode;
+    content?: ReactNode;
+  }[] = [
+    ...orderDisplayFields.map(({ label, getValue }) => ({
+      label,
+      getValue,
+    })),
+    {
+      label: "External Order Id",
+      content: externalOrderId ?? "-",
+    },
+    {
+      label: "Pharmacy Order Id",
+      content: uniqueId || "-",
+    },
+    {
+      label: "Organization",
+      content:
+        transmission?.subOrganization?.name ||
+        transmission?.organization?.name ||
+        "-",
+    },
+    // ...(transmission?.tracking?.trackingUrl
+    //   ? [
+    //       {
+    //         label: "Tracking URL",
+    //         content: transmission?.tracking?.trackingUrl ? (
+    //           <a
+    //             href={transmission?.tracking?.trackingUrl}
+    //             target="_blank"
+    //             rel="noopener noreferrer"
+    //           >
+    //             {transmission?.tracking?.trackingUrl?.toLowerCase()}
+    //           </a>
+    //         ) : (
+    //           "-"
+    //         ),
+    //       },
+    //     ]
+    //   : []),
+    ...(transmission?.tracking?.trackingNumber
+      ? [
+          {
+            label: "Tracking Number",
+            content: transmission?.tracking?.trackingNumber || "-",
+          },
+        ]
+      : []),
+  ];
 
   return (
     <div
@@ -87,10 +164,28 @@ export default function TransmissionOverviewCard({
               {label}
             </h4>
             <span className="capitalize font-medium text-primary-foreground text-sm mt-2">
-              {getValue ? getValue(transmission as TransmissionDetails) : content}
+              {getValue
+                ? getValue(transmission as TransmissionDetails)
+                : content}
             </span>
           </div>
         ))}
+        {transmission?.tracking?.trackingUrl && (
+          <div>
+            <h4 className="text-sm font-normal text-muted-foreground ">
+              Tracking URL
+            </h4>
+            <span className=" font-medium text-primary-foreground text-sm mt-2">
+              <a
+                href={transmission?.tracking?.trackingUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {transmission?.tracking?.trackingUrl?.toLowerCase()}
+              </a>
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );

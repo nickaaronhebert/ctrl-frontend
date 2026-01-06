@@ -92,6 +92,7 @@ export const ROUTES = {
   GET_SELECTED_PLAN_CATALOGUES: "selected-plan-catalogues",
   MODIFY_PLAN_PRICES: "modify-plan-prices",
   PHARMACY_SUPPLIES: "supplies",
+  ORG_TRANSMISSION_TRACKING: "transmission-tracking",
 };
 
 export const STEPPER_FORM = {
