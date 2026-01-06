@@ -2,26 +2,26 @@ import { z } from "zod";
 
 export const Carrier = {
   UPS: "UPS",
-  FedEx: "FedEx",
+  FedEx: "FEDEX",
   USPS: "USPS",
   DHL: "DHL",
   "Custom Carrier": "Custom Carrier",
 } as const;
 
 export const ServiceType = {
-  Standard: "Standard",
-  "2-Day": "2 Day",
-  Overnight: "Overnight",
-  Refrigerated: "Refrigerated",
-  "Same-Day": "Same-Day",
-  Custom: "Custom",
+  STANDARD: "STANDARD",
+  TWO_DAY: "TWO_DAY",
+  OVERNIGHT: "OVERNIGHT",
+  SAME_DAY: "SAME_DAY",
+  REFRIGERATED: "REFRIGERATED",
+  CUSTOM: "CUSTOM",
 } as const;
 
-export const SignatureType = {
-  NONE: "NONE",
-  ADULT: "ADULT",
-  DIRECT: "DIRECT",
-} as const;
+// export const SignatureType = {
+//   NONE: "NONE",
+//   ADULT: "ADULT",
+//   DIRECT: "DIRECT",
+// } as const;
 
 export const serviceOptionsSchema = z.object({
   refrigerated: z.boolean(),
@@ -30,9 +30,10 @@ export const serviceOptionsSchema = z.object({
   saturdayPickup: z.boolean(),
   holdAtLocation: z.boolean(),
   signatureRequired: z.boolean(),
-  signatureType: z.nativeEnum(SignatureType),
+  signatureType: z.string(),
   tempMonitor: z.boolean(),
   oversize: z.boolean(),
+  overweight: z.boolean(),
 });
 
 export const shippingSchema = z.object({

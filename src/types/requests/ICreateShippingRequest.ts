@@ -15,5 +15,6 @@ export interface ICreateShippingRequest {
     holdAtLocation: boolean;
     hazmat: boolean;
     oversize: boolean;
+    overweight: boolean;
   };
 }

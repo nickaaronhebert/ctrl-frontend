@@ -1,10 +1,16 @@
 export interface Shipping {
   name: string;
   services: {
-    carrier: string;
+    carrier: "UPS" | "FEDEX" | "USPS" | "DHL" | "Custom Carrier";
     carrierProductCode: string;
-    serviceType: string;
-    price: string;
+    serviceType:
+      | "STANDARD"
+      | "TWO_DAY"
+      | "OVERNIGHT"
+      | "SAME_DAY"
+      | "REFRIGERATED"
+      | "CUSTOM";
+    price: number;
   };
 }
 

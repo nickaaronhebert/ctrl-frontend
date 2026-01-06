@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/dialog";
 import { Form, FormField } from "@/components/ui/form";
 import InputField from "../InputField/InputField";
-import { toast } from "sonner";
 import type { ApiError } from "@/types/global/commonTypes";
 import {
   Carrier,
@@ -20,10 +19,16 @@ import {
 import SelectElement from "@/components/Form/select-element";
 import { Switch } from "@/components/ui/switch";
 import { useCreateShippingClassMutation } from "@/redux/services/shipping";
+import { useEditShippingDetailsMutation } from "@/redux/services/shipping";
+import { useViewShippingDetailsQuery } from "@/redux/services/shipping";
+import { toast } from "sonner";
+import { useEffect } from "react";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 interface CreateShippingDialogProps {
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
+  profileId?: string;
 }
 
 interface SwitchFieldProps {
@@ -31,6 +36,8 @@ interface SwitchFieldProps {
   name: string;
   label: string;
   description?: string;
+  disabled?: boolean;
+  className?: string;
 }
 
 const carrierOptions = Object.values(Carrier).map((c) => ({
@@ -43,20 +50,33 @@ const serviceTypeOptions = Object.values(ServiceType).map((s) => ({
   value: s,
 }));
 
-function SwitchField({ control, name, label, description }: SwitchFieldProps) {
+function SwitchField({
+  control,
+  name,
+  label,
+  description,
+  disabled = false,
+  className = "",
+}: SwitchFieldProps) {
   return (
     <FormField
       control={control}
       name={name}
       render={({ field }) => (
-        <div className="flex items-center justify-between rounded-[5px] border border-[#D9D9D9] bg-[#F6F8F9] p-[15px] py-[12px]">
+        <div
+          className={`flex items-center justify-between rounded-[5px] border border-[#D9D9D9] bg-[#F6F8F9] p-[15px] py-[12px] ${className}`}
+        >
           <div className="space-y-1">
             <p className="text-sm font-medium">{label}</p>
             {description && (
               <p className="text-xs text-muted-foreground">{description}</p>
             )}
           </div>
-          <Switch checked={field.value} onCheckedChange={field.onChange} />
+          <Switch
+            checked={field.value}
+            onCheckedChange={field.onChange}
+            disabled={disabled}
+          />
         </div>
       )}
     ></FormField>
@@ -66,15 +86,31 @@ function SwitchField({ control, name, label, description }: SwitchFieldProps) {
 export default function CreateShippingDialog({
   open,
   onOpenChange,
+  profileId,
 }: CreateShippingDialogProps) {
+  const isEditMode = Boolean(profileId);
+
+  const { data: shippingDetailData, isLoading: shippingLoading } =
+    useViewShippingDetailsQuery(
+      { profileId: profileId || "" },
+      {
+        skip: !profileId,
+      }
+    );
+
+  console.log("Dataaaaa>>>>>>>", shippingDetailData);
+
   const [createShippingClassMutation, { isLoading }] =
     useCreateShippingClassMutation();
+  const [editShippingClassMutation, { isLoading: editLoading }] =
+    useEditShippingDetailsMutation();
+
   const form = useForm<ShippingFormValues>({
     resolver: zodResolver(shippingSchema),
     defaultValues: {
       name: "",
       carrier: "UPS",
-      serviceType: "Standard",
+      serviceType: "STANDARD",
       price: 0,
       carrierProductCode: "",
       deliveryWindow: "",
@@ -88,31 +124,52 @@ export default function CreateShippingDialog({
         signatureType: "NONE",
         tempMonitor: false,
         oversize: false,
+        overweight: false,
       },
     },
   });
 
+  console.log("Form Errors::: ", form.formState.errors);
+
   async function onSubmit(values: ShippingFormValues) {
+    const payload = {
+      name: values.name,
+      services: {
+        carrier: values.carrier,
+        serviceType: values.serviceType,
+        price: values.price,
+        carrierProductCode: values.carrierProductCode,
+        deliveryWindow: values.deliveryWindow,
+        signatureType: "NONE",
+        refrigerated: values.serviceOptions.refrigerated,
+        tempMonitor: values.serviceOptions.tempMonitor,
+        weekendDelivery: values.serviceOptions.weekendDelivery,
+        saturdayPickup: values.serviceOptions.saturdayPickup,
+        holdAtLocation: values.serviceOptions.holdAtLocation,
+        hazmat: values.serviceOptions.hazmat,
+        oversize: values.serviceOptions.oversize,
+        overweight: values.serviceOptions.overweight,
+      },
+    };
     try {
       console.log("values", values);
-      await createShippingClassMutation({
-        name: values.name,
-        services: {
-          carrier: values.carrier,
-          serviceType: values.serviceType,
-          price: values.price,
-          carrierProductCode: values.carrierProductCode,
-          deliveryWindow: values.deliveryWindow,
-          signatureType: "NONE",
-          refrigerated: values.serviceOptions.refrigerated,
-          tempMonitor: values.serviceOptions.tempMonitor,
-          weekendDelivery: values.serviceOptions.weekendDelivery,
-          saturdayPickup: values.serviceOptions.saturdayPickup,
-          holdAtLocation: values.serviceOptions.holdAtLocation,
-          hazmat: values.serviceOptions.hazmat,
-          oversize: values.serviceOptions.oversize,
-        },
-      });
+      if (isEditMode && profileId) {
+        await editShippingClassMutation({
+          profileId: profileId,
+          ...payload,
+        });
+        toast.success("Shipping class updated successfully", {
+          duration: 1500,
+        });
+      } else {
+        await createShippingClassMutation(payload).unwrap();
+        toast.success("Shipping class created successfully", {
+          duration: 1500,
+        });
+      }
+
+      onOpenChange?.(false);
+      form.reset();
     } catch (error: unknown) {
       console.error("Shipping creation failed", error);
 
@@ -139,12 +196,46 @@ export default function CreateShippingDialog({
     onOpenChange?.(false);
   }
 
+  useEffect(() => {
+    if (!shippingDetailData) return;
+    form.reset({
+      name: shippingDetailData?.data?.name,
+      carrier: shippingDetailData?.data?.services?.carrier,
+      serviceType: shippingDetailData?.data?.services?.serviceType,
+      price: shippingDetailData?.data?.services?.price,
+      carrierProductCode:
+        shippingDetailData?.data?.services?.carrierProductCode,
+      deliveryWindow: shippingDetailData?.data?.services?.deliveryWindow,
+      serviceOptions: {
+        refrigerated: shippingDetailData?.data?.services?.refrigerated,
+        hazmat: shippingDetailData?.data?.services?.hazmat,
+        weekendDelivery: shippingDetailData?.data?.services?.weekendDelivery,
+        saturdayPickup: shippingDetailData?.data?.services?.saturdayPickup,
+        holdAtLocation: shippingDetailData?.data?.services?.holdAtLocation,
+        signatureType:
+          shippingDetailData?.data?.services?.signatureType ?? "NONE",
+        signatureRequired: false,
+        tempMonitor: shippingDetailData?.data?.services?.tempMonitor,
+        oversize: shippingDetailData?.data?.services?.oversize,
+        overweight: shippingDetailData?.data?.services?.overweight,
+      },
+    });
+  }, [form, shippingDetailData]);
+
+  if (shippingLoading) {
+    return (
+      <div className="flex justify-center items-center h-[80vh]">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="min-w-[630px] rounded-[15px] max-h-[800px] overflow-y-auto">
         <DialogHeader className="flex px-[20px] py-[16px] justify-between items-center border border-b-gray-200 border-t-0 border-l-0 border-r-0">
           <DialogTitle className="text-lg font-medium">
-            Create Shipping Class
+            {isEditMode ? "Update Shipping Class" : "Create Shipping Class"}
           </DialogTitle>
         </DialogHeader>
 
@@ -162,7 +253,7 @@ export default function CreateShippingDialog({
                       label="Service Name"
                       type="text"
                       className="border w-[280px] border-gray-200 min-h-[52px] placeholder:text-black"
-                      placeholder="Enter your firstname"
+                      placeholder="Eg. Standard Ground"
                       required
                     />
                   )}
@@ -252,54 +343,55 @@ export default function CreateShippingDialog({
                     name="serviceOptions.signatureRequired"
                     label="Signature Required"
                     description="Recipient must sign for delivery"
+                    className="pointer-events-none opacity-50"
+                    aria-disabled
                   />
-
                   <SwitchField
                     control={form.control}
                     name="serviceOptions.refrigerated"
                     label="Refrigerated"
                     description="Temperature-controlled shipping"
                   />
-
                   <SwitchField
                     control={form.control}
                     name="serviceOptions.tempMonitor"
                     label="Temperature Monitor"
                     description="Include temperature controlled device"
                   />
-
                   <SwitchField
                     control={form.control}
                     name="serviceOptions.weekendDelivery"
                     label="Weekend Delivery"
                     description="Deliver on Saturday/Sunday"
                   />
-
                   <SwitchField
                     control={form.control}
                     name="serviceOptions.saturdayPickup"
                     label="Saturday Pickup"
                     description="Available for Saturday pickup"
                   />
-
                   <SwitchField
                     control={form.control}
                     name="serviceOptions.holdAtLocation"
                     label="Hold at Location"
                     description="Hold for customer pickup"
                   />
-
                   <SwitchField
                     control={form.control}
                     name="serviceOptions.hazmat"
                     label="Hazmat"
                     description="Hazardous materials handling"
                   />
-
                   <SwitchField
                     control={form.control}
                     name="serviceOptions.oversize"
-                    label="Oversize/Overweight"
+                    label="Oversize"
+                    description="Large or heavy package"
+                  />
+                  <SwitchField
+                    control={form.control}
+                    name="serviceOptions.overweight"
+                    label="Overweight"
                     description="Large or heavy package"
                   />
                 </div>
@@ -316,10 +408,12 @@ export default function CreateShippingDialog({
                 </Button>
                 <Button
                   type="submit"
-                  disabled={isLoading}
+                  disabled={isLoading || editLoading}
                   className="min-w-[150px] cursor-pointer min-h-[52px] rounded-[50px] border border-primary px-[30px] py-[10px] bg-primary text-white"
                 >
-                  Create Shipping Class
+                  {isEditMode
+                    ? "Update Shipping Class"
+                    : "Create Shipping Class"}
                 </Button>
               </div>
             </form>
