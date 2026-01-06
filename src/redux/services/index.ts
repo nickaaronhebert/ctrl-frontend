@@ -28,6 +28,7 @@ import {
   TAG_GET_EVENTS,
   TAG_GET_SUPPLIES,
   TAG_GET_SHIPPING,
+  TAG_GET_SHIPPING_DETAILS,
 } from "@/types/baseApiTags";
 
 export const baseApi = createApi({
@@ -60,6 +61,7 @@ export const baseApi = createApi({
     TAG_GET_EVENTS,
     TAG_GET_SUPPLIES,
     TAG_GET_SHIPPING,
+    TAG_GET_SHIPPING_DETAILS,
   ],
   baseQuery: fetchBaseQuery({
     baseUrl:

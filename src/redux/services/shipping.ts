@@ -1,4 +1,7 @@
-import { TAG_GET_SHIPPING } from "@/types/baseApiTags";
+import {
+  TAG_GET_SHIPPING,
+  TAG_GET_SHIPPING_DETAILS,
+} from "@/types/baseApiTags";
 import { baseApi } from ".";
 import type { ICommonSearchQuery } from "@/types/requests/search";
 import type { ShippingResponse } from "@/types/responses/IShippingResponse";
@@ -16,7 +19,7 @@ const shippingApi = baseApi.injectEndpoints({
         method: "POST",
         body,
       }),
-      invalidatesTags: [TAG_GET_SHIPPING],
+      invalidatesTags: [TAG_GET_SHIPPING, TAG_GET_SHIPPING_DETAILS],
     }),
     viewShipping: builder.query<ShippingResponse, ICommonSearchQuery>({
       query: ({ page, perPage, q }) => {
@@ -35,6 +38,7 @@ const shippingApi = baseApi.injectEndpoints({
         url: `/shipping/profile/${profileId}`,
         method: "GET",
       }),
+      providesTags: [TAG_GET_SHIPPING_DETAILS],
     }),
     editShippingDetails: builder.mutation<
       { message: string; code: string },
@@ -45,7 +49,7 @@ const shippingApi = baseApi.injectEndpoints({
         method: "PATCH",
         body,
       }),
-      invalidatesTags: [TAG_GET_SHIPPING],
+      invalidatesTags: [TAG_GET_SHIPPING, TAG_GET_SHIPPING_DETAILS],
     }),
   }),
 });

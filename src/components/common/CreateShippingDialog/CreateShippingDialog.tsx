@@ -98,8 +98,6 @@ export default function CreateShippingDialog({
       }
     );
 
-  console.log("Dataaaaa>>>>>>>", shippingDetailData);
-
   const [createShippingClassMutation, { isLoading }] =
     useCreateShippingClassMutation();
   const [editShippingClassMutation, { isLoading: editLoading }] =
@@ -221,6 +219,9 @@ export default function CreateShippingDialog({
       },
     });
   }, [form, shippingDetailData]);
+
+  console.log("Form values", form.getValues());
+  console.log("Dataaaaa>>>>>>>", shippingDetailData);
 
   if (shippingLoading) {
     return (
