@@ -34,7 +34,7 @@ export const supplyItemSchema = z.object({
   quantityType: z.nativeEnum(QuantityType, {
     errorMap: () => ({ message: "Invalid quantity type" }),
   }),
-  price: z.coerce.number().positive("Price must be a positive number"),
+  price: z.coerce.number().positive("Price must be a positive"),
   defaultUnitCount: z
     .number()
     .positive("Default unit count must be a positive number"),

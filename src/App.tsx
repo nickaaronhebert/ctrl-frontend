@@ -96,6 +96,7 @@ import ConfigureCatalogues from "./pages/Pharmacy/Catalogues/configure";
 import SelectedPlanCatalogues from "./components/pharmacy/selectedPlanCatalogues/SelectedPlanCatalogues";
 import ModifyPlanPrices from "./components/pharmacy/modifyPlanPrices";
 import PharmacySupplies from "./pages/Pharmacy/Supplies";
+import ShippingConfiguration from "./pages/Pharmacy/ShippingConfiguration";
 
 const router = createBrowserRouter([
   {
@@ -498,16 +499,20 @@ const router = createBrowserRouter([
         element: <PharmacyOrganizationStatus />,
       },
       {
-        path: ROUTES.PHARMACY_SUPPLIES,
-        element: <PharmacySupplies />,
-      },
-      {
         path: `${ROUTES.PHARMACY_ACTIVE_ORGANIZATIONS}/:id`,
         element: <ActiveOrgDetails />,
       },
       {
         path: `${ROUTES.PHARMACY_TRANSMISSIONS}/:id`,
         element: <PharmacyTransmissionDetails />,
+      },
+      {
+        path: ROUTES.PHARMACY_SUPPLIES,
+        element: <PharmacySupplies />,
+      },
+      {
+        path: ROUTES.PHARMACY_SHIPPING,
+        element: <ShippingConfiguration />,
       },
     ],
   },

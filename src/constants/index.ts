@@ -135,6 +135,10 @@ export const nestedPharmacyItems = [
     url: "/pharmacy/organizations",
   },
   {
+    title: "Shipping Configuration",
+    url: "/pharmacy/shipping",
+  },
+  {
     title: "Supplies Catalogue",
     url: "/pharmacy/supplies",
   },

@@ -24,3 +24,4 @@ export const TAG_GET_CATALOGUE_LIST = "CatalogueList";
 export const TAG_GET_PLAN_CATALOGUES = "PlanCatalogues";
 export const TAG_GET_EVENTS = "EventTags";
 export const TAG_GET_SUPPLIES = "Supplies";
+export const TAG_GET_SHIPPING = "Shipping";
