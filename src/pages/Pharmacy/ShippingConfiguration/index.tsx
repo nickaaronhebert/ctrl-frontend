@@ -13,7 +13,7 @@ import GlobalShippingDialog from "@/components/common/GlobalShippingDialog/Globa
 export default function ShippingConfiguration() {
   const [searchParams] = useSearchParams();
   const [open, setOpen] = useState<boolean>(false);
-  const [profileId, setProfileId] = useState<string>("");
+  const [profileId, setProfileId] = useState<string | undefined>(undefined);
   const [openGlobalModal, setOpenGlobalModal] = useState<boolean>(false);
   const page = parseInt(searchParams.get("page") || "1", 10);
   const perPage = parseInt(searchParams.get("per_page") ?? "100", 10);
@@ -53,7 +53,10 @@ export default function ShippingConfiguration() {
             Global Settings
           </Button>
           <Button
-            onClick={() => setOpen(true)}
+            onClick={() => {
+              setOpen(true);
+              setProfileId(undefined);
+            }}
             className="rounded-[50px] px-[20px] py-[5px] min-h-[40px] text-white font-semibold text-[12px] bg-primary cursor-pointer"
           >
             Create Shipping Class
@@ -81,7 +84,8 @@ export default function ShippingConfiguration() {
         <CreateShippingDialog
           open={open}
           onOpenChange={setOpen}
-          profileId={profileId ?? ""}
+          profileId={profileId ?? undefined}
+          setProfileId={setProfileId}
         />
       )}
       {openGlobalModal && (

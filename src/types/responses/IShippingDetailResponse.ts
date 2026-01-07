@@ -5,7 +5,7 @@ export interface IShippingDetailResponse {
     name: string;
     description?: string;
     services: {
-      carrier: "UPS" | "FEDEX" | "USPS" | "DHL" | "Custom Carrier";
+      carrier: "UPS" | "FEDEX" | "USPS" | "OTHER";
       serviceType:
         | "STANDARD"
         | "TWO_DAY"

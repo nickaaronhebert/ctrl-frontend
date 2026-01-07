@@ -16,7 +16,6 @@ export function shippingColumn({
       accessorKey: "name",
       header: "Service Name",
       cell: ({ row }) => {
-        console.log("row original", row.original);
         const value = row.getValue<string>("name");
 
         return (

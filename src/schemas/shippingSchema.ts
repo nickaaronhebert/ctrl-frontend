@@ -4,8 +4,7 @@ export const Carrier = {
   UPS: "UPS",
   FedEx: "FEDEX",
   USPS: "USPS",
-  DHL: "DHL",
-  "Custom Carrier": "Custom Carrier",
+  OTHER: "OTHER",
 } as const;
 
 export const ServiceType = {

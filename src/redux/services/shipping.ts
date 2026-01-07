@@ -61,6 +61,7 @@ const shippingApi = baseApi.injectEndpoints({
         method: "POST",
         body,
       }),
+      invalidatesTags: [TAG_GET_SHIPPING],
     }),
   }),
 });

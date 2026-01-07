@@ -28,7 +28,8 @@ import { LoadingSpinner } from "@/components/ui/loading-spinner";
 interface CreateShippingDialogProps {
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
-  profileId?: string;
+  profileId: string | undefined;
+  setProfileId: React.Dispatch<React.SetStateAction<string | undefined>>;
 }
 
 interface SwitchFieldProps {
@@ -87,8 +88,13 @@ export default function CreateShippingDialog({
   open,
   onOpenChange,
   profileId,
+  setProfileId,
 }: CreateShippingDialogProps) {
   const isEditMode = Boolean(profileId);
+
+  console.log("IsEditMode:: ", isEditMode);
+
+  console.log("ProfileId: ", profileId);
 
   const { data: shippingDetailData, isLoading: shippingLoading } =
     useViewShippingDetailsQuery(
@@ -159,6 +165,7 @@ export default function CreateShippingDialog({
         toast.success("Shipping class updated successfully", {
           duration: 1500,
         });
+        setProfileId(undefined);
       } else {
         await createShippingClassMutation(payload).unwrap();
         toast.success("Shipping class created successfully", {
@@ -188,6 +195,8 @@ export default function CreateShippingDialog({
       });
     }
   }
+
+  console.log("ShippingDetailData", shippingDetailData);
 
   function onCancel() {
     form.reset();
@@ -219,9 +228,6 @@ export default function CreateShippingDialog({
       },
     });
   }, [form, shippingDetailData]);
-
-  console.log("Form values", form.getValues());
-  console.log("Dataaaaa>>>>>>>", shippingDetailData);
 
   if (shippingLoading) {
     return (
