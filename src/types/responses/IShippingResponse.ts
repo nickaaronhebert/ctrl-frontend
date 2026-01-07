@@ -1,5 +1,7 @@
 export interface Shipping {
+  id: string;
   name: string;
+  isDefault?: boolean;
   services: {
     carrier: "UPS" | "FEDEX" | "USPS" | "DHL" | "Custom Carrier";
     carrierProductCode: string;

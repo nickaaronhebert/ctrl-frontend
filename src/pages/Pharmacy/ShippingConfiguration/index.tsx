@@ -8,10 +8,13 @@ import { Button } from "@/components/ui/button";
 import { useViewShippingQuery } from "@/redux/services/shipping";
 import { shippingColumn } from "@/components/data-table/columns/shipping-column";
 import CreateShippingDialog from "@/components/common/CreateShippingDialog/CreateShippingDialog";
+import GlobalShippingDialog from "@/components/common/GlobalShippingDialog/GlobalShippingDialog";
 
 export default function ShippingConfiguration() {
   const [searchParams] = useSearchParams();
   const [open, setOpen] = useState<boolean>(false);
+  const [profileId, setProfileId] = useState<string>("");
+  const [openGlobalModal, setOpenGlobalModal] = useState<boolean>(false);
   const page = parseInt(searchParams.get("page") || "1", 10);
   const perPage = parseInt(searchParams.get("per_page") ?? "100", 10);
   const { data, isLoading, isError } = useViewShippingQuery({
@@ -19,7 +22,13 @@ export default function ShippingConfiguration() {
     perPage,
     q: "",
   });
-  const columns = useMemo(() => shippingColumn(), []);
+
+  const handleEdit = (id: string) => {
+    setProfileId(id);
+    setOpen(true);
+  };
+
+  const columns = useMemo(() => shippingColumn({ onEdit: handleEdit }), []);
 
   const { table } = useDataTable({
     data: data?.data || [],
@@ -38,8 +47,8 @@ export default function ShippingConfiguration() {
         </div>
         <div className="flex items-center gap-2">
           <Button
-            onClick={() => console.log("Global settings")}
-            className="rounded-[50px] px-[20px] py-[5px] min-h-[40px] text-white font-semibold text-[12px] bg-black cursor-pointer"
+            onClick={() => setOpenGlobalModal(true)}
+            className="rounded-[50px] px-[20px] py-[5px] min-h-[40px] text-white font-semibold text-[12px] bg-black hover:bg-black cursor-pointer"
           >
             Global Settings
           </Button>
@@ -68,7 +77,19 @@ export default function ShippingConfiguration() {
           </div>
         )}
       </div>
-      {open && <CreateShippingDialog open={open} onOpenChange={setOpen} />}
+      {open && (
+        <CreateShippingDialog
+          open={open}
+          onOpenChange={setOpen}
+          profileId={profileId ?? ""}
+        />
+      )}
+      {openGlobalModal && (
+        <GlobalShippingDialog
+          open={openGlobalModal}
+          onOpenChange={setOpenGlobalModal}
+        />
+      )}
     </>
   );
 }

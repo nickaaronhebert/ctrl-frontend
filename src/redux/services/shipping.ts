@@ -7,6 +7,7 @@ import type { ICommonSearchQuery } from "@/types/requests/search";
 import type { ShippingResponse } from "@/types/responses/IShippingResponse";
 import type { ICreateShippingRequest } from "@/types/requests/ICreateShippingRequest";
 import type { IShippingDetailResponse } from "@/types/responses/IShippingDetailResponse";
+import type { IGlobalConfigurationRequest } from "@/types/requests/IGlobalConfigurationRequest";
 
 const shippingApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -51,14 +52,26 @@ const shippingApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [TAG_GET_SHIPPING, TAG_GET_SHIPPING_DETAILS],
     }),
+    configureShippingDetails: builder.mutation<
+      { message: string; code: string },
+      IGlobalConfigurationRequest
+    >({
+      query: (body) => ({
+        url: `/pharmacy/shipping/configuration`,
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
 export const {
   useViewShippingQuery,
+  useLazyViewShippingQuery,
   useCreateShippingClassMutation,
   useViewShippingDetailsQuery,
   useEditShippingDetailsMutation,
+  useConfigureShippingDetailsMutation,
 } = shippingApi;
 
 export default shippingApi;
