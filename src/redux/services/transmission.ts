@@ -10,6 +10,9 @@ import type { ICommonSearchQuery } from "@/types/requests/search";
 
 import type { IViewOrgPharmaciesResponse } from "@/types/responses/IViewOrgPharmaciesTranmissions";
 import { TAG_GLOBAL_PHARMACIES } from "@/types/baseApiTags";
+import type { IViewFulfillmentTrackingResponse } from "@/types/responses/IViewTransmissionFulfillments";
+import type { IViewTransmissionFulfillmentStats } from "@/types/responses/IViewTransmissionFulfillmentStats";
+import type { FulfillmentTrackingResponse } from "@/types/responses/IViewTransmissionFullfillmentDetail";
 
 const transmissionApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -32,6 +35,56 @@ const transmissionApi = baseApi.injectEndpoints({
       query: ({ page, perPage }) => {
         return {
           url: `/transmission?page=${page}&limit=${perPage}`,
+          method: "GET",
+        };
+      },
+    }),
+
+    viewAllTransmissionFulfillments: builder.query<
+      IViewFulfillmentTrackingResponse,
+      ICommonSearchQuery
+    >({
+      query: ({
+        page,
+        perPage,
+        transmissionId,
+        pharmacyStatus,
+        pharmacy,
+        subOrganization,
+      }) => {
+        const pharmacyQuery = pharmacyStatus
+          ? `&pharmacyStatus=${pharmacyStatus}`
+          : "";
+        const connectedPharmacyQuery = pharmacy ? `&pharmacy=${pharmacy}` : "";
+        const subOrgQuery = subOrganization
+          ? `&subOrganization=${subOrganization}`
+          : "";
+        return {
+          url: `/transmission/fulfillment-tracking?page=${page}&limit=${perPage}&transmissionId=${transmissionId}${pharmacyQuery}${connectedPharmacyQuery}${subOrgQuery}`,
+          method: "GET",
+        };
+      },
+    }),
+
+    viewTransmissionFulfillmentDetail: builder.query<
+      FulfillmentTrackingResponse,
+      string
+    >({
+      query: (id: string) => {
+        return {
+          url: `/transmission/fulfillment-tracking/${id}`,
+          method: "GET",
+        };
+      },
+    }),
+
+    viewAllTransmissionFulfillmentStats: builder.query<
+      IViewTransmissionFulfillmentStats,
+      any
+    >({
+      query: () => {
+        return {
+          url: `/transmission/fulfillment-tracking/stats`,
           method: "GET",
         };
       },
@@ -96,6 +149,9 @@ export const {
   useViewOrgPharmaciesTransmissionsQuery,
   useViewOrgPharmaciesTransmissionsV2Query,
   useLazyTransmitTransmissionQuery,
+  useViewAllTransmissionFulfillmentsQuery,
+  useViewAllTransmissionFulfillmentStatsQuery,
+  useViewTransmissionFulfillmentDetailQuery,
 } = transmissionApi;
 
 export default transmissionApi;

@@ -55,6 +55,7 @@ const ActiveOrgDetails = () => {
   const [selectedPlan, setSelectedPlan] = useState<string>("");
   const [openBillingModal, setOpenBillingModal] = useState<boolean>(false);
   const [openCatalogueModal, setOpenCatalogueModal] = useState<boolean>(false);
+  const [openConfirmModal, setOpenConfirmModal] = useState<boolean>(false);
   const [selected, setSelected] = useState<BillingFrequency>(
     (data?.data?.invoiceFrequency as BillingFrequency) || "daily"
   );
@@ -307,11 +308,48 @@ const ActiveOrgDetails = () => {
               </DialogClose>
               <Button
                 disabled={isAssigning}
-                onClick={() => handleCatalogueChange(selectedPlan)}
+                // onClick={() => handleCatalogueChange(selectedPlan)}
+                onClick={() => setOpenConfirmModal(true)}
                 className="text-white cursor-pointer"
                 type="submit"
               >
                 Update
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      )}
+      {openConfirmModal && (
+        <Dialog open={openConfirmModal} onOpenChange={setOpenConfirmModal}>
+          <DialogContent className="sm:max-w-[450px] p-4">
+            <DialogHeader>
+              <DialogTitle>Confirm Catalogue Change</DialogTitle>
+            </DialogHeader>
+
+            <p className="text-sm text-muted-foreground">
+              Are you sure you want to update the catalogue plan for this
+              organization? This action will immediately apply the selected
+              catalogue.
+            </p>
+
+            <DialogFooter className="mt-4">
+              <Button
+                variant="outline"
+                className="cursor-pointer"
+                onClick={() => setOpenConfirmModal(false)}
+              >
+                Cancel
+              </Button>
+
+              <Button
+                className="text-white cursor-pointer"
+                disabled={isAssigning}
+                onClick={async () => {
+                  await handleCatalogueChange(selectedPlan);
+                  setOpenConfirmModal(false);
+                }}
+              >
+                Confirm & Update
               </Button>
             </DialogFooter>
           </DialogContent>

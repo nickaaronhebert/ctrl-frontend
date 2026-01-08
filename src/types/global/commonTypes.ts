@@ -156,6 +156,16 @@ export interface Prescription {
   statusUpdatedAt?: string;
 }
 
+export type OrganizationAddress = {
+  _id: string;
+  address1: string;
+  address2: string;
+  city: string;
+  state: string;
+  zipcode: string;
+  country: string;
+};
+
 export interface Transmission {
   foreignPharmacyOrderId?: string;
   externalOrderId?: string;
@@ -170,6 +180,43 @@ export interface Transmission {
     transmissionMethod: string;
     externalOrderId?: string;
     patient?: Patient;
+  };
+  organization?: {
+    id: string;
+    name: string;
+    email: string;
+    phoneNumber: string;
+    status: string;
+    organizationPublicKey: string;
+    allowedStates: string[];
+    createdBy: string;
+    applicationFee: number;
+    address: OrganizationAddress;
+    isTelegraTrustedPartner: boolean;
+    createdAt: string;
+    updatedAt: string;
+  };
+  subOrganization?: {
+    id: string;
+    name: string;
+    email: string;
+    phoneNumber: string;
+    status: string;
+    organizationPublicKey: string;
+    address: OrganizationAddress;
+    createdBy: string;
+    applicationFee: number;
+    parentOrganization: string;
+    isTelegraTrustedPartner: boolean;
+    isSubOrgPaymentMethodConfigured: boolean;
+    createdAt: string;
+    updatedAt: string;
+  };
+  shippingDetails?: {
+    trackingNumber: string;
+    shippingCompany: string;
+    trackingUrl: string;
+    shipped: boolean;
   };
 }
 
@@ -359,4 +406,29 @@ export interface Variant {
     medicationCatalogue?: string;
     telegraProductVariant?: string;
   };
+}
+
+export interface FulfillmentData {
+  transmissionId: string;
+  pharmacy: {
+    name: string;
+    id: string;
+  };
+  patient: {
+    name: string;
+    id: string;
+  };
+  status: string;
+  statusColor: string;
+  prescriptionCount: number;
+  timeline: TimelineEvent[];
+}
+
+export interface TimelineEvent {
+  id: number;
+  status: string;
+  description: string;
+  style?: string;
+  timestamp: string;
+  icon: string;
 }

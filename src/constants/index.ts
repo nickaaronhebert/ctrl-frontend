@@ -12,6 +12,10 @@ import PatientIcon from "@/assets/icons/PatientIcon";
 import { Settings } from "lucide-react";
 import MedicationLibrary from "@/assets/icons/MedicationLibrary";
 import Home from "@/assets/icons/Home";
+import type {
+  PendingTransmission,
+  TrackedTransmission,
+} from "@/components/data-table/columns/tracking";
 
 export interface TabConfig {
   id: string;
@@ -560,3 +564,122 @@ export const dosageFormOptions = [
   { label: "Gel", value: "Gel" },
   { label: "Solution", value: "Solution" },
 ];
+
+export const pendingTransmissions: PendingTransmission[] = [
+  {
+    transmissionId: "TMS_1234",
+    pharmacy: { name: "CVS Pharmacy", id: "#1234" },
+    transmittedOn: "Dec 12, 2025",
+  },
+  {
+    transmissionId: "TMS_1232",
+    pharmacy: { name: "Costco", id: "#1134" },
+    transmittedOn: "Dec 10, 2025",
+  },
+  {
+    transmissionId: "TMS_1228",
+    pharmacy: { name: "CVS Pharmacy", id: "#1234" },
+    transmittedOn: "Nov 24, 2025",
+  },
+  {
+    transmissionId: "TMS_1227",
+    pharmacy: { name: "Walgreens", id: "#9012" },
+    transmittedOn: "Nov 20, 2025",
+  },
+  {
+    transmissionId: "TMS_1226",
+    pharmacy: { name: "CVS Pharmacy", id: "#1234" },
+    transmittedOn: "Nov 18, 2025",
+  },
+];
+
+export const trackedTransmissions: TrackedTransmission[] = [
+  {
+    transmissionId: "TMS_1210",
+    pharmacy: { name: "CVS Pharmacy", id: "#1234" },
+    trackingNumber: "1D5432198FGH9TRE",
+    trackedOn: "Dec 17, 2025",
+    status: "Delivered",
+  },
+  {
+    transmissionId: "TMS_205",
+    pharmacy: { name: "CVS Pharmacy", id: "#1234" },
+    trackingNumber: "6S2345678QAZ1XSW",
+    trackedOn: "Dec 17, 2025",
+    status: "Processed",
+  },
+  {
+    transmissionId: "TMS_1198",
+    pharmacy: { name: "Costco", id: "#1134" },
+    trackingNumber: "9Z234ABCQWER89",
+    trackedOn: "Dec 15, 2025",
+    status: "Shipped",
+  },
+  {
+    transmissionId: "TMS_1189",
+    pharmacy: { name: "Walgreens", id: "#9012" },
+    trackingNumber: "7X9987LMNOP12",
+    trackedOn: "Dec 14, 2025",
+    status: "ReadyToShip",
+  },
+  {
+    transmissionId: "TMS_1182",
+    pharmacy: { name: "CVS Pharmacy", id: "#1234" },
+    trackingNumber: "4M5566QAZWSX",
+    trackedOn: "Dec 13, 2025",
+    status: "Processed",
+  },
+];
+
+export const exampleFulfillmentData = {
+  transmissionId: "TMS_1234",
+  pharmacy: {
+    name: "CVS Pharmacy",
+    id: "#1234",
+  },
+  patient: {
+    name: "John Smith",
+    id: "PT_5678",
+  },
+  status: "Delivered",
+  statusColor: "green",
+  prescriptionCount: 2,
+  timeline: [
+    {
+      id: 1,
+      status: "Transmitted",
+      description: "Sent to Pharmacy",
+      timestamp: "Dec 18, 2025 8:00 AM",
+      icon: "transmitted",
+    },
+    {
+      id: 2,
+      status: "Processed",
+      description: "Pharmacy filling prescription",
+      timestamp: "Dec 18, 2025 8:30 AM",
+      icon: "processed",
+    },
+    {
+      id: 3,
+      status: "Ready to Ship",
+      description: "Order filled, awaiting carrier pickup",
+      timestamp: "Dec 18, 2025 10:00 AM",
+      icon: "ready",
+    },
+    {
+      id: 4,
+      status: "Shipped",
+      description: "Package picked up with tracking",
+      timestamp: "Dec 18, 2025 11:00 AM",
+      icon: "shipped",
+      trackingNumber: "Z3Z5Z3S2QS1YDS",
+    },
+    {
+      id: 5,
+      status: "Delivered",
+      description: "Successfully delivered to patient",
+      timestamp: "Dec 18, 2025 5:30 PM",
+      icon: "delivered",
+    },
+  ],
+};

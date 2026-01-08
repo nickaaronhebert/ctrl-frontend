@@ -4,6 +4,7 @@ import { z } from "zod";
 import { subDays, subWeeks, subMonths, format } from "date-fns";
 import type { Period } from "@/types/global/commonTypes";
 import type { SupplyFormValues } from "@/schemas/supplySchema";
+import { STATUS_CONFIG } from "@/components/data-table/columns/transmission-fulfillment";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -153,4 +154,48 @@ export function toSupplyFormValues(supply: any): SupplyFormValues {
     defaultUnitCount: supply.defaultUnitCount,
     configMode: supply.configMode,
   };
+}
+export function formatDate(isoDateString: string): string {
+  const date: Date = new Date(isoDateString);
+
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true,
+  };
+
+  return date.toLocaleString("en-US", options);
+}
+
+export function formattedDate(date: string | Date) {
+  const d = new Date(date);
+
+  return d.toLocaleString("en-US", {
+    month: "short",
+    day: "2-digit",
+    year: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
+}
+
+export function buildTimeline(tracking: Record<string, string | null>): any[] {
+  console.log("Tracking", tracking);
+  return Object.entries(tracking)
+    .filter(([, value]) => value)
+    .map(([key, value]) => ({
+      id: key,
+      status: STATUS_CONFIG[key]?.status ?? key,
+      description: STATUS_CONFIG[key]?.description ?? "",
+      icon: STATUS_CONFIG[key]?.icon ?? "default",
+      style: STATUS_CONFIG[key]?.style ?? "",
+      timestamp: formattedDate(value!),
+      rawDate: new Date(value!),
+    }))
+    .sort((a, b) => a.rawDate.getTime() - b.rawDate.getTime());
 }

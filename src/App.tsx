@@ -97,6 +97,7 @@ import SelectedPlanCatalogues from "./components/pharmacy/selectedPlanCatalogues
 import ModifyPlanPrices from "./components/pharmacy/modifyPlanPrices";
 import PharmacySupplies from "./pages/Pharmacy/Supplies";
 import ShippingConfiguration from "./pages/Pharmacy/ShippingConfiguration";
+import FulfillmentTracking from "./pages/Organization/FulfillmentTracking";
 
 const router = createBrowserRouter([
   {
@@ -262,6 +263,11 @@ const router = createBrowserRouter([
         element: <OrganizationTransmission />,
       },
       {
+        path: ROUTES.ORG_TRANSMISSION_TRACKING,
+        element: <FulfillmentTracking />,
+      },
+
+      {
         path: ROUTES.ORG_ORDERS,
         element: <OrganizationOrder />,
       },
@@ -269,7 +275,6 @@ const router = createBrowserRouter([
         path: ROUTES.ORG_ORDER_DETAILS,
         element: <ViewOrderDetails />,
       },
-
       {
         path: ROUTES.ORG_CREATE_ORDER,
         element: <CreateOrderPage />,
@@ -771,7 +776,10 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  console.log("App running in live mode", import.meta.env.VITE_CTRL_FE_BUILD);
+  console.log(
+    "App running in live mode123",
+    import.meta.env.VITE_CTRL_FE_BUILD
+  );
   return <RouterProvider router={router} />;
 }
 

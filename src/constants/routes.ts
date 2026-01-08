@@ -93,6 +93,7 @@ export const ROUTES = {
   MODIFY_PLAN_PRICES: "modify-plan-prices",
   PHARMACY_SUPPLIES: "supplies",
   PHARMACY_SHIPPING: "shipping",
+  ORG_TRANSMISSION_TRACKING: "transmission-tracking",
 };
 
 export const STEPPER_FORM = {

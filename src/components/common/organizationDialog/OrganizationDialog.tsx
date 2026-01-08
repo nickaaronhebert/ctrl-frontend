@@ -15,6 +15,7 @@ type ControlledSelectProps = {
   data?: any;
   placeholder: string;
   table?: any;
+  triggerClassName?: string;
 };
 
 const OrganizationDialog = ({
@@ -23,6 +24,7 @@ const OrganizationDialog = ({
   data,
   placeholder,
   table,
+  triggerClassName,
 }: ControlledSelectProps) => {
   const handleValueChange = (newValue: string) => {
     setValue(newValue);
@@ -31,7 +33,9 @@ const OrganizationDialog = ({
 
   return (
     <Select value={value} onValueChange={handleValueChange}>
-      <SelectTrigger className="w-[180px] text-black">
+      <SelectTrigger
+        className={`w-[180px] text-black ${triggerClassName ?? ""}`}
+      >
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>
