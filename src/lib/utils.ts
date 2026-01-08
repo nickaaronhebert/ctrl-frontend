@@ -139,3 +139,19 @@ export function sortMedicationCatalogue(data: any[]) {
       ),
     }));
 }
+
+export function formatDate(isoDateString: string): string {
+  const date: Date = new Date(isoDateString);
+
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true,
+  };
+
+  return date.toLocaleString("en-US", options);
+}

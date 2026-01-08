@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import React from "react";
 
 interface StatusCardProps {
@@ -9,6 +10,7 @@ interface StatusCardProps {
   descriptionColor?: string;
   iconWrapperClassName?: string;
   className?: string;
+  iconClassName?: string;
 }
 
 export default function StatusCard({
@@ -18,6 +20,7 @@ export default function StatusCard({
   icon: Icon,
   descriptionColor = "text-green-600",
   className = "",
+  iconClassName = "",
   iconWrapperClassName,
 }: StatusCardProps) {
   return (
@@ -35,7 +38,7 @@ export default function StatusCard({
           </div>
         </div>
         <div className={`ml-4 ${iconWrapperClassName ?? ""}`}>
-          {Icon && <Icon />}
+          {Icon && <Icon className={cn("", iconClassName)} />}
         </div>
       </div>
     </div>
