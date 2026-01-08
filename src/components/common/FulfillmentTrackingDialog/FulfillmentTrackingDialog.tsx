@@ -22,7 +22,6 @@ export function FulfillmentTrackingDialog({
   open,
   onOpenChange,
 }: FulfillmentTrackingDialogProps) {
-  console.log("id>>>>>", id);
   const { data, isLoading } = useViewTransmissionFulfillmentDetailQuery(id!, {
     skip: !open || !id,
   });

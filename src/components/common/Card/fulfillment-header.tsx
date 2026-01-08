@@ -44,7 +44,9 @@ export function FulfillmentHeader({ data }: FulfillmentHeaderProps) {
         <div className="flex justify-between">
           <p className="text-sm font-normal">Prescriptions</p>
           <p className="text-sm font-medium">
-            {data?.data?.prescriptions.length}
+            {Array.isArray(data?.data?.prescriptions)
+              ? data?.data?.prescriptions?.length
+              : "-"}
           </p>
         </div>
       </div>

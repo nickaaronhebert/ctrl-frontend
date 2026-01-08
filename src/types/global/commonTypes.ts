@@ -430,5 +430,5 @@ export interface TimelineEvent {
   description: string;
   style?: string;
   timestamp: string;
-  icon: string;
+  icon: React.ReactNode | null;
 }

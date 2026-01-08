@@ -185,7 +185,10 @@ export function formattedDate(date: string | Date) {
 }
 
 export function buildTimeline(tracking: Record<string, string | null>): any[] {
-  console.log("Tracking", tracking);
+  if (!tracking || Object.keys(tracking)?.length === 0) {
+    return [];
+  }
+
   return Object.entries(tracking)
     .filter(([, value]) => value)
     .map(([key, value]) => ({
@@ -194,8 +197,8 @@ export function buildTimeline(tracking: Record<string, string | null>): any[] {
       description: STATUS_CONFIG[key]?.description ?? "",
       icon: STATUS_CONFIG[key]?.icon ?? "default",
       style: STATUS_CONFIG[key]?.style ?? "",
-      timestamp: formattedDate(value!),
-      rawDate: new Date(value!),
+      timestamp: formatDate(value as string),
+      rawDate: new Date(value as string),
     }))
-    .sort((a, b) => a.rawDate.getTime() - b.rawDate.getTime());
+    .sort((a, b) => a?.rawDate?.getTime() - b?.rawDate?.getTime());
 }
