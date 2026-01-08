@@ -428,7 +428,7 @@ export interface TimelineEvent {
   id: number;
   status: string;
   description: string;
+  style?: string;
   timestamp: string;
   icon: string;
-  trackingNumber?: string;
 }

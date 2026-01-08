@@ -95,7 +95,6 @@ import PharmacyCatalogueDetails from "./pages/Pharmacy/Catalogues/details";
 import ConfigureCatalogues from "./pages/Pharmacy/Catalogues/configure";
 import SelectedPlanCatalogues from "./components/pharmacy/selectedPlanCatalogues/SelectedPlanCatalogues";
 import ModifyPlanPrices from "./components/pharmacy/modifyPlanPrices";
-import TransmissionTracking from "./pages/Organization/Transmission/tracking";
 import PharmacySupplies from "./pages/Pharmacy/Supplies";
 import FulfillmentTracking from "./pages/Organization/FulfillmentTracking";
 

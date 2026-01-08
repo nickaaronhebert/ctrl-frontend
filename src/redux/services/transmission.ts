@@ -12,6 +12,7 @@ import type { IViewOrgPharmaciesResponse } from "@/types/responses/IViewOrgPharm
 import { TAG_GLOBAL_PHARMACIES } from "@/types/baseApiTags";
 import type { IViewFulfillmentTrackingResponse } from "@/types/responses/IViewTransmissionFulfillments";
 import type { IViewTransmissionFulfillmentStats } from "@/types/responses/IViewTransmissionFulfillmentStats";
+import type { FulfillmentTrackingResponse } from "@/types/responses/IViewTransmissionFullfillmentDetail";
 
 const transmissionApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -60,6 +61,18 @@ const transmissionApi = baseApi.injectEndpoints({
           : "";
         return {
           url: `/transmission/fulfillment-tracking?page=${page}&limit=${perPage}&transmissionId=${transmissionId}${pharmacyQuery}${connectedPharmacyQuery}${subOrgQuery}`,
+          method: "GET",
+        };
+      },
+    }),
+
+    viewTransmissionFulfillmentDetail: builder.query<
+      FulfillmentTrackingResponse,
+      string
+    >({
+      query: (id: string) => {
+        return {
+          url: `/transmission/fulfillment-tracking/${id}`,
           method: "GET",
         };
       },
@@ -138,6 +151,7 @@ export const {
   useLazyTransmitTransmissionQuery,
   useViewAllTransmissionFulfillmentsQuery,
   useViewAllTransmissionFulfillmentStatsQuery,
+  useViewTransmissionFulfillmentDetailQuery,
 } = transmissionApi;
 
 export default transmissionApi;

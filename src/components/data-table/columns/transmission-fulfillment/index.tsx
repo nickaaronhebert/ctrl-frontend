@@ -2,12 +2,12 @@ import { cn, formatDate } from "@/lib/utils";
 import type { IFulfillmentTracking } from "@/types/responses/IViewTransmissionFulfillments";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Truck } from "lucide-react";
-import { Link } from "react-router-dom";
 import { Box } from "lucide-react";
 import { File } from "lucide-react";
 import { Check } from "lucide-react";
 import { ShieldAlert } from "lucide-react";
 import { X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const fulfillmentStatusMapper = {
   PROCESSING: {
@@ -47,7 +47,51 @@ const fulfillmentStatusMapper = {
   },
 };
 
-export function transmissionFulfillmentColumns(): ColumnDef<IFulfillmentTracking>[] {
+export const STATUS_CONFIG: Record<
+  string,
+  { status: string; description: string; icon: React.ReactNode; style: string }
+> = {
+  PROCESSING: {
+    status: "Processed",
+    description: "Pharmacy filling prescription",
+    style: "text-[#BD51BB] border border-transparent bg-[#F1EDF5]",
+    icon: <File size={14} />,
+  },
+  IN_SHIPPING: {
+    status: "In Shipping",
+    description: "Package is in transit",
+    style: "text-[#FF8400] border border-transparent bg-[#FFF6E5] ",
+    icon: <Box size={14} />,
+  },
+  SHIPPED: {
+    status: "Shipped",
+    description: "Package has been shipped",
+    style: "text-[#008CE3] bg-[#E5F3FC] border border-transparent ",
+    icon: <Truck size={14} />,
+  },
+  PICKED_UP: {
+    status: "Picked Up",
+    description: "Picked up by customer",
+    style: "text-[#1AA061] border border-transparent bg-[#E6FAF5]",
+    icon: <Check size={14} />,
+  },
+  EXCEPTION: {
+    status: "Exception",
+    description: "There was an issue with fulfillment",
+    style: "text-[#3E4D61] border border-transparent bg-[#F6F8F9]",
+    icon: <ShieldAlert size={14} />,
+  },
+  CANCELLED: {
+    status: "Cancelled",
+    description: "Order was cancelled",
+    style: "text-[#E31010] border border-transparent bg-[#FFE9E9]",
+    icon: <X size={14} />,
+  },
+};
+
+export function transmissionFulfillmentColumns(
+  handleTrackClick: (id: string) => void
+): ColumnDef<IFulfillmentTracking>[] {
   return [
     {
       accessorKey: "transmissionId",
@@ -127,6 +171,7 @@ export function transmissionFulfillmentColumns(): ColumnDef<IFulfillmentTracking
       header: "Last Updated",
       cell: ({ row }) => {
         const { lastStatusReceived } = row.original;
+        console.log(lastStatusReceived);
         return (
           <div>
             <p className="text-sm font-medium">
@@ -138,17 +183,19 @@ export function transmissionFulfillmentColumns(): ColumnDef<IFulfillmentTracking
     },
 
     {
-      accessorKey: "id",
+      accessorKey: "_id",
       header: "Action",
       cell: ({ row }) => {
-        const { id } = row.original;
+        console.log(row.original);
         return (
-          <Link
-            to={"#"}
-            className="font-semibold text-[10px] py-2 px-5 border rounded-[50px]"
-          >
-            Track
-          </Link>
+          <>
+            <Button
+              onClick={() => handleTrackClick(row.original._id!)}
+              className="font-semibold text-[10px] py-2 px-5 border rounded-[50px] bg-transparent hover:bg-transparent cursor-pointer"
+            >
+              Track
+            </Button>
+          </>
         );
       },
     },

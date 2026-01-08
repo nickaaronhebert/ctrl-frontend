@@ -5,8 +5,8 @@ import type { TrackedTransmission } from "./tracking";
 import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/common/StatusBadge/StatusBadge";
 import { useState } from "react";
-import { FulfillmentTrackingDialog } from "@/components/common/FulfillmentTrackingDialog/FulfillmentTrackingDialog";
-import { exampleFulfillmentData } from "@/constants";
+// import { FulfillmentTrackingDialog } from "@/components/common/FulfillmentTrackingDialog/FulfillmentTrackingDialog";
+// import { exampleFulfillmentData } from "@/constants";
 
 export function trackedTransmissionColumns(): ColumnDef<TrackedTransmission>[] {
   return [
@@ -69,11 +69,11 @@ export function trackedTransmissionColumns(): ColumnDef<TrackedTransmission>[] {
             >
               View
             </Button>
-            <FulfillmentTrackingDialog
+            {/* <FulfillmentTrackingDialog
               open={open}
               onOpenChange={setOpen}
               data={exampleFulfillmentData}
-            />
+            /> */}
           </>
         );
       },

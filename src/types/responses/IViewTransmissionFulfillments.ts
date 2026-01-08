@@ -2,6 +2,7 @@ import type { PaginationMeta } from "./pagination";
 
 export interface IFulfillmentTracking {
   id: string;
+  _id?: string;
   transmissionId: string;
   pharmacy: {
     name: string;
