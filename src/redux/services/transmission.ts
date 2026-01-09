@@ -18,11 +18,15 @@ const transmissionApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     viewAllTransmissions: builder.query<
       IViewAllTransmissionsResponse,
-      IViewAllTransmissionsRequest
+      IViewAllTransmissionsRequest & { subOrganization?: string }
     >({
-      query: ({ page, perPage, activeStatus }) => {
+      query: ({ page, perPage, activeStatus, subOrganization = "" }) => {
+        const subOrg = subOrganization
+          ? `&subOrganization=${subOrganization}`
+          : "";
+
         return {
-          url: `/transmission?page=${page}&limit=${perPage}&status=${activeStatus}`,
+          url: `/transmission?page=${page}&limit=${perPage}&status=${activeStatus}${subOrg}`,
           method: "GET",
         };
       },

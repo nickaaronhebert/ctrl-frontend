@@ -11,9 +11,13 @@ import type { ITransmitOrderResponse } from "@/types/responses/ITransmitOrderRes
 const orderApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     viewAllOrders: builder.query<IViewAllOrderInterface, ICommonSearchQuery>({
-      query: ({ page, perPage, q, patient = "" }) => {
+      query: ({ page, perPage, q, patient = "", subOrganization = "" }) => {
+        const subOrg = subOrganization
+          ? `&subOrganization=${subOrganization}`
+          : "";
+
         return {
-          url: `/order?page=${page}&limit=${perPage}&q=${q}&patient=${patient}`,
+          url: `/order?page=${page}&limit=${perPage}&q=${q}&patient=${patient}${subOrg}`,
           method: "GET",
         };
       },

@@ -1,3 +1,4 @@
+import SubOrgSelect from "@/components/common/SubOrganizations/select";
 import {
   organizationOrderColumns,
   type OrderDetails,
@@ -11,18 +12,20 @@ import {
   type DataTableFilterField,
 } from "@/hooks/use-data-table";
 import { useViewAllOrdersQuery } from "@/redux/services/order";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useViewAllSubOrganizationQuery } from "@/redux/services/admin";
 
 export default function OrganizationOrder() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1", 10);
   const perPage = parseInt(searchParams.get("per_page") ?? "100", 10);
+  const [value, setValue] = useState<string>("");
   const orderId = searchParams.get("orderId") ?? "";
   const { data: orderData, meta } = useViewAllOrdersQuery(
-    { page, perPage, q: orderId },
+    { page, perPage, q: orderId, subOrganization: value },
     {
       selectFromResult: ({ data, isLoading, isError }) => ({
         data: data?.data,
@@ -32,6 +35,23 @@ export default function OrganizationOrder() {
       }),
     }
   );
+
+  const { data: subOrgData } = useViewAllSubOrganizationQuery(
+    {
+      page: 1,
+      perPage: 100,
+      q: "",
+    },
+    {
+      skip: !open,
+      selectFromResult: ({ data, isLoading }) => ({
+        data: data?.data,
+        isLoading,
+      }),
+    }
+  );
+
+  console.log("Value", value);
 
   const columns = useMemo(() => organizationOrderColumns(), []);
   const filterFields: DataTableFilterField<OrderDetails>[] = [
@@ -64,7 +84,14 @@ export default function OrganizationOrder() {
             <DataTableToolbar
               table={table}
               filterFields={filterFields}
-              className="mb-2"
+              className="mb-0"
+            />
+            <SubOrgSelect
+              value={value}
+              setValue={setValue}
+              data={subOrgData}
+              table={table}
+              placeholder="All Sub Organizations"
             />
             <Button
               className="px-[20px] py-[5px] min-h-[40px] hover:bg-primary-foreground cursor-pointer rounded-[50px] bg-primary-foreground text-white  font-semibold text-[12px] leading-[16px] "

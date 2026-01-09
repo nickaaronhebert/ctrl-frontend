@@ -9,20 +9,38 @@ import { useViewAllTransmissionsQuery } from "@/redux/services/transmission";
 import { useNavigate } from "react-router-dom";
 import { useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import SubOrgSelect from "@/components/common/SubOrganizations/select";
+import { useViewAllSubOrganizationQuery } from "@/redux/services/admin";
 
 export default function OrganizationTransmission() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const page = parseInt(searchParams.get("page") || "1", 10);
   const perPage = parseInt(searchParams.get("per_page") ?? "100", 10);
+  const [value, setValue] = useState<string>("");
 
   const [activeStatus, setActiveStatus] = useState<
     "Created" | "Failed" | "Queued" | "Transmitted"
   >("Created");
+
+  const { data: subOrgData } = useViewAllSubOrganizationQuery(
+    {
+      page: 1,
+      perPage: 100,
+      q: "",
+    },
+    {
+      skip: !open,
+      selectFromResult: ({ data, isLoading }) => ({
+        data: data?.data,
+        isLoading,
+      }),
+    }
+  );
   const columns = useMemo(() => organizationTransmissionColumns(), []);
 
   const { data, meta } = useViewAllTransmissionsQuery(
-    { page, perPage, activeStatus },
+    { page, perPage, activeStatus, subOrganization: value },
     {
       selectFromResult: ({ data, isLoading, isError }) => ({
         data: data?.data,
@@ -91,13 +109,22 @@ export default function OrganizationTransmission() {
             Recent transmission volume and statistics
           </h6>
         </div>
-        <Button
-          onClick={() => navigate("/org/transmission-tracking")}
-          className="w-[213px] h-[50px] rounded-[50px] px-[25px] py-[10px] flex gap-4 bg-[#081F3B] hover:bg-[#081F3B] cursor-pointer"
-        >
-          <TrackingSquare />{" "}
-          <span className="text-white">Fulfillment Tracking</span>
-        </Button>
+        <div className="flex gap-4 items-center">
+          <SubOrgSelect
+            value={value}
+            setValue={setValue}
+            table={table}
+            data={subOrgData}
+            placeholder="All SubOrganizations"
+          />
+          <Button
+            onClick={() => navigate("/org/transmission-tracking")}
+            className="w-[213px] h-[50px] rounded-[50px] px-[25px] py-[10px] flex gap-4 bg-[#081F3B] hover:bg-[#081F3B] cursor-pointer"
+          >
+            <TrackingSquare />{" "}
+            <span className="text-white">Fulfillment Tracking</span>
+          </Button>
+        </div>
       </div>
       <div className="mt-3.5 ">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 mb-1">

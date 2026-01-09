@@ -432,3 +432,8 @@ export interface TimelineEvent {
   timestamp: string;
   icon: React.ReactNode | null;
 }
+
+export interface SubOrganization {
+  id: string;
+  name: string;
+}
