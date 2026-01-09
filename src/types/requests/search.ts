@@ -28,6 +28,8 @@ export interface ICommonSearchQuery {
   organizationId?: string;
   direction?: string;
   webhookStatus?: string;
+  transmissionId?: string;
+  pharmacyStatus?: string;
 }
 
 export interface IAvailablePlanCatalogueQuery extends ICommonSearchQuery {

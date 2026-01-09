@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import React from "react";
 
 interface StatusCardProps {
@@ -7,7 +8,9 @@ interface StatusCardProps {
   icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   iconColor?: string;
   descriptionColor?: string;
+  iconWrapperClassName?: string;
   className?: string;
+  iconClassName?: string;
 }
 
 export default function StatusCard({
@@ -17,6 +20,8 @@ export default function StatusCard({
   icon: Icon,
   descriptionColor = "text-green-600",
   className = "",
+  iconClassName = "",
+  iconWrapperClassName,
 }: StatusCardProps) {
   return (
     <div
@@ -32,7 +37,9 @@ export default function StatusCard({
             </p>
           </div>
         </div>
-        <div className="ml-4">{Icon && <Icon />}</div>
+        <div className={`ml-4 ${iconWrapperClassName ?? ""}`}>
+          {Icon && <Icon className={cn("", iconClassName)} />}
+        </div>
       </div>
     </div>
   );

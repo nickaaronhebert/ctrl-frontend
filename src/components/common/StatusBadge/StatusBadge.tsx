@@ -5,6 +5,10 @@ import Tick from "@/assets/icons/Tick";
 import TripleDots from "@/assets/icons/TripleDots";
 import NotReceived from "@/assets/icons/NotReceived";
 import Received from "@/assets/icons/Received";
+import Delivered from "@/assets/images/Delivered.png";
+import Shipped from "@/assets/images/Shipped.png";
+import ReadyForShipping from "@/assets/images/ReadyForShipping.png";
+import Icon from "@/assets/images/Icon.png";
 
 interface StatusBadgeProps {
   status: string;
@@ -14,15 +18,15 @@ const statusStyles: Record<
   string,
   {
     icon: React.ReactNode;
-    bg: string;
-    border: string;
+    bg?: string;
+    border?: string;
     text: string;
   }
 > = {
   Created: {
     icon: <File />,
     bg: "bg-light-background",
-    border: "border-slate   ",
+    border: "border-slate",
     text: "text-[#2C3E50]",
   },
   Pending: {
@@ -49,18 +53,6 @@ const statusStyles: Record<
     border: "border-progress",
     text: "text-progress",
   },
-  // RECEIVED: {
-  //   icon: <Received />,
-  //   bg: "bg-[#E6FAF5]",
-  //   border: "border-[#E6FAF5]",
-  //   text: "text-progress",
-  // },
-  // NOT_RECEIVED: {
-  //   icon: <NotReceived />,
-  //   bg: "bg-[#FFE9E9]",
-  //   border: "border-[#FFE9E9]",
-  //   text: "text-failed",
-  // },
   Paid: {
     icon: <Received />,
     bg: "bg-[#E6FAF5]",
@@ -72,6 +64,30 @@ const statusStyles: Record<
     bg: "bg-[#FFE9E9]",
     border: "border-[#FFE9E9]",
     text: "text-failed",
+  },
+  Delivered: {
+    icon: <img src={Delivered} alt="readyshipping" />,
+    text: "text-progress",
+    bg: "bg-[#E6FAF5]",
+    border: "border-[#E6FAF5]",
+  },
+  ReadyToShip: {
+    icon: <img src={ReadyForShipping} alt="readyshipping" />,
+    text: "text-pending",
+    bg: "bg-[#FFF4E5]",
+    border: "border-[#FFF4E5]",
+  },
+  Processed: {
+    icon: <img src={Icon} alt="Processed" />,
+    text: "text-[#A133B4]",
+    bg: "bg-[#F3E5F5]",
+    border: "border-[#F3E5F5]",
+  },
+  Shipped: {
+    icon: <img src={Shipped} alt="Processed" />,
+    text: "text-queued",
+    bg: "bg-[#E3F2FD]",
+    border: "border-[#E3F2FD]",
   },
 };
 
