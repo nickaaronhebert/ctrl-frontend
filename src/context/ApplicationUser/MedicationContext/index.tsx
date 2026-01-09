@@ -72,6 +72,8 @@ export function MedicationProvider({ children }: { children: ReactNode }) {
   const [selectedVariants, setSelectedVariants] = useState<SelectedVariant[]>(
     []
   );
+  console.log("Selected variants: ", selectedVariants);
+  console.log("medications:: ", medications);
   const [pharmacyCatalogueId, setPharmacyCatalogueId] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [prices, setPrices] = useState<Record<string, string>>({});
