@@ -69,7 +69,6 @@ export function ShippingConfiguration({
                     <SelectElement
                       {...field}
                       label="Shipping Class "
-                      description="This will be used if no shipping class is specified at the product variant level"
                       options={shippingOptions}
                       className="w-full min-h-[52px]"
                       labelClassName="text-lg font-semibold"
