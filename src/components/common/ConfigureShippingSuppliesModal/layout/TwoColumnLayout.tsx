@@ -21,7 +21,7 @@ const TwoColumnLayout = ({
       >
         <div className="h-full overflow-y-auto">{sidebar}</div>
       </aside>
-      <main className="flex-1 overflow-y-auto">{content}</main>
+      <main className="flex-1  overflow-y-auto">{content}</main>
     </div>
   );
 };

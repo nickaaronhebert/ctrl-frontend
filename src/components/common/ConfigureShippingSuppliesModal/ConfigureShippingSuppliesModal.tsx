@@ -9,6 +9,17 @@ import VariantsSidebar from "./VariantSidebar";
 import { ShippingConfiguration } from "./ShippingConfiguration";
 import { useMemo, useState } from "react";
 import { useMedication } from "@/context/ApplicationUser/MedicationContext";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import {
+  configureShippingSchema,
+  type ConfigureShippingFormValues,
+} from "@/schemas/configureShippingSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useViewShippingQuery } from "@/redux/services/shipping";
+import type { ApiError } from "@/types/global/commonTypes";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { useViewAllSuppliesQuery } from "@/redux/services/supplies";
 
 interface CatalogueVariantDialogProps {
   open: boolean;
@@ -19,29 +30,102 @@ export default function ConfigureShippingSuppliesModal({
   open,
   onOpenChange,
 }: CatalogueVariantDialogProps) {
-  const { selectedVariants } = useMedication();
-  const [selectedVariantsIds, setSelectedVariantsIds] = useState<string[]>([]);
-
-  const selectedVariant = useMemo(
-    () =>
-      selectedVariants?.filter((v) =>
-        selectedVariantsIds.includes(v.variantId)
-      ),
-    [selectedVariants, selectedVariantsIds]
+  const { configuredVariants, setShippingProfile, setSupplies } =
+    useMedication();
+  const [configuredVariantIds, setConfiguredVariantIds] = useState<string[]>(
+    []
   );
 
-  //   const navigate = useNavigate();
-  //   const form = useForm<CatalogueVariantFormValues>({
-  //     resolver: zodResolver(catalogueVariantSchema),
-  //     defaultValues: {
-  //       name: "",
-  //       description: "",
-  //     },
-  //   });
+  console.log("Configured Variant Ids: ", configuredVariantIds);
+
+  const configuredVariant = useMemo(
+    () =>
+      configuredVariants?.filter((v) =>
+        configuredVariantIds.includes(v.variantId)
+      ),
+    [configuredVariants, configuredVariantIds]
+  );
+
+  const form = useForm<ConfigureShippingFormValues>({
+    resolver: zodResolver(configureShippingSchema),
+    defaultValues: {
+      shippingProfile: "",
+      supplies: [],
+    },
+  });
+
+  const { data, isLoading } = useViewShippingQuery({
+    page: 1,
+    perPage: 100,
+    q: "",
+  });
+
+  const { data: suppliesData, isLoading: isSuppliesLoading } =
+    useViewAllSuppliesQuery({
+      page: 1,
+      perPage: 100,
+      q: "",
+    });
+
+  function onCancel() {
+    form.reset();
+    onOpenChange?.(false);
+  }
+
+  const shippingOptions = useMemo(
+    () =>
+      data?.data?.map(({ id, name }) => ({
+        label: name,
+        value: id,
+      })) ?? [],
+    [data]
+  );
+
+  const suppliesOptions = useMemo(
+    () =>
+      suppliesData?.data?.map(({ id, name }) => ({
+        label: name,
+        value: id,
+      })) ?? [],
+    [suppliesData]
+  );
+
+  async function onSubmit(values: ConfigureShippingFormValues) {
+    try {
+      console.log("values", values);
+      setShippingProfile(values.shippingProfile || "");
+      setSupplies(values.supplies || []);
+      onOpenChange?.(false);
+      form.reset();
+    } catch (error: unknown) {
+      console.error("Error", error);
+      let message = "An unexpected error occurred";
+      if (typeof error === "object" && error !== null && "data" in error) {
+        const data = (error as ApiError).data;
+        if (Array.isArray(data?.message)) {
+          message = data.message[0];
+        } else if (typeof data?.message === "string") {
+          message = data.message;
+        }
+      }
+
+      toast.error(message, {
+        duration: 1500,
+      });
+    }
+  }
+
+  if (isLoading || isSuppliesLoading) {
+    return (
+      <div className="flex justify-center items-center h-[80vh]">
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[1000px] max-h-[90vh] overflow-y-auto gap-0">
+      <DialogContent className="sm:max-w-[1200px] max-h-[90vh] overflow-y-auto gap-0 overflow-x-hidden">
         <DialogHeader className="flex flex-col gap-2 ">
           <DialogTitle className="text-xl font-semibold p-3 text-gray-900 border border-b-gray-300 border-t-0 border-l-0 border-r-0">
             Configure Shipping and Supplies
@@ -51,12 +135,19 @@ export default function ConfigureShippingSuppliesModal({
           <TwoColumnLayout
             sidebar={
               <VariantsSidebar
-                selectedVariantsIds={selectedVariantsIds}
-                onSelectionChange={setSelectedVariantsIds}
+                configuredVariantsIds={configuredVariantIds}
+                onSelectionChange={setConfiguredVariantIds}
               />
             }
             content={
-              <ShippingConfiguration selectedVariant={selectedVariant} />
+              <ShippingConfiguration
+                configuredVariant={configuredVariant}
+                form={form}
+                shippingOptions={shippingOptions}
+                suppliesOptions={suppliesOptions}
+                onCancel={onCancel}
+                onSubmit={onSubmit}
+              />
             }
           />
         </div>

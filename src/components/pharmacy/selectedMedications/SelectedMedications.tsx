@@ -11,7 +11,13 @@ import type { ApiError } from "@/types/global/commonTypes";
 import ConfigureShippingSuppliesModal from "@/components/common/ConfigureShippingSuppliesModal/ConfigureShippingSuppliesModal";
 
 export default function SetDefaultPrices() {
-  const { selectedVariants, medications } = useMedication();
+  const {
+    selectedVariants,
+    medications,
+    setConfiguredVariants,
+    shippingProfile,
+    supplies,
+  } = useMedication();
   const [prices, setPrices] = useState<Record<string, string>>({});
   const [open, setOpen] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -41,10 +47,6 @@ export default function SetDefaultPrices() {
     setPrices((prev) => ({ ...prev, [variantId]: value }));
   };
 
-  // const handlePharmacyIdentifierChange = (variantId: string, value: string) => {
-  //   setPharmacyIdentifiers((prev) => ({ ...prev, [variantId]: value }));
-  // };
-
   const handleSaveCatalogue = async () => {
     const items = Object.entries(prices)
       .filter(([_, price]) => price && Number(price) > 0)
@@ -53,8 +55,20 @@ export default function SetDefaultPrices() {
         price: Number(price),
         transmissionMethod: "api",
         sku: "",
-        // pharmacyIdentifier: pharmacyIdentifiers[variantId] || "",
         metadata: {},
+        ...(shippingProfile && {
+          shipping: {
+            shippingProfile,
+          },
+        }),
+        ...(supplies.length > 0 && {
+          supplies: supplies.map((s) => ({
+            supply: s.supply,
+            quantity: s.quantity,
+            supplyRequired: s.supplyRequired === "REQUIRED",
+            isOnePerOrder: s.isOnePerOrder,
+          })),
+        }),
       }));
 
     const payload = { items };
@@ -163,6 +177,8 @@ export default function SetDefaultPrices() {
                   (v) => prices[v.variantId] && prices[v.variantId] !== "0.00"
                 ).length;
 
+                console.log("Medication Variants", medicationVariants);
+
                 return (
                   <div
                     key={medication.id}
@@ -240,7 +256,10 @@ export default function SetDefaultPrices() {
                         </p>
                       </div>
                       <Button
-                        onClick={() => setOpen(true)}
+                        onClick={() => {
+                          setOpen(true);
+                          setConfiguredVariants(medicationVariants);
+                        }}
                         className="px-[10px] py-[5px] text-[#000000] rounded-[4px] cursor-pointer"
                         variant={"outline"}
                       >

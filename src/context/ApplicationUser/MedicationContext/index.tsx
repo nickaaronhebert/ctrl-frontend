@@ -19,6 +19,13 @@ export interface Medication {
   id: string;
 }
 
+interface SupplyConfig {
+  supply: string;
+  supplyRequired: "REQUIRED" | "OPTIONAL";
+  quantity: number;
+  isOnePerOrder: boolean;
+}
+
 export interface SelectedVariant {
   medicationId: string;
   variantId: string;
@@ -35,6 +42,10 @@ interface MedicationContextType {
   setCatalogues: React.Dispatch<React.SetStateAction<PharmacyCatalogue[]>>;
   selectedVariants: SelectedVariant[];
   setSelectedVariants: React.Dispatch<React.SetStateAction<SelectedVariant[]>>;
+  configuredVariants: SelectedVariant[];
+  setConfiguredVariants: React.Dispatch<
+    React.SetStateAction<SelectedVariant[]>
+  >;
   searchQuery: string;
   setMedications: (medications: Medication[]) => void;
   setSearchQuery: (query: string) => void;
@@ -45,6 +56,10 @@ interface MedicationContextType {
   ) => void;
   selectAllMedication: (medication: Medication) => void;
   deselectAllMedication: (medicationId: string) => void;
+  shippingProfile: string;
+  setShippingProfile: React.Dispatch<React.SetStateAction<string>>;
+  supplies: SupplyConfig[];
+  setSupplies: React.Dispatch<React.SetStateAction<SupplyConfig[]>>;
   selectAllCatalogue: (catalogue: PharmacyCatalogue) => void;
   deselectAllCatalogue: (catalogueId: string) => void;
   selectAll: () => void;
@@ -68,12 +83,19 @@ const MedicationContext = createContext<MedicationContextType | undefined>(
 
 export function MedicationProvider({ children }: { children: ReactNode }) {
   const [medications, setMedications] = useState<Medication[]>([]);
+  const [shippingProfile, setShippingProfile] = useState<string>("");
+  const [supplies, setSupplies] = useState<SupplyConfig[]>([]);
   const [catalogues, setCatalogues] = useState<PharmacyCatalogue[]>([]);
+  const [configuredVariants, setConfiguredVariants] = useState<
+    typeof selectedVariants
+  >([]);
   const [selectedVariants, setSelectedVariants] = useState<SelectedVariant[]>(
     []
   );
-  console.log("Selected variants: ", selectedVariants);
+  console.log("Configured variants: ", configuredVariants);
   console.log("medications:: ", medications);
+  console.log("ShippingProfileId", shippingProfile);
+  console.log("Supplies: ", supplies);
   const [pharmacyCatalogueId, setPharmacyCatalogueId] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [prices, setPrices] = useState<Record<string, string>>({});
@@ -245,9 +267,17 @@ export function MedicationProvider({ children }: { children: ReactNode }) {
     );
   };
 
+  console.log("ConfiguredVariants", configuredVariants);
+
   const value: MedicationContextType = {
     medications,
     selectedVariants,
+    configuredVariants,
+    setConfiguredVariants,
+    shippingProfile,
+    setShippingProfile,
+    supplies,
+    setSupplies,
     searchQuery,
     setMedications,
     setSearchQuery,

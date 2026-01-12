@@ -6,38 +6,36 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 
 interface VariantsSidebarProps {
-  selectedVariantsIds: string[];
+  configuredVariantsIds: string[];
   onSelectionChange: (ids: string[]) => void;
 }
 
 export default function VariantsSidebar({
-  selectedVariantsIds,
+  configuredVariantsIds,
   onSelectionChange,
 }: VariantsSidebarProps) {
-  const { selectedVariants } = useMedication();
+  const { configuredVariants } = useMedication();
 
-  const total = selectedVariants?.length;
-  const selectedCount = selectedVariantsIds?.length;
+  const total = configuredVariants?.length;
+  const selectedCount = configuredVariantsIds?.length;
   const progress = total === 0 ? 0 : (selectedCount / total) * 100;
   const allSelected = selectedCount === total && total > 0;
 
   const toggleVariant = (id: string) => {
     onSelectionChange(
-      selectedVariantsIds.includes(id)
-        ? selectedVariantsIds.filter((v) => v !== id)
-        : [...selectedVariantsIds, id]
+      configuredVariantsIds.includes(id)
+        ? configuredVariantsIds.filter((v) => v !== id)
+        : [...configuredVariantsIds, id]
     );
   };
 
   const toggleSelectAll = () => {
     onSelectionChange(
-      selectedVariantsIds?.length === total
+      configuredVariantsIds?.length === total
         ? []
-        : selectedVariants?.map((v) => v.variantId)
+        : configuredVariants?.map((v) => v.variantId)
     );
   };
-
-  //   console.log("Selected Variant Id: ", s);
 
   return (
     <div className="flex flex-col h-full bg-[#F6F8F9] ">
@@ -59,8 +57,8 @@ export default function VariantsSidebar({
         {allSelected ? "Unselect All Variants" : "Select All Variants"}
       </Button>
       <div className="flex-1 overflow-y-auto px-3 pb-4 space-y-3">
-        {selectedVariants?.map((item) => {
-          const checked = selectedVariantsIds?.includes(item.variantId);
+        {configuredVariants?.map((item) => {
+          const checked = configuredVariantsIds?.includes(item.variantId);
 
           return (
             <Label
