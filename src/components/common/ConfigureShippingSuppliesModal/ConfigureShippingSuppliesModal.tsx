@@ -92,6 +92,27 @@ export default function ConfigureShippingSuppliesModal({
     [suppliesData]
   );
 
+  const handleSelectionChange = (newSelectedIds: string[]) => {
+    setConfiguredVariantIds((prevSelectedIds) => {
+      const removedIds = prevSelectedIds.filter(
+        (id) => !newSelectedIds.includes(id)
+      );
+      if (removedIds.length > 0) {
+        setVariantShippingSupplies((prev) => {
+          const updated = { ...prev };
+
+          removedIds.forEach((id) => {
+            delete updated[id];
+          });
+
+          return updated;
+        });
+      }
+
+      return newSelectedIds;
+    });
+  };
+
   async function onSubmit(values: ConfigureShippingFormValues) {
     try {
       console.log("values", values);
@@ -165,7 +186,7 @@ export default function ConfigureShippingSuppliesModal({
             sidebar={
               <VariantsSidebar
                 configuredVariantsIds={configuredVariantIds}
-                onSelectionChange={setConfiguredVariantIds}
+                onSelectionChange={handleSelectionChange}
               />
             }
             content={
