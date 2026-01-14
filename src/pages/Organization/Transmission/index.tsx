@@ -1,4 +1,4 @@
-import TrackingSquare from "@/assets/icons/TrackingSquare";
+// import TrackingSquare from "@/assets/icons/TrackingSquare";
 import { organizationTransmissionColumns } from "@/components/data-table/columns/transmission";
 import { DataTable } from "@/components/data-table/data-table";
 import { DataTablePagination } from "@/components/data-table/data-table-pagination";
@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useDataTable } from "@/hooks/use-data-table";
 import { cn } from "@/lib/utils";
 import { useViewAllTransmissionsQuery } from "@/redux/services/transmission";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import SubOrgSelect from "@/components/common/SubOrganizations/select";
@@ -14,7 +14,7 @@ import { useViewAllSubOrganizationQuery } from "@/redux/services/admin";
 
 export default function OrganizationTransmission() {
   const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const page = parseInt(searchParams.get("page") || "1", 10);
   const perPage = parseInt(searchParams.get("per_page") ?? "100", 10);
   const [value, setValue] = useState<string>("");
@@ -117,13 +117,13 @@ export default function OrganizationTransmission() {
             data={subOrgData}
             placeholder="All SubOrganizations"
           />
-          <Button
+          {/* <Button
             onClick={() => navigate("/org/transmission-tracking")}
             className="w-[213px] h-[50px] rounded-[50px] px-[25px] py-[10px] flex gap-4 bg-[#081F3B] hover:bg-[#081F3B] cursor-pointer"
           >
             <TrackingSquare />{" "}
             <span className="text-white">Fulfillment Tracking</span>
-          </Button>
+          </Button> */}
         </div>
       </div>
       <div className="mt-3.5 ">
