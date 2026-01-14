@@ -97,6 +97,7 @@ export default function ConfigureShippingSuppliesModal({
       const removedIds = prevSelectedIds.filter(
         (id) => !newSelectedIds.includes(id)
       );
+
       if (removedIds.length > 0) {
         setVariantShippingSupplies((prev) => {
           const updated = { ...prev };
