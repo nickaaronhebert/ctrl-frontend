@@ -16,6 +16,7 @@ import {
   organisationAdminItems,
   pharmacyAdminItems,
   platformAdminItems,
+  nestedOrgTransmissionItems,
 } from "@/constants";
 import CTRLSVG from "@/assets/images/CTRL.svg";
 import CollapsedCTRLSVG from "@/assets/icons/CollapsedCTRL";
@@ -39,12 +40,96 @@ type MenuItem = {
   activePaths?: string[];
 };
 
+interface CollapsibleMenuItemProps {
+  item: any;
+  settingsOpen: boolean;
+  nestedItems: { title: string; url: string }[];
+  setSettingsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+function CollapsibleMenuItem({
+  setSettingsOpen,
+  settingsOpen,
+  item,
+  nestedItems,
+}: CollapsibleMenuItemProps) {
+  const { state } = useSidebar();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const isActive = (item: MenuItem) => {
+    return location.pathname === item.url;
+  };
+  return (
+    <Collapsible open={settingsOpen} onOpenChange={setSettingsOpen}>
+      <CollapsibleTrigger asChild>
+        <SidebarMenuButton
+          asChild
+          size="lg"
+          tooltip={item.title}
+          onClick={() => {}}
+        >
+          <div
+            className={`flex items-center gap-3 w-full cursor-pointer
+                                 ${
+                                   isActive(item)
+                                     ? "bg-secondary font-semibold text-primary"
+                                     : ""
+                                 }
+                              `}
+          >
+            <span className="min-w-[30px] min-h-[30px] flex items-center justify-center">
+              {item?.icon && (
+                <item.icon
+                  color={`${isActive(item) ? "#5354ac" : "#9aa2ac"}`}
+                />
+              )}
+            </span>
+            <span className={`text-lg ${state !== "collapsed" && "flex-1"}`}>
+              {state !== "collapsed" && item.title}
+            </span>
+            {state !== "collapsed" &&
+              (settingsOpen ? (
+                <ChevronUp size={18} />
+              ) : (
+                <ChevronDown size={18} />
+              ))}
+          </div>
+        </SidebarMenuButton>
+      </CollapsibleTrigger>
+      <CollapsibleContent className=" mt-2 flex flex-col gap-2">
+        {nestedItems.map((nestedItem) => (
+          <SidebarMenuButton
+            key={nestedItem.title}
+            asChild
+            size="lg"
+            tooltip={nestedItem.title}
+          >
+            <div
+              className={`flex items-center gap-3 w-full cursor-pointer ${
+                isActive(nestedItem)
+                  ? "bg-secondary font-semibold text-red-300"
+                  : ""
+              }`}
+              onClick={() => navigate(nestedItem.url)}
+            >
+              <span className="font-normal text-[16px] leading-[22px] ml-10 text-secondary-foreground">
+                {state !== "collapsed" && nestedItem.title}
+              </span>
+            </div>
+          </SidebarMenuButton>
+        ))}
+      </CollapsibleContent>
+    </Collapsible>
+  );
+}
 export function AppSidebar() {
   const { state, open, toggleSidebar } = useSidebar();
   const location = useLocation();
   const navigate = useNavigate();
   const { user } = useAuthentication();
   const isSettingsItem = (item: MenuItem) => item.title === "Settings";
+  const isOrgTransmissionItems = (item: MenuItem) =>
+    item.title === "Transmissions" && user?.role?.name === "Organization Admin";
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   const isOrganisationAdmin = user?.role?.name === "Organization Admin";
@@ -222,6 +307,13 @@ export function AppSidebar() {
                           ))}
                         </CollapsibleContent>
                       </Collapsible>
+                    ) : isOrgTransmissionItems(item) ? (
+                      <CollapsibleMenuItem
+                        item={item}
+                        nestedItems={nestedOrgTransmissionItems}
+                        setSettingsOpen={setSettingsOpen}
+                        settingsOpen={settingsOpen}
+                      />
                     ) : (
                       <SidebarMenuButton asChild size="lg" tooltip={item.title}>
                         <div
