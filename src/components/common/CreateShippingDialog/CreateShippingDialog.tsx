@@ -124,8 +124,8 @@ export default function CreateShippingDialog({
         weekendDelivery: false,
         saturdayPickup: false,
         holdAtLocation: false,
-        signatureRequired: false,
-        signatureType: "NONE",
+        signatureRequired: true,
+        signatureType: "SIGNATURE",
         tempMonitor: false,
         oversize: false,
         overweight: false,
@@ -144,7 +144,10 @@ export default function CreateShippingDialog({
         price: values.price,
         carrierProductCode: values.carrierProductCode,
         deliveryWindow: values.deliveryWindow,
-        signatureType: "NONE",
+        signatureType:
+          values.serviceOptions.signatureRequired === true
+            ? "SIGNATURE"
+            : "NONE",
         refrigerated: values.serviceOptions.refrigerated,
         tempMonitor: values.serviceOptions.tempMonitor,
         weekendDelivery: values.serviceOptions.weekendDelivery,
@@ -221,7 +224,10 @@ export default function CreateShippingDialog({
         holdAtLocation: shippingDetailData?.data?.services?.holdAtLocation,
         signatureType:
           shippingDetailData?.data?.services?.signatureType ?? "NONE",
-        signatureRequired: false,
+        signatureRequired:
+          shippingDetailData?.data?.services?.signatureType === "SIGNATURE"
+            ? true
+            : false,
         tempMonitor: shippingDetailData?.data?.services?.tempMonitor,
         oversize: shippingDetailData?.data?.services?.oversize,
         overweight: shippingDetailData?.data?.services?.overweight,
@@ -350,8 +356,6 @@ export default function CreateShippingDialog({
                     name="serviceOptions.signatureRequired"
                     label="Signature Required"
                     description="Recipient must sign for delivery"
-                    className="pointer-events-none opacity-50"
-                    aria-disabled
                   />
                   <SwitchField
                     control={form.control}

@@ -7,7 +7,7 @@ import {
 import TwoColumnLayout from "./layout/TwoColumnLayout";
 import VariantsSidebar from "./VariantSidebar";
 import { ShippingConfiguration } from "./ShippingConfiguration";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { useMedication } from "@/context/ApplicationUser/MedicationContext";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -30,11 +30,13 @@ export default function ConfigureShippingSuppliesModal({
   open,
   onOpenChange,
 }: CatalogueVariantDialogProps) {
-  const { configuredVariants, setShippingProfile, setSupplies } =
-    useMedication();
-  const [configuredVariantIds, setConfiguredVariantIds] = useState<string[]>(
-    []
-  );
+  const {
+    configuredVariants,
+    setVariantShippingSupplies,
+    configuredVariantIds,
+    setConfiguredVariantIds,
+    variantShippingSupplies,
+  } = useMedication();
 
   console.log("Configured Variant Ids: ", configuredVariantIds);
 
@@ -93,8 +95,17 @@ export default function ConfigureShippingSuppliesModal({
   async function onSubmit(values: ConfigureShippingFormValues) {
     try {
       console.log("values", values);
-      setShippingProfile(values.shippingProfile || "");
-      setSupplies(values.supplies || []);
+      setVariantShippingSupplies((prev) => {
+        const updated = { ...prev };
+        configuredVariantIds.forEach((variantId) => {
+          updated[variantId] = {
+            shippingProfile: values.shippingProfile as string,
+            supplies: values.supplies || [],
+          };
+        });
+
+        return updated;
+      });
       onOpenChange?.(false);
       form.reset();
     } catch (error: unknown) {
@@ -114,6 +125,24 @@ export default function ConfigureShippingSuppliesModal({
       });
     }
   }
+
+  useEffect(() => {
+    if (!open) return;
+    if (configuredVariantIds?.length === 0) return;
+    const firstVariantId = configuredVariantIds[0];
+    const config = variantShippingSupplies[firstVariantId];
+    if (!config) {
+      form.reset({
+        shippingProfile: "",
+        supplies: [],
+      });
+      return;
+    }
+    form.reset({
+      shippingProfile: config.shippingProfile,
+      supplies: config.supplies || [],
+    });
+  }, [open, form, configuredVariantIds, variantShippingSupplies]);
 
   if (isLoading || isSuppliesLoading) {
     return (

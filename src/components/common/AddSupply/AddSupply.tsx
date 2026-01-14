@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { SupplyItem } from "@/schemas/supplySchema";
+// import { SupplyItem } from "@/schemas/supplySchema";
 import {
   Dialog,
   DialogContent,
@@ -42,8 +42,8 @@ export default function AddSupply({
     defaultValues: {
       name: supplyItemToEdit?.name || "",
       itemType: supplyItemToEdit?.itemType || "CAPSULE",
-      quantity: supplyItemToEdit?.quantity || 0,
-      quantityType: supplyItemToEdit?.quantityType || "mg",
+      quantity: supplyItemToEdit?.quantity || 1,
+      quantityType: supplyItemToEdit?.quantityType || "each",
       price: supplyItemToEdit?.price || 0,
       defaultUnitCount: supplyItemToEdit?.defaultUnitCount || 1,
       sku: supplyItemToEdit?.sku || "",
@@ -53,13 +53,15 @@ export default function AddSupply({
 
   console.log("form values", form.getValues());
 
+  console.log("SupplyItemToEdit", supplyItemToEdit);
+
   useEffect(() => {
     if (supplyItemToEdit) {
       form.reset({
         name: supplyItemToEdit.name || "",
         itemType: supplyItemToEdit.itemType || "CAPSULE",
-        quantity: supplyItemToEdit.quantity || 0,
-        quantityType: supplyItemToEdit.quantityType || "mg",
+        quantity: supplyItemToEdit.quantity || 1,
+        quantityType: supplyItemToEdit.quantityType,
         price: supplyItemToEdit.price || 0,
         defaultUnitCount: supplyItemToEdit.defaultUnitCount || 1,
         sku: supplyItemToEdit.sku || "",
@@ -68,10 +70,10 @@ export default function AddSupply({
     }
   }, [supplyItemToEdit, form]);
 
-  const outputOptions = Object.values(SupplyItem).map((value) => ({
-    label: value.toUpperCase(),
-    value: value,
-  }));
+  // const outputOptions = Object.values(SupplyItem).map((value) => ({
+  //   label: value.toUpperCase(),
+  //   value: value,
+  // }));
 
   const quantityOptions = Object.values(QuantityType).map((value) => ({
     label: value,
@@ -184,7 +186,7 @@ export default function AddSupply({
               <InputElement
                 name="quantity"
                 type="number"
-                label="Quantity"
+                label="Container Quantity"
                 messageClassName="text-right"
                 placeholder="Enter quantity"
                 isRequired={true}
@@ -198,7 +200,6 @@ export default function AddSupply({
                 options={quantityOptions ?? []}
                 label="Quantity Type"
                 isRequired={true}
-                // defaultValue={quantityOptions[0]?.value}
                 placeholder="Select quantity type"
                 className="w-[280px] min-h-[56px] "
                 triggerClassName="border border-slate-300 placeholder:text-slate-400"
@@ -216,7 +217,7 @@ export default function AddSupply({
               />
             </div>
 
-            <div className="flex gap-2 items-center w-full">
+            {/* <div className="flex gap-2 items-center w-full">
               <SelectElement
                 name={"itemType"}
                 options={outputOptions ?? []}
@@ -227,7 +228,7 @@ export default function AddSupply({
                 triggerClassName="border border-slate-300 "
                 errorClassName="text-right"
               />
-            </div>
+            </div> */}
 
             <DialogFooter className="gap-2 pt-4">
               <div className="flex gap-3 items-center">

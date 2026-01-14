@@ -13,8 +13,8 @@ export const SupplyItem = {
 } as const;
 
 export const QuantityType = {
-  MG: "mg",
   EACH: "each",
+  MG: "mg",
   ML: "ml",
   UNIT: "unit",
 } as const;

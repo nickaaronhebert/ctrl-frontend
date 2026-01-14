@@ -15,8 +15,8 @@ export default function SetDefaultPrices() {
     selectedVariants,
     medications,
     setConfiguredVariants,
-    shippingProfile,
-    supplies,
+    variantShippingSupplies,
+    setVariantShippingSupplies,
   } = useMedication();
   const [prices, setPrices] = useState<Record<string, string>>({});
   const [open, setOpen] = useState<boolean>(false);
@@ -28,7 +28,6 @@ export default function SetDefaultPrices() {
   const [bulkUpsertPharmacyCatalogue] =
     useBulkUpsertPharmacyCatalogueMutation();
 
-  // Group selected variants by medication
   const selectedMedications = medications.filter((med) =>
     selectedVariants.some((variant) => variant.medicationId === med.id)
   );
@@ -50,26 +49,34 @@ export default function SetDefaultPrices() {
   const handleSaveCatalogue = async () => {
     const items = Object.entries(prices)
       .filter(([_, price]) => price && Number(price) > 0)
-      .map(([variantId, price]) => ({
-        productVariant: variantId,
-        price: Number(price),
-        transmissionMethod: "api",
-        sku: "",
-        metadata: {},
-        ...(shippingProfile && {
-          shipping: {
-            shippingProfile,
-          },
-        }),
-        ...(supplies.length > 0 && {
-          supplies: supplies.map((s) => ({
-            supply: s.supply,
-            quantity: s.quantity,
-            supplyRequired: s.supplyRequired === "REQUIRED",
-            isOnePerOrder: s.isOnePerOrder,
-          })),
-        }),
-      }));
+      .map(([variantId, price]) => {
+        const config = variantShippingSupplies[variantId];
+
+        console.log("Config", config);
+
+        return {
+          productVariant: variantId,
+          price: Number(price),
+          transmissionMethod: "api",
+          sku: "",
+          metadata: {},
+
+          ...(config?.shippingProfile && {
+            shipping: {
+              shippingProfile: config.shippingProfile,
+            },
+          }),
+
+          ...(config?.supplies?.length > 0 && {
+            supplies: config.supplies.map((s) => ({
+              supply: s.supply,
+              quantity: s.quantity,
+              supplyRequired: s.supplyRequired === "REQUIRED",
+              isOnePerOrder: s.isOnePerOrder,
+            })),
+          }),
+        };
+      });
 
     const payload = { items };
 
@@ -83,6 +90,7 @@ export default function SetDefaultPrices() {
       toast.success("Medication added successfully", {
         duration: 1500,
       });
+      setVariantShippingSupplies({});
     } catch (error: unknown) {
       console.error("Profile update failed:", error);
 
@@ -192,7 +200,7 @@ export default function SetDefaultPrices() {
                         </h3>
                       </div>
                       <span className="text-sm text-gray-500">
-                        {medicationPricedCount} / {medicationVariants.length}{" "}
+                        {medicationPricedCount} / {medicationVariants?.length}{" "}
                         variants
                       </span>
                     </div>
@@ -251,8 +259,11 @@ export default function SetDefaultPrices() {
                           Shipping and Supplies
                         </p>
                         <p className="text-[#63627F] font-medium text-[10px] ">
-                          <span className="min-w-[6px] min-h-[6px] inline-block rounded-full mr-1 bg-[#FFA726] border border-none"></span>{" "}
-                          Not configured
+                          <span className="min-w-[6px] min-h-[6px] inline-block rounded-full mr-1 bg-[#FFA726] border border-none"></span>
+                          {variantShippingSupplies &&
+                          Object.keys(variantShippingSupplies).length > 0
+                            ? "Configured"
+                            : "Not configured"}
                         </p>
                       </div>
                       <Button
@@ -263,7 +274,10 @@ export default function SetDefaultPrices() {
                         className="px-[10px] py-[5px] text-[#000000] rounded-[4px] cursor-pointer"
                         variant={"outline"}
                       >
-                        CONFIGURE
+                        {variantShippingSupplies &&
+                        Object.keys(variantShippingSupplies).length > 0
+                          ? "RECONFIGURE"
+                          : "CONFIGURE"}
                       </Button>
                     </div>
                   </div>
