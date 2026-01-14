@@ -128,6 +128,17 @@ export const nestedOrgItems = [
   { title: "My Settings", url: "/org/settings" },
 ];
 
+export const nestedOrgTransmissionItems = [
+  {
+    title: "My Transmissions",
+    url: "/org/transmissions",
+  },
+  {
+    title: "Fulfillment Tracking",
+    url: "/org/transmission-tracking",
+  },
+];
+
 export const nestedPharmacyItems = [
   {
     title: "Medication Library",
