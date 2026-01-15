@@ -61,6 +61,16 @@ export interface PharmacyProductVariant {
     medicationCatalogue?: string;
     telegraProductVariant?: string;
   };
+  shipping?: {
+    _id: string;
+    name: string;
+  };
+  supplies?: {
+    supply: string;
+    quantity: number;
+    supplyRequired: "REQUIRED" | "OPTIONAL";
+    isOnePerOrder?: boolean;
+  }[];
 }
 
 export interface PharmacyCatalogue {

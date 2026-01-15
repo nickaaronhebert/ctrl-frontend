@@ -148,23 +148,48 @@ export default function ConfigureShippingSuppliesModal({
     }
   }
 
+  // useEffect(() => {
+  //   if (!open) return;
+  //   if (configuredVariantIds?.length === 0) return;
+  //   const firstVariantId = configuredVariantIds[0];
+  //   const config = variantShippingSupplies[firstVariantId];
+  //   if (!config) {
+  //     form.reset({
+  //       shippingProfile: "",
+  //       supplies: [],
+  //     });
+  //     return;
+  //   }
+  //   form.reset({
+  //     shippingProfile: config.shippingProfile,
+  //     supplies: config.supplies || [],
+  //   });
+  // }, [open, form, configuredVariantIds, variantShippingSupplies]);
+
   useEffect(() => {
     if (!open) return;
-    if (configuredVariantIds?.length === 0) return;
-    const firstVariantId = configuredVariantIds[0];
-    const config = variantShippingSupplies[firstVariantId];
-    if (!config) {
+    if (configuredVariantIds.length === 0) return;
+    const configuredWithData = configuredVariantIds.filter((id) => {
+      const config = variantShippingSupplies[id];
+      return (
+        config && Array.isArray(config.supplies) && config.supplies.length > 0
+      );
+    });
+    if (configuredWithData.length === 1) {
+      const variantId = configuredWithData[0];
+      const config = variantShippingSupplies[variantId];
+
       form.reset({
-        shippingProfile: "",
-        supplies: [],
+        shippingProfile: config.shippingProfile ?? "",
+        supplies: config.supplies,
       });
       return;
     }
     form.reset({
-      shippingProfile: config.shippingProfile,
-      supplies: config.supplies || [],
+      shippingProfile: "",
+      supplies: [],
     });
-  }, [open, form, configuredVariantIds, variantShippingSupplies]);
+  }, [open, configuredVariantIds, variantShippingSupplies, form]);
 
   if (isLoading || isSuppliesLoading) {
     return (

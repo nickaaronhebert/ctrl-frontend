@@ -99,6 +99,7 @@ export function MedicationProvider({ children }: { children: ReactNode }) {
     []
   );
   console.log("Configured variants: ", configuredVariants);
+  console.log("VariantShippingSupplies: ", variantShippingSupplies);
   const [pharmacyCatalogueId, setPharmacyCatalogueId] = useState<string>("");
   const [configuredVariantIds, setConfiguredVariantIds] = useState<string[]>(
     []

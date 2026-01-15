@@ -17,6 +17,7 @@ export default function SetDefaultPrices() {
     setConfiguredVariants,
     variantShippingSupplies,
     setVariantShippingSupplies,
+    setConfiguredVariantIds,
   } = useMedication();
   const [prices, setPrices] = useState<Record<string, string>>({});
   const [open, setOpen] = useState<boolean>(false);
@@ -91,6 +92,8 @@ export default function SetDefaultPrices() {
         duration: 1500,
       });
       setVariantShippingSupplies({});
+      setConfiguredVariants([]);
+      setConfiguredVariantIds([]);
     } catch (error: unknown) {
       console.error("Profile update failed:", error);
 
