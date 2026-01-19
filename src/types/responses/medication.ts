@@ -61,7 +61,7 @@ export interface PharmacyProductVariant {
     medicationCatalogue?: string;
     telegraProductVariant?: string;
   };
-  shipping?: {
+  shippingProfile?: {
     _id: string;
     name: string;
   };

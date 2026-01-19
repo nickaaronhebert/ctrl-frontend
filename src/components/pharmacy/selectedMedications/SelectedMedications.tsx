@@ -53,8 +53,6 @@ export default function SetDefaultPrices() {
       .map(([variantId, price]) => {
         const config = variantShippingSupplies[variantId];
 
-        console.log("Config", config);
-
         return {
           productVariant: variantId,
           price: Number(price),
@@ -275,8 +273,30 @@ export default function SetDefaultPrices() {
                       </div>
                       <Button
                         onClick={() => {
-                          setOpen(true);
+                          const variantIds = medicationVariants.map(
+                            (v) => v.variantId
+                          );
                           setConfiguredVariants(medicationVariants);
+                          setConfiguredVariantIds(variantIds);
+                          setVariantShippingSupplies((prev) => {
+                            const updated = { ...prev };
+
+                            const hasAnyConfig = variantIds.some(
+                              (id) => prev[id]
+                            );
+
+                            if (!hasAnyConfig) {
+                              variantIds.forEach((id) => {
+                                updated[id] = {
+                                  shippingProfile: "",
+                                  supplies: [],
+                                };
+                              });
+                            }
+
+                            return updated;
+                          });
+                          setOpen(true);
                         }}
                         className="px-[10px] py-[5px] text-[#000000] rounded-[4px] cursor-pointer"
                         variant={"outline"}

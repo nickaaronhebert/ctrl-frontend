@@ -85,7 +85,6 @@ const CustomCardForm = ({ clientSecret, hideCard, entityType }: Props) => {
   const [triggerAttachPaymentMethod] = useGetAttachPaymentMethodMutation();
   const navigate = useNavigate();
   const subOrganization = useAppSelector((state) => state.subOrg.stepOne.id);
-  console.log("Sub Organization", subOrganization);
   const stripe = useStripe();
   const elements = useElements();
   const dispatch = useAppDispatch();

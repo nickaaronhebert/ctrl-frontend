@@ -25,6 +25,7 @@ export interface SelectedVariant {
   medication: Medication | PharmacyCatalogue;
   variant: ProductVariant;
   // catalogue?: PharmacyCatalogue;
+  variantCatalogueId?: string;
 }
 
 export interface VariantShippingSuppliesConfig {
@@ -98,8 +99,6 @@ export function MedicationProvider({ children }: { children: ReactNode }) {
   const [selectedVariants, setSelectedVariants] = useState<SelectedVariant[]>(
     []
   );
-  console.log("Configured variants: ", configuredVariants);
-  console.log("VariantShippingSupplies: ", variantShippingSupplies);
   const [pharmacyCatalogueId, setPharmacyCatalogueId] = useState<string>("");
   const [configuredVariantIds, setConfiguredVariantIds] = useState<string[]>(
     []
@@ -273,12 +272,6 @@ export function MedicationProvider({ children }: { children: ReactNode }) {
         .includes(searchQuery.toLowerCase())
     );
   };
-
-  console.log("ConfiguredVariants", configuredVariants);
-  console.log(
-    "Variant Shipping Supplies Configuration",
-    variantShippingSupplies
-  );
 
   const value: MedicationContextType = {
     medications,

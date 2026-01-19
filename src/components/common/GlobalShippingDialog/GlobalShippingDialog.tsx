@@ -49,7 +49,6 @@ export default function GlobalShippingDialog({
 
   async function onSubmit(values: GlobalShippingFormValues) {
     try {
-      console.log("values", values);
       await configureShipping({
         defaultShippingProfile: values.defaultShippingProfile,
         shippingStrategy: values.shippingStrategy,

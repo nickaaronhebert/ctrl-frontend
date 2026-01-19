@@ -47,21 +47,23 @@ export function MedicationRow({ medication }: MedicationProps) {
     const selectedVariantIds: string[] = [];
     const shippingSuppliesMap: Record<string, VariantShippingSuppliesConfig> =
       {};
-    const configuredVariantsList: any = [];
+    const configuredVariantsList: any[] = [];
 
     medication?.productVariant?.forEach((v) => {
       const variantId = v.productVariant?._id;
+
       configuredVariantsList.push({
         variantId,
         variant: v.productVariant,
-        medication: medication,
-        medicationId: medication?._id,
+        medication,
+        medicationId: medication._id,
+        variantCatalogueId: v._id,
       });
+      selectedVariantIds.push(variantId);
 
-      if (v.shipping || (v.supplies && v.supplies.length > 0)) {
-        selectedVariantIds.push(variantId);
+      if (v.shippingProfile || (v.supplies && v.supplies.length > 0)) {
         shippingSuppliesMap[variantId] = {
-          shippingProfile: v.shipping?._id ?? "",
+          shippingProfile: (v.shippingProfile as any) ?? "",
           supplies: (v.supplies ?? []).map((s) => ({
             supply: s.supply,
             quantity: s.quantity,
@@ -70,13 +72,11 @@ export function MedicationRow({ medication }: MedicationProps) {
           })),
         };
       }
-
-      setConfiguredVariants(configuredVariantsList);
-      setConfiguredVariantIds(selectedVariantIds);
-      setVariantShippingSupplies(shippingSuppliesMap);
-
-      setOpen(true);
     });
+    setConfiguredVariants(configuredVariantsList);
+    setConfiguredVariantIds(selectedVariantIds);
+    setVariantShippingSupplies(shippingSuppliesMap);
+    setOpen(true);
   };
 
   return (
@@ -138,7 +138,11 @@ export function MedicationRow({ medication }: MedicationProps) {
         </div>
       </div>
       {open && (
-        <ConfigureShippingSuppliesModal open={open} onOpenChange={setOpen} />
+        <ConfigureShippingSuppliesModal
+          open={open}
+          onOpenChange={setOpen}
+          isEditMode={true}
+        />
       )}
     </>
   );
