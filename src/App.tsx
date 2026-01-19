@@ -64,7 +64,6 @@ import ModifyPrices from "./components/pharmacy/modifyPrices/ModifyPrices";
 import OrganizationRedirect from "./pages/Organization/Onboarding/redirect";
 import RegisterOrgAdmin from "./pages/Organization/Onboarding";
 import WelcomeOrgAdmin from "./pages/Organization/Onboarding/welcome";
-
 import MedicationCatalogue from "./pages/CTRLAdmin/MedicationCatalogue";
 import AdminDashboard from "./pages/CTRLAdmin/Dashboard";
 import InviteAdmin from "./pages/CTRLAdmin/Invitation";

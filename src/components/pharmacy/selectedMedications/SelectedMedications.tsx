@@ -188,7 +188,14 @@ export default function SetDefaultPrices() {
                   (v) => prices[v.variantId] && prices[v.variantId] !== "0.00"
                 ).length;
 
-                console.log("Medication Variants", medicationVariants);
+                //////////////  For supplies logic below //////////////
+                const medicationVariantIds = medicationVariants.map(
+                  (v) => v.variantId
+                );
+
+                const isMedicationConfigured = medicationVariantIds.some(
+                  (variantId) => !!variantShippingSupplies[variantId]
+                );
 
                 return (
                   <div
@@ -263,10 +270,7 @@ export default function SetDefaultPrices() {
                         </p>
                         <p className="text-[#63627F] font-medium text-[10px] ">
                           <span className="min-w-[6px] min-h-[6px] inline-block rounded-full mr-1 bg-[#FFA726] border border-none"></span>
-                          {variantShippingSupplies &&
-                          Object.keys(variantShippingSupplies).length > 0
-                            ? "Configured"
-                            : "Not configured"}
+                          {isMedicationConfigured ? "RECONFIGURE" : "CONFIGURE"}
                         </p>
                       </div>
                       <Button
@@ -277,10 +281,7 @@ export default function SetDefaultPrices() {
                         className="px-[10px] py-[5px] text-[#000000] rounded-[4px] cursor-pointer"
                         variant={"outline"}
                       >
-                        {variantShippingSupplies &&
-                        Object.keys(variantShippingSupplies).length > 0
-                          ? "RECONFIGURE"
-                          : "CONFIGURE"}
+                        {isMedicationConfigured ? "RECONFIGURE" : "CONFIGURE"}
                       </Button>
                     </div>
                   </div>
