@@ -1,7 +1,7 @@
 #!/usr/bin/env groovy
 
 // Repository name
-def repoName = 'https://github.com/nickaaronhebert/ctrl-frontend.git'
+def repoName = 'https://github.com/Telegra-MD/ctrl-frontend.git'
 // Jenkins credential
 def repoCred = 'github-api-token'
 // Image registry
