@@ -90,6 +90,7 @@ export const ROUTES = {
   PLAN_CATALOGUES: "plan-catalogues",
   CONFIGURE_CATALOGUES: "configure-catalogues",
   GET_SELECTED_PLAN_CATALOGUES: "selected-plan-catalogues",
+  GET_SELECTED_SPECIAL_CATALOGUES: "selected-special-catalogues",
   MODIFY_PLAN_PRICES: "modify-plan-prices",
   PHARMACY_SUPPLIES: "supplies",
   PHARMACY_SHIPPING: "shipping",

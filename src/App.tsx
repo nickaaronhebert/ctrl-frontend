@@ -98,6 +98,7 @@ import ModifyPlanPrices from "./components/pharmacy/modifyPlanPrices";
 import PharmacySupplies from "./pages/Pharmacy/Supplies";
 import ShippingConfiguration from "./pages/Pharmacy/ShippingConfiguration";
 import FulfillmentTracking from "./pages/Organization/FulfillmentTracking";
+import SelectedSpecialCatalogues from "./components/pharmacy/selectedSpecialCatalogues";
 
 const router = createBrowserRouter([
   {
@@ -472,6 +473,10 @@ const router = createBrowserRouter([
           {
             path: `${ROUTES.GET_SELECTED_PLAN_CATALOGUES}/:id?`,
             element: <SelectedPlanCatalogues />,
+          },
+          {
+            path: `${ROUTES.GET_SELECTED_SPECIAL_CATALOGUES}/:id?`,
+            element: <SelectedSpecialCatalogues />,
           },
           {
             path: `${ROUTES.MODIFY_PLAN_PRICES}/:id?`,

@@ -31,7 +31,12 @@ const ConfigureCatalogues = () => {
   }, [data, setCatalogues]);
 
   const handleCreateCatalogueFromPopup = () => {
-    navigate(`/pharmacy/medications/selected-plan-catalogues/${id}`);
+    const isDefaultCatalogue =
+      id === "spcv::79e03f70-be1e-4014-ad4c-95c883edc6ed";
+
+    if (!isDefaultCatalogue)
+      navigate(`/pharmacy/medications/selected-special-catalogues/${id}`);
+    else navigate(`/pharmacy/medications/selected-plan-catalogues/${id}`);
   };
 
   if (isLoading) {

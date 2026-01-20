@@ -9,6 +9,18 @@ export interface ProductVariant {
   id: string;
   name?: string;
   medicationCatalogue: MedicationCatalogue;
+  _id: string;
+  price?: number;
+  sku?: string;
+  productVariant: ProductVariant;
+  supplies: {
+    supply: {
+      _id: string;
+      name: string;
+      price: string;
+      quantity: number;
+    };
+  }[];
 }
 
 export interface Medication {

@@ -8,6 +8,8 @@ import type { ShippingResponse } from "@/types/responses/IShippingResponse";
 import type { ICreateShippingRequest } from "@/types/requests/ICreateShippingRequest";
 import type { IShippingDetailResponse } from "@/types/responses/IShippingDetailResponse";
 import type { IGlobalConfigurationRequest } from "@/types/requests/IGlobalConfigurationRequest";
+import type { IViewCatalogueShippingResponse } from "@/types/responses/IViewCatalogueShipping";
+import type { ICreateCatalogueShippingRequest } from "@/types/requests/ICreateCatalogueShipping";
 
 const shippingApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -63,6 +65,31 @@ const shippingApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [TAG_GET_SHIPPING],
     }),
+
+    viewCatalogueShippingDetails: builder.query<
+      IViewCatalogueShippingResponse,
+      void
+    >({
+      query: () => ({
+        url: `/pharmacy-catalogue/default/shipping-profiles`,
+        method: "GET",
+      }),
+      // invalidatesTags: [TAG_GET_SHIPPING],
+    }),
+
+    createCatalogueShippingDetails: builder.mutation<
+      any,
+      ICreateCatalogueShippingRequest
+    >({
+      query: ({ items, phmCatalogueVariantId }) => ({
+        url: `/shipping/phm-catalogue-variant/${phmCatalogueVariantId}/shipping-override`,
+        method: "POST",
+        body: {
+          items,
+        },
+      }),
+      // invalidatesTags: [TAG_GET_SHIPPING],
+    }),
   }),
 });
 
@@ -73,6 +100,8 @@ export const {
   useViewShippingDetailsQuery,
   useEditShippingDetailsMutation,
   useConfigureShippingDetailsMutation,
+  useViewCatalogueShippingDetailsQuery,
+  useCreateCatalogueShippingDetailsMutation,
 } = shippingApi;
 
 export default shippingApi;
