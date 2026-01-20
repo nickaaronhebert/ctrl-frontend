@@ -32,21 +32,29 @@ const PlanVariantRow = ({ variant, drugName, onDelete, id }: VariantProps) => {
 
   return (
     <>
-      <div className="grid grid-cols-12 items-center py-3 px-4 bg-light-background  border-b border-gray-200 last:border-b-0 gap-4">
+      <div className="grid grid-cols-14 items-center py-3 px-4 bg-light-background  border-b border-gray-200 last:border-b-0 gap-4">
         <p className="col-span-12 md:col-span-2 text-sm text-gray-900 font-medium">
           {variant?.productVariant?.name ? variant?.productVariant?.name : "-"}
         </p>
         <p className="col-span-12 md:col-span-2 text-sm text-gray-900 font-medium truncate">
           {variant?.primaryPharmacyIdentifier || "N/A"}
         </p>
-        <p className="col-span-6 md:col-span-2 text-sm text-gray-900 font-semibold md:text-right">
+        <p className="col-span-6 md:col-span-2 text-sm text-gray-900 font-semibold md:text-center">
           ${variant?.defaultPrice?.toFixed(2)}
         </p>
-        <p className="col-span-6 md:col-span-2 text-sm text-gray-900 font-semibold md:text-right">
+        <p className="col-span-6 md:col-span-2 text-sm text-gray-900 font-semibold md:text-center">
           ${variant?.newPrice?.toFixed(2)}
         </p>
 
-        <div className="col-span-6 md:col-span-2 flex justify-end items-center">
+        <p className="col-span-6 md:col-span-2 text-sm text-gray-900 font-semibold md:text-center truncate ">
+          {variant?.shippingProfile?.name}
+        </p>
+
+        <p className="col-span-6 md:col-span-2 text-sm text-gray-900 font-semibold md:text-center">
+          {variant?.supplies?.length}
+        </p>
+
+        <div className="col-span-6 md:col-span-2 flex justify-center items-center">
           <AlertDialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
             <AlertDialogTrigger asChild>
               <button

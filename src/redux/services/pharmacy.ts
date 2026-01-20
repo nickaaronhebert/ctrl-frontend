@@ -23,6 +23,7 @@ import type {
 import { type PharmacyCatalogueResponse } from "@/types/responses/IPharmacyCatalogueResponse";
 import type { CreateVariantResponse } from "@/types/responses/ICreateVariantResponse";
 import type { CreateVariantRequest } from "@/types/requests/ICreateVariantRequest";
+import type { IUpdateVariantSuppliesPayload } from "@/types/requests/IUpdateVariantSupply";
 
 export const pharmacyApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -204,6 +205,21 @@ export const pharmacyApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [TAG_LINKED_ORG, TAG_ORG_SUB_ORGS],
     }),
+
+    updateVariantSupplies: builder.mutation<
+      any,
+      IUpdateVariantSuppliesPayload[]
+    >({
+      query: (data) => ({
+        url: `/pharmacy-catalogue/supply-override-price`,
+        method: "PATCH",
+        body: {
+          configs: data,
+        },
+      }),
+      // invalidatesTags: [TAG_LINKED_ORG, TAG_ORG_SUB_ORGS],
+    }),
+
     getCatalogueList: builder.query<
       PharmacyCatalogueResponse,
       { page: number; perPage: number }
@@ -356,4 +372,5 @@ export const {
   useUpdatePlanCatalogueVariantMutation,
   useGetAvailablePlanCatalogueQuery,
   useAssignPharmacyCatalogueMutation,
+  useUpdateVariantSuppliesMutation,
 } = pharmacyApi;

@@ -185,7 +185,7 @@ function VariantList({
             </p>
           </div>
 
-          <div className="p-3 flex items-center justify-between">
+          <div className="p-3 flex items-center justify-between bg-white my-2 border border-gray-200 rounded-[5px]">
             <div>
               <h4 className="text-sm font-semibold">
                 Catalogue-Level Shipping Prices

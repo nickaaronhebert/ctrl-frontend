@@ -66,10 +66,11 @@ export interface PharmacyProductVariant {
     name: string;
   };
   supplies?: {
-    supply: string;
+    supply: { _id: string; name: string };
     quantity: number;
     supplyRequired: "REQUIRED" | "OPTIONAL";
     isOnePerOrder?: boolean;
+    overridePrice: number;
   }[];
 }
 
