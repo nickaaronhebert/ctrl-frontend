@@ -62,6 +62,7 @@ export default function SelectedCatalogues() {
       }));
 
     const payload = { config };
+    console.log("Payload", payload);
 
     try {
       await createPharmacyCatalogueVariant({
@@ -73,7 +74,6 @@ export default function SelectedCatalogues() {
       toast.success("Medications added successfully", {
         duration: 1500,
       });
-      console.log("payload", payload);
     } catch (error: unknown) {
       console.error("Profile update failed:", error);
 
@@ -200,7 +200,6 @@ export default function SelectedCatalogues() {
                   </div>
 
                   {catalogueVariants?.map((variant: any) => {
-                    console.log("variant", variant);
                     return (
                       <div
                         key={variant.variantId}

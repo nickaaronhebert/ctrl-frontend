@@ -92,10 +92,6 @@ export default function CreateShippingDialog({
 }: CreateShippingDialogProps) {
   const isEditMode = Boolean(profileId);
 
-  console.log("IsEditMode:: ", isEditMode);
-
-  console.log("ProfileId: ", profileId);
-
   const { data: shippingDetailData, isLoading: shippingLoading } =
     useViewShippingDetailsQuery(
       { profileId: profileId || "" },
@@ -159,7 +155,6 @@ export default function CreateShippingDialog({
       },
     };
     try {
-      console.log("values", values);
       if (isEditMode && profileId) {
         await editShippingClassMutation({
           profileId: profileId,
@@ -198,8 +193,6 @@ export default function CreateShippingDialog({
       });
     }
   }
-
-  console.log("ShippingDetailData", shippingDetailData);
 
   function onCancel() {
     form.reset();

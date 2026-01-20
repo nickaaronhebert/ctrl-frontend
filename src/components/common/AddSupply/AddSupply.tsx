@@ -51,10 +51,6 @@ export default function AddSupply({
     },
   });
 
-  console.log("form values", form.getValues());
-
-  console.log("SupplyItemToEdit", supplyItemToEdit);
-
   useEffect(() => {
     if (supplyItemToEdit) {
       form.reset({
@@ -84,8 +80,6 @@ export default function AddSupply({
     label: value.toUpperCase(),
     value: value,
   }));
-
-  console.log("SupplyItemToEdit:>>", supplyItemToEdit);
 
   const [createSupply, { isLoading }] = useCreateSupplyMutation();
   const [editSupply, { isLoading: editLoading }] = useEditSupplyMutation();

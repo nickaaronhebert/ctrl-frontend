@@ -17,6 +17,7 @@ export default function SetDefaultPrices() {
     setConfiguredVariants,
     variantShippingSupplies,
     setVariantShippingSupplies,
+    setConfiguredVariantIds,
   } = useMedication();
   const [prices, setPrices] = useState<Record<string, string>>({});
   const [open, setOpen] = useState<boolean>(false);
@@ -51,8 +52,6 @@ export default function SetDefaultPrices() {
       .filter(([_, price]) => price && Number(price) > 0)
       .map(([variantId, price]) => {
         const config = variantShippingSupplies[variantId];
-
-        console.log("Config", config);
 
         return {
           productVariant: variantId,
@@ -91,6 +90,8 @@ export default function SetDefaultPrices() {
         duration: 1500,
       });
       setVariantShippingSupplies({});
+      setConfiguredVariants([]);
+      setConfiguredVariantIds([]);
     } catch (error: unknown) {
       console.error("Profile update failed:", error);
 
@@ -185,7 +186,14 @@ export default function SetDefaultPrices() {
                   (v) => prices[v.variantId] && prices[v.variantId] !== "0.00"
                 ).length;
 
-                console.log("Medication Variants", medicationVariants);
+                //////////////  For supplies logic below //////////////
+                const medicationVariantIds = medicationVariants.map(
+                  (v) => v.variantId
+                );
+
+                const isMedicationConfigured = medicationVariantIds.some(
+                  (variantId) => !!variantShippingSupplies[variantId]
+                );
 
                 return (
                   <div
@@ -260,24 +268,40 @@ export default function SetDefaultPrices() {
                         </p>
                         <p className="text-[#63627F] font-medium text-[10px] ">
                           <span className="min-w-[6px] min-h-[6px] inline-block rounded-full mr-1 bg-[#FFA726] border border-none"></span>
-                          {variantShippingSupplies &&
-                          Object.keys(variantShippingSupplies).length > 0
-                            ? "Configured"
-                            : "Not configured"}
+                          {isMedicationConfigured ? "RECONFIGURE" : "CONFIGURE"}
                         </p>
                       </div>
                       <Button
                         onClick={() => {
-                          setOpen(true);
+                          const variantIds = medicationVariants.map(
+                            (v) => v.variantId
+                          );
                           setConfiguredVariants(medicationVariants);
+                          setConfiguredVariantIds(variantIds);
+                          setVariantShippingSupplies((prev) => {
+                            const updated = { ...prev };
+
+                            const hasAnyConfig = variantIds.some(
+                              (id) => prev[id]
+                            );
+
+                            if (!hasAnyConfig) {
+                              variantIds.forEach((id) => {
+                                updated[id] = {
+                                  shippingProfile: "",
+                                  supplies: [],
+                                };
+                              });
+                            }
+
+                            return updated;
+                          });
+                          setOpen(true);
                         }}
                         className="px-[10px] py-[5px] text-[#000000] rounded-[4px] cursor-pointer"
                         variant={"outline"}
                       >
-                        {variantShippingSupplies &&
-                        Object.keys(variantShippingSupplies).length > 0
-                          ? "RECONFIGURE"
-                          : "CONFIGURE"}
+                        {isMedicationConfigured ? "RECONFIGURE" : "CONFIGURE"}
                       </Button>
                     </div>
                   </div>

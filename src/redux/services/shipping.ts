@@ -1,4 +1,5 @@
 import {
+  TAG_GET_PHARMACY_CATALOGUE,
   TAG_GET_SHIPPING,
   TAG_GET_SHIPPING_DETAILS,
 } from "@/types/baseApiTags";
@@ -10,6 +11,7 @@ import type { IShippingDetailResponse } from "@/types/responses/IShippingDetailR
 import type { IGlobalConfigurationRequest } from "@/types/requests/IGlobalConfigurationRequest";
 import type { IViewCatalogueShippingResponse } from "@/types/responses/IViewCatalogueShipping";
 import type { ICreateCatalogueShippingRequest } from "@/types/requests/ICreateCatalogueShipping";
+import { type IEditShippingRequest } from "@/types/requests/IEditShippingRequest";
 
 const shippingApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -90,6 +92,18 @@ const shippingApi = baseApi.injectEndpoints({
       }),
       // invalidatesTags: [TAG_GET_SHIPPING],
     }),
+
+    editShippmentDetails: builder.mutation<
+      { message: string; code: string },
+      IEditShippingRequest
+    >({
+      query: (body) => ({
+        url: `/pharmacy-catalogue/logistics/bulk`,
+        method: "PATCH",
+        body,
+      }),
+      invalidatesTags: [TAG_GET_PHARMACY_CATALOGUE],
+    }),
   }),
 });
 
@@ -102,6 +116,7 @@ export const {
   useConfigureShippingDetailsMutation,
   useViewCatalogueShippingDetailsQuery,
   useCreateCatalogueShippingDetailsMutation,
+  useEditShippmentDetailsMutation,
 } = shippingApi;
 
 export default shippingApi;

@@ -20,15 +20,18 @@ import { useViewShippingQuery } from "@/redux/services/shipping";
 import type { ApiError } from "@/types/global/commonTypes";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { useViewAllSuppliesQuery } from "@/redux/services/supplies";
+import { useEditShippmentDetailsMutation } from "@/redux/services/shipping";
 
 interface CatalogueVariantDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  isEditMode?: boolean;
 }
 
 export default function ConfigureShippingSuppliesModal({
   open,
   onOpenChange,
+  isEditMode = false,
 }: CatalogueVariantDialogProps) {
   const {
     configuredVariants,
@@ -37,8 +40,7 @@ export default function ConfigureShippingSuppliesModal({
     setConfiguredVariantIds,
     variantShippingSupplies,
   } = useMedication();
-
-  console.log("Configured Variant Ids: ", configuredVariantIds);
+  const [editShippmentDetails] = useEditShippmentDetailsMutation();
 
   const configuredVariant = useMemo(
     () =>
@@ -116,18 +118,52 @@ export default function ConfigureShippingSuppliesModal({
 
   async function onSubmit(values: ConfigureShippingFormValues) {
     try {
-      console.log("values", values);
-      setVariantShippingSupplies((prev) => {
-        const updated = { ...prev };
-        configuredVariantIds.forEach((variantId) => {
-          updated[variantId] = {
-            shippingProfile: values.shippingProfile as string,
-            supplies: values.supplies || [],
-          };
-        });
+      if (isEditMode) {
+        const payload = {
+          items: configuredVariantIds?.map((variantId) => {
+            const variant = configuredVariants.find(
+              (v) => v.variantId === variantId
+            );
 
-        return updated;
-      });
+            const config = {
+              shippingProfile: values.shippingProfile || "",
+              supplies: values.supplies || [],
+            };
+
+            return {
+              pharmacyCatalogue: variant!.variantCatalogueId || "",
+              shipping: {
+                shippingProfile: config.shippingProfile || "",
+              },
+              supplies: (config.supplies || []).map((s) => ({
+                supply: s.supply,
+                quantity: s.quantity,
+                supplyRequired: s.supplyRequired === "REQUIRED",
+                isOnePerOrder: s.isOnePerOrder,
+              })),
+            };
+          }),
+        };
+
+        await editShippmentDetails(payload).unwrap();
+
+        toast.success("Shipping and supplies updated successfully", {
+          duration: 1500,
+        });
+      } else {
+        setVariantShippingSupplies((prev) => {
+          const updated = { ...prev };
+          configuredVariantIds.forEach((variantId) => {
+            updated[variantId] = {
+              shippingProfile: values.shippingProfile as string,
+              supplies: values.supplies || [],
+            };
+          });
+
+          return updated;
+        });
+      }
+
       onOpenChange?.(false);
       form.reset();
     } catch (error: unknown) {
@@ -153,6 +189,7 @@ export default function ConfigureShippingSuppliesModal({
     if (configuredVariantIds?.length === 0) return;
     const firstVariantId = configuredVariantIds[0];
     const config = variantShippingSupplies[firstVariantId];
+
     if (!config) {
       form.reset({
         shippingProfile: "",
@@ -161,10 +198,39 @@ export default function ConfigureShippingSuppliesModal({
       return;
     }
     form.reset({
-      shippingProfile: config.shippingProfile,
+      shippingProfile: config.shippingProfile || "",
       supplies: config.supplies || [],
     });
   }, [open, form, configuredVariantIds, variantShippingSupplies]);
+
+  // useEffect(() => {
+  //   if (!open) return;
+  //   if (configuredVariantIds.length === 0) return;
+  //   const configuredWithData = configuredVariantIds.filter((id) => {
+  //     const config = variantShippingSupplies[id];
+
+  //     return (
+  //       config &&
+  //       (!!config.shippingProfile ||
+  //         (Array.isArray(config.supplies) && config.supplies.length > 0))
+  //     );
+  //   });
+  //   if (configuredWithData.length === 1) {
+  //     const variantId = configuredWithData[0];
+  //     const config = variantShippingSupplies[variantId];
+  //     console.log("Config", config);
+
+  //     form.reset({
+  //       shippingProfile: config.shippingProfile ?? "",
+  //       supplies: config.supplies,
+  //     });
+  //     return;
+  //   }
+  //   form.reset({
+  //     shippingProfile: "",
+  //     supplies: [],
+  //   });
+  // }, [open, configuredVariantIds, variantShippingSupplies, form]);
 
   if (isLoading || isSuppliesLoading) {
     return (

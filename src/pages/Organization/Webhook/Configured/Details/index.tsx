@@ -37,8 +37,6 @@ export default function ConfiguredWebhookDetails() {
     );
   }
 
-  console.log("data>>>]>", data);
-
   return (
     <div>
       <div className="flex justify-between bg-[#EFE8F5] p-5">

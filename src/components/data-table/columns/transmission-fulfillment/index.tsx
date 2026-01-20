@@ -171,7 +171,6 @@ export function transmissionFulfillmentColumns(
       header: "Last Updated",
       cell: ({ row }) => {
         const { lastStatusReceived } = row.original;
-        console.log(lastStatusReceived);
         return (
           <div>
             <p className="text-sm font-medium">
@@ -186,7 +185,6 @@ export function transmissionFulfillmentColumns(
       accessorKey: "_id",
       header: "Action",
       cell: ({ row }) => {
-        console.log(row.original);
         return (
           <>
             <Button
