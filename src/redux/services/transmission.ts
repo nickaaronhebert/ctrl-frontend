@@ -9,10 +9,14 @@ import { baseApi } from ".";
 import type { ICommonSearchQuery } from "@/types/requests/search";
 
 import type { IViewOrgPharmaciesResponse } from "@/types/responses/IViewOrgPharmaciesTranmissions";
-import { TAG_GLOBAL_PHARMACIES } from "@/types/baseApiTags";
+import {
+  TAG_GET_ALL_TRANSMISSIONS,
+  TAG_GLOBAL_PHARMACIES,
+} from "@/types/baseApiTags";
 import type { IViewFulfillmentTrackingResponse } from "@/types/responses/IViewTransmissionFulfillments";
 import type { IViewTransmissionFulfillmentStats } from "@/types/responses/IViewTransmissionFulfillmentStats";
 import type { FulfillmentTrackingResponse } from "@/types/responses/IViewTransmissionFullfillmentDetail";
+import type { ExternalPharmacyPrescriptionSendFailedResponse } from "@/types/responses/IFailedTransmissionResponse";
 
 const transmissionApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -30,6 +34,7 @@ const transmissionApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
+      providesTags: [TAG_GET_ALL_TRANSMISSIONS],
     }),
 
     viewAllPharmacyTransmissions: builder.query<
@@ -142,6 +147,26 @@ const transmissionApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
+    transmissionFailedLog: builder.query<
+      ExternalPharmacyPrescriptionSendFailedResponse,
+      string
+    >({
+      query: (id) => ({
+        url: `/transmission/failed-log/${id}`,
+        method: "GET",
+      }),
+      keepUnusedDataFor: 0,
+    }),
+    retryTransmission: builder.mutation<
+      { message: string; code: string },
+      string
+    >({
+      query: (transmissionId) => ({
+        url: `/transmission/${transmissionId}/retry`,
+        method: "POST",
+      }),
+      invalidatesTags: [TAG_GET_ALL_TRANSMISSIONS],
+    }),
   }),
 });
 
@@ -156,6 +181,8 @@ export const {
   useViewAllTransmissionFulfillmentsQuery,
   useViewAllTransmissionFulfillmentStatsQuery,
   useViewTransmissionFulfillmentDetailQuery,
+  useTransmissionFailedLogQuery,
+  useRetryTransmissionMutation,
 } = transmissionApi;
 
 export default transmissionApi;
