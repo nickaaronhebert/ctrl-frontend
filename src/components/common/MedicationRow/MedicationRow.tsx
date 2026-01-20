@@ -65,7 +65,7 @@ export function MedicationRow({ medication }: MedicationProps) {
         shippingSuppliesMap[variantId] = {
           shippingProfile: (v.shippingProfile as any) ?? "",
           supplies: (v.supplies ?? []).map((s) => ({
-            supply: s.supply,
+            supply: s.supply?._id,
             quantity: s.quantity,
             supplyRequired: s.supplyRequired ? "REQUIRED" : "OPTIONAL",
             isOnePerOrder: s.isOnePerOrder ?? false,
