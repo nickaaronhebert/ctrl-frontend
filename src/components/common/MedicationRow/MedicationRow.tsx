@@ -63,7 +63,7 @@ export function MedicationRow({ medication }: MedicationProps) {
 
       if (v.shippingProfile || (v.supplies && v.supplies.length > 0)) {
         shippingSuppliesMap[variantId] = {
-          shippingProfile: (v.shippingProfile as any) ?? "",
+          shippingProfile: (v.shippingProfile?._id as any) ?? "",
           supplies: (v.supplies ?? []).map((s) => {
             console.log("s:", s.supply?._id);
 
