@@ -64,12 +64,16 @@ export function MedicationRow({ medication }: MedicationProps) {
       if (v.shippingProfile || (v.supplies && v.supplies.length > 0)) {
         shippingSuppliesMap[variantId] = {
           shippingProfile: (v.shippingProfile?._id as any) ?? "",
-          supplies: (v.supplies ?? []).map((s) => ({
-            supply: s.supply?._id,
-            quantity: s.quantity,
-            supplyRequired: s.supplyRequired ? "REQUIRED" : "OPTIONAL",
-            isOnePerOrder: s.isOnePerOrder ?? false,
-          })),
+          supplies: (v.supplies ?? []).map((s) => {
+            console.log("s:", s.supply?._id);
+
+            return {
+              supply: s.supply as any,
+              quantity: s.quantity,
+              supplyRequired: s.supplyRequired ? "REQUIRED" : "OPTIONAL",
+              isOnePerOrder: s.isOnePerOrder ?? false,
+            };
+          }),
         };
       }
     });
