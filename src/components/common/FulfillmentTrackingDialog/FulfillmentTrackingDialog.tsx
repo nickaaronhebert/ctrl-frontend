@@ -26,8 +26,6 @@ export function FulfillmentTrackingDialog({
     skip: !open || !id,
   });
 
-  console.log("data>>>>", data);
-
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-[80vh]">

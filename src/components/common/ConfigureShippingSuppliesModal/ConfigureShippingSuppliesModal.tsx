@@ -39,6 +39,7 @@ export default function ConfigureShippingSuppliesModal({
     configuredVariantIds,
     setConfiguredVariantIds,
     variantShippingSupplies,
+    setConfiguredVariants,
   } = useMedication();
   const [editShippmentDetails] = useEditShippmentDetailsMutation();
 
@@ -146,7 +147,9 @@ export default function ConfigureShippingSuppliesModal({
         };
 
         await editShippmentDetails(payload).unwrap();
-
+        setVariantShippingSupplies({});
+        setConfiguredVariants([]);
+        setConfiguredVariantIds([]);
         toast.success("Shipping and supplies updated successfully", {
           duration: 1500,
         });
