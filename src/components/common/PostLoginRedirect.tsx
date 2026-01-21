@@ -24,6 +24,8 @@ const PostLoginRedirect = () => {
         navigate("/pharmacy/transmissions", { replace: true });
       } else if (role === "Platform Admin") {
         navigate("/admin/dashboard");
+      } else if (role === "Sub Organization Admin") {
+        navigate("/sub-org/dashboard", { replace: true });
       } else {
         navigate("/", { replace: true });
       }

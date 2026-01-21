@@ -17,6 +17,8 @@ import {
   pharmacyAdminItems,
   platformAdminItems,
   nestedOrgTransmissionItems,
+  nestedSubOrgItems,
+  subOrgAdminItems,
 } from "@/constants";
 import CTRLSVG from "@/assets/images/CTRL.svg";
 import CollapsedCTRLSVG from "@/assets/icons/CollapsedCTRL";
@@ -131,14 +133,16 @@ export function AppSidebar() {
   const isOrgTransmissionItems = (item: MenuItem) =>
     item.title === "Transmissions" && user?.role?.name === "Organization Admin";
   const [settingsOpen, setSettingsOpen] = useState(false);
-
   const isOrganisationAdmin = user?.role?.name === "Organization Admin";
+  const subOrgAdmin = user?.role?.name === "Sub Organization Admin";
   const isProvider = user?.role?.name === "Provider";
   const isPharmacyAdmin = user?.role?.name === "Pharmacy Admin";
   const isPlatformAdmin = user?.role?.name === "Platform Admin";
 
   const nestedItems = isOrganisationAdmin
     ? nestedOrgItems
+    : subOrgAdmin
+    ? nestedSubOrgItems
     : nestedPharmacyItems;
 
   const providerItems = [
@@ -169,6 +173,8 @@ export function AppSidebar() {
     ? pharmacyAdminItems
     : isPlatformAdmin
     ? platformAdminItems
+    : subOrgAdmin
+    ? subOrgAdminItems
     : providerItems;
 
   const isActive = (item: MenuItem) => {

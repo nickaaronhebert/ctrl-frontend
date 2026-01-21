@@ -171,6 +171,24 @@ export const pharmacyAdminItems = [
   { title: "Settings", url: "/pharmacy/settings", icon: SettingsMain },
 ];
 
+export const subOrgAdminItems = [
+  { title: "Dashboard", url: "/sub-org/dashboard", icon: Dashboard },
+  { title: "Orders", url: "/sub-org/orders", icon: Orders },
+  { title: "Transmissions", url: "/sub-org/transmissions", icon: Transmission },
+  { title: "Patients", url: "/sub-org/patients", icon: PatientIcon },
+  { title: "Invoices", url: "/sub-org/invoices", icon: InvoicesMain },
+  { title: "Settings", url: "/sub-org/settings", icon: Settings },
+];
+
+export const nestedSubOrgItems = [
+  {
+    title: "Medication Library",
+    url: "/sub-org/medications",
+  },
+  { title: "Activity Log", url: "/sub-org/activity-log" },
+  { title: "My Settings", url: "/sub-org/settings" },
+];
+
 // static/sidebar.ts
 
 export const mockStats = {

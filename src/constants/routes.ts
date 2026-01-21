@@ -95,6 +95,22 @@ export const ROUTES = {
   PHARMACY_SUPPLIES: "supplies",
   PHARMACY_SHIPPING: "shipping",
   ORG_TRANSMISSION_TRACKING: "transmission-tracking",
+  SUB_ORG_DASHBOARD: "dashboard",
+  SUB_ORG_ORDERS: "orders",
+  SUB_ORG_ORDER_DETAILS: "order-details/:id",
+  SUB_ORG_TRANSMISSION: "transmissions",
+  SUB_ORG_TRANSMISSION_DETAIL: "transmission-detail/:id",
+  SUB_ORG_EDIT_PATIENT: "edit-patient/:id",
+  SUB_ORG_CREATE_PATIENT: "create-patient",
+  SUB_ORG_VIEW_PATIENT_DETAILS: "patient/:id",
+  SUB_ORG_VIEW_PATIENT: "patients",
+  SUB_ORG_PATIENT_SUCCESS: "patient-success",
+  SUB_ORG_INVOICES: "invoices",
+  SUB_ORG_INVOICE_DETAIL: "invoices/:id",
+  SUB_ORG_MEDICATIONS: "medications",
+  SUB_ORG_MEDICATIONS_DETAIL: "medications/:id",
+  SUB_ORG_ACTIVITY_LOG: "activity-log",
+  SUB_ORG_SETTINGS: "settings",
 };
 
 export const STEPPER_FORM = {
