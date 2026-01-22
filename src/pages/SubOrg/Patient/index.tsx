@@ -1,48 +1,48 @@
-import { organizationPatientColumns } from "@/components/data-table/columns/patient";
-import { DataTable } from "@/components/data-table/data-table";
-import { DataTablePagination } from "@/components/data-table/data-table-pagination";
-import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
+// import { organizationPatientColumns } from "@/components/data-table/columns/patient";
+// import { DataTable } from "@/components/data-table/data-table";
+// import { DataTablePagination } from "@/components/data-table/data-table-pagination";
+// import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 
-import {
-  useDataTable,
-  type DataTableFilterField,
-} from "@/hooks/use-data-table";
-import { useGetPatientDetailsQuery } from "@/redux/services/patientApi";
-import type { PatientDetails } from "@/types/responses/patient";
-import { useMemo } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+// import {
+//   useDataTable,
+//   type DataTableFilterField,
+// } from "@/hooks/use-data-table";
+// import { useGetPatientDetailsQuery } from "@/redux/services/patientApi";
+// import type { PatientDetails } from "@/types/responses/patient";
+// import { useMemo } from "react";
+// import {  useSearchParams } from "react-router-dom";
 
 export default function SubOrgPatientList() {
-  const [searchParams] = useSearchParams();
-  const page = parseInt(searchParams.get("page") || "1", 10);
-  const perPage = parseInt(searchParams.get("per_page") ?? "100", 10);
-  const name = searchParams.get("firstName") ?? "";
-  const { data: patientData, meta } = useGetPatientDetailsQuery(
-    { page, perPage, q: name },
-    {
-      selectFromResult: ({ data, isLoading, isError }) => ({
-        data: data?.data,
-        meta: data?.meta,
-        isLoading: isLoading,
-        isError: isError,
-      }),
-    }
-  );
+  // const [searchParams] = useSearchParams();
+  // const page = parseInt(searchParams.get("page") || "1", 10);
+  // const perPage = parseInt(searchParams.get("per_page") ?? "100", 10);
+  // const name = searchParams.get("firstName") ?? "";
+  // const { data: patientData, meta } = useGetPatientDetailsQuery(
+  //   { page, perPage, q: name },
+  //   {
+  //     selectFromResult: ({ data, isLoading, isError }) => ({
+  //       data: data?.data,
+  //       meta: data?.meta,
+  //       isLoading: isLoading,
+  //       isError: isError,
+  //     }),
+  //   }
+  // );
 
-  const columns = useMemo(() => organizationPatientColumns(), []);
-  const filterFields: DataTableFilterField<PatientDetails>[] = [
-    {
-      label: "Name",
-      value: "firstName",
-      placeholder: "Search By Patient Name",
-    },
-  ];
-  const { table } = useDataTable({
-    data: patientData || [],
-    columns,
-    filterFields,
-    pageCount: meta?.pageCount ?? -1,
-  });
+  // const columns = useMemo(() => organizationPatientColumns(), []);
+  // const filterFields: DataTableFilterField<PatientDetails>[] = [
+  //   {
+  //     label: "Name",
+  //     value: "firstName",
+  //     placeholder: "Search By Patient Name",
+  //   },
+  // ];
+  // const { table } = useDataTable({
+  //   data: patientData || [],
+  //   columns,
+  //   filterFields,
+  //   pageCount: meta?.pageCount ?? -1,
+  // });
   return (
     <div className="p-5">
       {/* <div className="flex justify-between items-center w-full">
