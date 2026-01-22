@@ -143,11 +143,15 @@ const transmissionApi = baseApi.injectEndpoints({
       },
       providesTags: [TAG_GLOBAL_PHARMACIES],
     }),
-    transmitTransmission: builder.query({
+    transmitTransmission: builder.mutation({
       query: (id: string) => ({
         url: `transmission/transmit/${id}`,
-        method: "GET",
+        method: "POST",
       }),
+      invalidatesTags: [
+        TAG_GET_TRANSMISSION_DETAILS,
+        TAG_GET_ALL_TRANSMISSIONS,
+      ],
     }),
     transmissionFailedLog: builder.query<
       ExternalPharmacyPrescriptionSendFailedResponse,
@@ -182,7 +186,7 @@ export const {
   useViewPharmacyTransmissionByIdQuery,
   useViewOrgPharmaciesTransmissionsQuery,
   useViewOrgPharmaciesTransmissionsV2Query,
-  useLazyTransmitTransmissionQuery,
+  useTransmitTransmissionMutation,
   useViewAllTransmissionFulfillmentsQuery,
   useViewAllTransmissionFulfillmentStatsQuery,
   useViewTransmissionFulfillmentDetailQuery,

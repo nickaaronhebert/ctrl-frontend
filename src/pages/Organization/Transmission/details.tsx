@@ -11,7 +11,7 @@ import ZigZag from "@/assets/mainlayouticons/ZigZag";
 import Medications from "@/assets/mainlayouticons/Medications";
 import SecondaryOverview from "@/assets/mainlayouticons/SecondaryOverview";
 import Profile from "@/assets/icons/Profile";
-import { useLazyTransmitTransmissionQuery } from "@/redux/services/transmission";
+import { useTransmitTransmissionMutation } from "@/redux/services/transmission";
 import { toast } from "sonner";
 
 const PatientMenuIcon = (props: ComponentProps<typeof Profile>) => (
@@ -91,7 +91,7 @@ export default function TransmissionDetails() {
     }),
   });
 
-  const [transmit, { isLoading }] = useLazyTransmitTransmissionQuery();
+  const [transmit, { isLoading }] = useTransmitTransmissionMutation();
 
   const status = data?.status?.toLowerCase();
   const bgColor = statusColorMap[status as string];
