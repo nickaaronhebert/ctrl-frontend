@@ -55,6 +55,8 @@ interface MedicationContextType {
   catalogues: PharmacyCatalogue[];
   pharmacyCatalogueId: string;
   configuredVariantIds: string[];
+  // activeVariantId: string | null;
+  // setActiveVariantId: React.Dispatch<React.SetStateAction<string | null>>;
   setConfiguredVariantIds: React.Dispatch<React.SetStateAction<string[]>>;
   setPharmacyCatalogueId: React.Dispatch<React.SetStateAction<string>>;
   setCatalogues: React.Dispatch<React.SetStateAction<PharmacyCatalogue[]>>;
@@ -74,7 +76,7 @@ interface MedicationContextType {
   toggleVariant: (medication: Medication, variant: ProductVariant) => void;
   toggleCatalogueVariant: (
     catalogue: PharmacyCatalogue,
-    variant: ProductVariant
+    variant: ProductVariant,
   ) => void;
   selectAllMedication: (medication: Medication) => void;
   deselectAllMedication: (medicationId: string) => void;
@@ -91,16 +93,17 @@ interface MedicationContextType {
   getFilteredCatalogues: () => PharmacyCatalogue[];
   isCatalogueVariantSelected: (
     catalogueId: string,
-    variantId: string
+    variantId: string,
   ) => boolean;
 }
 
 const MedicationContext = createContext<MedicationContextType | undefined>(
-  undefined
+  undefined,
 );
 
 export function MedicationProvider({ children }: { children: ReactNode }) {
   const [medications, setMedications] = useState<Medication[]>([]);
+  // const [activeVariantId, setActiveVariantId] = useState<string | null>(null);
   const [variantShippingSupplies, setVariantShippingSupplies] = useState<
     Record<string, VariantShippingSuppliesConfig>
   >({});
@@ -109,11 +112,11 @@ export function MedicationProvider({ children }: { children: ReactNode }) {
     typeof selectedVariants
   >([]);
   const [selectedVariants, setSelectedVariants] = useState<SelectedVariant[]>(
-    []
+    [],
   );
   const [pharmacyCatalogueId, setPharmacyCatalogueId] = useState<string>("");
   const [configuredVariantIds, setConfiguredVariantIds] = useState<string[]>(
-    []
+    [],
   );
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [prices, setPrices] = useState<Record<string, string>>({});
@@ -125,7 +128,8 @@ export function MedicationProvider({ children }: { children: ReactNode }) {
   const toggleVariant = (medication: Medication, variant: ProductVariant) => {
     setSelectedVariants((prev) => {
       const existingIndex = prev.findIndex(
-        (sv) => sv.medicationId === medication.id && sv.variantId === variant.id
+        (sv) =>
+          sv.medicationId === medication.id && sv.variantId === variant.id,
       );
 
       if (existingIndex >= 0) {
@@ -147,12 +151,12 @@ export function MedicationProvider({ children }: { children: ReactNode }) {
 
   const toggleCatalogueVariant = (
     catalogue: PharmacyCatalogue,
-    variant: any
+    variant: any,
   ) => {
     setSelectedVariants((prev) => {
       const existingIndex = prev.findIndex(
         (sv) =>
-          sv.medicationId === catalogue._id && sv.variantId === variant._id
+          sv.medicationId === catalogue._id && sv.variantId === variant._id,
       );
 
       if (existingIndex >= 0) {
@@ -183,7 +187,7 @@ export function MedicationProvider({ children }: { children: ReactNode }) {
 
       // Remove existing variants for this medication
       const filteredVariants = prev.filter(
-        (sv) => sv.medicationId !== medication.id
+        (sv) => sv.medicationId !== medication.id,
       );
       return [...filteredVariants, ...medicationVariants];
     });
@@ -191,7 +195,7 @@ export function MedicationProvider({ children }: { children: ReactNode }) {
 
   const deselectAllMedication = (medicationId: string) => {
     setSelectedVariants((prev) =>
-      prev.filter((sv) => sv.medicationId !== medicationId)
+      prev.filter((sv) => sv.medicationId !== medicationId),
     );
   };
 
@@ -206,7 +210,7 @@ export function MedicationProvider({ children }: { children: ReactNode }) {
 
       // Remove existing variants for this catalogue
       const filteredVariants = prev.filter(
-        (sv: any) => sv.medicationId !== catalogue._id
+        (sv: any) => sv.medicationId !== catalogue._id,
       );
 
       return [...filteredVariants, ...catalogueVariants];
@@ -215,7 +219,7 @@ export function MedicationProvider({ children }: { children: ReactNode }) {
 
   const deselectAllCatalogue = (catalogueId: string) => {
     setSelectedVariants((prev) =>
-      prev.filter((sv) => sv.medicationId !== catalogueId)
+      prev.filter((sv) => sv.medicationId !== catalogueId),
     );
   };
 
@@ -259,16 +263,16 @@ export function MedicationProvider({ children }: { children: ReactNode }) {
 
   const isVariantSelected = (medicationId: string, variantId: string) => {
     return selectedVariants.some(
-      (sv) => sv.medicationId === medicationId && sv.variantId === variantId
+      (sv) => sv.medicationId === medicationId && sv.variantId === variantId,
     );
   };
 
   const isCatalogueVariantSelected = (
     catalogueId: string,
-    variantId: string
+    variantId: string,
   ) => {
     return selectedVariants.some(
-      (sv) => sv.medicationId === catalogueId && sv.variantId === variantId
+      (sv) => sv.medicationId === catalogueId && sv.variantId === variantId,
     );
   };
 
@@ -276,7 +280,7 @@ export function MedicationProvider({ children }: { children: ReactNode }) {
     if (!searchQuery.trim()) return medications;
 
     return medications.filter((medication) =>
-      medication.drugName.toLowerCase().includes(searchQuery.toLowerCase())
+      medication.drugName.toLowerCase().includes(searchQuery.toLowerCase()),
     );
   };
 
@@ -285,7 +289,7 @@ export function MedicationProvider({ children }: { children: ReactNode }) {
     return catalogues.filter((catalogue) =>
       catalogue.medicationCatalogue.drugName
         .toLowerCase()
-        .includes(searchQuery.toLowerCase())
+        .includes(searchQuery.toLowerCase()),
     );
   };
 
@@ -322,6 +326,8 @@ export function MedicationProvider({ children }: { children: ReactNode }) {
     setPrices,
     variantShippingSupplies,
     setVariantShippingSupplies,
+    // activeVariantId,
+    // setActiveVariantId,
   };
 
   return (

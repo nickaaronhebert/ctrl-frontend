@@ -30,17 +30,17 @@ export default function SetDefaultPrices() {
     useBulkUpsertPharmacyCatalogueMutation();
 
   const selectedMedications = medications.filter((med) =>
-    selectedVariants.some((variant) => variant.medicationId === med.id)
+    selectedVariants.some((variant) => variant.medicationId === med.id),
   );
 
   const filteredMedications = selectedMedications.filter((med) =>
-    med.drugName.toLowerCase().includes(searchTerm.toLowerCase())
+    med.drugName.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   const totalVariants = selectedVariants.length;
 
   const pricedVariants = Object.keys(prices).filter(
-    (key) => prices[key] && prices[key] !== "0.00"
+    (key) => prices[key] && prices[key] !== "0.00",
   ).length;
 
   const handlePriceChange = (variantId: string, value: string) => {
@@ -180,19 +180,19 @@ export default function SetDefaultPrices() {
             ) : (
               filteredMedications.map((medication) => {
                 const medicationVariants = selectedVariants.filter(
-                  (v) => v.medicationId === medication.id
+                  (v) => v.medicationId === medication.id,
                 );
                 const medicationPricedCount = medicationVariants.filter(
-                  (v) => prices[v.variantId] && prices[v.variantId] !== "0.00"
+                  (v) => prices[v.variantId] && prices[v.variantId] !== "0.00",
                 ).length;
 
                 //////////////  For supplies logic below //////////////
                 const medicationVariantIds = medicationVariants.map(
-                  (v) => v.variantId
+                  (v) => v.variantId,
                 );
 
                 const isMedicationConfigured = medicationVariantIds.some(
-                  (variantId) => !!variantShippingSupplies[variantId]
+                  (variantId) => !!variantShippingSupplies[variantId],
                 );
 
                 return (
@@ -248,7 +248,7 @@ export default function SetDefaultPrices() {
                                   onChange={(e) =>
                                     handlePriceChange(
                                       variant.variantId,
-                                      e.target.value
+                                      e.target.value,
                                     )
                                   }
                                   className="w-[115px] h-[38px] rounded-[6px] px-[12px] py-[10px] border-card-border bg-white text-right"
@@ -274,15 +274,16 @@ export default function SetDefaultPrices() {
                       <Button
                         onClick={() => {
                           const variantIds = medicationVariants.map(
-                            (v) => v.variantId
+                            (v) => v.variantId,
                           );
+                          console.log("Variant Ids", variantIds);
                           setConfiguredVariants(medicationVariants);
-                          setConfiguredVariantIds(variantIds);
+                          // setConfiguredVariantIds(variantIds);
                           setVariantShippingSupplies((prev) => {
                             const updated = { ...prev };
 
                             const hasAnyConfig = variantIds.some(
-                              (id) => prev[id]
+                              (id) => prev[id],
                             );
 
                             if (!hasAnyConfig) {
@@ -292,6 +293,7 @@ export default function SetDefaultPrices() {
                                   supplies: [],
                                 };
                               });
+                              setConfiguredVariantIds([]);
                             }
 
                             return updated;

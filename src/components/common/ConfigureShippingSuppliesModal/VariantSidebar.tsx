@@ -8,11 +8,14 @@ import { Checkbox } from "@/components/ui/checkbox";
 interface VariantsSidebarProps {
   configuredVariantsIds: string[];
   onSelectionChange: (ids: string[]) => void;
+  // activeVariantId: string | null;
+  // onActiveChange: (id: string) => void;
 }
 
 export default function VariantsSidebar({
   configuredVariantsIds,
   onSelectionChange,
+  // activeVariantId,
 }: VariantsSidebarProps) {
   const { configuredVariants } = useMedication();
 
@@ -25,7 +28,7 @@ export default function VariantsSidebar({
     onSelectionChange(
       configuredVariantsIds.includes(id)
         ? configuredVariantsIds.filter((v) => v !== id)
-        : [...configuredVariantsIds, id]
+        : [...configuredVariantsIds, id],
     );
   };
 
@@ -33,7 +36,7 @@ export default function VariantsSidebar({
     onSelectionChange(
       configuredVariantsIds?.length === total
         ? []
-        : configuredVariants?.map((v) => v.variantId)
+        : configuredVariants?.map((v) => v.variantId),
     );
   };
 
@@ -59,15 +62,14 @@ export default function VariantsSidebar({
       <div className="flex-1 overflow-y-auto px-3 pb-4 space-y-3">
         {configuredVariants?.map((item) => {
           const checked = configuredVariantsIds?.includes(item.variantId);
+          // const isActive = activeVariantId === item.variantId;
 
           return (
             <Label
               key={item.variantId}
               className={cn(
                 "flex items-start gap-3 p-[15px] cursor-pointer transition bg-[#ffffff] border border-slate-300 rounded-[10px]",
-                checked
-                  ? "border-primary bg-primary/5"
-                  : "hover:border-muted-foreground/40"
+                checked ? "border-primary bg-primary/5" : "border-slate-300",
               )}
             >
               <div className="pt-1">

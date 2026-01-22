@@ -26,6 +26,7 @@ export function MedicationRow({ medication }: MedicationProps) {
     setConfiguredVariants,
     setConfiguredVariantIds,
     setVariantShippingSupplies,
+    // setActiveVariantId,
   } = useMedication();
   const [deletePharmacyCatalogue] = useDeletePharmacyCatalogueMutation();
 
@@ -62,6 +63,7 @@ export function MedicationRow({ medication }: MedicationProps) {
       selectedVariantIds.push(variantId);
 
       if (v.shippingProfile || (v.supplies && v.supplies.length > 0)) {
+        // selectedVariantIds.push(variantId);
         shippingSuppliesMap[variantId] = {
           shippingProfile: (v.shippingProfile?._id as any) ?? "",
           supplies: (v.supplies ?? []).map((s) => {
@@ -78,6 +80,7 @@ export function MedicationRow({ medication }: MedicationProps) {
       }
     });
     setConfiguredVariants(configuredVariantsList);
+    // setActiveVariantId(selectedVariantIds[0]);
     setConfiguredVariantIds(selectedVariantIds);
     setVariantShippingSupplies(shippingSuppliesMap);
     setOpen(true);
@@ -142,7 +145,7 @@ export function MedicationRow({ medication }: MedicationProps) {
                     onDelete={handleDeleteVariant}
                   />
                 );
-              }
+              },
             )}
           </div>
         </div>

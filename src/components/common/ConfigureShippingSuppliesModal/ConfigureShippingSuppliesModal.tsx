@@ -40,15 +40,17 @@ export default function ConfigureShippingSuppliesModal({
     setConfiguredVariantIds,
     variantShippingSupplies,
     setConfiguredVariants,
+    // activeVariantId,
+    // setActiveVariantId,
   } = useMedication();
   const [editShippmentDetails] = useEditShippmentDetailsMutation();
 
   const configuredVariant = useMemo(
     () =>
       configuredVariants?.filter((v) =>
-        configuredVariantIds.includes(v.variantId)
+        configuredVariantIds.includes(v.variantId),
       ),
-    [configuredVariants, configuredVariantIds]
+    [configuredVariants, configuredVariantIds],
   );
 
   const form = useForm<ConfigureShippingFormValues>({
@@ -83,7 +85,7 @@ export default function ConfigureShippingSuppliesModal({
         label: name,
         value: id,
       })) ?? [],
-    [data]
+    [data],
   );
 
   const suppliesOptions = useMemo(
@@ -92,13 +94,13 @@ export default function ConfigureShippingSuppliesModal({
         label: name,
         value: id,
       })) ?? [],
-    [suppliesData]
+    [suppliesData],
   );
 
   const handleSelectionChange = (newSelectedIds: string[]) => {
     setConfiguredVariantIds((prevSelectedIds) => {
       const removedIds = prevSelectedIds.filter(
-        (id) => !newSelectedIds.includes(id)
+        (id) => !newSelectedIds.includes(id),
       );
 
       if (removedIds.length > 0) {
@@ -123,7 +125,7 @@ export default function ConfigureShippingSuppliesModal({
         const payload = {
           items: configuredVariantIds?.map((variantId) => {
             const variant = configuredVariants.find(
-              (v) => v.variantId === variantId
+              (v) => v.variantId === variantId,
             );
 
             const config = {
@@ -257,6 +259,8 @@ export default function ConfigureShippingSuppliesModal({
               <VariantsSidebar
                 configuredVariantsIds={configuredVariantIds}
                 onSelectionChange={handleSelectionChange}
+                // activeVariantId={activeVariantId}
+                // onActiveChange={setActiveVariantId}
               />
             }
             content={
