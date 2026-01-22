@@ -1,6 +1,6 @@
 import File from "@/assets/icons/File";
 import QueuedSecondary from "@/assets/icons/Queuedecondary";
-import { Check } from "lucide-react";
+import { Check, X } from "lucide-react";
 import Tick from "@/assets/icons/Tick";
 import TripleDots from "@/assets/icons/TripleDots";
 import NotReceived from "@/assets/icons/NotReceived";
@@ -87,6 +87,12 @@ const statusStyles: Record<
     icon: <img src={Shipped} alt="Processed" />,
     text: "text-queued",
     bg: "bg-[#E3F2FD]",
+    border: "border-[#E3F2FD]",
+  },
+  Failed: {
+    icon: <X size={13} />,
+    text: "text-white ",
+    bg: "bg-red-500",
     border: "border-[#E3F2FD]",
   },
 };

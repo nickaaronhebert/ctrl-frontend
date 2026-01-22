@@ -98,6 +98,17 @@ import PharmacySupplies from "./pages/Pharmacy/Supplies";
 import ShippingConfiguration from "./pages/Pharmacy/ShippingConfiguration";
 import FulfillmentTracking from "./pages/Organization/FulfillmentTracking";
 import SelectedSpecialCatalogues from "./components/pharmacy/selectedSpecialCatalogues";
+import SubOrgDashboard from "./pages/SubOrg/Dashboard";
+import SubOrgTransmissions from "./pages/SubOrg/Transmission";
+import SubOrgTransmissionDetail from "./pages/SubOrg/Transmission/details";
+import SubOrgOrder from "./pages/SubOrg/Order";
+import SubOrgInvoices from "./pages/SubOrg/Invoices";
+import MedicationLibrary from "./pages/SubOrg/MedicationLibrary";
+import ActivityLog from "./pages/SubOrg/ActivityLog";
+import SubOrgOrderDetails from "./pages/SubOrg/Order/details";
+import SubOrgInvoiceDetails from "./pages/SubOrg/Invoices/details";
+import SubOrgSettings from "./pages/SubOrg/Settings";
+import SubOrgPatientList from "./pages/SubOrg/Patient";
 
 const router = createBrowserRouter([
   {
@@ -372,6 +383,160 @@ const router = createBrowserRouter([
       {
         path: ROUTES.VIEW_SUB_ORGANIZATION,
         element: <ViewSubOrganization />,
+      },
+    ],
+  },
+
+  {
+    path: "/sub-org",
+    element: (
+      <ModuleProtectedRoute
+        element={<SidebarLayout />}
+        permissions={[
+          {
+            resource: MODULE.BUSINESS,
+            permission: PERMISSIONS.READ,
+          },
+          {
+            resource: MODULE.BUSINESS,
+            permission: PERMISSIONS.UPDATE,
+          },
+          {
+            resource: MODULE.ORDER,
+            permission: PERMISSIONS.READ,
+          },
+          {
+            resource: MODULE.ORDER,
+            permission: PERMISSIONS.WRITE,
+          },
+          {
+            resource: MODULE.ORDER,
+            permission: PERMISSIONS.UPDATE,
+          },
+          {
+            resource: MODULE.ORDER,
+            permission: PERMISSIONS.DELETE,
+          },
+          {
+            resource: MODULE.ACCESS_CONTROL,
+            permission: PERMISSIONS.READ,
+          },
+          {
+            resource: MODULE.ACCESS_CONTROL,
+            permission: PERMISSIONS.UPDATE,
+          },
+          {
+            resource: MODULE.ACCESS_CONTROL,
+            permission: PERMISSIONS.DELETE,
+          },
+          {
+            resource: MODULE.ACCESS_CONTROL,
+            permission: PERMISSIONS.UPDATE,
+          },
+          {
+            resource: MODULE.PRESCRIPTION,
+            permission: PERMISSIONS.READ,
+          },
+          {
+            resource: MODULE.PRESCRIPTION,
+            permission: PERMISSIONS.WRITE,
+          },
+          {
+            resource: MODULE.PRESCRIPTION,
+            permission: PERMISSIONS.DELETE,
+          },
+          {
+            resource: MODULE.PHARMACY_CATALOGUE,
+            permission: PERMISSIONS.READ,
+          },
+          {
+            resource: MODULE.MEDICATION_CATALOGUE,
+            permission: PERMISSIONS.READ,
+          },
+          {
+            resource: MODULE.PROVIDER_GROUP_INVITATION,
+            permission: PERMISSIONS.WRITE,
+          },
+          {
+            resource: MODULE.ME,
+            permission: PERMISSIONS.READ,
+          },
+          {
+            resource: MODULE.ME,
+            permission: PERMISSIONS.WRITE,
+          },
+          {
+            resource: MODULE.ME,
+            permission: PERMISSIONS.UPDATE,
+          },
+          {
+            resource: MODULE.ME,
+            permission: PERMISSIONS.DELETE,
+          },
+        ]}
+      />
+    ),
+    children: [
+      {
+        path: ROUTES.SUB_ORG_DASHBOARD,
+        element: <SubOrgDashboard />,
+      },
+      {
+        path: ROUTES.SUB_ORG_ORDERS,
+        element: <SubOrgOrder />,
+      },
+      {
+        path: ROUTES.SUB_ORG_ORDER_DETAILS,
+        element: <SubOrgOrderDetails />,
+      },
+      {
+        path: ROUTES.SUB_ORG_TRANSMISSION,
+        element: <SubOrgTransmissions />,
+      },
+      {
+        path: ROUTES.SUB_ORG_TRANSMISSION_DETAIL,
+        element: <SubOrgTransmissionDetail />,
+      },
+      {
+        path: ROUTES.SUB_ORG_VIEW_PATIENT,
+        element: <SubOrgPatientList />,
+      },
+      {
+        path: ROUTES.SUB_ORG_CREATE_PATIENT,
+        element: <CreatePatient />,
+      },
+      {
+        path: ROUTES.SUB_ORG_PATIENT_SUCCESS,
+        element: <PatientStatus />,
+      },
+      {
+        path: ROUTES.SUB_ORG_EDIT_PATIENT,
+        element: <EditPatient />,
+      },
+      {
+        path: ROUTES.SUB_ORG_VIEW_PATIENT_DETAILS,
+        element: <ViewPatientDetails />,
+      },
+      {
+        path: ROUTES.SUB_ORG_INVOICES,
+        element: <SubOrgInvoices />,
+      },
+      {
+        path: ROUTES.SUB_ORG_INVOICE_DETAIL,
+        element: <SubOrgInvoiceDetails />,
+      },
+
+      {
+        path: ROUTES.SUB_ORG_MEDICATIONS,
+        element: <MedicationLibrary />,
+      },
+      {
+        path: ROUTES.SUB_ORG_ACTIVITY_LOG,
+        element: <ActivityLog />,
+      },
+      {
+        path: ROUTES.SETTINGS,
+        element: <SubOrgSettings />,
       },
     ],
   },
