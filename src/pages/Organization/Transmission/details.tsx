@@ -112,7 +112,7 @@ export default function TransmissionDetails() {
       .catch((err) => {
         console.error("Transmission failed:", err);
         toast.error(err?.data?.message ?? "Something went wrong", {
-          duration: 1500,
+          duration: 3000,
         });
       });
   };
@@ -208,6 +208,7 @@ export default function TransmissionDetails() {
               transmission={transmissionDetails}
               uniqueId={uniqueId}
               externalOrderId={externalOrderId}
+              id={params.id as string}
             />
           )}
 

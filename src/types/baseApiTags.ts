@@ -27,3 +27,4 @@ export const TAG_GET_SUPPLIES = "Supplies";
 export const TAG_GET_SHIPPING = "Shipping";
 export const TAG_GET_SHIPPING_DETAILS = "ShippingDetails";
 export const TAG_GET_ALL_TRANSMISSIONS = "GetTransmissions";
+export const TAG_GET_TRANSMISSION_DETAILS = "TransmissionDetails";

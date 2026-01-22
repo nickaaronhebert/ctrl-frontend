@@ -11,6 +11,7 @@ import type { ICommonSearchQuery } from "@/types/requests/search";
 import type { IViewOrgPharmaciesResponse } from "@/types/responses/IViewOrgPharmaciesTranmissions";
 import {
   TAG_GET_ALL_TRANSMISSIONS,
+  TAG_GET_TRANSMISSION_DETAILS,
   TAG_GLOBAL_PHARMACIES,
 } from "@/types/baseApiTags";
 import type { IViewFulfillmentTrackingResponse } from "@/types/responses/IViewTransmissionFulfillments";
@@ -106,6 +107,7 @@ const transmissionApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
+      providesTags: [TAG_GET_TRANSMISSION_DETAILS],
     }),
 
     viewPharmacyTransmissionById: builder.query<
@@ -165,7 +167,10 @@ const transmissionApi = baseApi.injectEndpoints({
         url: `/transmission/${transmissionId}/retry`,
         method: "POST",
       }),
-      invalidatesTags: [TAG_GET_ALL_TRANSMISSIONS],
+      invalidatesTags: [
+        TAG_GET_ALL_TRANSMISSIONS,
+        TAG_GET_TRANSMISSION_DETAILS,
+      ],
     }),
   }),
 });

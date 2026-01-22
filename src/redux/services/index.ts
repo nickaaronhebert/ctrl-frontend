@@ -30,6 +30,7 @@ import {
   TAG_GET_SHIPPING,
   TAG_GET_SHIPPING_DETAILS,
   TAG_GET_ALL_TRANSMISSIONS,
+  TAG_GET_TRANSMISSION_DETAILS,
 } from "@/types/baseApiTags";
 
 export const baseApi = createApi({
@@ -64,6 +65,7 @@ export const baseApi = createApi({
     TAG_GET_SHIPPING,
     TAG_GET_SHIPPING_DETAILS,
     TAG_GET_ALL_TRANSMISSIONS,
+    TAG_GET_TRANSMISSION_DETAILS,
   ],
   baseQuery: fetchBaseQuery({
     baseUrl:
