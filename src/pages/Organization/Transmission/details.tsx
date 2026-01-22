@@ -68,7 +68,6 @@ export default function TransmissionDetails() {
     patient,
     order,
     externalOrderId,
-    refetch,
   } = useViewTransmissionByIdQuery(params.id as string, {
     selectFromResult: ({ data, isLoading, isError }) => ({
       data: data?.data,
@@ -107,7 +106,6 @@ export default function TransmissionDetails() {
         toast.success("Transmission transmitted successfully", {
           duration: 1500,
         });
-        refetch();
       })
       .catch((err) => {
         console.error("Transmission failed:", err);

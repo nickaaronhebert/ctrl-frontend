@@ -147,7 +147,7 @@ export default function TransmissionOverviewCard({
   const handleRetry = async () => {
     try {
       await retryTransmission(id).unwrap();
-      toast.success("Transmission retry initiated", {
+      toast.success("Transmission transmitted successfully", {
         duration: 1500,
       });
       setOpen(false);
